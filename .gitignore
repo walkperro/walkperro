@@ -1,0 +1,28 @@
+# OS / editor
+.DS_Store
+*.swp
+
+# Node / Next.js
+node_modules/
+.next/
+.next.static/
+out/
+dist/
+.eslintcache
+
+# Env & secrets
+.env
+.env*.local
+*.key
+*.pem
+
+# Logs & cache
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-store/
+.cache/
+
+# Do NOT ever commit SSH/config
+.ssh/
+.config/
