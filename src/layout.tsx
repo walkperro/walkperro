@@ -5,7 +5,7 @@ import { site } from "./site";
 export const metadata: Metadata = {
   title: `${site.name} — ${site.tagline}`,
   description: "Faceless systems, AI-powered tools, and templates to stack cashflow.",
-  metadataBase: new URL("https://walkperro.com),
+  metadataBase: new URL("https://walkperro.com"),
   openGraph: {
     title: site.name,
     description: "Tools to fast-track your vision.",

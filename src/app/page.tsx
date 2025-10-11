@@ -20,6 +20,13 @@ const products = [
     badge: "New",
   },
   {
+    slug: "wealth-hacks",
+    title: "Wealth Hacks (F.A.C.E.)",
+    tagline: "Faceless growth systems to scale $5–9k/mo.",
+    price: "$14.99",
+    badge: "Popular",
+  },
+  {
     slug: "moneymoves",
     title: "Money Moves Toolkit",
     tagline: "Templates + scripts for flipping, services, and faceless content workflows.",
