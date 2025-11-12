@@ -3,6 +3,7 @@ import { Inter, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import { Analytics as VercelAnalytics } from "@vercel/analytics/react";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
+import GaPayhipBridge from "@/components/GaPayhipBridge";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 const playfair = Playfair_Display({ subsets: ["latin"], variable: "--font-playfair" });
@@ -56,6 +57,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className={`${inter.variable} ${playfair.variable} min-h-dvh antialiased`}>
         <GoogleAnalytics />
         <VercelAnalytics />
+        <GaPayhipBridge />
         {children}
       </body>
     </html>
