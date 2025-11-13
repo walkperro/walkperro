@@ -1,29 +1,57 @@
 "use client";
+
 import { useRef } from "react";
+
+type Props = {
+  payhipCode: string;
+  slug: string;
+  title: string;
+  price: number;
+  children?: React.ReactNode;
+};
 
 export default function CheckoutButton({
   payhipCode,
+  slug,
+  title,
+  price,
   children,
-}: {
-  payhipCode: string;
-  children?: React.ReactNode;
-}) {
-  const aRef = useRef<HTMLAnchorElement>(null);
-  const open = () => aRef.current?.click();
+}: Props) {
+  const anchorRef = useRef<HTMLAnchorElement | null>(null);
+  const href = `https://payhip.com${payhipCode}`;
+
+  const handleClick = () => {
+    try {
+      // @ts-ignore
+      window.gtag?.("event", "begin_checkout", {
+        currency: "USD",
+        value: price,
+        items: [
+          {
+            item_id: slug,
+            item_name: title,
+            item_brand: "WalkPerro",
+            price,
+          },
+        ],
+        source: "walkperro.com",
+        method: "payhip",
+      });
+    } catch (_) {}
+
+    anchorRef.current?.click();
+  };
+
   return (
     <>
       <button
-        onClick={open}
-        className="inline-flex items-center rounded-2xl px-6 py-3 bg-emerald text-bone hover:bg-bone hover:text-ink transition-colors"
+        type="button"
+        onClick={handleClick}
+        className="inline-flex items-center justify-center rounded-full border border-emerald px-5 py-2 text-xs font-semibold uppercase tracking-[0.22em] text-emerald hover:bg-emerald hover:text-ink transition-colors"
       >
         {children ?? "Get it →"}
       </button>
-      <a
-        ref={aRef}
-        href={`https://payhip.com/b/${payhipCode}`}
-        className="payhip-buy-button hidden"
-        data-theme="dark"
-      >Buy</a>
+      <a ref={anchorRef} href={href} className="hidden" aria-hidden="true" />
     </>
   );
 }

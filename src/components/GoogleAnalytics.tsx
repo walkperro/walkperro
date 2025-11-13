@@ -1,21 +1,25 @@
 "use client";
+
 import Script from "next/script";
 
+const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
+
 export default function GoogleAnalytics() {
-  const id = process.env.NEXT_PUBLIC_GA_ID;
-  if (!id) return null;
+  if (!GA_MEASUREMENT_ID) return null;
+
   return (
     <>
       <Script
-        src={`https://www.googletagmanager.com/gtag/js?id=${id}`}
-        strategy="afterInteractive"
+        async
+        src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
       />
       <Script id="ga4-init" strategy="afterInteractive">
         {`
           window.dataLayer = window.dataLayer || [];
           function gtag(){dataLayer.push(arguments);}
+          window.gtag = window.gtag || gtag;
           gtag('js', new Date());
-          gtag('config', '${process.env.NEXT_PUBLIC_GA_ID}', { anonymize_ip: true });
+          gtag('config', '${GA_MEASUREMENT_ID}');
         `}
       </Script>
     </>
