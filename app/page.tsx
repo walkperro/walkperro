@@ -124,11 +124,11 @@ export default function Home() {
 
   return (
     <main className="min-h-dvh bg-transparent">
-      <div className="mx-auto flex min-h-dvh max-w-5xl flex-col px-4 py-6 sm:px-6 lg:px-10">
+      <div className="mx-auto flex min-h-dvh max-w-5xl flex-col px-4 py-8 sm:px-6 lg:px-10">
         {/* Top bar */}
-        <header className="flex items-center justify-between pb-4 text-xs text-slate-300">
+        <header className="flex items-center justify-between pb-6 text-xs text-slate-300">
           <Link href="/" className="flex items-center gap-3">
-            <span className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-slate-700 text-[0.7rem] font-semibold tracking-[0.25em] uppercase">
+            <span className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-slate-700 text-[0.7rem] font-semibold tracking-[0.25em] uppercase">
               WP
             </span>
             <div className="leading-tight">
@@ -172,26 +172,26 @@ export default function Home() {
         </header>
 
         {/* Hero */}
-        <section className="wp-fade mt-6 grid gap-10 md:grid-cols-[minmax(0,1.2fr)_minmax(0,0.9fr)] items-start">
-          <div className="space-y-6">
+        <section className="wp-fade mt-4 grid gap-12 md:grid-cols-[minmax(0,1.2fr)_minmax(0,0.9fr)] items-start">
+          <div className="space-y-7">
             <p className="text-[0.65rem] font-semibold uppercase tracking-[0.35em] text-emerald-300/80">
               The WalkPerro Exhibit
             </p>
-            <h1 className="font-playfair text-4xl sm:text-5xl md:text-6xl font-medium leading-tight">
+            <h1 className="font-playfair text-4xl sm:text-5xl md:text-6xl font-medium leading-tight text-slate-50">
               Luxury-minimal tools
               <br />
               for relentless cashflow.
             </h1>
             <p className="max-w-xl text-sm sm:text-base text-slate-300">
               No clutter. No fake guru noise. Just focused digital systems to
-              get you from idea → income with taste. Built for the ones who
-              move quiet and hit loud.
+              get you from idea → income with taste. Built for the ones who move
+              quiet and hit loud.
             </p>
 
             <div className="flex flex-wrap items-center gap-4">
               <a
                 href="#bundle"
-                className="inline-flex items-center justify-center rounded-full bg-slate-100 px-6 py-2 text-[0.7rem] font-semibold uppercase tracking-[0.25em] text-slate-950 hover:bg-emerald-400 hover:text-slate-950 transition-colors"
+                className="inline-flex items-center justify-center rounded-full bg-slate-100 px-6 py-2 text-[0.7rem] font-semibold uppercase tracking-[0.25em] text-slate-950 hover:bg-emerald-300 hover:text-slate-950 transition-colors"
               >
                 View the bundle
               </a>
@@ -215,9 +215,9 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Bundle highlight card */}
-          <aside className="rounded-3xl border border-emerald-400/40 bg-slate-900/40 p-5 shadow-[0_0_50px_rgba(16,185,129,0.15)] backdrop-blur-sm">
-            <p className="text-[0.7rem] font-semibold uppercase tracking-[0.3em] text-emerald-300">
+          {/* Bundle highlight */}
+          <aside className="rounded-3xl border border-slate-800 bg-slate-900/60 p-5 shadow-[0_18px_40px_rgba(0,0,0,0.55)] backdrop-blur-sm">
+            <p className="text-[0.7rem] font-semibold uppercase tracking-[0.3em] text-emerald-300/90">
               Starter stack
             </p>
             <h2 className="mt-2 text-sm font-semibold text-slate-50">
@@ -241,7 +241,7 @@ export default function Home() {
             <div className="mt-5 flex items-center justify-between gap-3">
               <span className="text-base font-semibold text-slate-50">
                 ${bundle.price.toFixed(2)}{" "}
-                <span className="ml-1 rounded-full bg-emerald-400/10 px-2 py-[2px] text-[0.6rem] uppercase tracking-[0.18em] text-emerald-300">
+                <span className="ml-1 rounded-full bg-emerald-300/10 px-2 py-[2px] text-[0.6rem] uppercase tracking-[0.18em] text-emerald-300">
                   Best value
                 </span>
               </span>
@@ -253,7 +253,7 @@ export default function Home() {
         </section>
 
         {/* Exhibit */}
-        <section id="exhibit" className="wp-fade mt-16 space-y-6">
+        <section id="exhibit" className="wp-fade mt-18 space-y-6 pt-12">
           <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
             <h2 className="text-xs font-semibold uppercase tracking-[0.3em] text-slate-400">
               The Exhibit
@@ -263,14 +263,14 @@ export default function Home() {
             </span>
           </div>
 
-          <div className="grid gap-6 md:grid-cols-2">
+          <div className="grid gap-7 md:grid-cols-2">
             {products.map((p) => (
               <ProductCard key={p.slug} {...p} />
             ))}
           </div>
         </section>
 
-        {/* Bundle anchor scroll target */}
+        {/* Bundle anchor */}
         <section id="bundle" className="mt-16" />
 
         {/* Field notes */}
@@ -293,11 +293,9 @@ export default function Home() {
             {testimonials.map((t) => (
               <figure
                 key={t.name}
-                className="rounded-3xl border border-slate-800 bg-slate-900/40 p-5 text-sm leading-relaxed text-slate-200 backdrop-blur-sm"
+                className="rounded-3xl border border-slate-800 bg-slate-900/60 p-5 text-sm leading-relaxed text-slate-200 backdrop-blur-sm"
               >
-                <blockquote className="text-[0.9rem]">
-                  “{t.quote}”
-                </blockquote>
+                <blockquote className="text-[0.9rem]">“{t.quote}”</blockquote>
                 <figcaption className="mt-3 flex items-center justify-between text-[0.75rem] text-slate-400">
                   <span>{t.name}</span>
                   <span>{t.label}</span>

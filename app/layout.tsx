@@ -26,9 +26,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${inter.variable} ${playfair.variable} bg-[#03030b] text-slate-100 antialiased`}
+        className={`${inter.variable} ${playfair.variable} bg-[#050608] text-slate-100 antialiased`}
       >
-        <div className="font-sans min-h-dvh bg-[radial-gradient(circle_at_top,_#020617,_#020013_45%,_#000)] text-slate-100">
+        <div className="font-sans min-h-dvh bg-[radial-gradient(circle_at_top,_#020617,_#050608_55%,_#02010b_100%)] text-slate-100">
           {children}
         </div>
       </body>

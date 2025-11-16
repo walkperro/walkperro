@@ -47,7 +47,7 @@ export default function CheckoutButton({
       <button
         type="button"
         onClick={handleClick}
-        className="inline-flex items-center justify-center rounded-full border border-emerald px-5 py-2 text-xs font-semibold uppercase tracking-[0.22em] text-emerald hover:bg-emerald hover:text-ink transition-colors"
+        className="inline-flex items-center justify-center rounded-full border border-slate-500/70 bg-transparent px-5 py-2 text-[0.7rem] font-semibold uppercase tracking-[0.22em] text-slate-100 hover:border-emerald-300 hover:bg-emerald-300/10 hover:text-emerald-200 transition-colors"
       >
         {children ?? "Get it →"}
       </button>
