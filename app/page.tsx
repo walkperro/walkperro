@@ -1,5 +1,6 @@
+import Image from "next/image";
 import Link from "next/link";
-import ProductCard from "@/components/ProductCard";
+import CheckoutButton from "@/components/CheckoutButton";
 
 type Product = {
   slug: string;
@@ -10,6 +11,7 @@ type Product = {
   bullets: string[];
   payhipCode: string;
   featured?: boolean;
+  image?: string;
 };
 
 const products: Product[] = [
@@ -28,6 +30,7 @@ const products: Product[] = [
       "Includes the WalkPerro Cashflow Tracker (editable PDF)",
     ],
     payhipCode: "/b/10-quick-codes-for-100-dollar-days",
+    image: "/images/products/10-Quick-Codes.png",
   },
   {
     slug: "wealth-hacks",
@@ -43,6 +46,7 @@ const products: Product[] = [
       "Bonus tracking tool to keep you consistent",
     ],
     payhipCode: "/b/wealth-hacks",
+    image: "/images/products/Wealth_hacks.png",
   },
   {
     slug: "money-moves-toolkit",
@@ -58,6 +62,7 @@ const products: Product[] = [
       "Bonus AI prompts to scale your offers",
     ],
     payhipCode: "/b/money-moves-toolkit",
+    // We'll wire a real cover for this one when you design it
   },
   {
     slug: "chatgpt-cash-hacks",
@@ -73,6 +78,7 @@ const products: Product[] = [
       "Pairs perfectly with the other WalkPerro systems",
     ],
     payhipCode: "/b/25-chatgpt-prompts-that-print-money",
+    image: "/images/products/25-Cash-Prompts.png",
   },
   {
     slug: "all-in-one-toolkit",
@@ -89,82 +95,60 @@ const products: Product[] = [
     ],
     payhipCode: "/b/all-in-one-toolkit-bundle",
     featured: true,
-  },
-];
-
-const testimonials = [
-  {
-    quote:
-      "Grabbed the bundle on a Sunday, had my first $120 day by Thursday. Clean, no fluff.",
-    name: "J. Rivera",
-    label: "Quiet builder",
-  },
-  {
-    quote:
-      "Wealth Hacks alone paid for itself in a week. Finally a system that matches my aesthetic.",
-    name: "A. Martinez",
-    label: "Faceless creator",
-  },
-  {
-    quote:
-      "The Money Moves templates removed all the overthinking. Just plug, run, collect.",
-    name: "D. Carter",
-    label: "Side-hustler",
-  },
-  {
-    quote:
-      "Everything feels curated. It’s not loud, just precise. WalkPerro is for people who actually move.",
-    name: "M. Lopez",
-    label: "Digital minimalist",
+    image: "/images/products/all-in-one-toolkit.png",
   },
 ];
 
 export default function Home() {
-  const bundle = products.find((p) => p.slug === "all-in-one-toolkit")!;
-
   return (
-    <main className="min-h-dvh bg-transparent">
-      <div className="mx-auto flex min-h-dvh max-w-5xl flex-col px-4 py-8 sm:px-6 lg:px-10">
+    <main className="min-h-dvh bg-ink text-bone">
+      <div className="mx-auto flex min-h-dvh max-w-5xl flex-col px-4 py-6 sm:px-6 lg:px-8">
         {/* Top bar */}
-        <header className="flex items-center justify-between pb-6 text-xs text-slate-300">
+        <header className="flex items-center justify-between pb-6">
           <Link href="/" className="flex items-center gap-3">
-            <span className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-slate-700 text-[0.7rem] font-semibold tracking-[0.25em] uppercase">
-              WP
-            </span>
+            <div className="relative h-10 w-10 overflow-hidden rounded-2xl border border-bone/15 bg-bone/5">
+              <Image
+                src="/images/logos/Icon-white-bg.png"
+                alt="WalkPerro"
+                fill
+                className="object-contain"
+                sizes="40px"
+              />
+            </div>
             <div className="leading-tight">
-              <div className="text-[0.7rem] font-semibold tracking-[0.25em] uppercase">
+              <div className="text-[0.7rem] font-semibold tracking-[0.25em] uppercase text-bone/80">
                 WalkPerro
               </div>
-              <div className="text-[0.65rem] text-slate-500">
-                For those who lead the pack.
+              <div className="text-[0.65rem] text-bone/45">
+                Luxury-minimal tools for relentless cashflow.
               </div>
             </div>
           </Link>
 
-          <nav className="hidden gap-6 text-[0.7rem] text-slate-400 sm:flex">
-            <a href="#exhibit" className="hover:text-slate-100 transition-colors">
+          <nav className="flex items-center gap-4 text-[0.7rem] text-bone/60">
+            <a href="#exhibit" className="hover:text-bone transition-colors">
               Exhibit
             </a>
-            <a href="#bundle" className="hover:text-slate-100 transition-colors">
+            <a href="#bundle" className="hover:text-bone transition-colors">
               Bundle
             </a>
             <a
-              href="#field-notes"
-              className="hover:text-slate-100 transition-colors"
+              href="/manifesto"
+              className="hover:text-bone transition-colors"
             >
-              Field notes
+              Manifesto
             </a>
             <a
               href="https://instagram.com/walkperro"
               target="_blank"
-              className="hover:text-slate-100 transition-colors"
+              className="hover:text-bone transition-colors"
             >
               IG
             </a>
             <a
               href="https://tiktok.com/@walkperro"
               target="_blank"
-              className="hover:text-slate-100 transition-colors"
+              className="hover:text-bone transition-colors"
             >
               TikTok
             </a>
@@ -172,156 +156,146 @@ export default function Home() {
         </header>
 
         {/* Hero */}
-        <section className="wp-fade mt-4 grid gap-12 md:grid-cols-[minmax(0,1.2fr)_minmax(0,0.9fr)] items-start">
-          <div className="space-y-7">
+        <section className="wp-fade flex flex-1 flex-col justify-center gap-10">
+          <div className="max-w-xl space-y-5">
             <p className="text-[0.65rem] font-semibold uppercase tracking-[0.35em] text-emerald-300/80">
               The WalkPerro Exhibit
             </p>
-            <h1 className="font-playfair text-4xl sm:text-5xl md:text-6xl font-medium leading-tight text-slate-50">
+            <h1 className="font-playfair text-4xl sm:text-5xl md:text-6xl leading-tight">
               Luxury-minimal tools
               <br />
               for relentless cashflow.
             </h1>
-            <p className="max-w-xl text-sm sm:text-base text-slate-300">
+            <p className="text-sm sm:text-base text-bone/70">
               No clutter. No fake guru noise. Just focused digital systems to
-              get you from idea → income with taste. Built for the ones who move
-              quiet and hit loud.
+              get you from idea → income with taste. Built for the ones who
+              move quiet and hit loud.
             </p>
 
             <div className="flex flex-wrap items-center gap-4">
               <a
                 href="#bundle"
-                className="inline-flex items-center justify-center rounded-full bg-slate-100 px-6 py-2 text-[0.7rem] font-semibold uppercase tracking-[0.25em] text-slate-950 hover:bg-emerald-300 hover:text-slate-950 transition-colors"
+                className="inline-flex items-center justify-center rounded-full bg-bone px-6 py-2 text-[0.7rem] font-semibold uppercase tracking-[0.25em] text-ink hover:bg-emerald hover:text-ink transition-colors"
               >
                 View the bundle
               </a>
-              <p className="text-[0.65rem] text-slate-500">
+              <p className="text-[0.65rem] text-bone/50">
                 PayPal + card checkout via Payhip.
                 <br />
                 Files delivered instantly.
               </p>
             </div>
-
-            <div className="flex flex-wrap gap-2 text-[0.65rem] text-slate-400">
-              <span className="rounded-full border border-slate-700/80 px-3 py-1">
-                $100 days starter codes
-              </span>
-              <span className="rounded-full border border-slate-700/80 px-3 py-1">
-                Faceless social cashflow
-              </span>
-              <span className="rounded-full border border-slate-700/80 px-3 py-1">
-                Flip & resell templates
-              </span>
-            </div>
           </div>
 
-          {/* Bundle highlight */}
-          <aside className="rounded-3xl border border-slate-800 bg-slate-900/60 p-5 shadow-[0_18px_40px_rgba(0,0,0,0.55)] backdrop-blur-sm">
-            <p className="text-[0.7rem] font-semibold uppercase tracking-[0.3em] text-emerald-300/90">
-              Starter stack
-            </p>
-            <h2 className="mt-2 text-sm font-semibold text-slate-50">
-              {bundle.title}
-            </h2>
-            <p className="mt-1 text-[0.75rem] uppercase tracking-[0.2em] text-slate-400">
-              {bundle.tag}
-            </p>
-
-            <p className="mt-4 text-xs text-slate-300">{bundle.blurb}</p>
-
-            <ul className="mt-4 space-y-1.5 text-[0.7rem] text-slate-400">
-              {bundle.bullets.map((b) => (
-                <li key={b} className="flex gap-2">
-                  <span className="mt-[0.25rem] h-[3px] w-[3px] rounded-full bg-emerald-300/80" />
-                  <span>{b}</span>
-                </li>
-              ))}
-            </ul>
-
-            <div className="mt-5 flex items-center justify-between gap-3">
-              <span className="text-base font-semibold text-slate-50">
-                ${bundle.price.toFixed(2)}{" "}
-                <span className="ml-1 rounded-full bg-emerald-300/10 px-2 py-[2px] text-[0.6rem] uppercase tracking-[0.18em] text-emerald-300">
-                  Best value
-                </span>
-              </span>
-              <span className="text-[0.65rem] text-slate-500">
-                4 systems • lifetime updates
-              </span>
-            </div>
-          </aside>
+          <div className="border-t border-bone/10 pt-4 text-[0.7rem] text-bone/45">
+            Curated for: builders, ghosts & quiet killers who want clean tools,
+            not chaos.
+          </div>
         </section>
 
         {/* Exhibit */}
-        <section id="exhibit" className="wp-fade mt-18 space-y-6 pt-12">
-          <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-            <h2 className="text-xs font-semibold uppercase tracking-[0.3em] text-slate-400">
+        <section id="exhibit" className="wp-fade mt-12 space-y-6">
+          <div className="flex items-center justify-between">
+            <h2 className="text-xs font-semibold uppercase tracking-[0.3em] text-bone/60">
               The Exhibit
             </h2>
-            <span className="text-[0.7rem] text-slate-500">
+            <span className="text-[0.7rem] text-bone/50">
               {products.length} pieces • instant access • lifetime updates
             </span>
           </div>
 
           <div className="grid gap-7 md:grid-cols-2">
             {products.map((p) => (
-              <ProductCard key={p.slug} {...p} />
+              <article
+                key={p.slug}
+                className={`flex flex-col overflow-hidden rounded-3xl border border-bone/12 bg-bone/[0.03] backdrop-blur-sm shadow-[0_18px_60px_rgba(0,0,0,0.65)] ${
+                  p.featured ? "border-emerald/60 bg-emerald/5" : ""
+                }`}
+              >
+                {p.image && (
+                  <div className="relative h-56 w-full border-b border-bone/10">
+                    <Image
+                      src={p.image}
+                      alt={p.title}
+                      fill
+                      className="object-cover"
+                      sizes="(min-width: 1024px) 50vw, 100vw"
+                    />
+                  </div>
+                )}
+
+                <div className="flex flex-1 flex-col gap-3 px-5 py-5">
+                  <div className="flex items-start justify-between gap-3">
+                    <div className="space-y-1">
+                      <h3 className="text-sm font-semibold text-bone">
+                        {p.title}
+                      </h3>
+                      <p className="text-[0.75rem] uppercase tracking-[0.2em] text-bone/55">
+                        {p.tag}
+                      </p>
+                    </div>
+                    <div className="text-right text-xs text-bone/60">
+                      <div className="font-semibold text-bone">
+                        ${p.price.toFixed(2)}
+                        {p.featured && (
+                          <span className="ml-1 rounded-full bg-emerald/10 px-2 py-[1px] text-[0.6rem] uppercase tracking-[0.16em] text-emerald">
+                            Best value
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+
+                  <p className="text-xs text-bone/70">{p.blurb}</p>
+
+                  <ul className="space-y-1.5 text-[0.7rem] text-bone/55">
+                    {p.bullets.map((b) => (
+                      <li key={b} className="flex gap-2">
+                        <span className="mt-[0.25rem] h-[3px] w-[3px] rounded-full bg-emerald/70" />
+                        <span>{b}</span>
+                      </li>
+                    ))}
+                  </ul>
+
+                  <div className="mt-4 flex items-center justify-between gap-3">
+                    <CheckoutButton
+                      payhipCode={p.payhipCode}
+                      slug={p.slug}
+                      title={p.title}
+                      price={p.price}
+                    >
+                      Get {p.title.split("|")[0].trim()} →
+                    </CheckoutButton>
+                    <span className="text-[0.65rem] text-bone/45">
+                      Secure checkout via Payhip • instant download
+                    </span>
+                  </div>
+                </div>
+              </article>
             ))}
           </div>
         </section>
 
-        {/* Bundle anchor */}
+        {/* Bundle anchor (scroll target) */}
         <section id="bundle" className="mt-16" />
 
-        {/* Field notes */}
-        <section
-          id="field-notes"
-          className="wp-fade mt-4 border-t border-slate-800 pt-10 space-y-6"
-        >
-          <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
-            <div>
-              <h2 className="text-2xl font-semibold tracking-[0.3em] uppercase text-slate-100">
-                Field notes
-              </h2>
-              <p className="mt-1 text-[0.75rem] text-slate-500">
-                Screenshots & receipts stay private. Just words here.
-              </p>
-            </div>
-          </div>
-
-          <div className="space-y-4">
-            {testimonials.map((t) => (
-              <figure
-                key={t.name}
-                className="rounded-3xl border border-slate-800 bg-slate-900/60 p-5 text-sm leading-relaxed text-slate-200 backdrop-blur-sm"
-              >
-                <blockquote className="text-[0.9rem]">“{t.quote}”</blockquote>
-                <figcaption className="mt-3 flex items-center justify-between text-[0.75rem] text-slate-400">
-                  <span>{t.name}</span>
-                  <span>{t.label}</span>
-                </figcaption>
-              </figure>
-            ))}
-          </div>
-        </section>
-
         {/* Footer */}
-        <footer className="mt-10 flex flex-col gap-3 border-t border-slate-900/80 py-6 text-[0.7rem] text-slate-500 sm:flex-row sm:items-center sm:justify-between">
+        <footer className="mt-10 flex items-center justify-between border-t border-bone/10 pt-4 text-[0.65rem] text-bone/45">
           <span>© {new Date().getFullYear()} WalkPerro. All rights reserved.</span>
-          <div className="flex flex-wrap gap-4">
-            <a
-              href="https://tiktok.com/@walkperro"
-              target="_blank"
-              className="hover:text-slate-200 transition-colors"
-            >
-              TikTok @walkperro
-            </a>
+          <div className="flex gap-4">
             <a
               href="https://instagram.com/walkperro"
               target="_blank"
-              className="hover:text-slate-200 transition-colors"
+              className="hover:text-bone/80 transition-colors"
             >
               IG @walkperro
+            </a>
+            <a
+              href="https://tiktok.com/@walkperro"
+              target="_blank"
+              className="hover:text-bone/80 transition-colors"
+            >
+              TikTok @walkperro
             </a>
           </div>
         </footer>
