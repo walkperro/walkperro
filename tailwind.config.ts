@@ -1,25 +1,38 @@
 import type { Config } from "tailwindcss";
 
 const config: Config = {
+  darkMode: "class",
   content: [
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
     extend: {
       colors: {
-        ink: "#020617",
-        bone: "#F9F5EC",
-        emerald: "#005949",
-        silver: "#94A3B8",
+        ink: "#02040A",          // deep ink background
+        bone: "#FDFBF5",         // warm off-white
+        silver: "#A1A1AA",       // muted gray
+        emerald: {
+          DEFAULT: "#22C55E",    // main accent
+          50: "#ECFDF5",
+          100: "#D1FAE5",
+          200: "#A7F3D0",
+          300: "#6EE7B7",
+          400: "#34D399",
+          500: "#22C55E",
+          600: "#16A34A",
+          700: "#15803D",
+          800: "#166534",
+          900: "#14532D",
+        },
       },
       fontFamily: {
         sans: ["var(--font-inter)", "system-ui", "sans-serif"],
-        display: ["var(--font-playfair)", "serif"],
+        playfair: ["var(--font-playfair)", "serif"],
       },
-      backgroundImage: {
-        noise:
-          "radial-gradient(circle at 0 0, rgba(148,163,184,0.14), transparent 58%), radial-gradient(circle at 100% 100%, rgba(0,89,73,0.45), transparent 60%)",
+      borderRadius: {
+        "3xl": "1.5rem",
       },
     },
   },
