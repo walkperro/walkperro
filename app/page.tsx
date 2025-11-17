@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import CheckoutButton from "@/components/CheckoutButton";
+import { Instagram, Music2 } from "lucide-react";
 
 type Product = {
   slug: string;
@@ -30,7 +31,7 @@ const products: Product[] = [
       "Includes the WalkPerro Cashflow Tracker (editable PDF)",
     ],
     payhipCode: "/b/10-quick-codes-for-100-dollar-days",
-    image: "/images/products/10-Quick-Codes.png",
+    image: "/images/logos/10-Quick-Codes.png",
   },
   {
     slug: "wealth-hacks",
@@ -46,7 +47,7 @@ const products: Product[] = [
       "Bonus tracking tool to keep you consistent",
     ],
     payhipCode: "/b/wealth-hacks",
-    image: "/images/products/Wealth_hacks.png",
+    image: "/images/logos/Wealth_hacks.png",
   },
   {
     slug: "money-moves-toolkit",
@@ -62,7 +63,7 @@ const products: Product[] = [
       "Bonus AI prompts to scale your offers",
     ],
     payhipCode: "/b/money-moves-toolkit",
-    // Add image later when you design a cover
+    // Add cover art when ready
   },
   {
     slug: "chatgpt-cash-hacks",
@@ -78,7 +79,7 @@ const products: Product[] = [
       "Pairs perfectly with the other WalkPerro systems",
     ],
     payhipCode: "/b/25-chatgpt-prompts-that-print-money",
-    image: "/images/products/25-Cash-Prompts.png",
+    image: "/images/logos/25-Cash-Prompts.png",
   },
   {
     slug: "all-in-one-toolkit",
@@ -95,7 +96,7 @@ const products: Product[] = [
     ],
     payhipCode: "/b/all-in-one-toolkit-bundle",
     featured: true,
-    image: "/images/products/all-in-one-toolkit.png",
+    image: "/images/logos/all-in-one-toolkit.png",
   },
 ];
 
@@ -141,58 +142,75 @@ export default function Home() {
             >
               Manifesto
             </a>
-            <a
-              href="https://instagram.com/walkperro"
-              target="_blank"
-              className="hover:text-slate-900 transition-colors"
-            >
-              IG
-            </a>
-            <a
-              href="https://tiktok.com/@walkperro"
-              target="_blank"
-              className="hover:text-slate-900 transition-colors"
-            >
-              TikTok
-            </a>
+
+            <div className="flex items-center gap-2">
+              <a
+                href="https://instagram.com/walkperro"
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-slate-200 bg-white/70 text-slate-700 shadow-sm hover:bg-slate-100 hover:border-slate-300 transition-colors"
+              >
+                <Instagram className="h-4 w-4" aria-hidden="true" />
+                <span className="sr-only">WalkPerro on Instagram</span>
+              </a>
+              <a
+                href="https://www.tiktok.com/@walkperro"
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-slate-200 bg-white/70 text-slate-700 shadow-sm hover:bg-slate-100 hover:border-slate-300 transition-colors"
+              >
+                <Music2 className="h-4 w-4" aria-hidden="true" />
+                <span className="sr-only">WalkPerro on TikTok</span>
+              </a>
+            </div>
           </nav>
         </header>
 
-        {/* Hero */}
-        <section className="flex flex-1 flex-col justify-center gap-10">
-          <div className="max-w-xl space-y-5">
+        {/* Hero banner */}
+        <section className="relative w-full overflow-hidden rounded-3xl shadow-[0_18px_60px_rgba(15,23,42,0.18)]">
+          <Image
+            src="/images/logos/banner-white-bg.png"
+            alt="WalkPerro Banner"
+            width={2000}
+            height={800}
+            priority
+            className="w-full h-[260px] sm:h-[320px] md:h-[380px] object-cover"
+          />
+        </section>
+
+        {/* Supporting hero copy */}
+        <section className="mt-10">
+          <div className="mx-auto max-w-3xl space-y-6">
             <p className="text-[0.65rem] font-semibold uppercase tracking-[0.35em] text-emerald-700">
               The WalkPerro Exhibit
             </p>
-            <h1 className="font-playfair text-4xl sm:text-5xl md:text-6xl leading-tight">
-              Clean systems for
-              <br />
-              relentless cashflow.
+
+            <h1 className="text-4xl sm:text-5xl font-medium tracking-tight text-slate-900 leading-tight">
+              Clean systems for relentless cashflow.
             </h1>
-            <p className="text-sm sm:text-base text-slate-600">
-              No clutter. No fake guru noise. Just focused digital systems to
-              get you from idea → income with taste. Built for the ones who move
-              quiet and hit loud.
+
+            <p className="text-[0.98rem] leading-7 text-slate-600">
+              No clutter. No fake guru noise. Just focused digital systems to get
+              you from idea → income with taste. Built for the ones who move quiet
+              and hit loud.
             </p>
 
-            <div className="flex flex-wrap items-center gap-4">
+            <div className="flex flex-wrap items-center gap-4 pt-1">
               <a
                 href="#bundle"
-                className="inline-flex items-center justify-center rounded-full bg-slate-900 px-6 py-2 text-[0.7rem] font-semibold uppercase tracking-[0.25em] text-white hover:bg-emerald-700 transition-colors"
+                className="inline-flex items-center justify-center rounded-full bg-slate-900 px-6 py-3 text-sm font-semibold tracking-[0.2em] uppercase text-slate-50 hover:bg-emerald-700 transition-colors"
               >
                 View the bundle
               </a>
-              <p className="text-[0.65rem] text-slate-500">
-                PayPal + card checkout via Payhip.
-                <br />
-                Files delivered instantly.
+              <p className="text-xs text-slate-500">
+                PayPal + card checkout via Payhip. Files delivered instantly.
               </p>
             </div>
           </div>
 
-          <div className="border-t border-slate-200 pt-4 text-[0.7rem] text-slate-500">
-            Curated for builders, ghosts & quiet killers who want clean tools,
-            not chaos.
+          <div className="mx-auto mt-6 max-w-3xl border-t border-slate-200 pt-4 text-[0.7rem] text-slate-500">
+            Curated for builders, ghosts & quiet killers who want clean tools, not
+            chaos.
           </div>
         </section>
 
@@ -212,7 +230,9 @@ export default function Home() {
               <article
                 key={p.slug}
                 className={`flex flex-col overflow-hidden rounded-3xl border bg-white shadow-[0_20px_60px_rgba(15,23,42,0.08)] border-slate-200 ${
-                  p.featured ? "border-emerald-500 shadow-[0_24px_80px_rgba(16,185,129,0.25)]" : ""
+                  p.featured
+                    ? "border-emerald-500 shadow-[0_24px_80px_rgba(16,185,129,0.25)]"
+                    : ""
                 }`}
               >
                 {p.image && (
