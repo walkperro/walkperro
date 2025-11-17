@@ -63,7 +63,6 @@ const products: Product[] = [
       "Bonus AI prompts to scale your offers",
     ],
     payhipCode: "/b/money-moves-toolkit",
-    // Add cover art when ready
   },
   {
     slug: "chatgpt-cash-hacks",
@@ -106,15 +105,15 @@ export default function Home() {
       <div className="mx-auto flex min-h-dvh max-w-5xl flex-col px-4 py-6 sm:px-6 lg:px-8">
         {/* Top bar */}
         <header className="flex items-center justify-between pb-6">
-          <Link href="/" className="flex items-center">
-            {/* Main wordmark logo */}
+          <Link href="/" className="flex flex-1 items-center">
+            {/* Main wordmark logo – larger and stretched */}
             <Image
               src="/images/logos/logo-main-white-bg.png"
               alt="WalkPerro"
-              width={200}
-              height={40}
+              width={420}
+              height={80}
               priority
-              className="h-8 sm:h-9 w-auto object-contain"
+              className="h-10 sm:h-12 w-auto object-contain"
             />
           </Link>
 
@@ -132,7 +131,7 @@ export default function Home() {
               Manifesto
             </a>
 
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-3 pl-1">
               <a
                 href="https://instagram.com/walkperro"
                 target="_blank"
@@ -155,16 +154,18 @@ export default function Home() {
           </nav>
         </header>
 
-        {/* Hero banner */}
-        <section className="relative w-full overflow-hidden rounded-3xl border border-slate-100 bg-white shadow-[0_18px_60px_rgba(15,23,42,0.08)]">
-          <Image
-            src="/images/logos/banner-white-bg.png"
-            alt="WalkPerro Banner"
-            width={2000}
-            height={800}
-            priority
-            className="w-full h-[220px] sm:h-[260px] md:h-[300px] object-contain"
-          />
+        {/* Hero banner – no card, bigger, sits in background */}
+        <section className="relative w-full">
+          <div className="relative mx-auto max-w-4xl">
+            <Image
+              src="/images/logos/banner-white-bg.png"
+              alt="WalkPerro Banner"
+              width={2400}
+              height={900}
+              priority
+              className="w-full h-[260px] sm:h-[320px] md:h-[360px] object-contain"
+            />
+          </div>
         </section>
 
         {/* Supporting hero copy */}
