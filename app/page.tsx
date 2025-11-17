@@ -102,19 +102,19 @@ const products: Product[] = [
 export default function Home() {
   return (
     <main className="min-h-dvh bg-white text-slate-900">
-      <div className="mx-auto flex min-h-dvh max-w-5xl flex-col px-4 py-6 sm:px-6 lg:px-8">
+      <div className="mx-auto flex min-h-dvh max-w-40xl flex-col px-4 py-6 sm:px-6 lg:px-8">
         {/* Top bar */}
-        <header className="flex items-center justify-between pb-6">
+        <header className="flex items-center justify-between pb-10">
           <Link href="/" className="flex flex-1 items-center">
-            {/* Main wordmark logo – larger and stretched */}
-            <Image
-              src="/images/logos/logo-main-white-bg.png"
-              alt="WalkPerro"
-              width={420}
-              height={80}
-              priority
-              className="h-10 sm:h-12 w-auto object-contain"
-            />
+            <div className="relative h-10 sm:h-12 w-[60px] overflow-hidden flex items-center">
+              <Image
+                src="/images/logos/W-white-bg.png"
+                alt="WalkPerro Icon"
+                fill
+                priority
+                className="object-contain object-left"
+              />
+            </div>
           </Link>
 
           <nav className="flex items-center gap-4 text-[0.7rem] text-slate-500">
@@ -138,7 +138,7 @@ export default function Home() {
                 rel="noreferrer"
                 className="text-slate-600 hover:text-slate-900 transition-colors"
               >
-                <Instagram className="h-4 w-4" aria-hidden="true" />
+                <Instagram className="h-5 w-5" aria-hidden="true" />
                 <span className="sr-only">WalkPerro on Instagram</span>
               </a>
               <a
@@ -147,30 +147,29 @@ export default function Home() {
                 rel="noreferrer"
                 className="text-slate-600 hover:text-slate-900 transition-colors"
               >
-                <Music2 className="h-4 w-4" aria-hidden="true" />
+                <Music2 className="h-5 w-5" aria-hidden="true" />
                 <span className="sr-only">WalkPerro on TikTok</span>
               </a>
             </div>
           </nav>
         </header>
 
-        {/* Hero banner – no card, bigger, sits in background */}
-        <section className="relative w-full">
-          <div className="relative mx-auto max-w-4xl">
+        {/* Hero banner – cropped whitespace, bigger logo */}
+        <section className="relative w-full mt-4">
+          <div className="relative mx-auto max-w-40xl h-[260px] sm:h-[320px] md:h-[360px] overflow-hidden">
             <Image
               src="/images/logos/banner-white-bg.png"
               alt="WalkPerro Banner"
-              width={2400}
-              height={900}
+              fill
               priority
-              className="w-full h-[260px] sm:h-[320px] md:h-[360px] object-contain"
+              className="object-cover object-center scale-110"
             />
           </div>
         </section>
 
         {/* Supporting hero copy */}
         <section className="mt-10">
-          <div className="mx-auto max-w-3xl space-y-6">
+          <div className="mx-auto max-w-40xl space-y-6">
             <p className="text-[0.65rem] font-semibold uppercase tracking-[0.35em] text-emerald-700">
               The WalkPerro Exhibit
             </p>
@@ -185,7 +184,7 @@ export default function Home() {
               and hit loud.
             </p>
 
-            <div className="flex flex-wrap items-center gap-4 pt-1">
+            <div className="flex flex-wrap items-center gap-4 pt-10">
               <a
                 href="#bundle"
                 className="inline-flex items-center justify-center rounded-full bg-slate-900 px-6 py-3 text-sm font-semibold tracking-[0.2em] uppercase text-slate-50 hover:bg-emerald-700 transition-colors"
@@ -198,7 +197,7 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="mx-auto mt-6 max-w-3xl border-t border-slate-200 pt-4 text-[0.7rem] text-slate-500">
+          <div className="mx-auto mt-6 max-w-40xl border-t border-slate-200 pt-10 text-[0.7rem] text-slate-500">
             Curated for builders, ghosts & quiet killers who want clean tools, not
             chaos.
           </div>
@@ -226,8 +225,8 @@ export default function Home() {
                 }`}
               >
                 {p.image && (
-                  <div className="relative w-full bg-slate-50 px-4 pt-4">
-                    <div className="relative mx-auto h-52 w-full max-w-xs">
+                  <div className="relative w-full -mt-4 bg-white px-4 pt-6">
+                    <div className="relative mx-auto h-40 w-full max-w-xs">
                       <Image
                         src={p.image}
                         alt={p.title}
@@ -295,7 +294,7 @@ export default function Home() {
         <section id="bundle" className="mt-16" />
 
         {/* Footer */}
-        <footer className="mt-10 flex items-center justify-between border-t border-slate-200 pt-4 text-[0.65rem] text-slate-500">
+        <footer className="mt-10 flex items-center justify-between border-t border-slate-200 pt-10 text-[0.65rem] text-slate-500">
           <span>© {new Date().getFullYear()} WalkPerro. All rights reserved.</span>
           <div className="flex gap-4">
             <a
