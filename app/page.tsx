@@ -102,31 +102,20 @@ const products: Product[] = [
 
 export default function Home() {
   return (
-    <main className="min-h-dvh bg-[#f6f5f3] text-slate-900">
+    <main className="min-h-dvh bg-white text-slate-900">
       <div className="mx-auto flex min-h-dvh max-w-5xl flex-col px-4 py-6 sm:px-6 lg:px-8">
         {/* Top bar */}
         <header className="flex items-center justify-between pb-6">
-          <Link href="/" className="flex items-center gap-3">
-            <div className="relative h-10 w-10 overflow-hidden rounded-2xl border border-slate-200 bg-white">
-              <Image
-                src="/images/logos/Icon-black-bg.png"
-                alt="WalkPerro"
-                fill
-                className="object-contain"
-                sizes="40px"
-              />
-            </div>
-            <div className="leading-tight">
-              <div className="text-[0.7rem] font-semibold tracking-[0.25em] uppercase text-slate-900">
-                WalkPerro
-              </div>
-              <div className="text-[0.65rem] text-slate-500">
-                Tools for people who actually move.
-              </div>
-              <div className="text-[0.6rem] text-slate-400">
-                Grind today, win forever.
-              </div>
-            </div>
+          <Link href="/" className="flex items-center">
+            {/* Main wordmark logo */}
+            <Image
+              src="/images/logos/logo-main-white-bg.png"
+              alt="WalkPerro"
+              width={200}
+              height={40}
+              priority
+              className="h-8 sm:h-9 w-auto object-contain"
+            />
           </Link>
 
           <nav className="flex items-center gap-4 text-[0.7rem] text-slate-500">
@@ -143,12 +132,12 @@ export default function Home() {
               Manifesto
             </a>
 
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-3">
               <a
                 href="https://instagram.com/walkperro"
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-slate-200 bg-white/70 text-slate-700 shadow-sm hover:bg-slate-100 hover:border-slate-300 transition-colors"
+                className="text-slate-600 hover:text-slate-900 transition-colors"
               >
                 <Instagram className="h-4 w-4" aria-hidden="true" />
                 <span className="sr-only">WalkPerro on Instagram</span>
@@ -157,7 +146,7 @@ export default function Home() {
                 href="https://www.tiktok.com/@walkperro"
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-slate-200 bg-white/70 text-slate-700 shadow-sm hover:bg-slate-100 hover:border-slate-300 transition-colors"
+                className="text-slate-600 hover:text-slate-900 transition-colors"
               >
                 <Music2 className="h-4 w-4" aria-hidden="true" />
                 <span className="sr-only">WalkPerro on TikTok</span>
@@ -167,14 +156,14 @@ export default function Home() {
         </header>
 
         {/* Hero banner */}
-        <section className="relative w-full overflow-hidden rounded-3xl shadow-[0_18px_60px_rgba(15,23,42,0.18)]">
+        <section className="relative w-full overflow-hidden rounded-3xl border border-slate-100 bg-white shadow-[0_18px_60px_rgba(15,23,42,0.08)]">
           <Image
             src="/images/logos/banner-white-bg.png"
             alt="WalkPerro Banner"
             width={2000}
             height={800}
             priority
-            className="w-full h-[260px] sm:h-[320px] md:h-[380px] object-cover"
+            className="w-full h-[220px] sm:h-[260px] md:h-[300px] object-contain"
           />
         </section>
 
@@ -236,8 +225,8 @@ export default function Home() {
                 }`}
               >
                 {p.image && (
-                  <div className="relative w-full bg-slate-100 px-4 pt-4">
-                    <div className="relative mx-auto h-64 w-full max-w-xs">
+                  <div className="relative w-full bg-slate-50 px-4 pt-4">
+                    <div className="relative mx-auto h-52 w-full max-w-xs">
                       <Image
                         src={p.image}
                         alt={p.title}
