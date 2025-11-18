@@ -164,7 +164,7 @@ export default function HomePage() {
                 <article key={product.slug} className="rounded-[32px]">
                   {/* flip card */}
                   <div
-                    className="relative min-h-[520px] w-full rounded-[32px] shadow-md transition-transform duration-500 [transform-style:preserve-3d]"
+                    className="relative min-h-[580px] sm:min-h-[520px] w-full rounded-[32px] shadow-md transition-transform duration-500 [transform-style:preserve-3d]"
                     style={{
                       transform: isOpen ? "rotateY(180deg)" : "rotateY(0deg)"
                     }}
