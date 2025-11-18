@@ -161,18 +161,16 @@ export default function HomePage() {
               const isOpen = openSlug === product.slug;
 
               return (
-                <article
-                  key={product.slug}
-                  className="rounded-[32px] bg-white/90 p-4 shadow-sm ring-1 ring-slate-100 sm:p-6"
-                >
+                <article key={product.slug} className="rounded-[32px]">
+                  {/* flip card */}
                   <div
-                    className="relative min-h-[520px] w-full transition-transform duration-500 [transform-style:preserve-3d]"
+                    className="relative min-h-[520px] w-full rounded-[32px] shadow-md transition-transform duration-500 [transform-style:preserve-3d]"
                     style={{
                       transform: isOpen ? "rotateY(180deg)" : "rotateY(0deg)"
                     }}
                   >
-                    {/* FRONT: full cover only */}
-                    <div className="absolute inset-0 rounded-[28px] overflow-hidden bg-slate-100 [backface-visibility:hidden]">
+                    {/* FRONT: full cover */}
+                    <div className="absolute inset-0 overflow-hidden rounded-[32px] bg-slate-100 [backface-visibility:hidden]">
                       {product.coverImage ? (
                         <Image
                           src={product.coverImage}
@@ -189,30 +187,29 @@ export default function HomePage() {
                       )}
                     </div>
 
-                    {/* BACK: blur + white overlay on top of cover */}
+                    {/* BACK: mirrored blurred cover + lighter mist */}
                     <div
-                      className="absolute inset-0 rounded-[28px] overflow-hidden [backface-visibility:hidden]"
-                      style={{
-                        transform: "rotateY(180deg)",
-                        backgroundImage: product.coverImage
-                          ? `url(${product.coverImage})`
-                          : undefined,
-                        backgroundSize: "cover",
-                        backgroundPosition: "center"
-                      }}
+                      className="absolute inset-0 overflow-hidden rounded-[32px] [backface-visibility:hidden]"
+                      style={{ transform: "rotateY(180deg)" }}
                     >
-                      {/* mist + blur */}
-                      <div className="absolute inset-0 bg-white/75 backdrop-blur-md" />
+                      {product.coverImage && (
+                        <div
+                          className="absolute inset-0 bg-center bg-cover scale-x-[-1]"
+                          style={{ backgroundImage: `url(${product.coverImage})` }}
+                        />
+                      )}
+                      {/* brighter overlay for readability */}
+                      <div className="absolute inset-0 bg-white/80 backdrop-blur-lg" />
 
                       <div className="relative z-10 flex h-full flex-col pt-5 pb-4">
-                        <div className="text-center px-4">
+                        <div className="px-4 text-center">
                           <p className="text-[11px] font-semibold uppercase tracking-[0.3em] text-slate-500">
                             {product.eyebrow}
                           </p>
                           <h2 className="mt-2 text-lg font-semibold tracking-tight text-slate-900">
                             {product.name}
                           </h2>
-                          <p className="mt-1 text-sm font-medium text-slate-700">
+                          <p className="mt-1 text-sm font-medium text-slate-800">
                             {product.price}
                           </p>
                         </div>
@@ -238,7 +235,7 @@ export default function HomePage() {
                           </p>
                         </div>
 
-                        <div className="mt-4 flex flex-col gap-3 px-4 sm:flex-row sm:justify-center">
+                        <div className="mt-4 flex flex-col gap-3 px-4 pb-1 sm:flex-row sm:justify-center">
                           <a
                             href={product.payhipUrl}
                             target="_blank"
@@ -261,11 +258,15 @@ export default function HomePage() {
                     </div>
                   </div>
 
-                  {/* CTA UNDER the card – single clean button */}
-                  <div className="mt-5 flex justify-center">
+                  {/* CTA bar under the card */}
+                  <div className="flex justify-center pt-4">
                     <button
                       type="button"
-                      onClick={() => setOpenSlug(product.slug)}
+                      onClick={() =>
+                        setOpenSlug((current) =>
+                          current === product.slug ? null : product.slug
+                        )
+                      }
                       className="inline-flex items-center justify-center rounded-full bg-slate-900 px-8 py-3 text-xs font-semibold uppercase tracking-[0.2em] text-white hover:bg-slate-800"
                     >
                       View details
