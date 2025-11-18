@@ -244,7 +244,7 @@ export default function HomePage() {
                           >
                             {product.slug === "all-in-one"
                               ? "Get All-In-One Bundle"
-                              : "Buy on Payhip"}
+                              : product.slug === "10-quick-codes" ? "Get 10 Quick Codes" : `Get ${product.name}`}
                           </a>
                           <button
                             type="button"
