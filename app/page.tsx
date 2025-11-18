@@ -28,9 +28,9 @@ const products: Product[] = [
       "Step-by-step breakdowns for each hustle.",
       "Zero–minimal startup costs.",
       "Beginner-friendly but scalable.",
-      "Bonus: tools, apps & ChatGPT prompts.",
+      "Bonus: tools, apps & ChatGPT prompts."
     ],
-    footerLine: "Best for getting motion this week, not someday.",
+    footerLine: "Best for getting motion this week, not someday."
   },
   {
     slug: "wealth-hacks",
@@ -44,9 +44,9 @@ const products: Product[] = [
       "Page layouts, hooks & posting cadences.",
       "How to stack multiple faceless pages into one income web.",
       "Includes plug-and-play prompt frameworks.",
-      "Optimized for people who’d rather move than talk.",
+      "Optimized for people who’d rather move than talk."
     ],
-    footerLine: "Perfect if you want to print cash without being the face.",
+    footerLine: "Perfect if you want to print cash without being the face."
   },
   {
     slug: "money-moves",
@@ -59,9 +59,9 @@ const products: Product[] = [
       "Plays for flipping, reselling & quick-turn cash injections.",
       "Checklists for sourcing, listing & moving product fast.",
       "Simple tracking sheets so every move has a purpose.",
-      "Built to layer on top of your 9-5 without burnout.",
+      "Built to layer on top of your 9-5 without burnout."
     ],
-    footerLine: "Ideal for people who like deals, arbitrage & stacks.",
+    footerLine: "Ideal for people who like deals, arbitrage & stacks."
   },
   {
     slug: "chatgpt-cash-hacks",
@@ -74,9 +74,9 @@ const products: Product[] = [
       "25 battle-tested prompts to spin up offers, funnels & content.",
       "Prompts for product ideas, copy, upsells & backend offers.",
       "Structured so you can reuse them across multiple hustles.",
-      "No prompt-engineering degree needed — just copy, paste, tweak.",
+      "No prompt-engineering degree needed — just copy, paste, tweak."
     ],
-    footerLine: "Best for turning ChatGPT into a quiet business partner.",
+    footerLine: "Best for turning ChatGPT into a quiet business partner."
   },
   {
     slug: "all-in-one",
@@ -90,10 +90,10 @@ const products: Product[] = [
       "Cohesive system: hustles + tools + prompts that lock together.",
       "Swipe-ready templates so you don’t start from a blank page.",
       "Lifetime updates as the Exhibit grows.",
-      "Best value if you’re serious about daily motion, not one-off hype.",
+      "Best value if you’re serious about daily motion, not one-off hype."
     ],
-    footerLine: "For the ones who want the full WalkPerro starter stack.",
-  },
+    footerLine: "For the ones who want the full WalkPerro starter stack."
+  }
 ];
 
 export default function HomePage() {
@@ -131,9 +131,8 @@ export default function HomePage() {
             Clean systems for relentless cashflow.
           </h1>
           <p className="max-w-2xl text-[15px] leading-relaxed text-slate-600">
-            No clutter. No fake guru noise. Just focused digital systems to get you
-            from idea → income with taste. Built for the ones who move quiet and hit
-            loud.
+            No clutter. No fake guru noise. Just focused digital systems to get you from
+            idea → income with taste. Built for the ones who move quiet and hit loud.
           </p>
 
           <div className="mt-4 flex flex-wrap items-center gap-4">
@@ -167,123 +166,110 @@ export default function HomePage() {
                   className="rounded-[32px] bg-white/90 p-4 shadow-sm ring-1 ring-slate-100 sm:p-6"
                 >
                   <div
-                    className="relative min-h-[560px] w-full transition-transform duration-500 [transform-style:preserve-3d]"
+                    className="relative min-h-[520px] w-full transition-transform duration-500 [transform-style:preserve-3d]"
                     style={{
-                      transform: isOpen ? "rotateY(180deg)" : "rotateY(0deg)",
+                      transform: isOpen ? "rotateY(180deg)" : "rotateY(0deg)"
                     }}
                   >
-                    {/* FRONT: cover + basic info */}
-                    <div className="absolute inset-0 flex flex-col rounded-[28px] bg-white [backface-visibility:hidden]">
+                    {/* FRONT: full cover only */}
+                    <div className="absolute inset-0 rounded-[28px] overflow-hidden bg-slate-100 [backface-visibility:hidden]">
                       {product.coverImage ? (
-                        <div className="overflow-hidden rounded-3xl bg-slate-100">
-                          <Image
-                            src={product.coverImage}
-                            alt={product.name}
-                            width={960}
-                            height={1280}
-                            priority={product.slug === "10-quick-codes"}
-                            className="w-full h-auto object-contain"
-                          />
-                        </div>
+                        <Image
+                          src={product.coverImage}
+                          alt={product.name}
+                          width={960}
+                          height={1280}
+                          priority={product.slug === "10-quick-codes"}
+                          className="h-full w-full object-cover"
+                        />
                       ) : (
-                        <div className="flex h-64 items-center justify-center rounded-3xl border border-dashed border-slate-200 bg-slate-50 text-sm text-slate-400">
+                        <div className="flex h-full items-center justify-center bg-slate-50 text-sm text-slate-400">
                           Cover coming soon
                         </div>
                       )}
-
-                      <div className="mt-5 text-center pb-4">
-                        <p className="text-[11px] font-semibold uppercase tracking-[0.3em] text-slate-400">
-                          {product.eyebrow}
-                        </p>
-                        <h2 className="mt-2 text-lg font-semibold tracking-tight text-slate-900">
-                          {product.name}
-                        </h2>
-                        <p className="mt-1 text-sm font-medium text-slate-600">
-                          {product.price}
-                        </p>
-                      </div>
-
-                      <div className="mt-auto mb-5 flex justify-center">
-                        <button
-                          type="button"
-                          onClick={() => setOpenSlug(product.slug)}
-                          className="inline-flex items-center justify-center rounded-full bg-slate-900 px-8 py-3 text-xs font-semibold uppercase tracking-[0.2em] text-white hover:bg-slate-800"
-                        >
-                          View details
-                        </button>
-                      </div>
                     </div>
 
-                    {/* BACK: cover as darkened background + description */}
+                    {/* BACK: blur + white overlay on top of cover */}
                     <div
-                      className="absolute inset-0 flex flex-col rounded-[28px] overflow-hidden [backface-visibility:hidden]"
+                      className="absolute inset-0 rounded-[28px] overflow-hidden [backface-visibility:hidden]"
                       style={{
                         transform: "rotateY(180deg)",
                         backgroundImage: product.coverImage
                           ? `url(${product.coverImage})`
                           : undefined,
                         backgroundSize: "cover",
-                        backgroundPosition: "center",
+                        backgroundPosition: "center"
                       }}
                     >
-                      {/* Dark overlay over cover */}
-                      <div className="absolute inset-0 bg-slate-900/70" />
+                      {/* mist + blur */}
+                      <div className="absolute inset-0 bg-white/75 backdrop-blur-md" />
 
-                      <div className="relative z-10 flex-1 pt-4 pb-3">
+                      <div className="relative z-10 flex h-full flex-col pt-5 pb-4">
                         <div className="text-center px-4">
-                          <p className="text-[11px] font-semibold uppercase tracking-[0.3em] text-slate-300">
+                          <p className="text-[11px] font-semibold uppercase tracking-[0.3em] text-slate-500">
                             {product.eyebrow}
                           </p>
-                          <h2 className="mt-2 text-lg font-semibold tracking-tight text-white">
+                          <h2 className="mt-2 text-lg font-semibold tracking-tight text-slate-900">
                             {product.name}
                           </h2>
-                          <p className="mt-1 text-sm font-medium text-emerald-100">
+                          <p className="mt-1 text-sm font-medium text-slate-700">
                             {product.price}
                           </p>
                         </div>
 
-                        <div className="mt-5 space-y-5 px-5 text-sm text-slate-100">
+                        <div className="mt-5 flex-1 space-y-5 px-4 text-sm text-slate-800">
                           <ul className="space-y-2">
                             {product.bullets.map((item) => (
                               <li key={item} className="flex gap-2">
-                                <span className="mt-[6px] h-[3px] w-[3px] rounded-full bg-emerald-400" />
+                                <span className="mt-[6px] h-[3px] w-[3px] rounded-full bg-emerald-500" />
                                 <span>{item}</span>
                               </li>
                             ))}
                           </ul>
 
                           {product.footerLine && (
-                            <p className="text-xs text-slate-200">
+                            <p className="text-xs text-slate-600">
                               {product.footerLine}
                             </p>
                           )}
 
-                          <p className="text-[11px] uppercase tracking-[0.25em] text-slate-300">
+                          <p className="text-[11px] uppercase tracking-[0.25em] text-slate-500">
                             PayPal + card checkout via Payhip · instant download
                           </p>
                         </div>
-                      </div>
 
-                      <div className="relative z-10 flex flex-col gap-3 pb-4 px-5 sm:flex-row sm:justify-center">
-                        <a
-                          href={product.payhipUrl}
-                          target="_blank"
-                          rel="noreferrer"
-                          className="inline-flex flex-1 items-center justify-center rounded-full bg-white/95 px-6 py-3 text-xs font-semibold uppercase tracking-[0.2em] text-slate-900 hover:bg-white"
-                        >
-                          {product.slug === "all-in-one"
-                            ? "Get All-In-One Bundle"
-                            : "Buy on Payhip"}
-                        </a>
-                        <button
-                          type="button"
-                          onClick={() => setOpenSlug(null)}
-                          className="inline-flex flex-1 items-center justify-center rounded-full border border-white/50 bg-transparent px-6 py-3 text-xs font-semibold uppercase tracking-[0.2em] text-slate-100 hover:bg-white/10"
-                        >
-                          Back
-                        </button>
+                        <div className="mt-4 flex flex-col gap-3 px-4 sm:flex-row sm:justify-center">
+                          <a
+                            href={product.payhipUrl}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="inline-flex flex-1 items-center justify-center rounded-full bg-slate-900 px-6 py-3 text-xs font-semibold uppercase tracking-[0.2em] text-white hover:bg-slate-800"
+                          >
+                            {product.slug === "all-in-one"
+                              ? "Get All-In-One Bundle"
+                              : "Buy on Payhip"}
+                          </a>
+                          <button
+                            type="button"
+                            onClick={() => setOpenSlug(null)}
+                            className="inline-flex flex-1 items-center justify-center rounded-full border border-slate-300 bg-white/90 px-6 py-3 text-xs font-semibold uppercase tracking-[0.2em] text-slate-600 hover:border-slate-400 hover:text-slate-800"
+                          >
+                            Back
+                          </button>
+                        </div>
                       </div>
                     </div>
+                  </div>
+
+                  {/* CTA UNDER the card – single clean button */}
+                  <div className="mt-5 flex justify-center">
+                    <button
+                      type="button"
+                      onClick={() => setOpenSlug(product.slug)}
+                      className="inline-flex items-center justify-center rounded-full bg-slate-900 px-8 py-3 text-xs font-semibold uppercase tracking-[0.2em] text-white hover:bg-slate-800"
+                    >
+                      View details
+                    </button>
                   </div>
                 </article>
               );
