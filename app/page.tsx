@@ -1,318 +1,298 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
-import CheckoutButton from "@/components/CheckoutButton";
-import { Instagram, Music2 } from "lucide-react";
+import { useState } from "react";
 
 type Product = {
   slug: string;
-  title: string;
-  tag: string;
-  price: number;
-  blurb: string;
+  name: string;
+  eyebrow: string;
+  price: string;
+  coverImage: string | null;
+  payhipUrl: string;
   bullets: string[];
-  payhipCode: string;
-  featured?: boolean;
-  image?: string;
+  footerLine?: string;
 };
 
 const products: Product[] = [
   {
     slug: "10-quick-codes",
-    title: "10 Quick Codes for $100 Days",
-    tag: "Fast & Easy Side Income Guide",
-    price: 9.99,
-    blurb:
-      "Ten low-barrier plays to hit your first $100 days fast. No fancy skills. No big startup cost. Just motion.",
+    name: "10 Quick Codes for $100 Days",
+    eyebrow: "FAST & EASY SIDE INCOME GUIDE",
+    price: "$9.99",
+    coverImage: "/images/products/10-Quick-Codes.png",
+    payhipUrl: "https://payhip.com/b/XlVtC",
     bullets: [
-      "Step-by-step breakdowns for each hustle",
-      "Zero–minimal startup costs",
-      "Beginner-friendly but scalable",
-      "Bonus: tools, apps & ChatGPT prompts",
-      "Includes the WalkPerro Cashflow Tracker (editable PDF)",
+      "Ten low-barrier plays to hit your first $100 days fast.",
+      "Step-by-step breakdowns for each hustle.",
+      "Zero–minimal startup costs.",
+      "Beginner-friendly but scalable.",
+      "Bonus: tools, apps & ChatGPT prompts.",
     ],
-    payhipCode: "/b/10-quick-codes-for-100-dollar-days",
-    image: "/images/logos/10-Quick-Codes.png",
+    footerLine: "Best for getting motion this week, not someday.",
   },
   {
     slug: "wealth-hacks",
-    title: "WalkPerro Wealth Hacks",
-    tag: "Faceless Social Media Cashflow Secrets",
-    price: 16.99,
-    blurb:
-      "Faceless, aesthetic systems for stacking daily cashflow without ever showing your face online.",
+    name: "WalkPerro Wealth Hacks",
+    eyebrow: "FACELESS SOCIAL MEDIA CASHFLOW SECRETS",
+    price: "$16.99",
+    coverImage: "/images/products/Wealth_hacks.png",
+    payhipUrl: "https://payhip.com/b/d4kPL",
     bullets: [
-      "Aggressive faceless growth strategies",
-      "Copy-paste content systems",
-      "Built for recurring daily cash, not virality",
-      "Bonus tracking tool to keep you consistent",
+      "Faceless content systems built for quiet cashflow.",
+      "Page layouts, hooks & posting cadences.",
+      "How to stack multiple faceless pages into one income web.",
+      "Includes plug-and-play prompt frameworks.",
+      "Optimized for people who’d rather move than talk.",
     ],
-    payhipCode: "/b/wealth-hacks",
-    image: "/images/logos/Wealth_hacks.png",
+    footerLine: "Perfect if you want to print cash without being the face.",
   },
   {
-    slug: "money-moves-toolkit",
-    title: "Money Moves Toolkit",
-    tag: "Flip, Resell & Stack Quickly",
-    price: 16.99,
-    blurb:
-      "Plug-and-play templates for flipping, reselling and monetizing fast — without overthinking the math.",
+    slug: "money-moves",
+    name: "Money Moves Toolkit",
+    eyebrow: "FLIP, RESELL & STACK QUICKLY",
+    price: "$16.99",
+    coverImage: null,
+    payhipUrl: "https://payhip.com/b/oIAu2",
     bullets: [
-      "Resell & flipping templates",
-      "Pricing + profit margin calculators",
-      "Promo post templates for social",
-      "Bonus AI prompts to scale your offers",
+      "Plays for flipping, reselling & quick-turn cash injections.",
+      "Checklists for sourcing, listing & moving product fast.",
+      "Simple tracking sheets so every move has a purpose.",
+      "Built to layer on top of your 9-5 without burnout.",
     ],
-    payhipCode: "/b/money-moves-toolkit",
+    footerLine: "Ideal for people who like deals, arbitrage & stacks.",
   },
   {
     slug: "chatgpt-cash-hacks",
-    title: "ChatGPT Cash Hacks",
-    tag: "25 Prompts That Print Money",
-    price: 6.99,
-    blurb:
-      "A tight prompt pack for turning ChatGPT into a money assistant — freelance, flipping, products & more.",
+    name: "ChatGPT Cash Hacks",
+    eyebrow: "25 PROMPTS THAT PRINT MONEY",
+    price: "$6.99",
+    coverImage: "/images/products/25-Cash-Prompts.png",
+    payhipUrl: "https://payhip.com/b/0iQ4b",
     bullets: [
-      "25 practical money-making prompts",
-      "Side-hustle focused, not generic",
-      "Designed to be copied + adapted fast",
-      "Pairs perfectly with the other WalkPerro systems",
+      "25 battle-tested prompts to spin up offers, funnels & content.",
+      "Prompts for product ideas, copy, upsells & backend offers.",
+      "Structured so you can reuse them across multiple hustles.",
+      "No prompt-engineering degree needed — just copy, paste, tweak.",
     ],
-    payhipCode: "/b/25-chatgpt-prompts-that-print-money",
-    image: "/images/logos/25-Cash-Prompts.png",
+    footerLine: "Best for turning ChatGPT into a quiet business partner.",
   },
   {
-    slug: "all-in-one-toolkit",
-    title: "All-In-One Toolkit Bundle",
-    tag: "Every System, Every Key, One Price",
-    price: 34.99,
-    blurb:
-      "The full WalkPerro starter stack. All the plays, all the templates, all the prompts — for the ones who lead the pack.",
+    slug: "all-in-one",
+    name: "All-In-One Toolkit Bundle",
+    eyebrow: "EVERY SYSTEM, EVERY KEY, ONE PRICE",
+    price: "$34.99",
+    coverImage: "/images/products/all-in-one-toolkit.png",
+    payhipUrl: "https://payhip.com/b/2KB6V",
     bullets: [
-      "Includes all 4 core products",
-      "Cohesive system: hustles + tools + prompts",
-      "Best value if you're serious about motion",
-      "Designed to get you earning this week, not someday",
+      "Includes 10 Quick Codes, Wealth Hacks, Money Moves & ChatGPT Cash Hacks.",
+      "Cohesive system: hustles + tools + prompts that lock together.",
+      "Swipe-ready templates so you don’t start from a blank page.",
+      "Lifetime updates as the Exhibit grows.",
+      "Best value if you’re serious about daily motion, not one-off hype.",
     ],
-    payhipCode: "/b/all-in-one-toolkit-bundle",
-    featured: true,
-    image: "/images/logos/all-in-one-toolkit.png",
+    footerLine: "For the ones who want the full WalkPerro starter stack.",
   },
 ];
 
-export default function Home() {
-  return (
-    <main className="min-h-dvh bg-white text-slate-900">
-      <div className="mx-auto flex min-h-dvh max-w-40xl flex-col px-4 py-6 sm:px-6 lg:px-8">
-        {/* Top bar */}
-        <header className="flex items-center justify-between pb-10">
-          <Link href="/" className="flex flex-1 items-center">
-            <div className="relative h-10 sm:h-12 w-[60px] overflow-hidden flex items-center">
-              <Image
-                src="/images/logos/W-white-bg.png"
-                alt="WalkPerro Icon"
-                fill
-                priority
-                className="object-contain object-left"
-              />
-            </div>
-          </Link>
+export default function HomePage() {
+  const [openSlug, setOpenSlug] = useState<string | null>(null);
 
-          <nav className="flex items-center gap-4 text-[0.7rem] text-slate-500">
-            <a href="#exhibit" className="hover:text-slate-900 transition-colors">
+  return (
+    <main className="min-h-screen bg-slate-50 text-slate-900">
+      <div className="mx-auto flex max-w-5xl flex-col px-4 pb-16 pt-10 sm:px-6 lg:px-0">
+        {/* Top nav */}
+        <header className="mb-10 flex items-center justify-between">
+          <Link href="/" className="text-lg font-semibold tracking-tight">
+            <span className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-slate-300 text-sm">
+              W
+            </span>
+          </Link>
+          <nav className="flex items-center gap-6 text-sm text-slate-500">
+            <a href="#exhibit" className="hover:text-slate-900">
               Exhibit
             </a>
-            <a href="#bundle" className="hover:text-slate-900 transition-colors">
+            <a href="#bundle" className="hover:text-slate-900">
               Bundle
             </a>
-            <a
-              href="/manifesto"
-              className="hover:text-slate-900 transition-colors"
-            >
+            <a href="/manifesto" className="hover:text-slate-900">
               Manifesto
             </a>
-
-            <div className="flex items-center gap-3 pl-1">
-              <a
-                href="https://instagram.com/walkperro"
-                target="_blank"
-                rel="noreferrer"
-                className="text-slate-600 hover:text-slate-900 transition-colors"
-              >
-                <Instagram className="h-5 w-5" aria-hidden="true" />
-                <span className="sr-only">WalkPerro on Instagram</span>
-              </a>
-              <a
-                href="https://www.tiktok.com/@walkperro"
-                target="_blank"
-                rel="noreferrer"
-                className="text-slate-600 hover:text-slate-900 transition-colors"
-              >
-                <Music2 className="h-5 w-5" aria-hidden="true" />
-                <span className="sr-only">WalkPerro on TikTok</span>
-              </a>
-            </div>
           </nav>
         </header>
 
-        {/* Hero banner – cropped whitespace, bigger logo */}
-        <section className="relative w-full mt-4">
-          <div className="relative mx-auto max-w-40xl h-[260px] sm:h-[320px] md:h-[360px] overflow-hidden">
-            <Image
-              src="/images/logos/banner-white-bg.png"
-              alt="WalkPerro Banner"
-              fill
-              priority
-              className="object-cover object-center scale-110"
-            />
-          </div>
-        </section>
+        {/* Hero */}
+        <section className="space-y-6">
+          <p className="text-xs font-semibold uppercase tracking-[0.3em] text-emerald-600">
+            The WalkPerro Exhibit
+          </p>
+          <h1 className="max-w-3xl text-4xl font-semibold leading-tight tracking-tight text-slate-900 sm:text-5xl">
+            Clean systems for relentless cashflow.
+          </h1>
+          <p className="max-w-2xl text-[15px] leading-relaxed text-slate-600">
+            No clutter. No fake guru noise. Just focused digital systems to get you
+            from idea → income with taste. Built for the ones who move quiet and hit
+            loud.
+          </p>
 
-        {/* Supporting hero copy */}
-        <section className="mt-10">
-          <div className="mx-auto max-w-40xl space-y-6">
-            <p className="text-[0.65rem] font-semibold uppercase tracking-[0.35em] text-emerald-700">
-              The WalkPerro Exhibit
-            </p>
-
-            <h1 className="text-4xl sm:text-5xl font-medium tracking-tight text-slate-900 leading-tight">
-              Clean systems for relentless cashflow.
-            </h1>
-
-            <p className="text-[0.98rem] leading-7 text-slate-600">
-              No clutter. No fake guru noise. Just focused digital systems to get
-              you from idea → income with taste. Built for the ones who move quiet
-              and hit loud.
-            </p>
-
-            <div className="flex flex-wrap items-center gap-4 pt-10">
-              <a
-                href="#bundle"
-                className="inline-flex items-center justify-center rounded-full bg-slate-900 px-6 py-3 text-sm font-semibold tracking-[0.2em] uppercase text-slate-50 hover:bg-emerald-700 transition-colors"
-              >
-                View the bundle
-              </a>
-              <p className="text-xs text-slate-500">
-                PayPal + card checkout via Payhip. Files delivered instantly.
-              </p>
-            </div>
-          </div>
-
-          <div className="mx-auto mt-6 max-w-40xl border-t border-slate-200 pt-10 text-[0.7rem] text-slate-500">
-            Curated for builders, ghosts & quiet killers who want clean tools, not
-            chaos.
+          <div className="mt-4 flex flex-wrap items-center gap-4">
+            <a
+              href="#bundle"
+              className="inline-flex items-center justify-center rounded-full bg-slate-900 px-8 py-3 text-sm font-semibold tracking-[0.15em] text-white transition hover:bg-slate-800"
+            >
+              GET THE BUNDLE
+            </a>
           </div>
         </section>
 
         {/* Exhibit */}
-        <section id="exhibit" className="mt-12 space-y-6">
-          <div className="flex items-center justify-between">
-            <h2 className="text-xs font-semibold uppercase tracking-[0.3em] text-slate-600">
+        <section id="exhibit" className="mt-14">
+          <div className="flex flex-wrap items-baseline justify-between gap-3">
+            <p className="text-xs font-semibold uppercase tracking-[0.35em] text-slate-500">
               The Exhibit
-            </h2>
-            <span className="text-[0.7rem] text-slate-500">
-              {products.length} pieces • instant access • lifetime updates
-            </span>
+            </p>
+            <p className="text-xs text-slate-400">
+              5 pieces • instant access • lifetime updates
+            </p>
           </div>
 
-          <div className="grid gap-7 md:grid-cols-2">
-            {products.map((p) => (
-              <article
-                key={p.slug}
-                className={`flex flex-col overflow-hidden rounded-3xl border bg-white shadow-[0_20px_60px_rgba(15,23,42,0.08)] border-slate-200 ${
-                  p.featured
-                    ? "border-emerald-500 shadow-[0_24px_80px_rgba(16,185,129,0.25)]"
-                    : ""
-                }`}
-              >
-                {p.image && (
-                  <div className="relative w-full -mt-4 bg-white px-4 pt-6">
-                    <div className="relative mx-auto h-40 w-full max-w-xs">
-                      <Image
-                        src={p.image}
-                        alt={p.title}
-                        fill
-                        className="object-contain"
-                        sizes="(min-width: 1024px) 50vw, 100vw"
-                      />
-                    </div>
-                  </div>
-                )}
+          <div className="mt-8 space-y-16 [perspective:1600px]">
+            {products.map((product) => {
+              const isOpen = openSlug === product.slug;
 
-                <div className="flex flex-1 flex-col gap-3 px-5 py-5">
-                  <div className="flex items-start justify-between gap-3">
-                    <div className="space-y-1">
-                      <h3 className="text-sm font-semibold text-slate-900">
-                        {p.title}
-                      </h3>
-                      <p className="text-[0.75rem] uppercase tracking-[0.2em] text-slate-500">
-                        {p.tag}
-                      </p>
+              return (
+                <article
+                  key={product.slug}
+                  className="rounded-[32px] bg-white/90 p-4 shadow-sm ring-1 ring-slate-100 sm:p-6"
+                >
+                  <div
+                    className="relative min-h-[560px] w-full transition-transform duration-500 [transform-style:preserve-3d]"
+                    style={{
+                      transform: isOpen ? "rotateY(180deg)" : "rotateY(0deg)",
+                    }}
+                  >
+                    {/* FRONT: cover + basic info */}
+                    <div className="absolute inset-0 flex flex-col rounded-[28px] bg-white [backface-visibility:hidden]">
+                      {product.coverImage ? (
+                        <div className="overflow-hidden rounded-3xl bg-slate-100">
+                          <Image
+                            src={product.coverImage}
+                            alt={product.name}
+                            width={960}
+                            height={1280}
+                            priority={product.slug === "10-quick-codes"}
+                            className="w-full h-auto object-contain"
+                          />
+                        </div>
+                      ) : (
+                        <div className="flex h-64 items-center justify-center rounded-3xl border border-dashed border-slate-200 bg-slate-50 text-sm text-slate-400">
+                          Cover coming soon
+                        </div>
+                      )}
+
+                      <div className="mt-5 text-center pb-4">
+                        <p className="text-[11px] font-semibold uppercase tracking-[0.3em] text-slate-400">
+                          {product.eyebrow}
+                        </p>
+                        <h2 className="mt-2 text-lg font-semibold tracking-tight text-slate-900">
+                          {product.name}
+                        </h2>
+                        <p className="mt-1 text-sm font-medium text-slate-600">
+                          {product.price}
+                        </p>
+                      </div>
+
+                      <div className="mt-auto mb-5 flex justify-center">
+                        <button
+                          type="button"
+                          onClick={() => setOpenSlug(product.slug)}
+                          className="inline-flex items-center justify-center rounded-full bg-slate-900 px-8 py-3 text-xs font-semibold uppercase tracking-[0.2em] text-white hover:bg-slate-800"
+                        >
+                          View details
+                        </button>
+                      </div>
                     </div>
-                    <div className="text-right text-xs text-slate-600">
-                      <div className="font-semibold text-slate-900">
-                        ${p.price.toFixed(2)}
-                        {p.featured && (
-                          <span className="ml-1 rounded-full bg-emerald-100 px-2 py-[1px] text-[0.6rem] uppercase tracking-[0.16em] text-emerald-700">
-                            Best value
-                          </span>
-                        )}
+
+                    {/* BACK: cover as darkened background + description */}
+                    <div
+                      className="absolute inset-0 flex flex-col rounded-[28px] overflow-hidden [backface-visibility:hidden]"
+                      style={{
+                        transform: "rotateY(180deg)",
+                        backgroundImage: product.coverImage
+                          ? `url(${product.coverImage})`
+                          : undefined,
+                        backgroundSize: "cover",
+                        backgroundPosition: "center",
+                      }}
+                    >
+                      {/* Dark overlay over cover */}
+                      <div className="absolute inset-0 bg-slate-900/70" />
+
+                      <div className="relative z-10 flex-1 pt-4 pb-3">
+                        <div className="text-center px-4">
+                          <p className="text-[11px] font-semibold uppercase tracking-[0.3em] text-slate-300">
+                            {product.eyebrow}
+                          </p>
+                          <h2 className="mt-2 text-lg font-semibold tracking-tight text-white">
+                            {product.name}
+                          </h2>
+                          <p className="mt-1 text-sm font-medium text-emerald-100">
+                            {product.price}
+                          </p>
+                        </div>
+
+                        <div className="mt-5 space-y-5 px-5 text-sm text-slate-100">
+                          <ul className="space-y-2">
+                            {product.bullets.map((item) => (
+                              <li key={item} className="flex gap-2">
+                                <span className="mt-[6px] h-[3px] w-[3px] rounded-full bg-emerald-400" />
+                                <span>{item}</span>
+                              </li>
+                            ))}
+                          </ul>
+
+                          {product.footerLine && (
+                            <p className="text-xs text-slate-200">
+                              {product.footerLine}
+                            </p>
+                          )}
+
+                          <p className="text-[11px] uppercase tracking-[0.25em] text-slate-300">
+                            PayPal + card checkout via Payhip · instant download
+                          </p>
+                        </div>
+                      </div>
+
+                      <div className="relative z-10 flex flex-col gap-3 pb-4 px-5 sm:flex-row sm:justify-center">
+                        <a
+                          href={product.payhipUrl}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="inline-flex flex-1 items-center justify-center rounded-full bg-white/95 px-6 py-3 text-xs font-semibold uppercase tracking-[0.2em] text-slate-900 hover:bg-white"
+                        >
+                          {product.slug === "all-in-one"
+                            ? "Get All-In-One Bundle"
+                            : "Buy on Payhip"}
+                        </a>
+                        <button
+                          type="button"
+                          onClick={() => setOpenSlug(null)}
+                          className="inline-flex flex-1 items-center justify-center rounded-full border border-white/50 bg-transparent px-6 py-3 text-xs font-semibold uppercase tracking-[0.2em] text-slate-100 hover:bg-white/10"
+                        >
+                          Back
+                        </button>
                       </div>
                     </div>
                   </div>
-
-                  <p className="text-xs text-slate-600">{p.blurb}</p>
-
-                  <ul className="space-y-1.5 text-[0.7rem] text-slate-600">
-                    {p.bullets.map((b) => (
-                      <li key={b} className="flex gap-2">
-                        <span className="mt-[0.25rem] h-[3px] w-[3px] rounded-full bg-emerald-500" />
-                        <span>{b}</span>
-                      </li>
-                    ))}
-                  </ul>
-
-                  <div className="mt-4 flex items-center justify-between gap-3">
-                    <CheckoutButton
-                      payhipCode={p.payhipCode}
-                      slug={p.slug}
-                      title={p.title}
-                      price={p.price}
-                    >
-                      Get {p.title.split("|")[0].trim()} →
-                    </CheckoutButton>
-                    <span className="text-[0.65rem] text-slate-500">
-                      Secure checkout via Payhip • instant download
-                    </span>
-                  </div>
-                </div>
-              </article>
-            ))}
+                </article>
+              );
+            })}
           </div>
         </section>
 
-        {/* Bundle anchor (scroll target) */}
-        <section id="bundle" className="mt-16" />
-
-        {/* Footer */}
-        <footer className="mt-10 flex items-center justify-between border-t border-slate-200 pt-10 text-[0.65rem] text-slate-500">
-          <span>© {new Date().getFullYear()} WalkPerro. All rights reserved.</span>
-          <div className="flex gap-4">
-            <a
-              href="https://instagram.com/walkperro"
-              target="_blank"
-              className="hover:text-slate-900 transition-colors"
-            >
-              IG @walkperro
-            </a>
-            <a
-              href="https://tiktok.com/@walkperro"
-              target="_blank"
-              className="hover:text-slate-900 transition-colors"
-            >
-              TikTok @walkperro
-            </a>
-          </div>
-        </footer>
+        {/* Bundle anchor */}
+        <section id="bundle" className="mt-20" aria-hidden="true" />
       </div>
     </main>
   );

@@ -41,3 +41,29 @@ a:hover {
 .wp-fade {
   animation: wp-fade-up 0.7s cubic-bezier(0.22, 0.61, 0.36, 1) both;
 }
+
+/* WalkPerro mobile carousel drift */
+@keyframes wp-carousel-drift {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-20%);
+  }
+}
+
+.wp-carousel {
+  position: relative;
+}
+
+@media (max-width: 767px) {
+  .wp-carousel-track {
+    animation: wp-carousel-drift 40s ease-in-out infinite alternate;
+  }
+
+  /* Pause when touched/hovered */
+  .wp-carousel:hover .wp-carousel-track,
+  .wp-carousel:active .wp-carousel-track {
+    animation-play-state: paused;
+  }
+}
