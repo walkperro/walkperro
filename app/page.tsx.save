@@ -1,3 +1,13 @@
+cdpfkill
+kill -9 $$
+
+
+pkill -9 node
+pkill -9 npm
+pkill -9 pnpm
+pkill -9 next
+
+exit
 "use client";
 
 import Image from "next/image";
@@ -11,7 +21,6 @@ type Product = {
   price: string;
   coverImage: string | null;
   payhipUrl: string;
-  payhipProductId: string;
   bullets: string[];
   footerLine?: string;
 };
@@ -23,16 +32,15 @@ const products: Product[] = [
     eyebrow: "FAST & EASY SIDE INCOME GUIDE",
     price: "$9.99",
     coverImage: "/images/products/10-Quick-Codes.png",
-    payhipUrl: "https://payhip.com/b/RpCH3",
-    payhipProductId: "RpCH3",
+    payhipUrl: "https://payhip.com/b/XlVtC",
     bullets: [
       "Ten low-barrier plays to hit your first $100 days fast.",
       "Step-by-step breakdowns for each hustle.",
       "Zero–minimal startup costs.",
       "Beginner-friendly but scalable.",
-      "Bonus: tools, apps & ChatGPT prompts.",
+      "Bonus: tools, apps & ChatGPT prompts."
     ],
-    footerLine: "Best for getting motion this week, not someday.",
+    footerLine: "Best for getting motion this week, not someday."
   },
   {
     slug: "wealth-hacks",
@@ -40,16 +48,15 @@ const products: Product[] = [
     eyebrow: "FACELESS SOCIAL MEDIA CASHFLOW SECRETS",
     price: "$16.99",
     coverImage: "/images/products/Wealth_hacks.png",
-    payhipUrl: "https://payhip.com/b/1Q7gO",
-    payhipProductId: "1Q7gO",
+    payhipUrl: "https://payhip.com/b/d4kPL",
     bullets: [
       "Faceless content systems built for quiet cashflow.",
       "Page layouts, hooks & posting cadences.",
       "How to stack multiple faceless pages into one income web.",
       "Includes plug-and-play prompt frameworks.",
-      "Optimized for people who’d rather move than talk.",
+      "Optimized for people who’d rather move than talk."
     ],
-    footerLine: "Perfect if you want to print cash without being the face.",
+    footerLine: "Perfect if you want to print cash without being the face."
   },
   {
     slug: "money-moves",
@@ -57,15 +64,14 @@ const products: Product[] = [
     eyebrow: "FLIP, RESELL & STACK QUICKLY",
     price: "$16.99",
     coverImage: null,
-    payhipUrl: "https://payhip.com/b/3xYzE",
-    payhipProductId: "3xYzE",
+    payhipUrl: "https://payhip.com/b/oIAu2",
     bullets: [
       "Plays for flipping, reselling & quick-turn cash injections.",
       "Checklists for sourcing, listing & moving product fast.",
       "Simple tracking sheets so every move has a purpose.",
-      "Built to layer on top of your 9-5 without burnout.",
+      "Built to layer on top of your 9-5 without burnout."
     ],
-    footerLine: "Ideal for people who like deals, arbitrage & stacks.",
+    footerLine: "Ideal for people who like deals, arbitrage & stacks."
   },
   {
     slug: "chatgpt-cash-hacks",
@@ -73,15 +79,14 @@ const products: Product[] = [
     eyebrow: "25 PROMPTS THAT PRINT MONEY",
     price: "$6.99",
     coverImage: "/images/products/25-Cash-Prompts.png",
-    payhipUrl: "https://payhip.com/b/Ad9zn",
-    payhipProductId: "Ad9zn",
+    payhipUrl: "https://payhip.com/b/0iQ4b",
     bullets: [
       "25 battle-tested prompts to spin up offers, funnels & content.",
       "Prompts for product ideas, copy, upsells & backend offers.",
       "Structured so you can reuse them across multiple hustles.",
-      "No prompt-engineering degree needed — just copy, paste, tweak.",
+      "No prompt-engineering degree needed — just copy, paste, tweak."
     ],
-    footerLine: "Best for turning ChatGPT into a quiet business partner.",
+    footerLine: "Best for turning ChatGPT into a quiet business partner."
   },
   {
     slug: "all-in-one",
@@ -89,17 +94,16 @@ const products: Product[] = [
     eyebrow: "EVERY SYSTEM, EVERY KEY, ONE PRICE",
     price: "$34.99",
     coverImage: "/images/products/all-in-one-toolkit.png",
-    payhipUrl: "https://payhip.com/b/Pgrso",
-    payhipProductId: "Pgrso",
+    payhipUrl: "https://payhip.com/b/2KB6V",
     bullets: [
       "Includes 10 Quick Codes, Wealth Hacks, Money Moves & ChatGPT Cash Hacks.",
       "Cohesive system: hustles + tools + prompts that lock together.",
       "Swipe-ready templates so you don’t start from a blank page.",
       "Lifetime updates as the Exhibit grows.",
-      "Best value if you’re serious about daily motion, not one-off hype.",
+      "Best value if you’re serious about daily motion, not one-off hype."
     ],
-    footerLine: "For the ones who want the full WalkPerro starter stack.",
-  },
+    footerLine: "For the ones who want the full WalkPerro starter stack."
+  }
 ];
 
 export default function HomePage() {
@@ -137,9 +141,8 @@ export default function HomePage() {
             Clean systems for relentless cashflow.
           </h1>
           <p className="max-w-2xl text-[15px] leading-relaxed text-slate-600">
-            No clutter. No fake guru noise. Just focused digital systems to get
-            you from idea → income with taste. Built for the ones who move
-            quiet and hit loud.
+            No clutter. No fake guru noise. Just focused digital systems to get you from
+            idea → income with taste. Built for the ones who move quiet and hit loud.
           </p>
 
           <div className="mt-4 flex flex-wrap items-center gap-4">
@@ -171,9 +174,9 @@ export default function HomePage() {
                 <article key={product.slug} className="rounded-[32px]">
                   {/* flip card */}
                   <div
-                    className="relative w-full min-h-[580px] sm:min-h-[520px] rounded-[32px] shadow-md transition-transform duration-500 [transform-style:preserve-3d]"
+                    className="relative min-h-[580px] sm:min-h-[520px] w-full rounded-[32px] shadow-md transition-transform duration-500 [transform-style:preserve-3d]"
                     style={{
-                      transform: isOpen ? "rotateY(180deg)" : "rotateY(0deg)",
+                      transform: isOpen ? "rotateY(180deg)" : "rotateY(0deg)"
                     }}
                   >
                     {/* FRONT: full cover */}
@@ -194,21 +197,18 @@ export default function HomePage() {
                       )}
                     </div>
 
-                    {/* BACK: mirrored blurred cover + mist */}
+                    {/* BACK: mirrored blurred cover + lighter mist */}
                     <div
                       className="absolute inset-0 overflow-hidden rounded-[32px] [backface-visibility:hidden]"
                       style={{ transform: "rotateY(180deg)" }}
                     >
                       {product.coverImage && (
                         <div
-                          className="absolute inset-0 bg-cover bg-center scale-x-[-1]"
-                          style={{
-                            backgroundImage: `url(${product.coverImage})`,
-                          }}
+                          className="absolute inset-0 bg-center bg-cover scale-x-[-1]"
+                          style={{ backgroundImage: `url(${product.coverImage})` }}
                         />
                       )}
-
-                      {/* overlay for readability */}
+                      {/* brighter overlay for readability */}
                       <div className="absolute inset-0 bg-white/80 backdrop-blur-lg" />
 
                       <div className="relative z-10 flex h-full flex-col pt-5 pb-4">
@@ -246,20 +246,16 @@ export default function HomePage() {
                         </div>
 
                         <div className="mt-4 flex flex-col gap-3 px-4 pb-1 sm:flex-row sm:justify-center">
-                          {/* PAYHIP OVERLAY BUTTON */}
                           <a
                             href={product.payhipUrl}
-                            data-product={product.payhipProductId}
-                            data-theme="none"
-                            className="payhip-buy-button inline-flex flex-1 items-center justify-center rounded-full bg-slate-900 px-6 py-3 text-xs font-semibold uppercase tracking-[0.2em] text-white hover:bg-slate-800"
+                            target="_blank"
+                            rel="noreferrer"
+                            className="inline-flex flex-1 items-center justify-center rounded-full bg-slate-900 px-6 py-3 text-xs font-semibold uppercase tracking-[0.2em] text-white hover:bg-slate-800"
                           >
                             {product.slug === "all-in-one"
                               ? "Get All-In-One Bundle"
-                              : product.slug === "10-quick-codes"
-                              ? "Get 10 Quick Codes"
-                              : `Get ${product.name}`}
+                              : product.slug === "10-quick-codes" ? "Get 10 Quick Codes" : `Get ${product.name}`}
                           </a>
-
                           <button
                             type="button"
                             onClick={() => setOpenSlug(null)}

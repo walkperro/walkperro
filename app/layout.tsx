@@ -25,6 +25,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <head>
+        {/* Payhip overlay script */}
+        <script src="https://payhip.com/payhip.js" defer />
+      </head>
       <body
         className={`${inter.variable} ${playfair.variable} bg-[#050608] text-slate-100 antialiased`}
       >
