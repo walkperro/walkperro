@@ -163,7 +163,7 @@ export default function HomePage() {
             </p>
           </div>
 
-          <div className="mt-8 grid grid-cols-1 gap-8 [perspective:1600px] sm:grid-cols-2 md:grid-cols-3">
+          <div className="mt-8 grid grid-cols-1 gap-8 [perspective:1600px] sm:grid-cols-2 md:grid-cols-3 md:[grid-template-columns:repeat(3,minmax(320px,1fr))] md:[grid-template-columns:repeat(3,minmax(260px,1fr))] md:[grid-template-columns:repeat(3,minmax(260px,1fr))]">
             {products.map((product) => {
               const isOpen = openSlug === product.slug;
 
@@ -177,7 +177,7 @@ export default function HomePage() {
                     }}
                   >
                     {/* FRONT: full cover */}
-                    <div className="absolute inset-0 overflow-hidden rounded-[32px] [backface-visibility:hidden]">
+                    <div className="absolute inset-0 overflow-hidden rounded-[32px] [backface-visibility:hidden]  ">
                       {product.coverImage ? (
                         <Image
                           src={product.coverImage}
@@ -185,7 +185,7 @@ export default function HomePage() {
                           width={960}
                           height={1280}
                           priority={product.slug === "10-quick-codes"}
-                          className="h-full w-full object-cover"
+                          className="h-full w-full object-cover md:object-cover "
                         />
                       ) : (
                         <div className="flex h-full items-center justify-center bg-slate-50 text-sm text-slate-400">
@@ -196,7 +196,7 @@ export default function HomePage() {
 
                     {/* BACK: mirrored blurred cover + mist */}
                     <div
-                      className="absolute inset-0 overflow-hidden rounded-[32px] [backface-visibility:hidden]"
+                      className="absolute inset-0 overflow-hidden rounded-[32px] [backface-visibility:hidden]  "
                       style={{ transform: "rotateY(180deg)" }}
                     >
                       {product.coverImage && (
