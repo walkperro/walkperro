@@ -216,11 +216,7 @@ export default function Carousel3D({ items, className }: Props) {
                         price={parseFloat(item.price.replace(/[^0-9.]/g, ""))}
                         className="block w-full text-center rounded-full bg-slate-900 text-white px-4 py-2.5 text-xs sm:text-sm font-semibold tracking-[0.10em] max-w-[320px] sm:max-w-fit mx-auto text-center whitespace-normal leading-tight shadow-md active:scale-95"
                       >
-                        {`GET ${
-                          item.name
-                            .replace(/ Toolkit| Bundle| Hacks| Guide/i, "")
-                            .toUpperCase()
-                        } →`}
+                        {`GET  →`}
                       </CheckoutButton>
                     </div>
                   </div>
