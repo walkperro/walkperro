@@ -1,5 +1,4 @@
 "use client";
-
 import React from "react";
 
 type Props = {
@@ -19,21 +18,30 @@ export default function CheckoutButton({
   className,
   children,
 }: Props) {
-  // Build URL without template literals to avoid encoding issues
-  const href = "https://payhip.com/b/" + encodeURIComponent(payhipCode);
+  const href = `https://payhip.com/b/${payhipCode}`;
+
+  // If children is missing or is just "GET →", fall back to full title
+  let childText =
+    typeof children === "string" ? children.trim() : "";
+  if (!childText || /^GET\s*→$/i.test(childText)) {
+    childText = `GET ${title} →`;
+  }
+
+  const base =
+    "inline-block text-center rounded-full bg-slate-900 text-white px-4 py-2.5 text-xs sm:text-sm font-semibold tracking-[0.10em] whitespace-normal leading-tight shadow-md active:scale-95";
+  const combined = className ? `${base} ${className}` : base;
 
   return (
     <a
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      className={className}
-      data-role="checkout"
+      className={combined}
+      aria-label={`Buy ${title}`}
       data-slug={slug}
-      data-title={title}
       data-price={price}
     >
-      {children ?? "Buy now"}
+      {childText}
     </a>
   );
 }
