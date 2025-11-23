@@ -107,7 +107,7 @@ export default function HomePage() {
 
   return (
     <main className="min-h-screen bg-slate-50 text-slate-900">
-      <div className="mx-auto flex max-w-5xl flex-col px-4 pb-16 pt-10 sm:px-6 lg:px-0">
+      <div className="mx-auto flex max-w-7xl flex-col px-4 pb-16 pt-10 sm:px-6 lg:px-0">
         {/* Top nav */}
         <header className="mb-10 flex items-center justify-between">
           <Link href="/" className="text-lg font-semibold tracking-tight">
@@ -163,7 +163,7 @@ export default function HomePage() {
             </p>
           </div>
 
-          <div className="mt-8 space-y-16 [perspective:1600px]">
+          <div className="mt-8 grid grid-cols-1 gap-8 [perspective:1600px] sm:grid-cols-2 lg:grid-cols-3">
             {products.map((product) => {
               const isOpen = openSlug === product.slug;
 
@@ -171,13 +171,13 @@ export default function HomePage() {
                 <article key={product.slug} className="rounded-[32px]">
                   {/* flip card */}
                   <div
-                    className="relative w-full min-h-[580px] sm:min-h-[520px] rounded-[32px] shadow-md transition-transform duration-500 [transform-style:preserve-3d]"
+                    className="relative w-full min-h-[560px] sm:min-h-[520px] md:min-h-[520px] lg:min-h-[520px] md:min-h-[500px] lg:min-h-[480px] rounded-[32px] shadow-md transition-transform duration-500 [transform-style:preserve-3d]"
                     style={{
                       transform: isOpen ? "rotateY(180deg)" : "rotateY(0deg)",
                     }}
                   >
                     {/* FRONT: full cover */}
-                    <div className="absolute inset-0 overflow-hidden rounded-[32px] bg-slate-100 [backface-visibility:hidden]">
+                    <div className="absolute inset-0 overflow-hidden rounded-[32px] [backface-visibility:hidden]">
                       {product.coverImage ? (
                         <Image
                           src={product.coverImage}
@@ -209,7 +209,7 @@ export default function HomePage() {
                       )}
 
                       {/* overlay for readability */}
-                      <div className="absolute inset-0 bg-white/80 backdrop-blur-lg" />
+                      <div className="absolute inset-0 bg-white/80 backdrop-blur-lg rounded-[32px]" />
 
                       <div className="relative z-10 flex h-full flex-col pt-5 pb-4">
                         <div className="px-4 text-center">
@@ -245,13 +245,13 @@ export default function HomePage() {
                           </p>
                         </div>
 
-                        <div className="mt-4 flex flex-col gap-3 px-4 pb-1 sm:flex-row sm:justify-center">
+                        <div className="mt-4 flex flex-col gap-3 px-4 pb-1">
                           {/* PAYHIP OVERLAY BUTTON */}
                           <a
                             href={product.payhipUrl}
                             data-product={product.payhipProductId}
                             data-theme="none"
-                            className="payhip-buy-button inline-flex flex-1 items-center justify-center rounded-full bg-slate-900 px-6 py-3 text-xs font-semibold uppercase tracking-[0.2em] text-white hover:bg-slate-800"
+                            className="payhip-buy-button inline-flex w-full items-center justify-center rounded-full bg-slate-900 px-6 py-3 text-xs font-semibold uppercase tracking-[0.2em] text-white hover:bg-slate-800"
                           >
                             {product.slug === "all-in-one"
                               ? "Get All-In-One Bundle"
@@ -263,7 +263,7 @@ export default function HomePage() {
                           <button
                             type="button"
                             onClick={() => setOpenSlug(null)}
-                            className="inline-flex flex-1 items-center justify-center rounded-full border border-slate-300 bg-white/90 px-6 py-3 text-xs font-semibold uppercase tracking-[0.2em] text-slate-600 hover:border-slate-400 hover:text-slate-800"
+                            className="inline-flex w-full items-center justify-center rounded-full border border-slate-300 bg-white/90 px-6 py-3 text-xs font-semibold uppercase tracking-[0.2em] text-slate-600 hover:border-slate-400 hover:text-slate-800"
                           >
                             Back
                           </button>
