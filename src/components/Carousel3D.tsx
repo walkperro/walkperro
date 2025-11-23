@@ -180,27 +180,44 @@ export default function Carousel3D({ items, className }: Props) {
                       Cover coming soon
                     </div>
                   )}
+
+                  {/* front-only invisible click layer to flip */}
+                  {isActive && !isFlipped && (
+                    <button
+                      type="button"
+                      aria-label="View details"
+                      onClick={() => setFlippedIndex(i)}
+                      className="absolute inset-0"
+                      style={{ background: "transparent" }}
+                    />
+                  )}
                 </div>
 
-                {/* BACK — note: real 3D rotateY so it hides when not flipped */}
+                {/* BACK (interactive) */}
                 <div
                   className="absolute inset-0 rounded-[28px] [backface-visibility:hidden] overflow-hidden"
                   style={{ transform: "rotateY(180deg)" }}
                 >
-                  <div className="h-full w-full bg-white/95 backdrop-blur p-6 flex flex-col justify-between">
-                    <div>
-                      <h3 className="text-2xl font-semibold text-slate-900">
-                        {item.name}
-                      </h3>
+                  <div className="h-full w-full bg-white/95 backdrop-blur p-6 flex flex-col">
+                    <h3 className="text-2xl font-semibold text-slate-900">
+                      {item.name}
+                    </h3>
+
+                    <div className="mt-3 flex-1 overflow-y-auto pr-1">
                       {item.bullets?.length ? (
-                        <ul className="mt-4 space-y-2 text-slate-700 text-sm list-disc list-inside">
+                        <ul className="space-y-2 text-slate-700 text-sm list-disc list-inside">
                           {item.bullets.slice(0, 6).map((b, j) => (
                             <li key={j}>{b}</li>
                           ))}
                         </ul>
-                      ) : null}
+                      ) : (
+                        <p className="text-slate-600 text-sm">
+                          Instant access digital download.
+                        </p>
+                      )}
                     </div>
-                    <div className="mt-6 flex items-center justify-between">
+
+                    <div className="mt-5 flex items-center justify-between">
                       <span className="text-lg font-semibold text-slate-900">
                         {item.price ?? ""}
                       </span>
@@ -214,25 +231,26 @@ export default function Carousel3D({ items, className }: Props) {
                       ) : null}
                     </div>
                   </div>
-                </div>
 
-                {/* Click target to flip (only active slide responds) */}
-                <button
-                  type="button"
-                  aria-label="Flip card"
-                  aria-pressed={isFlipped}
-                  onClick={() =>
-                    isActive ? setFlippedIndex(isFlipped ? null : i) : undefined
-                  }
-                  className="absolute inset-0 rounded-[28px] focus:outline-none focus:ring-2 focus:ring-slate-900/20"
-                />
+                  {/* back face gets its own small hotspot to flip back (bottom-center) */}
+                  {isActive && isFlipped && (
+                    <button
+                      type="button"
+                      aria-label="View cover"
+                      onClick={() => setFlippedIndex(null)}
+                      className="absolute left-1/2 -translate-x-1/2 bottom-3 text-sm font-medium underline underline-offset-4 text-slate-700 hover:text-slate-900"
+                    >
+                      View cover
+                    </button>
+                  )}
+                </div>
               </div>
             </div>
           );
         })}
       </div>
 
-      {/* Helper text button */}
+      {/* Helper text button under the card */}
       <div
         className="absolute left-1/2 -translate-x-1/2"
         style={{ top: Math.max(dims.h - 36, 12) }}
