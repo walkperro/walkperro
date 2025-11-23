@@ -33,7 +33,7 @@ const products: Product[] = [
       "Beginner-friendly but scalable.",
       "Bonus: tools, apps & ChatGPT prompts.",
     ],
-    footerLine: "Best for getting motion this week, not someday.",
+    footerLine: "Best for getting motion TODAY, not someday.",
   },
   {
     slug: "wealth-hacks",

@@ -6,9 +6,11 @@ type Item = {
   slug?: string;
   name: string;
   coverImage: string | null;
-  price?: string;
-  url?: string; // buy link
-  bullets?: string[]; // details
+  price?: string; // "$9.99"
+  url?: string; // payhip link
+  bullets?: string[];
+  eyebrow?: string; // subtitle tag
+  footerLine?: string; // small blurb under bullets
 };
 type Props = { items: Item[]; className?: string };
 
@@ -63,14 +65,14 @@ export default function Carousel3D({ items, className }: Props) {
       ref={shellRef}
       className={`relative mx-auto w-full max-w-6xl ${className ?? ""}`}
       style={{
-        height: dims.h + 120,
+        height: dims.h + 140,
         perspective: 1400,
         perspectiveOrigin: "50% 18%",
         overflow: "visible",
         marginTop: "clamp(8px, 1.5vh, 16px)",
       }}
     >
-      {/* edge fades */}
+      {/* soft edge fades */}
       <div
         className="pointer-events-none absolute inset-x-0"
         style={{
@@ -108,7 +110,6 @@ export default function Carousel3D({ items, className }: Props) {
               : rel < -half
                 ? rel + items.length
                 : rel;
-
           const dist = Math.abs(shortest);
           const x = shortest * SPACING;
           const angle = -Math.max(
@@ -118,7 +119,6 @@ export default function Carousel3D({ items, className }: Props) {
           const z = -dist * DEPTH;
           const scale = Math.max(0.86, 1 - dist * 0.06);
           const opacity = Math.max(0.55, 1 - dist * 0.18);
-
           const isActive = i === index;
           const isFlipped = flippedIndex === i;
 
@@ -143,7 +143,7 @@ export default function Carousel3D({ items, className }: Props) {
                 pointerEvents: dist <= 1 ? "auto" : "none",
               }}
             >
-              {/* Flip container */}
+              {/* flip container */}
               <div
                 className="relative h-full w-full [transform-style:preserve-3d] rounded-[28px]"
                 style={{
@@ -151,7 +151,7 @@ export default function Carousel3D({ items, className }: Props) {
                   transition: "transform 480ms cubic-bezier(.22,.61,.36,1)",
                 }}
               >
-                {/* FRONT */}
+                {/* FRONT (cover) */}
                 <div
                   className="absolute inset-0 rounded-[28px] overflow-hidden [backface-visibility:hidden]"
                   style={{
@@ -181,7 +181,7 @@ export default function Carousel3D({ items, className }: Props) {
                     </div>
                   )}
 
-                  {/* front-only invisible click layer to flip */}
+                  {/* front-only click to flip */}
                   {isActive && !isFlipped && (
                     <button
                       type="button"
@@ -193,21 +193,38 @@ export default function Carousel3D({ items, className }: Props) {
                   )}
                 </div>
 
-                {/* BACK (interactive) */}
+                {/* BACK (styled details + CTA) */}
                 <div
                   className="absolute inset-0 rounded-[28px] [backface-visibility:hidden] overflow-hidden"
                   style={{ transform: "rotateY(180deg)" }}
                 >
-                  <div className="h-full w-full bg-white/95 backdrop-blur p-6 flex flex-col">
-                    <h3 className="text-2xl font-semibold text-slate-900">
+                  <div className="h-full w-full bg-gradient-to-b from-slate-50 to-slate-200/60 p-5 sm:p-6 flex flex-col">
+                    {/* eyebrow */}
+                    {item.eyebrow ? (
+                      <p className="text-xs font-semibold uppercase tracking-[0.28em] text-slate-500 text-center">
+                        {item.eyebrow}
+                      </p>
+                    ) : null}
+
+                    {/* title + price */}
+                    <h3 className="mt-1 text-2xl text-center font-semibold text-slate-900">
                       {item.name}
                     </h3>
+                    {item.price && (
+                      <p className="mt-1 text-center text-slate-700 font-medium">
+                        {item.price}
+                      </p>
+                    )}
 
-                    <div className="mt-3 flex-1 overflow-y-auto pr-1">
+                    {/* bullets */}
+                    <div className="mt-4 flex-1 overflow-y-auto pr-1">
                       {item.bullets?.length ? (
-                        <ul className="space-y-2 text-slate-700 text-sm list-disc list-inside">
-                          {item.bullets.slice(0, 6).map((b, j) => (
-                            <li key={j}>{b}</li>
+                        <ul className="space-y-2 text-[15px] text-slate-800">
+                          {item.bullets.map((b, j) => (
+                            <li key={j} className="flex gap-2">
+                              <span className="mt-[9px] h-[6px] w-[6px] rounded-full bg-emerald-500/90" />
+                              <span>{b}</span>
+                            </li>
                           ))}
                         </ul>
                       ) : (
@@ -215,34 +232,37 @@ export default function Carousel3D({ items, className }: Props) {
                           Instant access digital download.
                         </p>
                       )}
+                      {item.footerLine && (
+                        <p className="mt-3 text-[13px] text-slate-600">
+                          {item.footerLine}
+                        </p>
+                      )}
                     </div>
 
-                    <div className="mt-5 flex items-center justify-between">
-                      <span className="text-lg font-semibold text-slate-900">
-                        {item.price ?? ""}
-                      </span>
+                    {/* payhip line */}
+                    <p className="mt-4 text-[11px] tracking-[0.22em] text-slate-500 text-center">
+                      PAYPAL • CARD CHECKOUT VIA PAYHIP • INSTANT DOWNLOAD
+                    </p>
+
+                    {/* buttons */}
+                    <div className="mt-4 grid gap-3">
                       {item.url ? (
                         <a
                           href={item.url}
-                          className="inline-flex items-center rounded-full px-4 py-2 bg-slate-900 text-white text-sm font-medium hover:bg-slate-800"
+                          className="inline-flex items-center justify-center rounded-full bg-slate-900 px-6 py-3 text-sm font-semibold tracking-[0.12em] text-white hover:bg-slate-800"
                         >
-                          Buy now
+                          GET {item.name.toUpperCase()}
                         </a>
                       ) : null}
+                      <button
+                        type="button"
+                        onClick={() => setFlippedIndex(null)}
+                        className="inline-flex items-center justify-center rounded-full border border-slate-300 bg-white px-6 py-3 text-sm font-semibold tracking-[0.12em] text-slate-700 hover:bg-slate-50"
+                      >
+                        BACK
+                      </button>
                     </div>
                   </div>
-
-                  {/* back face gets its own small hotspot to flip back (bottom-center) */}
-                  {isActive && isFlipped && (
-                    <button
-                      type="button"
-                      aria-label="View cover"
-                      onClick={() => setFlippedIndex(null)}
-                      className="absolute left-1/2 -translate-x-1/2 bottom-3 text-sm font-medium underline underline-offset-4 text-slate-700 hover:text-slate-900"
-                    >
-                      View cover
-                    </button>
-                  )}
                 </div>
               </div>
             </div>
@@ -250,24 +270,24 @@ export default function Carousel3D({ items, className }: Props) {
         })}
       </div>
 
-      {/* Helper text button under the card */}
+      {/* Toggle helper under the card */}
       <div
         className="absolute left-1/2 -translate-x-1/2"
-        style={{ top: Math.max(dims.h - 36, 12) }}
+        style={{ top: Math.max(dims.h - 28, 12) }}
       >
         <button
           type="button"
           onClick={() => setFlippedIndex(flippedIndex === index ? null : index)}
-          className="text-sm font-medium underline underline-offset-4 text-slate-700 hover:text-slate-900"
+          className="rounded-full bg-slate-900 px-6 py-3 text-sm font-semibold tracking-[0.12em] text-white hover:bg-slate-800"
         >
-          {flippedIndex === index ? "View cover" : "View details"}
+          {flippedIndex === index ? "VIEW COVER" : "VIEW DETAILS"}
         </button>
       </div>
 
       {/* Arrows */}
       <div
         className="pointer-events-auto absolute left-1/2 -translate-x-1/2 flex gap-3"
-        style={{ top: dims.h + 16 }}
+        style={{ top: dims.h + 20 }}
       >
         <button
           aria-label="Previous"
