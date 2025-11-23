@@ -3,7 +3,17 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import CheckoutButton from "@/components/CheckoutButton";
 
-type Item = { slug: string; name: string; eyebrow: string; price: string; coverImage: string | null; payhipUrl: string; payhipProductId: string; bullets: string[]; footerLine?: string; };
+type Item = {
+  slug: string;
+  name: string;
+  eyebrow: string;
+  price: string;
+  coverImage: string | null;
+  payhipUrl: string;
+  payhipProductId: string;
+  bullets: string[];
+  footerLine?: string;
+};
 
 type Props = { items: Item[]; className?: string };
 
@@ -22,9 +32,11 @@ export default function Carousel3D({ items, className }: Props) {
       const isMobile = window.innerWidth < 768;
 
       const base =
-        W < 440 ? Math.min(320, Math.max(260, Math.floor(W * 0.82))) :
-        W < 1024 ? Math.min(380, Math.max(300, Math.floor(W * 0.62))) :
-        Math.min(420, Math.max(320, Math.floor(W * 0.48)));
+        W < 440
+          ? Math.min(320, Math.max(260, Math.floor(W * 0.82)))
+          : W < 1024
+          ? Math.min(380, Math.max(300, Math.floor(W * 0.62)))
+          : Math.min(420, Math.max(320, Math.floor(W * 0.48)));
       const H = Math.round(base * 1.38);
 
       setDims({ w: base, h: H, isMobile });
@@ -34,11 +46,16 @@ export default function Carousel3D({ items, className }: Props) {
     ro.observe(el);
     measure();
     window.addEventListener("resize", measure);
-    return () => { ro.disconnect(); window.removeEventListener("resize", measure); };
+    return () => {
+      ro.disconnect();
+      window.removeEventListener("resize", measure);
+    };
   }, []);
 
   // reset the back face when you change card
-  useEffect(() => { setShowBack(false); }, [index]);
+  useEffect(() => {
+    setShowBack(false);
+  }, [index]);
 
   const SPACING = useMemo(
     () => (dims.isMobile ? Math.round(dims.w * 0.65) : Math.round(dims.w * 0.72)),
@@ -54,7 +71,7 @@ export default function Carousel3D({ items, className }: Props) {
       ref={shellRef}
       className={`relative mx-auto w-full max-w-6xl ${className ?? ""}`}
       style={{
-        height: dims.h + 128,                 // space for “view” + arrows
+        height: dims.h + 128, // space for “view” + arrows
         perspective: 1400,
         perspectiveOrigin: "50% 18%",
         overflow: "visible",
@@ -113,7 +130,7 @@ export default function Carousel3D({ items, className }: Props) {
               >
                 {/* FRONT */}
                 <div
-                  className="absolute inset-0 rounded-[28px] overflow-hidden wp-card-back"
+                  className="absolute inset-0 rounded-[28px] overflow-hidden"
                   style={{
                     background: "white",
                     backfaceVisibility: "hidden",
@@ -151,43 +168,59 @@ export default function Carousel3D({ items, className }: Props) {
                     transform: "rotateY(180deg)",
                     backfaceVisibility: "hidden",
                     WebkitBackfaceVisibility: "hidden",
+
+                    /* ULTRA-WHITE FROSTED GLASS */
                     background:
-                      "radial-gradient(120% 120% at 30% 0%, rgba(15,23,42,.08), rgba(2,6,23,.06))",
-                    border: "1px solid rgba(2,6,23,.08)",
+                      "linear-gradient(180deg, rgba(255,255,255,0.99) 0%, rgba(255,255,255,0.985) 40%, rgba(255,255,255,0.98) 100%)",
+                    backdropFilter: "blur(6px)",
+                    WebkitBackdropFilter: "blur(6px)",
+                    border: "1px solid rgba(15,23,42,0.06)",
                   }}
                 >
-                  <div className="flex h-full w-full flex-col p-5 sm:p-6">
-                    <p className="text-[0.72rem] tracking-[0.28em] uppercase text-slate-500">
+                  <div className="flex h-full w-full flex-col p-4 sm:p-6">
+                    {/* MOBILE-SMALLER TYPE SCALE */}
+                    <p className="text-[0.68rem] sm:text-[0.72rem] tracking-[0.26em] uppercase text-slate-500">
                       {item.eyebrow}
                     </p>
-                    <h3 className="mt-1 text-xl font-semibold text-slate-900">{item.name}</h3>
-                    <p className="mt-1 text-slate-700">{item.price}</p>
+                    <h3 className="mt-1 text-lg sm:text-xl font-semibold text-slate-900">
+                      {item.name}
+                    </h3>
+                    <p className="mt-1 text-[0.95rem] sm:text-base text-slate-700">
+                      {item.price}
+                    </p>
 
-                    <ul  className="mt-4 space-y-2 text-[0.95rem] text-slate-700 wp-bullets">
+                    <ul className="mt-3 sm:mt-4 space-y-2 text-[0.88rem] sm:text-[0.95rem] leading-[1.35] text-slate-700">
                       {item.bullets.map((b) => (
                         <li key={b} className="flex gap-2">
-                          <span className="mt-[0.5rem] h-[3px] w-[3px] rounded-full bg-emerald-600/80" />
+                          <span className="mt-[0.45rem] h-[3px] w-[3px] rounded-full bg-emerald-600/80" />
                           <span>{b}</span>
                         </li>
                       ))}
                     </ul>
 
                     {item.footerLine && (
-                      <p className="mt-4 text-[0.9rem] text-slate-600">{item.footerLine}</p>
+                      <p className="mt-3 sm:mt-4 text-[0.88rem] text-slate-600">
+                        {item.footerLine}
+                      </p>
                     )}
 
-                    <p className="mt-4 text-[0.72rem] uppercase tracking-[0.20em] text-slate-400">
+                    <p className="mt-3 sm:mt-4 text-[0.68rem] sm:text-[0.72rem] uppercase tracking-[0.18em] text-slate-400">
                       Paypal + Card checkout via Payhip · instant download
                     </p>
 
-                    <div className="mt-auto pt-4">
+                    <div className="mt-auto pt-3 sm:pt-4">
                       <CheckoutButton
                         payhipCode={item.payhipProductId}
                         slug={item.slug}
                         title={item.name}
                         price={parseFloat(item.price.replace(/[^0-9.]/g, ""))}
+                        className="block w-full text-center rounded-full bg-slate-900 text-white px-6 py-3 text-sm font-semibold tracking-[0.12em] shadow-md active:scale-95"
                       >
-                        {`Get ${item.name.replace(/ Toolkit| Bundle| Hacks| Guide/i, "").trim()} →`}
+                        {`GET ${
+                          item.name
+                            .replace(/ Toolkit| Bundle| Hacks| Guide/i, "")
+                            .toUpperCase()
+                        } →`}
                       </CheckoutButton>
                     </div>
                   </div>
