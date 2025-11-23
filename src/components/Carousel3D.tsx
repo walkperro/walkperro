@@ -6,11 +6,11 @@ type Item = {
   slug?: string;
   name: string;
   coverImage: string | null;
-  price?: string; // "$9.99"
-  url?: string; // payhip link
+  price?: string;
+  url?: string;
   bullets?: string[];
-  eyebrow?: string; // subtitle tag
-  footerLine?: string; // small blurb under bullets
+  eyebrow?: string;
+  footerLine?: string;
 };
 type Props = { items: Item[]; className?: string };
 
@@ -23,7 +23,6 @@ export default function Carousel3D({ items, className }: Props) {
   useEffect(() => {
     const el = shellRef.current;
     if (!el) return;
-
     const measure = () => {
       const W = el.clientWidth;
       const isMobile = window.innerWidth < 768;
@@ -36,7 +35,6 @@ export default function Carousel3D({ items, className }: Props) {
       const H = Math.round(base * 1.38);
       setDims({ w: base, h: H, isMobile });
     };
-
     const ro = new ResizeObserver(measure);
     ro.observe(el);
     measure();
@@ -65,7 +63,7 @@ export default function Carousel3D({ items, className }: Props) {
       ref={shellRef}
       className={`relative mx-auto w-full max-w-6xl ${className ?? ""}`}
       style={{
-        height: dims.h + 140,
+        height: dims.h + 160, // extra space for toggle + arrows
         perspective: 1400,
         perspectiveOrigin: "50% 18%",
         overflow: "visible",
@@ -151,7 +149,7 @@ export default function Carousel3D({ items, className }: Props) {
                   transition: "transform 480ms cubic-bezier(.22,.61,.36,1)",
                 }}
               >
-                {/* FRONT (cover) */}
+                {/* FRONT */}
                 <div
                   className="absolute inset-0 rounded-[28px] overflow-hidden [backface-visibility:hidden]"
                   style={{
@@ -180,8 +178,6 @@ export default function Carousel3D({ items, className }: Props) {
                       Cover coming soon
                     </div>
                   )}
-
-                  {/* front-only click to flip */}
                   {isActive && !isFlipped && (
                     <button
                       type="button"
@@ -193,20 +189,17 @@ export default function Carousel3D({ items, className }: Props) {
                   )}
                 </div>
 
-                {/* BACK (styled details + CTA) */}
+                {/* BACK */}
                 <div
                   className="absolute inset-0 rounded-[28px] [backface-visibility:hidden] overflow-hidden"
                   style={{ transform: "rotateY(180deg)" }}
                 >
                   <div className="h-full w-full bg-gradient-to-b from-slate-50 to-slate-200/60 p-5 sm:p-6 flex flex-col">
-                    {/* eyebrow */}
                     {item.eyebrow ? (
                       <p className="text-xs font-semibold uppercase tracking-[0.28em] text-slate-500 text-center">
                         {item.eyebrow}
                       </p>
                     ) : null}
-
-                    {/* title + price */}
                     <h3 className="mt-1 text-2xl text-center font-semibold text-slate-900">
                       {item.name}
                     </h3>
@@ -216,7 +209,6 @@ export default function Carousel3D({ items, className }: Props) {
                       </p>
                     )}
 
-                    {/* bullets */}
                     <div className="mt-4 flex-1 overflow-y-auto pr-1">
                       {item.bullets?.length ? (
                         <ul className="space-y-2 text-[15px] text-slate-800">
@@ -239,28 +231,19 @@ export default function Carousel3D({ items, className }: Props) {
                       )}
                     </div>
 
-                    {/* payhip line */}
                     <p className="mt-4 text-[11px] tracking-[0.22em] text-slate-500 text-center">
                       PAYPAL • CARD CHECKOUT VIA PAYHIP • INSTANT DOWNLOAD
                     </p>
 
-                    {/* buttons */}
-                    <div className="mt-4 grid gap-3">
+                    <div className="mt-4">
                       {item.url ? (
                         <a
                           href={item.url}
-                          className="inline-flex items-center justify-center rounded-full bg-slate-900 px-6 py-3 text-sm font-semibold tracking-[0.12em] text-white hover:bg-slate-800"
+                          className="w-full inline-flex items-center justify-center rounded-full bg-slate-900 px-6 py-3 text-sm font-semibold tracking-[0.12em] text-white hover:bg-slate-800"
                         >
                           GET {item.name.toUpperCase()}
                         </a>
                       ) : null}
-                      <button
-                        type="button"
-                        onClick={() => setFlippedIndex(null)}
-                        className="inline-flex items-center justify-center rounded-full border border-slate-300 bg-white px-6 py-3 text-sm font-semibold tracking-[0.12em] text-slate-700 hover:bg-slate-50"
-                      >
-                        BACK
-                      </button>
                     </div>
                   </div>
                 </div>
@@ -270,10 +253,10 @@ export default function Carousel3D({ items, className }: Props) {
         })}
       </div>
 
-      {/* Toggle helper under the card */}
+      {/* Toggle BELOW the card */}
       <div
         className="absolute left-1/2 -translate-x-1/2"
-        style={{ top: Math.max(dims.h - 28, 12) }}
+        style={{ top: dims.h + 16 }}
       >
         <button
           type="button"
@@ -284,10 +267,10 @@ export default function Carousel3D({ items, className }: Props) {
         </button>
       </div>
 
-      {/* Arrows */}
+      {/* Arrows pushed further down */}
       <div
         className="pointer-events-auto absolute left-1/2 -translate-x-1/2 flex gap-3"
-        style={{ top: dims.h + 20 }}
+        style={{ top: dims.h + 72 }}
       >
         <button
           aria-label="Previous"
