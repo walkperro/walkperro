@@ -1,5 +1,4 @@
 "use client";
-
 import { useEffect, useMemo, useRef, useState } from "react";
 
 type Item = {
@@ -63,14 +62,15 @@ export default function Carousel3D({ items, className }: Props) {
       ref={shellRef}
       className={`relative mx-auto w-full max-w-6xl ${className ?? ""}`}
       style={{
-        height: dims.h + 160, // extra space for toggle + arrows
+        height: dims.h + 160,
         perspective: 1400,
         perspectiveOrigin: "50% 18%",
         overflow: "visible",
         marginTop: "clamp(8px, 1.5vh, 16px)",
+        isolation: "isolate",
       }}
     >
-      {/* soft edge fades */}
+      {/* edge fades */}
       <div
         className="pointer-events-none absolute inset-x-0"
         style={{
@@ -108,13 +108,14 @@ export default function Carousel3D({ items, className }: Props) {
               : rel < -half
                 ? rel + items.length
                 : rel;
+
           const dist = Math.abs(shortest);
           const x = shortest * SPACING;
           const angle = -Math.max(
             -TILT,
             Math.min(TILT, shortest * (TILT * 0.9)),
           );
-          const z = -dist * DEPTH;
+          const z = -Math.min(dist, 3) * DEPTH; // clamp far depth to avoid flashing
           const scale = Math.max(0.86, 1 - dist * 0.06);
           const opacity = Math.max(0.55, 1 - dist * 0.18);
           const isActive = i === index;
@@ -129,12 +130,15 @@ export default function Carousel3D({ items, className }: Props) {
                 height: dims.h,
                 transform: `
                   translate(-50%,-50%)
-                  rotateY(${angle}deg)
-                  translateZ(${z}px)
                   translateX(${x}px)
+                  translateZ(${z}px)
+                  rotateY(${angle}deg)
                   scale(${scale})
                 `,
-                transition: "transform 520ms cubic-bezier(.22,.61,.36,1)",
+                transition:
+                  dist > 2
+                    ? "transform 360ms ease-out"
+                    : "transform 620ms cubic-bezier(.22,.61,.36,1)",
                 transformStyle: "preserve-3d",
                 zIndex: 100 - dist,
                 opacity,
@@ -145,8 +149,10 @@ export default function Carousel3D({ items, className }: Props) {
               <div
                 className="relative h-full w-full [transform-style:preserve-3d] rounded-[28px]"
                 style={{
-                  transform: isFlipped ? "rotateY(180deg)" : "rotateY(0deg)",
-                  transition: "transform 480ms cubic-bezier(.22,.61,.36,1)",
+                  transform: isFlipped
+                    ? "rotateY(180deg) translateZ(0.01px)"
+                    : "rotateY(0deg) translateZ(0.01px)",
+                  transition: "transform 520ms cubic-bezier(.22,.61,.36,1)",
                 }}
               >
                 {/* FRONT */}
@@ -192,7 +198,7 @@ export default function Carousel3D({ items, className }: Props) {
                 {/* BACK */}
                 <div
                   className="absolute inset-0 rounded-[28px] [backface-visibility:hidden] overflow-hidden"
-                  style={{ transform: "rotateY(180deg)" }}
+                  style={{ transform: "rotateY(180deg) translateZ(0.01px)" }}
                 >
                   <div className="h-full w-full bg-gradient-to-b from-slate-50 to-slate-200/60 p-5 sm:p-6 flex flex-col">
                     {item.eyebrow ? (
@@ -235,16 +241,14 @@ export default function Carousel3D({ items, className }: Props) {
                       PAYPAL • CARD CHECKOUT VIA PAYHIP • INSTANT DOWNLOAD
                     </p>
 
-                    <div className="mt-4">
-                      {item.url ? (
-                        <a
-                          href={item.url}
-                          className="w-full inline-flex items-center justify-center rounded-full bg-slate-900 px-6 py-3 text-sm font-semibold tracking-[0.12em] text-white hover:bg-slate-800"
-                        >
-                          GET {item.name.toUpperCase()}
-                        </a>
-                      ) : null}
-                    </div>
+                    {item.url ? (
+                      <a
+                        href={item.url}
+                        className="mt-4 w-full inline-flex items-center justify-center rounded-full bg-slate-900 px-6 py-3 text-sm font-semibold tracking-[0.12em] text-white hover:bg-slate-800"
+                      >
+                        GET {item.name.toUpperCase()}
+                      </a>
+                    ) : null}
                   </div>
                 </div>
               </div>
