@@ -171,7 +171,7 @@ export default function Carousel3D({ items, className }: Props) {
 
                     /* ULTRA-WHITE FROSTED GLASS */
                     background:
-                      "linear-gradient(180deg, rgba(255,255,255,0.99) 0%, rgba(255,255,255,0.985) 40%, rgba(255,255,255,0.98) 100%)",
+                      "linear-gradient(180deg, rgba(255,255,255,0.97) 0%, rgba(255,255,255,0.975) 40%, rgba(255,255,255,0.98) 100%)",
                     backdropFilter: "blur(6px)",
                     WebkitBackdropFilter: "blur(6px)",
                     border: "1px solid rgba(15,23,42,0.06)",
@@ -214,7 +214,7 @@ export default function Carousel3D({ items, className }: Props) {
                         slug={item.slug}
                         title={item.name}
                         price={parseFloat(item.price.replace(/[^0-9.]/g, ""))}
-                        className="block w-full text-center rounded-full bg-slate-900 text-white px-6 py-3 text-sm font-semibold tracking-[0.12em] shadow-md active:scale-95"
+                        className="block w-full text-center rounded-full bg-slate-900 text-white px-4 py-2.5 text-xs sm:text-sm font-semibold tracking-[0.10em] max-w-fit mx-auto shadow-md active:scale-95"
                       >
                         {`GET ${
                           item.name
@@ -235,7 +235,7 @@ export default function Carousel3D({ items, className }: Props) {
       <div className="absolute left-1/2 -translate-x-1/2" style={{ top: dims.h + 16 }}>
         <button
           onClick={() => setShowBack((s) => !s)}
-          className="rounded-full bg-slate-900 text-white px-6 py-3 text-sm font-semibold tracking-[0.12em] shadow-md active:scale-95"
+          className="rounded-full bg-slate-900 text-white px-4 py-2.5 text-xs sm:text-sm font-semibold tracking-[0.10em] max-w-fit mx-auto shadow-md active:scale-95"
         >
           {showBack ? "VIEW COVER" : "VIEW DETAILS"}
         </button>
