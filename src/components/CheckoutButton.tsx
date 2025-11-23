@@ -1,44 +1,32 @@
 "use client";
 
-import React from "react";
-
 type Props = {
-  payhipCode: string;
+  payhipCode: string;            // e.g. "Pgrso"
   slug?: string;
   title?: string;
   price?: number;
-  className?: string;
-  children?: React.ReactNode;
+  className?: string;            // let callers style it (Tailwind, etc.)
+  children: React.ReactNode;     // e.g. "GET ALL-IN-ONE BUNDLE"
 };
 
 export default function CheckoutButton({
   payhipCode,
-  slug,
-  title,
-  className,
+  className = "",
   children,
 }: Props) {
-  // Build the label: prefer our forced text, fallback to children if needed
-  let base =
-    slug === "all-in-one-toolkit-bundle"
-      ? "GET ALL-IN-ONE-BUNDLE"
-      : title
-      ? `GET ${title}`
-      : typeof children === "string"
-      ? children
-      : "GET";
-
-  const label = String(base).toUpperCase().trim();
+  // Payhip wants <a href="https://payhip.com/b/CODE" class="payhip-buy-button" data-product="CODE">
   const href = `https://payhip.com/b/${payhipCode}`;
 
   return (
     <a
       href={href}
-      target="_blank"
-      rel="noopener noreferrer"
-      className={`${className ?? ""} uppercase`}
+      className={`payhip-buy-button ${className}`}
+      data-product={payhipCode}
+      data-theme="none"          // keep our styling; Payhip won’t skin it
+      aria-label="Secure checkout via Payhip"
+      rel="noopener"
     >
-      {label}
+      {children}
     </a>
   );
 }
