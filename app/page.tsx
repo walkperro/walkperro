@@ -110,7 +110,7 @@ export default function HomePage() {
       <div className="mx-auto flex max-w-7xl flex-col px-4 pb-16 pt-10 sm:px-6 lg:px-0">
         {/* Top nav */}
         <header className="mb-10 flex items-center justify-between">
-          <Link href="/" className="text-lg font-semibold tracking-tight">
+          <Link href="/" className="text-lg md:text-base font-semibold tracking-tight">
             <span className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-slate-300 text-sm">
               W
             </span>
@@ -163,15 +163,15 @@ export default function HomePage() {
             </p>
           </div>
 
-          <div className="mt-8 grid grid-cols-1 gap-8 [perspective:1600px] sm:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-8 grid grid-cols-1 gap-8 [perspective:1600px] sm:grid-cols-2 md:grid-cols-3">
             {products.map((product) => {
               const isOpen = openSlug === product.slug;
 
               return (
-                <article key={product.slug} className="rounded-[32px]">
+                <article key={product.slug} className="flex flex-col rounded-[32px] h-full">
                   {/* flip card */}
                   <div
-                    className="relative w-full min-h-[560px] sm:min-h-[520px] md:min-h-[520px] lg:min-h-[520px] md:min-h-[500px] lg:min-h-[480px] rounded-[32px] shadow-md transition-transform duration-500 [transform-style:preserve-3d]"
+                    className="flex-1 relative w-full min-h-[560px] sm:min-h-[520px] md:min-h-[520px] lg:min-h-[520px] md:min-h-[500px] lg:min-h-[480px] rounded-[32px] shadow-md transition-transform duration-500 [transform-style:preserve-3d]"
                     style={{
                       transform: isOpen ? "rotateY(180deg)" : "rotateY(0deg)",
                     }}
@@ -211,21 +211,21 @@ export default function HomePage() {
                       {/* overlay for readability */}
                       <div className="absolute inset-0 bg-white/80 backdrop-blur-lg rounded-[32px]" />
 
-                      <div className="relative z-10 flex h-full flex-col pt-5 pb-4">
+                      <div className="relative z-10 flex h-full flex-col overflow-y-auto pt-5 pb-4 md:pb-3">
                         <div className="px-4 text-center">
-                          <p className="text-[11px] font-semibold uppercase tracking-[0.3em] text-slate-500">
+                          <p className="text-[11px] md:text-[10px] font-semibold uppercase tracking-[0.3em] text-slate-500">
                             {product.eyebrow}
                           </p>
-                          <h2 className="mt-2 text-lg font-semibold tracking-tight text-slate-900">
+                          <h2 className="mt-2 text-lg md:text-base font-semibold tracking-tight text-slate-900">
                             {product.name}
                           </h2>
-                          <p className="mt-1 text-sm font-medium text-slate-800">
+                          <p className="mt-1 text-sm md:text-xs font-medium text-slate-800">
                             {product.price}
                           </p>
                         </div>
 
-                        <div className="mt-5 flex-1 space-y-5 px-4 text-sm text-slate-800">
-                          <ul className="space-y-2">
+                        <div className="mt-5 flex-1 space-y-5 md:space-y-3 px-4 text-sm md:text-xs text-slate-800">
+                          <ul className="space-y-2 md:space-y-1.5">
                             {product.bullets.map((item) => (
                               <li key={item} className="flex gap-2">
                                 <span className="mt-[6px] h-[3px] w-[3px] rounded-full bg-emerald-500" />
@@ -235,12 +235,12 @@ export default function HomePage() {
                           </ul>
 
                           {product.footerLine && (
-                            <p className="text-xs text-slate-600">
+                            <p className="text-xs md:text-[11px] text-slate-600">
                               {product.footerLine}
                             </p>
                           )}
 
-                          <p className="text-[11px] uppercase tracking-[0.25em] text-slate-500">
+                          <p className="text-[11px] md:text-[10px] uppercase tracking-[0.25em] text-slate-500">
                             PayPal + card checkout via Payhip · instant download
                           </p>
                         </div>
@@ -251,7 +251,7 @@ export default function HomePage() {
                             href={product.payhipUrl}
                             data-product={product.payhipProductId}
                             data-theme="none"
-                            className="payhip-buy-button inline-flex w-full items-center justify-center rounded-full bg-slate-900 px-6 py-3 text-xs font-semibold uppercase tracking-[0.2em] text-white hover:bg-slate-800"
+                            className="payhip-buy-button inline-flex w-full items-center justify-center rounded-full bg-slate-900 px-6 md:px-4 py-3 md:py-2 text-xs md:text-[10px] font-semibold uppercase tracking-[0.2em] text-white hover:bg-slate-800"
                           >
                             {product.slug === "all-in-one"
                               ? "Get All-In-One Bundle"
@@ -263,7 +263,7 @@ export default function HomePage() {
                           <button
                             type="button"
                             onClick={() => setOpenSlug(null)}
-                            className="inline-flex w-full items-center justify-center rounded-full border border-slate-300 bg-white/90 px-6 py-3 text-xs font-semibold uppercase tracking-[0.2em] text-slate-600 hover:border-slate-400 hover:text-slate-800"
+                            className="inline-flex w-full items-center justify-center rounded-full border border-slate-300 bg-white/90 px-6 md:px-4 py-3 md:py-2 text-xs md:text-[10px] font-semibold uppercase tracking-[0.2em] text-slate-600 hover:border-slate-400 hover:text-slate-800"
                           >
                             Back
                           </button>
@@ -273,7 +273,7 @@ export default function HomePage() {
                   </div>
 
                   {/* CTA bar under the card */}
-                  <div className="flex justify-center pt-4">
+                  <div className="flex justify-center pt-4 h-[56px]">
                     <button
                       type="button"
                       onClick={() =>
