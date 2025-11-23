@@ -113,7 +113,7 @@ export default function Carousel3D({ items, className }: Props) {
               >
                 {/* FRONT */}
                 <div
-                  className="absolute inset-0 rounded-[28px] overflow-hidden"
+                  className="absolute inset-0 rounded-[28px] overflow-hidden wp-card-back"
                   style={{
                     background: "white",
                     backfaceVisibility: "hidden",
@@ -163,7 +163,7 @@ export default function Carousel3D({ items, className }: Props) {
                     <h3 className="mt-1 text-xl font-semibold text-slate-900">{item.name}</h3>
                     <p className="mt-1 text-slate-700">{item.price}</p>
 
-                    <ul className="mt-4 space-y-2 text-[0.95rem] text-slate-700">
+                    <ul  className="mt-4 space-y-2 text-[0.95rem] text-slate-700 wp-bullets">
                       {item.bullets.map((b) => (
                         <li key={b} className="flex gap-2">
                           <span className="mt-[0.5rem] h-[3px] w-[3px] rounded-full bg-emerald-600/80" />
