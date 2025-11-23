@@ -155,16 +155,19 @@ export default function HomePage() {
         </section>
 
         {/* Exhibit */}
-          <section id="exhibit" className="mt-10 sm:mt-12">
-            <div className="flex flex-wrap items-baseline justify-between gap-3">
-              <p className="text-xs font-semibold uppercase tracking-[0.35em] text-slate-500">The Exhibit</p>
-              <p className="text-xs text-slate-400">5 pieces • instant access • lifetime updates</p>
-            </div>
+        <section id="exhibit" className="mt-14">
+          <div className="flex flex-wrap items-baseline justify-between gap-3">
+            <p className="text-xs font-semibold uppercase tracking-[0.35em] text-slate-500">
+              The Exhibit
+            </p>
+            <p className="text-xs text-slate-400">
+              5 pieces • instant access • lifetime updates
+            </p>
+          </div>
 
-            <div className="mt-8">
-              <Carousel3D items={products.map(p => ({ slug: p.slug, name: p.name, price: p.price, coverImage: p.coverImage }))} />
-            </div>
-          </section>
+          <Carousel3D products={products} />
+        </section>
+
         {/* Bundle anchor */}
         <section id="bundle" className="mt-20" aria-hidden="true" />
       </div>
