@@ -3,11 +3,12 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 
 type Item = {
+  slug?: string;
   name: string;
   coverImage: string | null;
   price?: string;
-  url?: string; // optional buy link
-  bullets?: string[]; // optional quick points
+  url?: string; // buy link
+  bullets?: string[]; // details
 };
 type Props = { items: Item[]; className?: string };
 
@@ -53,7 +54,7 @@ export default function Carousel3D({ items, className }: Props) {
   const TILT = 50;
 
   const go = (dir: -1 | 1) => {
-    setFlippedIndex(null); // reset flip when moving
+    setFlippedIndex(null);
     setIndex((i) => (i + dir + items.length) % items.length);
   };
 
@@ -62,14 +63,14 @@ export default function Carousel3D({ items, className }: Props) {
       ref={shellRef}
       className={`relative mx-auto w-full max-w-6xl ${className ?? ""}`}
       style={{
-        height: dims.h + 120, // room for helper + arrows
+        height: dims.h + 120,
         perspective: 1400,
         perspectiveOrigin: "50% 18%",
         overflow: "visible",
-        marginTop: "clamp(8px, 1.5vh, 16px)", // sits tight under title
+        marginTop: "clamp(8px, 1.5vh, 16px)",
       }}
     >
-      {/* edge fades aligned to the card block */}
+      {/* edge fades */}
       <div
         className="pointer-events-none absolute inset-x-0"
         style={{
@@ -88,7 +89,7 @@ export default function Carousel3D({ items, className }: Props) {
         />
       </div>
 
-      {/* stage (exactly card height; no extra whitespace) */}
+      {/* stage */}
       <div
         className="absolute inset-x-0"
         style={{
@@ -142,7 +143,7 @@ export default function Carousel3D({ items, className }: Props) {
                 pointerEvents: dist <= 1 ? "auto" : "none",
               }}
             >
-              {/* 3D Flip container */}
+              {/* Flip container */}
               <div
                 className="relative h-full w-full [transform-style:preserve-3d] rounded-[28px]"
                 style={{
@@ -181,19 +182,19 @@ export default function Carousel3D({ items, className }: Props) {
                   )}
                 </div>
 
-                {/* BACK */}
-                <div className="absolute inset-0 rotate-y-180 rounded-[28px] [backface-visibility:hidden] overflow-hidden">
+                {/* BACK — note: real 3D rotateY so it hides when not flipped */}
+                <div
+                  className="absolute inset-0 rounded-[28px] [backface-visibility:hidden] overflow-hidden"
+                  style={{ transform: "rotateY(180deg)" }}
+                >
                   <div className="h-full w-full bg-white/95 backdrop-blur p-6 flex flex-col justify-between">
                     <div>
-                      <p className="text-xs tracking-[0.2em] text-slate-500 uppercase">
-                        WalkPerro
-                      </p>
-                      <h3 className="mt-2 text-2xl font-semibold text-slate-900">
+                      <h3 className="text-2xl font-semibold text-slate-900">
                         {item.name}
                       </h3>
                       {item.bullets?.length ? (
                         <ul className="mt-4 space-y-2 text-slate-700 text-sm list-disc list-inside">
-                          {item.bullets.slice(0, 5).map((b, j) => (
+                          {item.bullets.slice(0, 6).map((b, j) => (
                             <li key={j}>{b}</li>
                           ))}
                         </ul>
@@ -210,16 +211,12 @@ export default function Carousel3D({ items, className }: Props) {
                         >
                           Buy now
                         </a>
-                      ) : (
-                        <span className="text-slate-400 text-sm">
-                          Link coming soon
-                        </span>
-                      )}
+                      ) : null}
                     </div>
                   </div>
                 </div>
 
-                {/* Click target (only flips active slide) */}
+                {/* Click target to flip (only active slide responds) */}
                 <button
                   type="button"
                   aria-label="Flip card"
@@ -235,7 +232,7 @@ export default function Carousel3D({ items, className }: Props) {
         })}
       </div>
 
-      {/* helper flip text button (just under the cards, above arrows) */}
+      {/* Helper text button */}
       <div
         className="absolute left-1/2 -translate-x-1/2"
         style={{ top: Math.max(dims.h - 36, 12) }}
@@ -249,7 +246,7 @@ export default function Carousel3D({ items, className }: Props) {
         </button>
       </div>
 
-      {/* controls: always directly under the cards (mobile & desktop) */}
+      {/* Arrows */}
       <div
         className="pointer-events-auto absolute left-1/2 -translate-x-1/2 flex gap-3"
         style={{ top: dims.h + 16 }}
