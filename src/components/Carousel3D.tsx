@@ -209,13 +209,22 @@ export default function Carousel3D({ items, className }: Props) {
                     </p>
 
                     <div className="mt-auto pt-3 sm:pt-4">
-                      <CheckoutButton
+                      
+<CheckoutButton
                         payhipCode={item.payhipProductId}
                         slug={item.slug}
                         title={item.name}
                         price={parseFloat(item.price.replace(/[^0-9.]/g, ""))}
                         className="block w-full text-center rounded-full bg-slate-900 text-white px-4 py-2.5 text-xs sm:text-sm font-semibold tracking-[0.10em] max-w-[320px] sm:max-w-fit mx-auto text-center whitespace-normal leading-tight shadow-md active:scale-95 uppercase"
-                       />
+                       >
+  {item.slug==="all-in-one" ? "GET ALL-IN-ONE BUNDLE"
+    : item.slug==="10-quick-codes" ? "GET 10 QUICK CODES"
+    : item.slug==="chatgpt-cash-hacks" ? "GET CHATGPT CASH HACKS"
+    : item.slug==="wealth-hacks" ? "GET WALKPERRO WEALTH HACKS"
+    : item.slug==="money-moves" ? "GET MONEY MOVES TOOLKIT"
+    : `GET ${item.name.toUpperCase()}`}
+</CheckoutButton>
+
                     </div>
                   </div>
                 </div>
