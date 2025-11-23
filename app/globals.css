@@ -103,3 +103,23 @@ a:hover {
   .wp-card-back h3 { font-size: clamp(20px, 2.6vw, 28px); }
   .wp-card-back .wp-bullets { font-size: clamp(14px, 1.2vw, 16px); }
 }
+
+/* ——— WalkPerro: Carousel back-face legibility ——— */
+.wp-card-back {
+  background: linear-gradient(180deg, rgba(255,255,255,0.96) 0%, rgba(255,255,255,0.90) 60%, rgba(255,255,255,0.86) 100%);
+  -webkit-backdrop-filter: saturate(1.2) blur(4px);
+  backdrop-filter: saturate(1.2) blur(4px);
+}
+.wp-card-back h3 {
+  font-size: clamp(18px, 5.0vw, 24px);
+  line-height: 1.22;
+  letter-spacing: -0.01em;
+}
+.wp-card-back .wp-price { font-size: clamp(14px, 4.2vw, 18px); line-height: 1.2; font-weight: 600; }
+.wp-card-back .wp-bullets { font-size: clamp(13px, 3.6vw, 15px); line-height: 1.5; }
+.wp-card-back .wp-cta { margin-top: 14px; }
+
+@media (min-width: 768px) {
+  .wp-card-back h3 { font-size: clamp(20px, 2.6vw, 28px); }
+  .wp-card-back .wp-bullets { font-size: clamp(14px, 1.2vw, 16px); }
+}
