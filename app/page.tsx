@@ -147,6 +147,10 @@ export default function HomePage() {
               GET THE BUNDLE
             </a>
           </div>
+
+  <ReviewMarquee />
+
+
         </section>
 
         {/* Exhibit */}
