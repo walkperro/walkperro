@@ -3,17 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import CheckoutButton from "@/components/CheckoutButton";
 
-type Item = {
-  slug: string;
-  name: string;
-  eyebrow: string;
-  price: string;
-  coverImage: string | null;
-  payhipUrl: string;
-  payhipProductId: string;
-  bullets: string[];
-  footerLine?: string;
-};
+type Item = { slug: string; name: string; eyebrow: string; price: string; coverImage: string | null; payhipUrl: string; payhipProductId: string; bullets: string[]; footerLine?: string; };
 
 type Props = { items: Item[]; className?: string };
 

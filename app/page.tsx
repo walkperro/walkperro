@@ -168,13 +168,8 @@ export default function HomePage() {
           </div>
 
           <div className="mt-8">
-            <Carousel3D
-              items={products.map((p) => ({
-                slug: p.slug,
-                name: p.name,
-                price: p.price,
-                coverImage: p.coverImage,
-              }))}
+            <Carousel3D items={products}
+              
             />
           </div>
         </section>
