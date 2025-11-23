@@ -2,16 +2,8 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 
-type Item = {
-  name: string;
-  coverImage: string | null;
-  price?: string;
-};
-
-type Props = {
-  items: Item[];
-  className?: string;
-};
+type Item = { name: string; coverImage: string | null; price?: string };
+type Props = { items: Item[]; className?: string };
 
 export default function Carousel3D({ items, className }: Props) {
   const [index, setIndex] = useState(0);
@@ -44,10 +36,8 @@ export default function Carousel3D({ items, className }: Props) {
     () => (dims.isMobile ? Math.round(dims.w * 0.65) : Math.round(dims.w * 0.72)),
     [dims.w, dims.isMobile]
   );
-
-  // Depth controls how far side slides recede
   const DEPTH = useMemo(() => (dims.isMobile ? 200 : 260), [dims.isMobile]);
-  const TILT  = 50; // max rotateY angle
+  const TILT = 50;
 
   const go = (dir: -1 | 1) => setIndex((i) => (i + dir + items.length) % items.length);
 
@@ -56,17 +46,19 @@ export default function Carousel3D({ items, className }: Props) {
       ref={shellRef}
       className={`relative mx-auto w-full max-w-6xl ${className ?? ""}`}
       style={{
-        height: "62dvh",
+        // make the shell only as tall as the card + space for buttons
+        height: dims.h + 88,
         perspective: 1400,
         perspectiveOrigin: "50% 18%",
         overflow: "visible",
+        marginTop: "clamp(8px, 1.5vh, 16px)", // sits right under the title
       }}
     >
-      {/* edge fade masks */}
+      {/* edge fades aligned to the card block */}
       <div
         className="pointer-events-none absolute inset-x-0"
         style={{
-          top: "calc(50% - 2px)",
+          top: dims.h / 2,
           height: dims.h + 4,
           transform: "translateY(-50%)",
         }}
@@ -81,25 +73,20 @@ export default function Carousel3D({ items, className }: Props) {
         />
       </div>
 
-      {/* card stage */}
+      {/* stage (exactly card height; no extra whitespace) */}
       <div
-        className="absolute inset-x-0 top-1/2 -translate-y-1/2"
-        style={{ height: dims.h, pointerEvents: "none", transformStyle: "preserve-3d" }}
+        className="absolute inset-x-0"
+        style={{ top: 0, height: dims.h, pointerEvents: "none", transformStyle: "preserve-3d" }}
       >
         {items.map((item, i) => {
-          // wrap-around shortest distance from current index
           const rel = i - index;
           const half = Math.floor(items.length / 2);
           const shortest = rel > half ? rel - items.length : rel < -half ? rel + items.length : rel;
 
           const dist = Math.abs(shortest);
           const x = shortest * SPACING;
-
-          // rotation & depth
           const angle = -Math.max(-TILT, Math.min(TILT, shortest * (TILT * 0.9)));
           const z = -dist * DEPTH;
-
-          // subtle scale & fade on sides
           const scale = Math.max(0.86, 1 - dist * 0.06);
           const opacity = Math.max(0.55, 1 - dist * 0.18);
 
@@ -119,7 +106,7 @@ export default function Carousel3D({ items, className }: Props) {
                 `,
                 transition: "transform 520ms cubic-bezier(.22,.61,.36,1)",
                 transformStyle: "preserve-3d",
-                zIndex: 100 - dist, // center on top
+                zIndex: 100 - dist,
                 opacity,
                 pointerEvents: dist <= 1 ? "auto" : "none",
               }}
@@ -154,10 +141,10 @@ export default function Carousel3D({ items, className }: Props) {
         })}
       </div>
 
-      {/* controls */}
+      {/* controls: always directly under the cards (mobile & desktop) */}
       <div
         className="pointer-events-auto absolute left-1/2 -translate-x-1/2 flex gap-3"
-        style={{ bottom: "clamp(10px,3dvh,40px)" }}
+        style={{ top: dims.h + 16 }}
       >
         <button
           aria-label="Previous"
