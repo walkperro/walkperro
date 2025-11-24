@@ -1,281 +1,273 @@
+"use client";
+
 import Link from "next/link";
-
-type Service = {
-  title: string;
-  blurb: string;
-  bullets: string[];
-  cta: { label: string; href: string };
-};
-
-const services: Service[] = [
-  {
-    title: "Website Creation (Next.js / Shopify)",
-    blurb: "Aesthetic, fast, conversion-ready sites. Built to look premium and sell quietly.",
-    bullets: [
-      "Next.js or Shopify setup",
-      "Mobile-first, speed optimized",
-      "Clean product/offer pages",
-    ],
-    cta: { label: "Start build →", href: "#start" },
-  },
-  {
-    title: "SEO + Analytics Setup",
-    blurb: "Search visibility + tracking that actually informs your moves.",
-    bullets: [
-      "Titles, meta, OpenGraph",
-      "Product JSON-LD",
-      "GA4 + events + dashboards",
-    ],
-    cta: { label: "Optimize now →", href: "#start" },
-  },
-  {
-    title: "Brand Identity Kit",
-    blurb: "Minimal, luxury visual system so everything you ship feels intentional.",
-    bullets: [
-      "Palette, type, spacing",
-      "Logo + social skins",
-      "Reusable components",
-    ],
-    cta: { label: "Get your kit →", href: "#start" },
-  },
-  {
-    title: "AI Chatbot Creation & Integration",
-    blurb: "Train a bot on your brand to answer DMs, site chat, FAQs and pre-sell offers.",
-    bullets: [
-      "Knowledge base ingestion",
-      "Tone + guardrails",
-      "Embed/site/DM integration",
-    ],
-    cta: { label: "Add a bot →", href: "#start" },
-  },
-  {
-    title: "Social Media Automation",
-    blurb: "Faceless posting systems that recycle content without feeling spammy.",
-    bullets: [
-      "Auto-post pipelines",
-      "Templates & hooks",
-      "Metrics that matter",
-    ],
-    cta: { label: "Automate posts →", href: "#start" },
-  },
-  {
-    title: "WalkPerro Growth Loop (Affiliate Engine)",
-    blurb: "Tasteful referral flywheel: content → offers → affiliates → compounding traffic.",
-    bullets: [
-      "“What I use” hub pages",
-      "Link routing + tracking",
-      "Email + blog funnel",
-    ],
-    cta: { label: "Install the loop →", href: "#start" },
-  },
-];
-
-const tiers = [
-  {
-    name: "Starter Build",
-    price: "$99/mo",
-    tagline: "Get the basics right, faceless.",
-    features: [
-      "Mini site audit or 1-page landing",
-      "SEO meta & OpenGraph",
-      "GA4 installed + monthly report",
-      "1 async DM strategy session",
-    ],
-    cta: { label: "Choose Starter", href: "#start" },
-    best: false,
-  },
-  {
-    name: "Growth Engine",
-    price: "$249/mo",
-    tagline: "Scale quietly with systems.",
-    features: [
-      "Full SEO pass + indexing",
-      "1 blog post/month (you draft, we polish)",
-      "Auto-posting (1–2 platforms)",
-      "DM support + monthly optimization",
-    ],
-    cta: { label: "Choose Growth", href: "#start" },
-    best: true,
-  },
-  {
-    name: "Brand Domination",
-    price: "$499/mo",
-    tagline: "Your stealth digital team.",
-    features: [
-      "Website build or full rebuild",
-      "SEO + analytics dashboards",
-      "Daily auto-posting system",
-      "Custom AI chatbot",
-      "Growth Loop (affiliate engine) setup",
-      "Priority DM support",
-    ],
-    cta: { label: "Choose Domination", href: "#start" },
-    best: false,
-  },
-];
 
 export default function ServicesPage() {
   return (
     <main className="min-h-screen bg-slate-50 text-slate-900">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-0 py-12">
+      <div className="mx-auto flex max-w-5xl flex-col px-4 pb-24 pt-12 sm:px-6 lg:px-0">
         {/* Hero */}
-        <header className="space-y-4">
+        <section className="space-y-6">
           <p className="text-xs font-semibold uppercase tracking-[0.3em] text-emerald-600">
-            WalkPerro • Solutions
+            WalkPerro Services
           </p>
-          <h1 className="max-w-3xl text-4xl sm:text-5xl font-semibold leading-tight tracking-tight">
-            Build your brand. Automate your income. Stay faceless.
+          <h1 className="max-w-3xl text-4xl font-semibold leading-tight tracking-tight sm:text-5xl text-left">
+            <span className="block">Clean systems.</span>
+            <span className="block">Quiet execution.</span>
+            <span className="block">Real results.</span>
           </h1>
           <p className="max-w-2xl text-[15px] leading-relaxed text-slate-600">
-            Asynchronous, text-only delivery. No calls. Clean systems that compound quietly.
+            Clean systems that compound: storefronts, SEO, analytics, social automations,
+            chatbots, and affiliate engines—delivered fast and clearly.
+            Everything handled through clean, organized messaging.
           </p>
 
-          <div className="mt-3 flex flex-wrap gap-3">
+          <div className="mt-4 flex flex-wrap items-center gap-4">
             <a
-              href="#packages"
-              className="inline-flex items-center justify-center rounded-full bg-slate-900 px-6 py-3 text-sm font-semibold tracking-[0.15em] text-white hover:bg-slate-800"
+              href="#tiers"
+              className="inline-flex items-center justify-center rounded-full bg-slate-900 px-7 py-3 text-sm font-semibold tracking-[0.15em] text-white transition hover:bg-slate-800"
             >
               SEE PACKAGES
             </a>
             <a
               href="#start"
-              className="inline-flex items-center justify-center rounded-full border border-slate-300 bg-white px-6 py-3 text-sm font-semibold tracking-[0.15em] text-slate-700 hover:border-slate-400"
+              className="inline-flex items-center justify-center rounded-full border border-slate-300 bg-white px-7 py-3 text-sm font-semibold tracking-[0.15em] text-slate-700 transition hover:border-slate-400"
             >
               START YOUR PROJECT
             </a>
           </div>
-        </header>
-
-        {/* Services grid */}
-        <section className="mt-14">
-          <div className="flex items-baseline justify-between flex-wrap gap-3">
-            <p className="text-xs font-semibold uppercase tracking-[0.35em] text-slate-500">Core Services</p>
-            <p className="text-xs text-slate-400">Asynchronous • DM-based • High taste</p>
-          </div>
-
-          <div className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {services.map((s) => (
-              <article key={s.title} className="rounded-3xl border border-slate-200 bg-white shadow-sm">
-                <div className="p-6">
-                  <h3 className="text-lg font-semibold tracking-tight">{s.title}</h3>
-                  <p className="mt-2 text-sm text-slate-600">{s.blurb}</p>
-                  <ul className="mt-4 space-y-2 text-sm text-slate-700">
-                    {s.bullets.map((b) => (
-                      <li key={b} className="flex gap-2">
-                        <span className="mt-[6px] h-[3px] w-[3px] rounded-full bg-emerald-500" />
-                        <span>{b}</span>
-                      </li>
-                    ))}
-                  </ul>
-                  <div className="mt-5">
-                    <a
-                      href={s.cta.href}
-                      className="inline-flex items-center justify-center rounded-full bg-slate-900 px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.18em] text-white hover:bg-slate-800"
-                    >
-                      {s.cta.label}
-                    </a>
-                  </div>
-                </div>
-              </article>
-            ))}
-          </div>
         </section>
 
-        {/* Pricing */}
-        <section id="packages" className="mt-20">
-          <div className="flex items-baseline justify-between flex-wrap gap-3">
-            <p className="text-xs font-semibold uppercase tracking-[0.35em] text-slate-500">Subscription Tiers</p>
-            <p className="text-xs text-slate-400">Predictable billing • Faceless delivery</p>
-          </div>
-
-          <div className="mt-8 grid grid-cols-1 gap-6 lg:grid-cols-3">
-            {tiers.map((t) => (
-              <article
-                key={t.name}
-                className={`rounded-3xl border bg-white shadow-sm ${
-                  t.best ? "border-emerald-400 ring-1 ring-emerald-200" : "border-slate-200"
-                }`}
-              >
-                <div className="p-6 flex h-full flex-col">
-                  <div className="flex items-center justify-between">
-                    <h3 className="text-lg font-semibold tracking-tight">{t.name}</h3>
-                    {t.best && (
-                      <span className="rounded-full bg-emerald-100 px-2 py-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-emerald-700">
-                        Best Value
-                      </span>
-                    )}
-                  </div>
-                  <p className="mt-1 text-sm text-slate-600">{t.tagline}</p>
-                  <p className="mt-3 text-2xl font-semibold">{t.price}</p>
-                  <ul className="mt-4 space-y-2 text-sm text-slate-700">
-                    {t.features.map((f) => (
-                      <li key={f} className="flex gap-2">
-                        <span className="mt-[6px] h-[3px] w-[3px] rounded-full bg-emerald-500" />
-                        <span>{f}</span>
-                      </li>
-                    ))}
-                  </ul>
-                  <div className="mt-auto pt-5">
-                    <a
-                      href="#start"
-                      className="block w-full text-center rounded-full bg-slate-900 px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.18em] text-white hover:bg-slate-800"
-                    >
-                      {t.cta.label}
-                    </a>
-                  </div>
-                </div>
-              </article>
-            ))}
-          </div>
-        </section>
-
-        {/* Process (faceless) */}
-        <section className="mt-20">
-          <div className="flex items-baseline justify-between flex-wrap gap-3">
-            <p className="text-xs font-semibold uppercase tracking-[0.35em] text-slate-500">Process</p>
-            <p className="text-xs text-slate-400">Async • Text-only • Clean handoff</p>
-          </div>
-
-          <ol className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-3">
-            {[
-              ["Submit brand & goals", "Upload links, screenshots and outcomes you want."],
-              ["We build the system", "Heads-down work. You stay faceless. We ship assets + docs."],
-              ["Scale quietly", "Reports, tweaks, and compounding loops month after month."],
-            ].map(([title, body], i) => (
-              <li key={i} className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
-                <div className="flex items-center gap-3">
-                  <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-emerald-600 text-white text-xs">
-                    {i + 1}
-                  </span>
-                  <h4 className="font-semibold tracking-tight">{title}</h4>
-                </div>
-                <p className="mt-2 text-sm text-slate-600">{body}</p>
-              </li>
-            ))}
-          </ol>
-        </section>
-
-        {/* CTA / Start */}
-        <section id="start" className="mt-20 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
-          <h3 className="text-lg font-semibold tracking-tight">Start your project</h3>
-          <p className="mt-2 text-sm text-slate-600">
-            100% asynchronous. No calls. After checkout you’ll receive a short intake form and a private client portal link.
+        {/* Core services */}
+        <section className="mt-14 space-y-6">
+          <p className="text-xs font-semibold uppercase tracking-[0.35em] text-slate-500">
+            Core Services
           </p>
-          <div className="mt-4 flex flex-wrap gap-3">
-            <Link
-              href="/#bundle"
-              className="inline-flex items-center justify-center rounded-full bg-slate-900 px-6 py-3 text-sm font-semibold tracking-[0.15em] text-white hover:bg-slate-800"
-            >
-              VIEW DIGITAL PRODUCTS
-            </Link>
-            <a
-              href="#packages"
-              className="inline-flex items-center justify-center rounded-full border border-slate-300 bg-white px-6 py-3 text-sm font-semibold tracking-[0.15em] text-slate-700 hover:border-slate-400"
-            >
-              CHOOSE A SUBSCRIPTION
-            </a>
+
+          <div className="grid gap-6 md:grid-cols-2">
+            {/* Online Store Setup */}
+            <article className="rounded-3xl bg-white p-7 shadow-[0_10px_30px_-12px_rgba(0,0,0,0.15)] ring-1 ring-slate-100">
+              <h2 className="text-2xl font-semibold">
+                Online Store Setup (Next.js, Payhip, Shopify)
+              </h2>
+              <p className="mt-3 text-[15px] leading-relaxed text-slate-600">
+                Aesthetic, fast, conversion-ready storefronts. Built to look premium and sell quietly.
+              </p>
+              <ul className="mt-5 space-y-2 text-[15px] text-slate-700">
+                <li>• Framework/setup tailored to your stack</li>
+                <li>• Mobile-first, speed-optimized</li>
+                <li>• Clean product/offer pages</li>
+              </ul>
+              <a
+                href="#start"
+                className="mt-6 inline-flex items-center justify-center rounded-full bg-slate-900 px-6 py-2.5 text-sm font-semibold tracking-[0.10em] text-white hover:bg-slate-800"
+              >
+                START BUILD →
+              </a>
+            </article>
+
+            {/* SEO + Analytics */}
+            <article className="rounded-3xl bg-white p-7 shadow-[0_10px_30px_-12px_rgba(0,0,0,0.15)] ring-1 ring-slate-100">
+              <h2 className="text-2xl font-semibold">SEO + Analytics Setup</h2>
+              <p className="mt-3 text-[15px] leading-relaxed text-slate-600">
+                Search visibility + tracking that actually informs your moves.
+              </p>
+              <ul className="mt-5 space-y-2 text-[15px] text-slate-700">
+                <li>• Titles, meta, OpenGraph</li>
+                <li>• Product JSON-LD</li>
+                <li>• GA4 + events + dashboards</li>
+              </ul>
+              <a
+                href="#start"
+                className="mt-6 inline-flex items-center justify-center rounded-full bg-slate-900 px-6 py-2.5 text-sm font-semibold tracking-[0.10em] text-white hover:bg-slate-800"
+              >
+                IMPROVE SEO →
+              </a>
+            </article>
+
+            {/* Brand Kit */}
+            <article className="rounded-3xl bg-white p-7 shadow-[0_10px_30px_-12px_rgba(0,0,0,0.15)] ring-1 ring-slate-100">
+              <h2 className="text-2xl font-semibold">Brand Identity Kit</h2>
+              <p className="mt-3 text-[15px] leading-relaxed text-slate-600">
+                Colors, type, iconography, and a tight aesthetic system.
+              </p>
+              <ul className="mt-5 space-y-2 text-[15px] text-slate-700">
+                <li>• Logo marks + usage</li>
+                <li>• Color + type scale</li>
+                <li>• Social + ad templates</li>
+              </ul>
+              <a
+                href="#start"
+                className="mt-6 inline-flex items-center justify-center rounded-full bg-slate-900 px-6 py-2.5 text-sm font-semibold tracking-[0.10em] text-white hover:bg-slate-800"
+              >
+                DESIGN MY KIT →
+              </a>
+            </article>
+
+            {/* Chatbot */}
+            <article className="rounded-3xl bg-white p-7 shadow-[0_10px_30px_-12px_rgba(0,0,0,0.15)] ring-1 ring-slate-100">
+              <h2 className="text-2xl font-semibold">AI Chatbot (Build + Integration)</h2>
+              <p className="mt-3 text-[15px] leading-relaxed text-slate-600">
+                A trained assistant to answer questions, capture leads, and guide purchases.
+              </p>
+              <ul className="mt-5 space-y-2 text-[15px] text-slate-700">
+                <li>• Trained on your brand content</li>
+                <li>• Website or DM integration</li>
+                <li>• Conversational flows that convert</li>
+              </ul>
+              <a
+                href="#start"
+                className="mt-6 inline-flex items-center justify-center rounded-full bg-slate-900 px-6 py-2.5 text-sm font-semibold tracking-[0.10em] text-white hover:bg-slate-800"
+              >
+                ADD A CHATBOT →
+              </a>
+            </article>
+
+            {/* Social Automation */}
+            <article className="rounded-3xl bg-white p-7 shadow-[0_10px_30px_-12px_rgba(0,0,0,0.15)] ring-1 ring-slate-100">
+              <h2 className="text-2xl font-semibold">Social Automation</h2>
+              <p className="mt-3 text-[15px] leading-relaxed text-slate-600">
+                A light posting engine to keep you visible without burnout.
+              </p>
+              <ul className="mt-5 space-y-2 text-[15px] text-slate-700">
+                <li>• Content calendars + hooks</li>
+                <li>• Templates that fit your style</li>
+                <li>• Auto-posting on 1–2 platforms</li>
+              </ul>
+              <a
+                href="#start"
+                className="mt-6 inline-flex items-center justify-center rounded-full bg-slate-900 px-6 py-2.5 text-sm font-semibold tracking-[0.10em] text-white hover:bg-slate-800"
+              >
+                SET UP POSTS →
+              </a>
+            </article>
+
+            {/* Affiliate Engine */}
+            <article className="rounded-3xl bg-white p-7 shadow-[0_10px_30px_-12px_rgba(0,0,0,0.15)] ring-1 ring-slate-100">
+              <h2 className="text-2xl font-semibold">Affiliate Engine</h2>
+              <p className="mt-3 text-[15px] leading-relaxed text-slate-600">
+                Tasteful loops that turn content and traffic into recurring commissions.
+              </p>
+              <ul className="mt-5 space-y-2 text-[15px] text-slate-700">
+                <li>• Landing + “What I use” sections</li>
+                <li>• Link management + UTMs</li>
+                <li>• Subtle placement, high trust</li>
+              </ul>
+              <a
+                href="#start"
+                className="mt-6 inline-flex items-center justify-center rounded-full bg-slate-900 px-6 py-2.5 text-sm font-semibold tracking-[0.10em] text-white hover:bg-slate-800"
+              >
+                BUILD MY LOOP →
+              </a>
+            </article>
           </div>
         </section>
+
+        {/* Subscription tiers */}
+        <section id="tiers" className="mt-20 space-y-6">
+          <p className="text-xs font-semibold uppercase tracking-[0.35em] text-slate-500">
+            Subscription Tiers
+          </p>
+          <p className="text-sm text-slate-500">
+            Predictable billing • Effective planning
+          </p>
+
+          <div className="mt-2 grid gap-6 md:grid-cols-2">
+            {/* Starter */}
+            <article className="rounded-3xl bg-white p-7 shadow-[0_10px_30px_-12px_rgba(0,0,0,0.15)] ring-1 ring-slate-100">
+              <h3 className="text-xl font-semibold">Starter Build</h3>
+              <p className="mt-1 text-slate-600">For people who just need direction + light setup.</p>
+              <p className="mt-4 text-3xl font-semibold">$99/mo</p>
+              <ul className="mt-5 space-y-2 text-[15px] text-slate-700">
+                <li>• Mini site audit or 1-page landing</li>
+                <li>• SEO meta & OpenGraph</li>
+                <li>• GA4 installed + monthly report</li>
+                <li>• 1 DM strategy session</li>
+              </ul>
+              <a
+                href="#start"
+                className="mt-6 inline-flex items-center justify-center rounded-full bg-slate-900 px-6 py-2.5 text-sm font-semibold tracking-[0.10em] text-white hover:bg-slate-800"
+              >
+                CHOOSE STARTER
+              </a>
+            </article>
+
+            {/* Growth */}
+            <article className="rounded-3xl border border-emerald-200 bg-white p-7 shadow-[0_10px_30px_-12px_rgba(0,0,0,0.15)]">
+              <div className="mb-2 inline-flex items-center rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold text-emerald-700">
+                BEST VALUE
+              </div>
+              <h3 className="text-xl font-semibold">Growth Engine</h3>
+              <p className="mt-1 text-slate-600">For creators or businesses ready to expand.</p>
+              <p className="mt-4 text-3xl font-semibold">$249/mo</p>
+              <ul className="mt-5 space-y-2 text-[15px] text-slate-700">
+                <li>• Full SEO pass + indexing</li>
+                <li>• 1 blog post/month (you draft, I polish)</li>
+                <li>• Auto-posting (1–2 platforms)</li>
+                <li>• DM support + monthly optimization</li>
+              </ul>
+              <a
+                href="#start"
+                className="mt-6 inline-flex items-center justify-center rounded-full bg-slate-900 px-6 py-2.5 text-sm font-semibold tracking-[0.10em] text-white hover:bg-slate-800"
+              >
+                CHOOSE GROWTH
+              </a>
+            </article>
+
+            {/* Domination */}
+            <article className="rounded-3xl bg-white p-7 shadow-[0_10px_30px_-12px_rgba(0,0,0,0.15)] ring-1 ring-slate-100 md:col-span-2">
+              <h3 className="text-xl font-semibold">Brand Domination</h3>
+              <p className="mt-1 text-slate-600">The full “done-with-you” digital engine.</p>
+              <p className="mt-4 text-3xl font-semibold">$499/mo</p>
+              <ul className="mt-5 grid gap-2 text-[15px] text-slate-700 md:grid-cols-2">
+                <li>• Website creation or rebuild</li>
+                <li>• SEO + metadata + indexing</li>
+                <li>• Social posting system (daily cadence)</li>
+                <li>• Custom AI chatbot (trained on your brand)</li>
+                <li>• Affiliate engine setup</li>
+                <li>• Priority support via DM</li>
+              </ul>
+              <a
+                href="#start"
+                className="mt-6 inline-flex items-center justify-center rounded-full bg-slate-900 px-6 py-2.5 text-sm font-semibold tracking-[0.10em] text-white hover:bg-slate-800"
+              >
+                CHOOSE DOMINATION
+              </a>
+            </article>
+          </div>
+        </section>
+
+        {/* Billing & Onboarding */}
+        <section id="billing" className="mt-20">
+          <div className="rounded-3xl bg-white p-7 shadow-[0_10px_30px_-12px_rgba(0,0,0,0.15)] ring-1 ring-slate-100">
+            <h3 className="text-2xl font-semibold">Billing & Onboarding</h3>
+            <ul className="mt-4 space-y-3 text-[15px] text-slate-700">
+              <li>• We align in DMs on scope, timeline, and deliverables.</li>
+              <li>• For subscriptions: quick checkout via Payhip membership link (renews monthly, cancel anytime).</li>
+              <li>• For one-time projects: I send a Payhip invoice link (or Stripe). Typical split: 50% start / 50% on launch.</li>
+              <li>• After payment you’ll get a short intake form + a shared checklist so you can see progress at a glance.</li>
+            </ul>
+          </div>
+        </section>
+
+        {/* Start section */}
+        <section id="start" className="mt-16">
+          <div className="rounded-3xl bg-slate-900 px-7 py-10 text-white">
+            <h3 className="text-2xl font-semibold">Start your project</h3>
+            <p className="mt-2 max-w-2xl text-[15px] leading-relaxed text-slate-200">
+              Send a quick note with your goal and any links. I’ll confirm scope and share a clean plan with exact next steps.
+            </p>
+            <div className="mt-6 flex flex-wrap gap-3">
+              <Link
+                href="mailto:hello@walkperro.com?subject=Project%20Inquiry"
+                className="inline-flex items-center justify-center rounded-full bg-white px-6 py-2.5 text-sm font-semibold tracking-[0.10em] text-slate-900 hover:bg-slate-100"
+              >
+                EMAIL ME
+              </Link>
+            </div>
+          </div>
+        </section>
+        
       </div>
     </main>
   );

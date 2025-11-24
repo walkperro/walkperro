@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, Playfair_Display } from "next/font/google";
 import "./globals.css";
+import ScrollReveal from "@/components/ScrollReveal";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -32,6 +33,8 @@ export default function RootLayout({
       <body
         className={`${inter.variable} ${playfair.variable} bg-[#050608] text-slate-100 antialiased`}
       >
+        {/* site-wide scroll fade-in */}
+        <ScrollReveal />
         <div className="font-sans min-h-dvh bg-[radial-gradient(circle_at_top,_#020617,_#050608_55%,_#02010b_100%)] text-slate-100">
           {children}
         </div>
