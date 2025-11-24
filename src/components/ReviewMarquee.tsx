@@ -1,36 +1,58 @@
 "use client";
-import StarsMini from "./StarsMini";
+
 import { reviews } from "@/lib/reviews";
+import StarsMini from "./StarsMini";
 
-type R = (typeof reviews)[number];
-
-function ReviewPill({ r }: { r: R }) {
-  return (
-    <div className="shrink-0 mx-2 my-3 rounded-full bg-white/90 backdrop-blur px-4 py-2 shadow-sm ring-1 ring-slate-200/70 text-[13px] leading-none flex items-center gap-2">
-      <span className="font-medium text-slate-800">{r.author}</span>
-      <span className="text-slate-400">·</span>
-      <StarsMini value={r.rating} />
-      <span className="text-slate-500">“{r.headline}”</span>
-    </div>
-  );
-}
-
+/**
+ * Seamless marquee: we duplicate the chip list once and translate -50%.
+ * That makes the end meet the start with no visible jump.
+ * Tune speed with --dur (e.g., 8s–14s).
+ */
 export default function ReviewMarquee() {
-  const list = [...reviews, ...reviews]; // duplicate for seamless loop
+  const chips = reviews.map((r, i) => (
+    <li
+      key={`${r.author}-${i}`}
+      className="shrink-0 rounded-full bg-white/90 ring-1 ring-slate-200 px-4 py-2 flex items-center gap-2 text-[13px] text-slate-700 shadow-sm"
+    >
+      <span className="font-medium text-slate-800">{r.author}</span>
+      <span className="text-slate-300">·</span>
+      <StarsMini value={r.rating} />
+      <span className="text-slate-300">·</span>
+      <span className="italic text-slate-600">“{r.headline}”</span>
+    </li>
+  ));
+
   return (
-    <div className="relative mt-6">
-      <div className="pointer-events-none absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-slate-50 to-transparent" />
-      <div className="pointer-events-none absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-slate-50 to-transparent" />
-      <div className="overflow-hidden">
-        <div className="flex animate-marquee will-change-transform">
-          {list.map((r, i) => (
-            <ReviewPill key={i} r={r} />
-          ))}
-        </div>
+    <div
+      className="relative overflow-hidden"
+      style={{
+        WebkitMaskImage:
+          "linear-gradient(90deg, transparent 0%, black 8%, black 92%, transparent 100%)",
+        maskImage:
+          "linear-gradient(90deg, transparent 0%, black 8%, black 92%, transparent 100%)",
+      }}
+    >
+      <div
+        className="flex gap-3 will-change-transform marquee-track"
+        style={{ ["--dur" as any]: "107s" }} /* speed control */
+      >
+        <ul className="flex gap-3">{chips}</ul>
+        {/* duplicate once for seamless loop */}
+        <ul className="flex gap-3" aria-hidden>{chips}</ul>
       </div>
+
       <style jsx>{`
-        @keyframes marquee { 0% { transform: translateX(0) } 100% { transform: translateX(-50%) } }
-        .animate-marquee { animation: marquee 32s linear infinite; }
+        @keyframes marquee {
+          from { transform: translateX(0); }
+          to   { transform: translateX(-50%); }
+        }
+        .marquee-track {
+          width: max-content;
+          animation: marquee var(--dur) linear infinite;
+        }
+        .marquee-track:hover {
+          animation-play-state: paused;
+        }
       `}</style>
     </div>
   );

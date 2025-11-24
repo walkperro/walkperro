@@ -12,10 +12,10 @@ export function generateStaticParams() {
   return products.map((p) => ({ slug: p.slug }));
 }
 
-export default function ProductPage({ params }: Props) {
-  const product = products.find((p) => p.slug === params.slug);
-
-  if (!product) {
+export default async function ProductPage({ params }: Props) {
+  const { slug } = await params;
+  const product = products.find((p) => p.slug === slug);
+if (!product) {
     return (
       <main className="noise-bg min-h-dvh flex items-center justify-center px-4">
         <div className="max-w-md text-center text-sm text-bone/70">

@@ -2,10 +2,10 @@ export default function StarsMini({ value }: { value: number }) {
   const v = Math.max(0, Math.min(5, Math.round(value)));
   return (
     <span className="text-sm leading-none">
-      <span style={{ color: "#8E8E8E" }}>
-        <span style={{color:"#b8b8b8"}}>{"★★★★★".slice(0, v)}</span>
+      <span style={{ color: "#E5E4E2" }}>
+        {"★★★★★".slice(0, v)}
       </span>
-      <span style={{ color: "rgba(142,142,142,0.28)" }}>
+      <span style={{ color: "rgba(229,228,226,0.3)" }}>
         {"★★★★★".slice(v)}
       </span>
     </span>
