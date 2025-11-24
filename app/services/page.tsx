@@ -6,15 +6,32 @@ export default function ServicesPage() {
   return (
     <main className="min-h-screen bg-slate-50 text-slate-900">
       <div className="mx-auto flex max-w-5xl flex-col px-4 pb-24 pt-12 sm:px-6 lg:px-0">
+
+        {/* Top nav (same as home) */}
+        <header className="mb-10 flex items-center justify-between">
+          <Link
+            href="/"
+            className="text-lg md:text-base font-semibold tracking-tight"
+          >
+            <span className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-slate-300 text-sm">
+              W
+            </span>
+          </Link>
+          <nav className="flex items-center gap-6 text-sm text-slate-500">
+            <a href="/#exhibit" className="hover:text-slate-900">Exhibit</a>
+            <a href="/#bundle" className="hover:text-slate-900">Bundle</a>
+            <a href="/manifesto" className="hover:text-slate-900">Manifesto</a>
+            <a href="/services" className="text-slate-900 font-semibold">Services</a>
+          </nav>
+        </header>
+
         {/* Hero */}
         <section className="space-y-6">
           <p className="text-xs font-semibold uppercase tracking-[0.3em] text-emerald-600">
             WalkPerro Services
           </p>
-          <h1 className="max-w-3xl text-4xl font-semibold leading-tight tracking-tight sm:text-5xl text-left">
-            <span className="block">Clean systems.</span>
-            <span className="block">Quiet execution.</span>
-            <span className="block">Real results.</span>
+          <h1 className="max-w-3xl text-4xl font-semibold leading-tight tracking-tight sm:text-5xl">
+            Clean systems. Quiet execution. Real results.
           </h1>
           <p className="max-w-2xl text-[15px] leading-relaxed text-slate-600">
             Clean systems that compound: storefronts, SEO, analytics, social automations,
@@ -38,8 +55,8 @@ export default function ServicesPage() {
           </div>
         </section>
 
-        {/* Core services */}
-        <section className="mt-14 space-y-6">
+        {/* Core services — NO fade on first content block */}
+        <section className="mt-14 space-y-6 sr-ignore">
           <p className="text-xs font-semibold uppercase tracking-[0.35em] text-slate-500">
             Core Services
           </p>
@@ -267,7 +284,6 @@ export default function ServicesPage() {
             </div>
           </div>
         </section>
-        
       </div>
     </main>
   );
