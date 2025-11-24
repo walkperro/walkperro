@@ -123,7 +123,8 @@ export default function HomePage() {
             <a href="/manifesto" className="hover:text-slate-900">
               Manifesto
             </a>
-          </nav>
+            <a href="/services" className="hover:text-slate-900">Services</a>
+            </nav>
         </header>
 
         {/* Hero */}
