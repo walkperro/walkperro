@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import Carousel3D from "@/components/Carousel3D";
+import ReviewMarquee from "@/components/ReviewMarquee";
 
 type Product = {
   slug: string;

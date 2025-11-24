@@ -21,7 +21,6 @@ export default function ReviewMarquee() {
     <div className="relative mt-6">
       <div className="pointer-events-none absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-slate-50 to-transparent" />
       <div className="pointer-events-none absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-slate-50 to-transparent" />
-
       <div className="overflow-hidden">
         <div className="flex animate-marquee will-change-transform">
           {list.map((r, i) => (
@@ -29,15 +28,9 @@ export default function ReviewMarquee() {
           ))}
         </div>
       </div>
-
       <style jsx>{`
-        @keyframes marquee {
-          0% { transform: translateX(0); }
-          100% { transform: translateX(-50%); }
-        }
-        .animate-marquee {
-          animation: marquee 32s linear infinite;
-        }
+        @keyframes marquee { 0% { transform: translateX(0) } 100% { transform: translateX(-50%) } }
+        .animate-marquee { animation: marquee 32s linear infinite; }
       `}</style>
     </div>
   );
