@@ -36,7 +36,7 @@ export default function ContactPage() {
           Tell me what you’re building and the outcome you want. I’ll reply with a tight plan.
         </p>
 
-        <form onSubmit={onSubmit} className="space-y-4 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+        <form onSubmit={onSubmit} data-net="true" className="space-y-4 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
           <div>
             <label className="block text-xs font-medium text-slate-600">Name</label>
             <input name="name" required className="mt-1 w-full rounded-lg border border-slate-300 p-2 outline-none focus:ring-2 focus:ring-emerald-500" />
@@ -49,6 +49,7 @@ export default function ContactPage() {
             <label className="block text-xs font-medium text-slate-600">Project / Message</label>
             <textarea name="message" rows={6} required className="mt-1 w-full rounded-lg border border-slate-300 p-2 outline-none focus:ring-2 focus:ring-emerald-500" />
           </div>
+          <input type="text" name="website" className="hidden" tabIndex={-1} autoComplete="off" />
           <button
             type="submit"
             disabled={status === "sending" || status === "sent"}
