@@ -44,3 +44,4 @@ next-env.d.ts
 # Lock images so they never get staged again
 public/images/*
 !public/images/.gitkeep
+.env*.local

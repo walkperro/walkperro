@@ -120,10 +120,10 @@ export default function HomePage() {
             <a href="#bundle" className="hover:text-slate-900">
               Bundle
             </a>
-            <a href="/manifesto" className="hover:text-slate-900">
               Manifesto
             </a>
-            <a href="/services" className="hover:text-slate-900">Services</a>
+            <a href="/blog" className="hover:text-slate-900">Blog</a>
+            <a href="/contact" className="hover:text-slate-900">Work with me</a>
             </nav>
         </header>
 
