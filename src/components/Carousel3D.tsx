@@ -200,7 +200,7 @@ export default function Carousel3D({ items, className }: Props) {
                     )}
 
                     <p className="mt-3 sm:mt-4 text-[0.68rem] sm:text-[0.72rem] uppercase tracking-[0.18em] text-slate-400">
-                      Paypal + Card checkout via Stripe Checkout · instant download
+                      Paypal + Card checkout via PAYMENTS PROCESSED VIA STRIPE • INSTANT DOWNLOAD
                     </p>
 
                     <div className="mt-auto pt-3 sm:pt-4">
