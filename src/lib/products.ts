@@ -1,113 +1,88 @@
 export type Product = {
   slug: string;
-  title: string;
-  tag: string;
-  price: number;
-  blurb: string;
+  name: string;
+  eyebrow: string;
+  price: string; // display label like "$9.99"
+  coverImage: string | null;
   bullets: string[];
-  payhipCode: string;
-  featured?: boolean;
+  footerLine?: string;
+  stripePriceId: string;
 };
 
 export const products: Product[] = [
   {
     slug: "10-quick-codes",
-    title: "10 Quick Codes for $100 Days",
-    tag: "Fast & Easy Side Income Guide",
-    price: 9.99,
-    blurb:
-      "Ten low-barrier plays to hit your first $100 days fast. No fancy skills. No big startup cost. Just motion.",
+    name: "10 Quick Codes for $100 Days",
+    eyebrow: "FAST & EASY SIDE INCOME GUIDE",
+    price: "$9.99",
+    coverImage: "/images/products/10-Quick-Codes.png",
     bullets: [
-      "Step-by-step breakdowns for each hustle",
-      "Zero–minimal startup costs",
-      "Beginner-friendly but scalable",
-      "Bonus: tools, apps & ChatGPT prompts",
-      "Includes the WalkPerro Cashflow Tracker (editable PDF)",
+      "Ten low-barrier plays to hit your first $100 days fast.",
+      "Step-by-step breakdowns for each hustle.",
+      "Zero–minimal startup costs.",
+      "Bonus: tools, apps & ChatGPT prompts.",
     ],
-    payhipCode: "/b/10-quick-codes-for-100-dollar-days",
+    footerLine: "Best for getting motion TODAY, not someday.",
+    stripePriceId: "price_1SbjuCCCBLLo4EMcvRTE72Ar",
   },
   {
     slug: "wealth-hacks",
-    title: "WalkPerro Wealth Hacks",
-    tag: "Faceless Social Media Cashflow Secrets",
-    price: 16.99,
-    blurb:
-      "Faceless, aesthetic systems for stacking daily cashflow without ever showing your face online.",
+    name: "WalkPerro Wealth Hacks",
+    eyebrow: "FACELESS SOCIAL MEDIA CASHFLOW SECRETS",
+    price: "$16.99",
+    coverImage: "/images/products/Wealth_hacks.png",
     bullets: [
-      "Aggressive faceless growth strategies",
-      "Copy-paste content systems",
-      "Built for recurring daily cash, not just virality",
-      "Bonus tracking tool to keep you consistent",
+      "Faceless content systems built for quiet cashflow.",
+      "Page layouts, hooks & posting cadences.",
+      "How to stack multiple faceless pages into one income web.",
     ],
-    payhipCode: "/b/wealth-hacks",
+    footerLine: "Perfect if you want to print cash without being the face.",
+    stripePriceId: "price_1Sbm8tCCBLLo4EMcp76vrtrw",
   },
   {
-    slug: "money-moves-toolkit",
-    title: "Money Moves Toolkit",
-    tag: "Flip, Resell & Stack Quickly",
-    price: 16.99,
-    blurb:
-      "Plug-and-play templates for flipping, reselling and monetizing fast — without overthinking the math.",
+    slug: "money-moves",
+    name: "Money Moves Toolkit",
+    eyebrow: "FLIP, RESELL & STACK QUICKLY",
+    price: "$16.99",
+    coverImage: null,
     bullets: [
-      "Resell & flipping templates",
-      "Pricing + profit margin calculators",
-      "Promo post templates for social",
-      "Bonus AI prompts to scale your offers",
+      "Plays for flipping, reselling & quick-turn cash injections.",
+      "Checklists for sourcing, listing & moving product fast.",
+      "Built to layer on top of your 9-5 without burnout.",
     ],
-    payhipCode: "/b/money-moves-toolkit",
+    footerLine: "Ideal for people who like deals, arbitrage & stacks.",
+    stripePriceId: "price_1SbmBeCCBLLo4EMc9ueTdbkv",
   },
   {
     slug: "chatgpt-cash-hacks",
-    title: "ChatGPT Cash Hacks",
-    tag: "25 Prompts That Print Money",
-    price: 6.99,
-    blurb:
-      "A tight prompt pack for turning ChatGPT into a money assistant — freelance, flipping, products & more.",
+    name: "ChatGPT Cash Hacks",
+    eyebrow: "25 PROMPTS THAT PRINT MONEY",
+    price: "$6.99",
+    coverImage: "/images/products/25-Cash-Prompts.png",
     bullets: [
-      "25 practical money-making prompts",
-      "Side-hustle focused, not generic",
-      "Designed to be copied + adapted fast",
-      "Pairs perfectly with the other WalkPerro systems",
+      "25 battle-tested prompts to spin up offers, funnels & content.",
+      "Prompts for product ideas, copy, upsells & backend offers.",
+      "No prompt-engineering degree needed — just copy, paste, tweak.",
     ],
-    payhipCode: "/b/25-chatgpt-prompts-that-print-money",
+    footerLine: "Best for turning ChatGPT into a quiet business partner.",
+    stripePriceId: "price_1SbmDoCCBLLo4EMccp2qIyDo",
   },
   {
-    slug: "all-in-one-toolkit",
-    title: "All-In-One Toolkit Bundle",
-    tag: "Every System, Every Key, One Price",
-    price: 34.99,
-    blurb:
-      "The full WalkPerro starter stack. All the plays, all the templates, all the prompts — for the ones who lead the pack.",
+    slug: "all-in-one",
+    name: "All-In-One Toolkit Bundle",
+    eyebrow: "EVERY SYSTEM, EVERY KEY, ONE PRICE",
+    price: "$34.99",
+    coverImage: "/images/products/all-in-one-toolkit.png",
     bullets: [
-      "Includes all 4 core products",
-      "Cohesive system: hustles + tools + prompts",
-      "Best value if you're serious about motion",
-      "Designed to get you earning this week, not someday",
+      "Includes 10 Quick Codes, Wealth Hacks, Money Moves & ChatGPT Cash Hacks.",
+      "Cohesive system: hustles + tools + prompts that lock together.",
+      "Swipe-ready templates so you don’t start from a blank page.",
     ],
-    payhipCode: "/b/all-in-one-toolkit-bundle",
-    featured: true,
+    footerLine: "For the ones who want the full WalkPerro starter stack.",
+    stripePriceId: "price_1SbmGUCCBLLo4EMcI3h2ZHKl",
   },
 ];
 
-export const reviews = [
-  {
-    name: "J. Rivera",
-    role: "Quiet builder",
-    text: "Grabbed the bundle on a Sunday, had my first $120 day by Thursday. Clean, no fluff.",
-  },
-  {
-    name: "A. Martinez",
-    role: "Faceless creator",
-    text: "Wealth Hacks alone paid for itself in a week. Finally a system that matches my aesthetic.",
-  },
-  {
-    name: "D. Carter",
-    role: "Side-hustler",
-    text: "The Money Moves templates removed all the overthinking. Just plug, run, collect.",
-  },
-  {
-    name: "M. Lopez",
-    role: "Digital minimalist",
-    text: "Everything feels curated. It’s not loud, just precise. WalkPerro is for people who actually move.",
-  },
-];
+export function getProductBySlug(slug: string) {
+  return products.find(p => p.slug === slug) ?? null;
+}

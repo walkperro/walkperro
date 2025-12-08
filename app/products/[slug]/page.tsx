@@ -1,102 +1,72 @@
 import Link from "next/link";
+import Image from "next/image";
 import CheckoutButton from "@/components/CheckoutButton";
-import { products } from "@/lib/products";
+import { getProductBySlug } from "@/lib/products";
 
-type Props = {
-  params: {
-    slug: string;
-  };
-};
+type Params = { slug: string };
 
-export function generateStaticParams() {
-  return products.map((p) => ({ slug: p.slug }));
-}
+export default function ProductPage({ params }: { params: Params }) {
+  const product = getProductBySlug(params.slug);
 
-export default async function ProductPage({ params }: Props) {
-  const { slug } = await params;
-  const product = products.find((p) => p.slug === slug);
-if (!product) {
+  if (!product) {
     return (
-      <main className="noise-bg min-h-dvh flex items-center justify-center px-4">
-        <div className="max-w-md text-center text-sm text-bone/70">
-          <p className="mb-4">This piece is not in the Exhibit.</p>
-          <Link
-            href="/"
-            className="inline-flex items-center justify-center rounded-full border border-emerald px-5 py-2 text-xs font-semibold uppercase tracking-[0.22em] text-emerald hover:bg-emerald hover:text-ink transition-colors"
-          >
-            Back to Exhibit
-          </Link>
+      <main className="min-h-screen bg-slate-50 text-slate-900">
+        <div className="mx-auto max-w-3xl px-4 py-16">
+          <h1 className="text-2xl font-semibold">Not found</h1>
+          <p className="mt-2 text-slate-600">We couldn’t find that product.</p>
+          <Link href="/" className="mt-6 inline-block text-emerald-700 hover:underline">Back to home</Link>
         </div>
       </main>
     );
   }
 
   return (
-    <main className="noise-bg min-h-dvh">
-      <div className="mx-auto flex min-h-dvh max-w-3xl flex-col px-4 py-8 sm:px-6 lg:px-8">
-        <header className="flex items-center justify-between pb-6">
-          <Link
-            href="/"
-            className="text-[0.7rem] text-bone/60 hover:text-bone transition-colors"
-          >
-            ← Back to Exhibit
-          </Link>
-          <span className="text-[0.7rem] uppercase tracking-[0.28em] text-bone/50">
-            WalkPerro • Detail
-          </span>
-        </header>
+    <main className="min-h-screen bg-slate-50 text-slate-900">
+      <div className="mx-auto max-w-5xl px-4 py-12">
+        <nav className="text-sm text-slate-500">
+          <Link href="/" className="hover:text-slate-900">Home</Link>
+          <span className="mx-2">/</span>
+          <span className="text-slate-700">{product.name}</span>
+        </nav>
 
-        <article className="space-y-6 rounded-3xl border border-bone/15 bg-ink/70 px-5 py-6 backdrop-blur">
-          <div className="space-y-2">
-            <p className="text-[0.7rem] uppercase tracking-[0.28em] text-bone/60">
-              {product.tag}
-            </p>
-            <h1 className="font-display text-2xl sm:text-3xl text-bone">
-              {product.title}
-            </h1>
+        <div className="mt-6 grid grid-cols-1 gap-8 md:grid-cols-2">
+          <div>
+            {product.coverImage ? (
+              <Image
+                src={product.coverImage}
+                alt={product.name}
+                width={1200}
+                height={900}
+                className="w-full rounded-xl border border-slate-200 bg-white"
+              />
+            ) : (
+              <div className="flex h-64 items-center justify-center rounded-xl border border-dashed border-slate-300 text-slate-400">
+                No cover image
+              </div>
+            )}
           </div>
 
-          <p className="text-sm text-bone/75">{product.blurb}</p>
-
-          <ul className="space-y-2 text-[0.8rem] text-bone/70">
-            {product.bullets.map((b) => (
-              <li key={b} className="flex gap-2">
-                <span className="mt-[0.3rem] h-[3px] w-[3px] rounded-full bg-emerald/80" />
-                <span>{b}</span>
-              </li>
-            ))}
-          </ul>
-
-          <div className="mt-4 flex flex-wrap items-center justify-between gap-3">
-            <div className="flex items-baseline gap-2">
-              <span className="text-lg font-semibold text-bone">
-                ${product.price.toFixed(2)}
-              </span>
-              {product.featured && (
-                <span className="rounded-full bg-emerald/15 px-2 py-[1px] text-[0.65rem] uppercase tracking-[0.16em] text-emerald">
-                  Best value
-                </span>
-              )}
+          <div>
+            <div className="text-[10px] font-semibold uppercase tracking-[0.28em] text-emerald-600">
+              {product.eyebrow}
             </div>
+            <h1 className="mt-1 text-3xl font-semibold tracking-tight">{product.name}</h1>
+            <div className="mt-1 text-slate-500">{product.price}</div>
 
-            <CheckoutButton
-              payhipCode={product.payhipCode}
-              slug={product.slug}
-              title={product.title}
-              price={product.price}
-            >
-              Get it →
-            </CheckoutButton>
+            <ul className="mt-4 list-disc space-y-1 pl-5 text-sm text-slate-600">
+              {product.bullets.map((b, i) => <li key={i}>{b}</li>)}
+            </ul>
+
+            {product.footerLine && <p className="mt-3 text-xs text-slate-500">{product.footerLine}</p>}
+
+            <div className="mt-6">
+              <CheckoutButton
+                priceId={product.stripePriceId}
+                label={`Buy Now — ${product.price}`}
+              />
+            </div>
           </div>
-
-          <p className="text-[0.7rem] text-bone/50">
-            Secure checkout via Payhip. Files delivered instantly to your email.
-          </p>
-        </article>
-
-        <footer className="mt-10 border-t border-bone/10 pt-4 text-[0.7rem] text-bone/45">
-          <span>WalkPerro • Built for the relentless.</span>
-        </footer>
+        </div>
       </div>
     </main>
   );

@@ -1,10 +1,10 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import Carousel3D from "@/components/Carousel3D";
 import ReviewMarquee from "@/components/ReviewMarquee";
+import { products } from "@/lib/products";
 
 type Product = {
   slug: string;
@@ -12,119 +12,47 @@ type Product = {
   eyebrow: string;
   price: string;
   coverImage: string | null;
-  payhipUrl: string;
-  payhipProductId: string;
+  stripePriceId: string; // NEW
   bullets: string[];
   footerLine?: string;
 };
 
-const products: Product[] = [
-  {
-    slug: "10-quick-codes",
-    name: "10 Quick Codes for $100 Days",
-    eyebrow: "FAST & EASY SIDE INCOME GUIDE",
-    price: "$9.99",
-    coverImage: "/images/products/10-Quick-Codes.png",
-    payhipUrl: "https://payhip.com/b/RpCH3",
-    payhipProductId: "RpCH3",
-    bullets: [
-      "Ten low-barrier plays to hit your first $100 days fast.",
-      "Step-by-step breakdowns for each hustle.",
-      "Zero–minimal startup costs.",
-      "Bonus: tools, apps & ChatGPT prompts.",
-    ],
-    footerLine: "Best for getting motion TODAY, not someday.",
-  },
-  {
-    slug: "wealth-hacks",
-    name: "WalkPerro Wealth Hacks",
-    eyebrow: "FACELESS SOCIAL MEDIA CASHFLOW SECRETS",
-    price: "$16.99",
-    coverImage: "/images/products/Wealth_hacks.png",
-    payhipUrl: "https://payhip.com/b/1Q7gO",
-    payhipProductId: "1Q7gO",
-    bullets: [
-      "Faceless content systems built for quiet cashflow.",
-      "Page layouts, hooks & posting cadences.",
-      "How to stack multiple faceless pages into one income web.",
-    ],
-    footerLine: "Perfect if you want to print cash without being the face.",
-  },
-  {
-    slug: "money-moves",
-    name: "Money Moves Toolkit",
-    eyebrow: "FLIP, RESELL & STACK QUICKLY",
-    price: "$16.99",
-    coverImage: null,
-    payhipUrl: "https://payhip.com/b/3xYzE",
-    payhipProductId: "3xYzE",
-    bullets: [
-      "Plays for flipping, reselling & quick-turn cash injections.",
-      "Checklists for sourcing, listing & moving product fast.",
-      "Built to layer on top of your 9-5 without burnout.",
-    ],
-    footerLine: "Ideal for people who like deals, arbitrage & stacks.",
-  },
-  {
-    slug: "chatgpt-cash-hacks",
-    name: "ChatGPT Cash Hacks",
-    eyebrow: "25 PROMPTS THAT PRINT MONEY",
-    price: "$6.99",
-    coverImage: "/images/products/25-Cash-Prompts.png",
-    payhipUrl: "https://payhip.com/b/Ad9zn",
-    payhipProductId: "Ad9zn",
-    bullets: [
-      "25 battle-tested prompts to spin up offers, funnels & content.",
-      "Prompts for product ideas, copy, upsells & backend offers.",
-      "No prompt-engineering degree needed — just copy, paste, tweak.",
-    ],
-    footerLine: "Best for turning ChatGPT into a quiet business partner.",
-  },
-  {
-    slug: "all-in-one",
-    name: "All-In-One Toolkit Bundle",
-    eyebrow: "EVERY SYSTEM, EVERY KEY, ONE PRICE",
-    price: "$34.99",
-    coverImage: "/images/products/all-in-one-toolkit.png",
-    payhipUrl: "https://payhip.com/b/Pgrso",
-    payhipProductId: "Pgrso",
-    bullets: [
-      "Includes 10 Quick Codes, Wealth Hacks, Money Moves & ChatGPT Cash Hacks.",
-      "Cohesive system: hustles + tools + prompts that lock together.",
-      "Swipe-ready templates so you don’t start from a blank page.",
-    ],
-    footerLine: "For the ones who want the full WalkPerro starter stack.",
-  },
-];
-
 export default function HomePage() {
   const [openSlug, setOpenSlug] = useState<string | null>(null);
+  const [loadingSku, setLoadingSku] = useState<string | null>(null);
+
+  async function buy(priceId: string) {
+    try {
+      setLoadingSku(priceId);
+      const res = await fetch("/api/checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ priceIds: [priceId] }),
+      });
+      const data = await res.json();
+      if (data.url) window.location.href = data.url;
+    } finally {
+      setLoadingSku(null);
+    }
+  }
 
   return (
     <main className="min-h-screen bg-slate-50 text-slate-900">
       <div className="mx-auto flex max-w-7xl flex-col px-4 pb-16 pt-10 sm:px-6 lg:px-0">
         {/* Top nav */}
         <header className="mb-10 flex items-center justify-between">
-          <Link
-            href="/"
-            className="text-lg md:text-base font-semibold tracking-tight"
-          >
+          <Link href="/" className="text-lg md:text-base font-semibold tracking-tight">
             <span className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-slate-300 text-sm">
               W
             </span>
           </Link>
           <nav className="flex items-center gap-6 text-sm text-slate-500">
-            <a href="#exhibit" className="hover:text-slate-900">
-              Exhibit
-            </a>
-            <a href="#bundle" className="hover:text-slate-900">
-              Bundle
-            </a>
-            <a href="/manifesto" className="hover:text-slate-900">
-              Manifesto
-            </a>
-            <a href="/services" className="hover:text-slate-900">Services</a>
-            </nav>
+            <a href="#exhibit" className="hover:text-slate-900">Exhibit</a>
+            <a href="#bundle" className="hover:text-slate-900">Bundle</a>
+            <a href="/manifesto" className="hover:text-slate-900">Manifesto</a>
+            <a href="/blog" className="hover:text-slate-900">Blog</a>
+            <a href="/contact" className="hover:text-slate-900">Work with me</a>
+          </nav>
         </header>
 
         {/* Hero */}
@@ -142,17 +70,15 @@ export default function HomePage() {
           </p>
 
           <div className="mt-4 flex flex-wrap items-center gap-4">
-            <a
-              href="#bundle"
+            <button
+              onClick={() => buy("price_1SbmGUCCBLLo4EMcI3h2ZHKl")}
               className="inline-flex items-center justify-center rounded-full bg-slate-900 px-8 py-3 text-sm font-semibold tracking-[0.15em] text-white transition hover:bg-slate-800"
             >
               GET THE BUNDLE
-            </a>
+            </button>
           </div>
 
-  <ReviewMarquee />
-
-
+          <ReviewMarquee />
         </section>
 
         {/* Exhibit */}
@@ -167,11 +93,10 @@ export default function HomePage() {
           </div>
 
           <div className="mt-8">
-            <Carousel3D items={products}
-              
-            />
+            <Carousel3D items={products} />
           </div>
         </section>
+
         {/* Bundle anchor */}
         <section id="bundle" className="mt-20" aria-hidden="true" />
       </div>

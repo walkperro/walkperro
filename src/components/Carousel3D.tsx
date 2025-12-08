@@ -2,17 +2,12 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import CheckoutButton from "@/components/CheckoutButton";
+import type { Product } from "@/lib/products";
 
-type Item = {
-  slug: string;
-  name: string;
-  eyebrow: string;
-  price: string;
-  coverImage: string | null;
-  payhipUrl: string;
-  payhipProductId: string;
-  bullets: string[];
-  footerLine?: string;
+type Item = Product & {
+  // legacy props kept optional for backward compatibility
+  payhipUrl?: string;
+  payhipProductId?: string;
 };
 
 type Props = { items: Item[]; className?: string };
@@ -205,25 +200,16 @@ export default function Carousel3D({ items, className }: Props) {
                     )}
 
                     <p className="mt-3 sm:mt-4 text-[0.68rem] sm:text-[0.72rem] uppercase tracking-[0.18em] text-slate-400">
-                      Paypal + Card checkout via Payhip · instant download
+                      Paypal + Card checkout via Stripe Checkout · instant download
                     </p>
 
                     <div className="mt-auto pt-3 sm:pt-4">
                       
 <CheckoutButton
-                        payhipCode={item.payhipProductId}
-                        slug={item.slug}
-                        title={item.name}
-                        price={parseFloat(item.price.replace(/[^0-9.]/g, ""))}
-                        className="block w-full text-center rounded-full bg-slate-900 text-white px-4 py-2.5 text-xs sm:text-sm font-semibold tracking-[0.10em] max-w-[320px] sm:max-w-fit mx-auto text-center whitespace-normal leading-tight shadow-md active:scale-95 uppercase"
-                       >
-  {item.slug==="all-in-one" ? "GET ALL-IN-ONE BUNDLE"
-    : item.slug==="10-quick-codes" ? "GET 10 QUICK CODES"
-    : item.slug==="chatgpt-cash-hacks" ? "GET CHATGPT CASH HACKS"
-    : item.slug==="wealth-hacks" ? "GET WALKPERRO WEALTH HACKS"
-    : item.slug==="money-moves" ? "GET MONEY MOVES TOOLKIT"
-    : `GET ${item.name.toUpperCase()}`}
-</CheckoutButton>
+                priceId={item.stripePriceId}
+                label={`Buy Now — ${item.price}`}
+                className="block w-full text-center rounded-full bg-slate-900 text-white px-4 py-2.5 text-xs sm:text-sm font-semibold tracking-[0.10em] max-w-[320px] sm:max-w-fit mx-auto text-center whitespace-normal leading-tight shadow-md active:scale-95 uppercase"
+              />
 
                     </div>
                   </div>

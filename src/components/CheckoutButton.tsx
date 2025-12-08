@@ -1,32 +1,13 @@
 "use client";
+import BuyButton from "@/components/BuyButton";
 
-type Props = {
-  payhipCode: string;            // e.g. "Pgrso"
-  slug?: string;
-  title?: string;
-  price?: number;
-  className?: string;            // let callers style it (Tailwind, etc.)
-  children: React.ReactNode;     // e.g. "GET ALL-IN-ONE BUNDLE"
-};
-
-export default function CheckoutButton({
-  payhipCode,
-  className = "",
-  children,
-}: Props) {
-  // Payhip wants <a href="https://payhip.com/b/CODE" class="payhip-buy-button" data-product="CODE">
-  const href = `https://payhip.com/b/${payhipCode}`;
-
+export default function CheckoutButton(
+  { priceId, label = "Buy Now", className }: { priceId: string; label?: string; className?: string }
+) {
+  // Wrap BuyButton so callers can pass className for styling
   return (
-    <a
-      href={href}
-      className={`payhip-buy-button ${className}`}
-      data-product={payhipCode}
-      data-theme="none"          // keep our styling; Payhip won’t skin it
-      aria-label="Secure checkout via Payhip"
-      rel="noopener"
-    >
-      {children}
-    </a>
+    <div className={className}>
+      <BuyButton priceId={priceId} label={label} />
+    </div>
   );
 }
