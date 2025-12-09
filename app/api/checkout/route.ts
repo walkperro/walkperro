@@ -1,38 +1,50 @@
+import { NextResponse } from "next/server";
 import Stripe from "stripe";
 
-export async function POST(req: Request) {
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {});
+
+export async function GET(req: Request) {
   try {
-    const { priceIds, successPath = "/thanks" } = await req.json();
-
-    if (!Array.isArray(priceIds) || priceIds.length === 0) {
-      return new Response(JSON.stringify({ error: "no_price_ids" }), { status: 400 });
-    }
-    if (!process.env.STRIPE_SECRET_KEY) {
-      return new Response(JSON.stringify({ error: "missing_secret_key" }), { status: 500 });
-    }
-
-    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
-
-    // figure out absolute site url
-    const hdrOrigin = req.headers.get("origin") || "";
-    const vercelUrl = process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "";
-    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || hdrOrigin || vercelUrl || "http://localhost:3000";
+    const { searchParams } = new URL(req.url);
+    const price = searchParams.get("price");
+    if (!price) return NextResponse.json({ error: "missing_price" }, { status: 400 });
 
     const session = await stripe.checkout.sessions.create({
       mode: "payment",
-      line_items: priceIds.map((id: string) => ({ price: id, quantity: 1 })),
-      success_url: `${siteUrl}${successPath}?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${siteUrl}/`,
-      billing_address_collection: "auto",
-      allow_promotion_codes: true,
+      ui_mode: "embedded",
+      line_items: [{ price, quantity: 1 }],
+      return_url: `${process.env.NEXT_PUBLIC_SITE_URL}/thanks?session_id={CHECKOUT_SESSION_ID}`,
+      // Optional: collect email up-front for fulfillment/Receipts
+      customer_email: undefined,
+      // Optional: auto-tax or discounts can go here
     });
 
-    return new Response(JSON.stringify({ url: session.url }), {
-      status: 200,
-      headers: { "content-type": "application/json" },
-    });
+    return NextResponse.json({ client_secret: session.client_secret });
   } catch (err) {
-    console.error("Checkout error:", err);
-    return new Response(JSON.stringify({ error: "checkout_failed" }), { status: 500 });
+    console.error("Stripe Embedded GET error:", err);
+    return NextResponse.json({ error: "server_error" }, { status: 500 });
+  }
+}
+
+// Keep POST for hosted Checkout (unused by homepage now, but harmless)
+export async function POST(req: Request) {
+  try {
+    const body = await req.json();
+    const prices: string[] = body?.priceIds || [];
+    if (!Array.isArray(prices) || prices.length === 0) {
+      return NextResponse.json({ error: "missing_prices" }, { status: 400 });
+    }
+
+    const session = await stripe.checkout.sessions.create({
+      mode: "payment",
+      line_items: prices.map((p) => ({ price: p, quantity: 1 })),
+      success_url: `${process.env.NEXT_PUBLIC_SITE_URL}/thanks?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${process.env.NEXT_PUBLIC_SITE_URL}/`,
+    });
+
+    return NextResponse.json({ url: session.url });
+  } catch (err) {
+    console.error("Stripe Hosted POST error:", err);
+    return NextResponse.json({ error: "server_error" }, { status: 500 });
   }
 }
