@@ -105,20 +105,10 @@ const products: Product[] = [
 export default function HomePage() {
   const [loadingSku, setLoadingSku] = useState<string | null>(null);
 
-  async function buy(priceId: string) {
-    try {
-      setLoadingSku(priceId);
-      const res = await fetch("/api/checkout", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ priceIds: [priceId] }),
-      });
-      const data = await res.json();
-      if (data.url) window.location.href = data.url;
-      else alert("Checkout failed.");
-    } finally {
-      setLoadingSku(null);
-    }
+  // embedded checkout redirect
+  function buy(priceId: string) {
+    setLoadingSku(priceId);
+    window.location.href = `/checkout?price=${priceId}`;
   }
 
   return (
@@ -127,7 +117,9 @@ export default function HomePage() {
         {/* Top nav */}
         <header className="mb-10 flex items-center justify-between">
           <Link href="/" className="text-lg md:text-base font-semibold tracking-tight">
-            <span className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-slate-300 text-sm">W</span>
+            <span className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-slate-300 text-sm">
+              W
+            </span>
           </Link>
           <nav className="flex items-center gap-6 text-sm text-slate-500">
             <a href="#exhibit" className="hover:text-slate-900">Exhibit</a>
@@ -148,14 +140,17 @@ export default function HomePage() {
             No clutter. No fake guru noise. Just focused digital systems to get you from idea → income with taste.
             Built for the ones who move quiet and hit loud.
           </p>
+
           <div className="mt-4 flex flex-wrap items-center gap-4">
             <button
               onClick={() => buy("price_1SbmGUCCBLLo4EMcI3h2ZHKl")}
               disabled={loadingSku === "price_1SbmGUCCBLLo4EMcI3h2ZHKl"}
-              className="inline-flex items-center justify-center rounded-full bg-slate-900 px-8 py-3 text-sm font-semibold tracking-[0.15em] text-white transition hover:bg-slate-800 disabled:opacity-60">
+              className="inline-flex items-center justify-center rounded-full bg-slate-900 px-8 py-3 text-sm font-semibold tracking-[0.15em] text-white transition hover:bg-slate-800 disabled:opacity-60"
+            >
               {loadingSku === "price_1SbmGUCCBLLo4EMcI3h2ZHKl" ? "Processing..." : "GET THE BUNDLE"}
             </button>
           </div>
+
           <ReviewMarquee />
         </section>
 
