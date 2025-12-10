@@ -1,44 +1,44 @@
 "use client";
 
-import React from "react";
+import { useState } from "react";
 
 type Props = {
-  payhipCode: string;
-  slug?: string;
-  title?: string;
-  price?: number;
+  slug: string;
+  title: string;
+  price: number;
+  payhipCode?: string;
   className?: string;
   children?: React.ReactNode;
 };
 
-export default function CheckoutButton({
-  payhipCode,
-  slug,
-  title,
-  className,
-  children,
-}: Props) {
-  // Build the label: prefer our forced text, fallback to children if needed
-  let base =
-    slug === "all-in-one-toolkit-bundle"
-      ? "GET ALL-IN-ONE-BUNDLE"
-      : title
-      ? `GET ${title}`
-      : typeof children === "string"
-      ? children
-      : "GET";
+const PRICE_BY_SLUG: Record<string, string> = {
+  "10-quick-codes": "price_1SbjuCCCBLLo4EMcvRTE72Ar",
+  "wealth-hacks": "price_1Sbm8tCCBLLo4EMcp76vrtrw",
+  "money-moves": "price_1SbmBeCCBLLo4EMc9ueTdbkv",
+  "chatgpt-cash-hacks": "price_1SbmDoCCBLLo4EMccp2qIyDo",
+  "all-in-one": "price_1SbmGUCCBLLo4EMcI3h2ZHKl",
+};
 
-  const label = String(base).toUpperCase().trim();
-  const href = `https://payhip.com/b/${payhipCode}`;
+export default function CheckoutButton({ slug, className = "", children }: Props) {
+  const [loading, setLoading] = useState(false);
+
+  function go() {
+    const priceId = PRICE_BY_SLUG[slug];
+    if (!priceId) {
+      alert("Missing Stripe price for this product.");
+      return;
+    }
+    setLoading(true);
+    window.location.href = `/checkout?price=${priceId}`;
+  }
 
   return (
-    <a
-      href={href}
-      target="_blank"
-      rel="noopener noreferrer"
-      className={`${className ?? ""} uppercase`}
+    <button
+      onClick={go}
+      disabled={loading}
+      className={className || "rounded-full bg-slate-900 text-white px-4 py-2.5 text-sm font-semibold tracking-[0.10em] shadow-md active:scale-95"}
     >
-      {label}
-    </a>
+      {loading ? "Processing..." : (children ?? "Buy Now")}
+    </button>
   );
 }

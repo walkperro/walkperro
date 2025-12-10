@@ -200,14 +200,13 @@ export default function Carousel3D({ items, className }: Props) {
                     )}
 
                     <p className="mt-3 sm:mt-4 text-[0.68rem] sm:text-[0.72rem] uppercase tracking-[0.18em] text-slate-400">
-                      Paypal + Card checkout via PAYMENTS PROCESSED VIA STRIPE • INSTANT DOWNLOAD
                     </p>
 
                     <div className="mt-auto pt-3 sm:pt-4">
                       
 <CheckoutButton
                 priceId={item.stripePriceId}
-                label={`Buy Now — ${item.price}`}
+                label="BUY NOW"
                 className="block w-full text-center rounded-full bg-slate-900 text-white px-4 py-2.5 text-xs sm:text-sm font-semibold tracking-[0.10em] max-w-[320px] sm:max-w-fit mx-auto text-center whitespace-normal leading-tight shadow-md active:scale-95 uppercase"
               />
 

@@ -1,69 +1,51 @@
 "use client";
-/// <reference path="../../types/stripe-checkout.d.ts" />
 
-import Script from "next/script";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 
 export default function ClientCheckout() {
-  const params = useSearchParams();
-  const [clientSecret, setClientSecret] = useState<string | null>(null);
-  const pk = process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || "";
-
-  const qsClientSecret = params.get("client_secret") || params.get("cs");
-  const qsPrice = params.get("price");
+  const sp = useSearchParams();
+  const price = sp.get("price");
 
   useEffect(() => {
-    async function ensureClientSecret() {
-      if (qsClientSecret) {
-        setClientSecret(qsClientSecret);
-        return;
+    if (!price) return;
+
+    // Load Stripe embedded script if it isn't present
+    const ensureScript = async () => {
+      if (!document.querySelector('script[src^="https://js.stripe.com/v3/embedded.js"]')) {
+        await new Promise<void>((resolve) => {
+          const s = document.createElement("script");
+          s.src = "https://js.stripe.com/v3/embedded.js";
+          s.onload = () => resolve();
+          document.head.appendChild(s);
+        });
       }
-      if (qsPrice) {
-        const res = await fetch(`/api/checkout?price=${encodeURIComponent(qsPrice)}`, { method: "GET" });
-        const data = await res.json();
-        if (data?.client_secret) {
-          // update the URL so refresh keeps working
-          const url = new URL(window.location.href);
-          url.searchParams.delete("price");
-          url.searchParams.set("client_secret", data.client_secret);
-          history.replaceState({}, "", url.toString());
-          setClientSecret(data.client_secret);
-        } else {
-          alert("Checkout failed.");
+    };
+
+    const mount = async () => {
+      // @ts-ignore - global injected by stripe script
+      const stripe = (window as any).Stripe?.(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY);
+      if (!stripe) return;
+
+      const fetchClientSecret = async () => {
+        const res = await fetch("/api/embedded-checkout", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ priceId: price }),
+        });
+        if (!res.ok) {
+          throw new Error("Failed to create checkout session");
         }
-      }
-    }
-    ensureClientSecret();
-  }, [qsClientSecret, qsPrice]);
+        const { client_secret } = await res.json();
+        return client_secret as string;
+      };
 
-  if (!qsClientSecret && !qsPrice) {
-    return (
-      <main className="min-h-screen bg-slate-50 text-slate-900">
-        <div className="mx-auto max-w-3xl px-4 py-10">
-          <p className="text-sm text-slate-600">Missing price or client secret. Start from a product.</p>
-        </div>
-      </main>
-    );
-  }
+      const checkout = await stripe.initEmbeddedCheckout({ fetchClientSecret });
+      checkout.mount("#checkout");
+    };
 
-  if (!clientSecret) {
-    return (
-      <main className="min-h-screen bg-slate-50 text-slate-900">
-        <div className="mx-auto max-w-3xl px-4 py-10">
-          <p className="text-sm text-slate-600">Loading checkout…</p>
-        </div>
-      </main>
-    );
-  }
+    ensureScript().then(mount);
+  }, [price]);
 
-  return (
-    <main className="min-h-screen bg-slate-50 text-slate-900">
-      <div className="mx-auto max-w-3xl px-4 py-10">
-        <Script src="https://js.stripe.com/v3/embedded.js" strategy="afterInteractive" />
-        {/* @ts-expect-error provided by Stripe script */}
-        <stripe-checkout client-secret={clientSecret} publishable-key={pk} />
-      </div>
-    </main>
-  );
+  return null;
 }

@@ -1,19 +1,39 @@
 import Stripe from "stripe";
+
+export const runtime = "nodejs";
+
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 
 export async function POST(req: Request) {
   try {
-    const { priceIds, returnPath = "/thanks" } = await req.json();
+    const { priceId, promotionCodeId, promotionCode } = await req.json();
+
+    if (!priceId) {
+      return Response.json({ error: "Missing priceId" }, { status: 400 });
+    }
+
+    // Resolve a human-readable code to a promotion_code id if needed
+    let promoId: string | undefined = promotionCodeId || undefined;
+    if (!promoId && promotionCode) {
+      const found = await stripe.promotionCodes.list({ code: promotionCode, active: true, limit: 1 });
+      promoId = found.data[0]?.id;
+    }
+
+    const origin = process.env.NEXT_PUBLIC_SITE_URL || "https://walkperro.com";
+
     const session = await stripe.checkout.sessions.create({
       mode: "payment",
       ui_mode: "embedded",
-      line_items: priceIds.map((p: string) => ({ price: p, quantity: 1 })),
+      line_items: [{ price: priceId, quantity: 1 }],
       allow_promotion_codes: true,
-      return_url: `${process.env.NEXT_PUBLIC_BASE_URL}${returnPath}?session_id={CHECKOUT_SESSION_ID}`,
+      ...(promoId ? { discounts: [{ promotion_code: promoId }] } : {}),
+      return_url: `${origin}/thanks?session_id={CHECKOUT_SESSION_ID}`,
     });
+
+    // Return the key name the widget originally expected
     return Response.json({ client_secret: session.client_secret });
-  } catch (e: any) {
-    console.error("Embedded session error:", e?.message || e);
-    return Response.json({ error: "embedded_failed" }, { status: 400 });
+  } catch (err: any) {
+    console.error("Embedded checkout error:", err);
+    return Response.json({ error: err?.message || "server_error" }, { status: 500 });
   }
 }

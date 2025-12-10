@@ -62,8 +62,7 @@ export default function ProductPage({ params }: { params: Params }) {
             <div className="mt-6">
               <CheckoutButton
                 priceId={product.stripePriceId}
-                label={`Buy Now — ${product.price}`}
-              />
+                />
             </div>
           </div>
         </div>

@@ -105,9 +105,9 @@ const products: Product[] = [
 export default function HomePage() {
   const [loadingSku, setLoadingSku] = useState<string | null>(null);
 
-    function buy(priceId: string) {
-    window.location.href = `/checkout?price=`;
-  }
+  function buy(priceId: string) {
+    setLoadingSku(priceId);
+    window.location.href = `/checkout?price=${priceId}`;
   }
 
   return (
