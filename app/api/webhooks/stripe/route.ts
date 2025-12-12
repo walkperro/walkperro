@@ -1,27 +1,57 @@
 import Stripe from "stripe";
+import { Resend } from "resend";
+
+export const runtime = "nodejs";
+
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
+const resend = new Resend(process.env.RESEND_API_KEY!);
 
 export async function POST(req: Request) {
+  const sig = req.headers.get("stripe-signature");
+  if (!sig) return new Response("Missing signature", { status: 400 });
+
+  const raw = await req.text();
+  let event: Stripe.Event;
+
   try {
-    const secret = process.env.STRIPE_WEBHOOK_SECRET;
-    const signature = req.headers.get("stripe-signature") || "";
-    const payload = await req.text();
-
-    if (!process.env.STRIPE_SECRET_KEY) return new Response("No secret", { status: 500 });
-    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
-
-    // If you haven't configured the endpoint secret yet, skip verification (dev only)
-    if (!secret) {
-      // parse without verification for now
-      const event = JSON.parse(payload);
-      console.log("Webhook (unverified in dev):", event?.type);
-      return new Response(JSON.stringify({ received: true }), { status: 200 });
-    }
-
-    const event = stripe.webhooks.constructEvent(payload, signature, secret);
-    console.log("Webhook:", event.type);
-    return new Response(JSON.stringify({ received: true }), { status: 200 });
+    event = stripe.webhooks.constructEvent(raw, sig, process.env.STRIPE_WEBHOOK_SECRET!);
   } catch (err: any) {
-    console.error("Webhook error:", err?.message || err);
-    return new Response(`Webhook Error`, { status: 400 });
+    console.error("❌ Bad Stripe signature:", err?.message);
+    return new Response("Bad signature", { status: 400 });
   }
+
+  if (event.type === "checkout.session.completed") {
+    const s = event.data.object as Stripe.Checkout.Session;
+
+    const email =
+      s.customer_details?.email ||
+      (s.customer_email as string | null) ||
+      undefined;
+
+    if (email) {
+      const downloadUrl = `${process.env.NEXT_PUBLIC_SITE_URL ?? "https://walkperro.com"}/download?session=${encodeURIComponent(s.id)}`;
+
+      try {
+        const sent = await resend.emails.send({
+          from: process.env.RESEND_FROM!,           // ✅ matches your Vercel key
+          to: email,
+          subject: "Your WalkPerro download is ready 🐕",
+          html: `
+            <h2>You’re in. ✅</h2>
+            <p>Thanks for your purchase. Click below to download:</p>
+            <p><a href="${downloadUrl}">👉 Download your product</a></p>
+            <p>If you didn’t expect this email, you can ignore it.</p>
+            <p>— WalkPerro</p>
+          `,
+        });
+        console.log("✅ Resend id:", sent?.data?.id ?? "ok");
+      } catch (e: any) {
+        console.error("❌ Resend error:", e?.message || e);
+      }
+    } else {
+      console.warn("⚠️ No email on session", s.id);
+    }
+  }
+
+  return Response.json({ received: true });
 }
