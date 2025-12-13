@@ -45,3 +45,5 @@ next-env.d.ts
 public/images/*
 !public/images/.gitkeep
 .env*.local
+
+.env*
