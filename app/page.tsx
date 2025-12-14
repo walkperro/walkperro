@@ -94,7 +94,7 @@ const products: Product[] = [
     payhipProductId: "Pgrso",
     stripePriceId: "price_1SbmGUCCBLLo4EMcI3h2ZHKl",
     bullets: [
-      "Includes 10 Quick Codes, Wealth Hacks, Money Moves & ChatGPT Cash Hacks.",
+      "Includes ALL WalkPerro digital guides + tools.",
       "Cohesive system: hustles + tools + prompts that lock together.",
       "Swipe-ready templates so you don’t start from a blank page.",
     ],

@@ -198,7 +198,7 @@ export default function Carousel3D({ items, className }: Props) {
                         {item.footerLine}
                       </p>
         <p className="mt-3 text-[11px] uppercase tracking-[0.14em] text-slate-400">
-    PAYMENTS PROCESSED VIA <span className="font-semibold text-slate-200">STRIPE</span>
+    PAYMENTS PROCESSED VIA <span className="font-semibold text-slate-600 tracking-wide">STRIPE</span>
     <span className="mx-1">•</span> INSTANT DOWNLOAD
   </p>
                     </>)}
