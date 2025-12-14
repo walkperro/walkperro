@@ -18,10 +18,10 @@ async function signIfSupabasePath(pathOrUrl: string | null) {
 }
 
 export async function GET(req: NextRequest, {
-  const { sid } = await params; params }: { params: Promise<{ sid: string }> }){
+  const { sid } = await params; params }: { params: Promise<{ sid: string }> }) {
   try {
     const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
-    const s = await stripe.checkout.sessions.retrieve(params.sid, {
+    const s = await stripe.checkout.sessions.retrieve(sid, {
       expand: ["line_items.data.price.product","customer"]
     });
 
@@ -42,7 +42,7 @@ export async function GET(req: NextRequest, {
       resolved_url: await signIfSupabasePath(it.download_url ?? it.supabase_path ?? null),
     })));
 
-    return Response.json({ ok: true, sid: params.sid, email, items, resolved });
+    return Response.json({ ok: true, sid: sid, email, items, resolved });
   } catch (err: any) {
     return new Response(JSON.stringify({ ok:false, error: err?.message || "server_error" }), { status: 400 });
   }
