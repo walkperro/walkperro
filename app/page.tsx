@@ -177,7 +177,7 @@ export default function HomePage() {
             {/* Contact */}
             <div id="contact">
               <p className="text-xs font-semibold uppercase tracking-[0.35em] text-slate-500">Contact</p>
-              <h2 className="mt-4 text-2xl font-semibold tracking-tight text-slate-900">AUTOMATE YOUR INCOME<//h2>
+              <h2 className="mt-4 text-2xl font-semibold tracking-tight text-slate-900">AUTOMATE YOUR INCOME</h2>
               <p className="mt-3 max-w-xl text-[15px] leading-relaxed text-slate-600">
                 If you want help building or scaling a digital system, reach out directly.
               </p>
