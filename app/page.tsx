@@ -114,7 +114,8 @@ export default function HomePage() {
     <main className="min-h-screen bg-slate-50 text-slate-900">
       <div className="mx-auto flex max-w-7xl flex-col px-4 pb-16 pt-10 sm:px-6 lg:px-0">
         {/* Top nav */}
-        <header className="mb-10 flex items-center justify-between relative">
+        
+<header className="mb-10 flex items-center justify-between relative">
   {/* Oversized brand mark, overlaid so it never pushes layout */}
   <Link
     href="/"
@@ -135,6 +136,7 @@ export default function HomePage() {
     <a href="#contact" className="hover:text-slate-900">Contact</a>
   </nav>
 </header>
+
 
         {/* Hero */}
         <section className="space-y-6">
