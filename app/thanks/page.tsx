@@ -1,3 +1,5 @@
+export const revalidate = 0;
+export const dynamic = "force-dynamic";
 import ParamGuard from "./ParamGuard";
 import Stripe from "stripe";
 import Link from "next/link";
@@ -17,9 +19,9 @@ async function signIfSupabasePath(pathOrUrl: string | null): Promise<string | nu
   return data?.signedUrl ?? null;
 }
 
-export default async function ThanksPage({ searchParams }:{ searchParams: { session_id?: string } }) {
+export default async function ThanksPage({ searchParams }:{ searchParams: { session_id?: string; sessionId?: string } }) {
   const site = process.env.NEXT_PUBLIC_SITE_URL || "https://walkperro.com";
-  const sessionId = searchParams?.session_id;
+  const sessionId = searchParams?.session_id || (searchParams as any)?.sessionId || null;
 
   if (!sessionId) {
     return (<main className="min-h-screen grid place-items-center bg-slate-950 text-slate-100">
@@ -76,7 +78,7 @@ export default async function ThanksPage({ searchParams }:{ searchParams: { sess
           <div className="text-lg font-semibold">Upgrade: All-In-One Toolkit</div>
           <p className="mt-1 text-slate-300">Every current & future digital drop in one sleek bundle.</p>
           <p className="mt-2 text-emerald-300">Use code <span className="font-bold">DOG30</span> for 30% off.</p>
-          <Link href="/api/checkout?slug=all-in-one" className="mt-4 inline-block rounded-full bg-emerald-500 px-5 py-2 text-sm font-medium text-white">Explore Bundle</Link>
+          <Link href="/checkout?price=price_1SbmGUCCBLLo4EMcl3h2ZHKl&promotionCode=DOG30" className="mt-4 inline-block rounded-full bg-emerald-500 px-5 py-2 text-sm font-medium text-white">Explore Bundle</Link>
         </div>
 
         <p className="mt-10 text-sm text-slate-400">
