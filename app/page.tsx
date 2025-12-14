@@ -120,8 +120,6 @@ export default function HomePage() {
           </Link>
           <nav className="flex items-center gap-6 text-sm text-slate-500">
             <a href="#exhibit" className="hover:text-slate-900">Exhibit</a>
-            <a href="/blog" className="hover:text-slate-900">Blog</a>
-            <a href="/contact" className="hover:text-slate-900">Work with me</a>
           </nav>
         </header>
 
