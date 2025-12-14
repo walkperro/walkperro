@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 const aliasToSlug: Record<string, string> = {
   "all-in-one-toolkit-bundle": "all-in-one",
@@ -15,21 +15,25 @@ const slugToPrice: Record<string, string> = {
   "all-in-one": "price_1SbmGUCCBLLo4EMcI3h2ZHKl",
 };
 
-// Keep this dynamic to ensure runtime evaluation
 export const dynamic = "force-dynamic";
 
-export async function GET(req: Request, ctx: { params: { slug: string } }) {
-  const incoming = (ctx.params?.slug || "").toLowerCase();
+export async function GET(
+  req: NextRequest,
+  context: { params: Promise<{ slug: string }> }
+) {
+  const { slug } = await context.params; // <-- NEW Next.js 16 requirement
+  const incoming = (slug || "").toLowerCase();
+
   const canonical = aliasToSlug[incoming] ?? incoming;
   const priceId = slugToPrice[canonical];
 
   if (!priceId) {
-    // hard 404 for unknown slugs
     return new NextResponse("Not Found", { status: 404 });
   }
 
   const url = new URL(req.url);
   url.pathname = "/checkout";
   url.search = `?price=${encodeURIComponent(priceId)}`;
+
   return NextResponse.redirect(url, 308);
 }
