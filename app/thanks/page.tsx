@@ -5,6 +5,8 @@ import Stripe from "stripe";
 import Link from "next/link";
 import { createClient } from "@supabase/supabase-js";
 
+console.log("DEBUG THANKS PAGE sessionId:", searchParams?.session_id);
+
 async function signIfSupabasePath(pathOrUrl: string | null): Promise<string | null> {
   if (!pathOrUrl) return null;
   if (/^https?:\/\//i.test(pathOrUrl)) return pathOrUrl; // already a URL
