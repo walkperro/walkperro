@@ -34,6 +34,12 @@ export default function ProductCard({
       {footerLine && <p className="mt-3 text-xs text-slate-500">{footerLine}</p>}
 
       <div className="mt-5">
+        
+      <div className="mt-3 text-[11px] uppercase tracking-[0.14em] text-slate-400">
+        PAYMENTS PROCESSED VIA <span className="font-semibold text-slate-200">STRIPE</span>
+        <span className="mx-1">•</span> INSTANT DOWNLOAD
+      </div>
+
         <BuyButton priceId={stripePriceId} label={`Buy Now — ${price}`} />
       </div>
     </div>

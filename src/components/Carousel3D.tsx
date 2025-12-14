@@ -193,11 +193,15 @@ export default function Carousel3D({ items, className }: Props) {
                       ))}
                     </ul>
 
-                    {item.footerLine && (
+                    {item.footerLine && (<>
                       <p className="mt-3 sm:mt-4 text-[0.88rem] text-slate-600">
                         {item.footerLine}
                       </p>
-                    )}
+        <p className="mt-3 text-[11px] uppercase tracking-[0.14em] text-slate-400">
+    PAYMENTS PROCESSED VIA <span className="font-semibold text-slate-200">STRIPE</span>
+    <span className="mx-1">•</span> INSTANT DOWNLOAD
+  </p>
+                    </>)}
 
                     <p className="mt-3 sm:mt-4 text-[0.68rem] sm:text-[0.72rem] uppercase tracking-[0.18em] text-slate-400">
                     </p>
