@@ -114,23 +114,27 @@ export default function HomePage() {
     <main className="min-h-screen bg-slate-50 text-slate-900">
       <div className="mx-auto flex max-w-7xl flex-col px-4 pb-16 pt-10 sm:px-6 lg:px-0">
         {/* Top nav */}
-        <header className="mb-10 flex items-center justify-between">
-<Link href="/" aria-label="WalkPerro" className="flex items-center">
-  <div className="relative h-8 md:h-9 w-[150px] md:w-[180px] overflow-hidden -ml-1">
+        <header className="mb-10 flex items-center justify-between relative">
+  {/* Oversized brand mark, overlaid so it never pushes layout */}
+  <Link
+    href="/"
+    aria-label="WalkPerro"
+    className="absolute left-0 top-1/2 -translate-y-1/2 z-20"
+  >
     <img
-      src="/images/logos/banner-black-transparent.png?v=1"
+      src="/images/logos/banner-black-transparent.png?v=8"
       alt="WalkPerro"
-      className="h-full w-auto object-contain scale-125 origin-left"
-      onError={(e)=>{const t=e.currentTarget; t.src="/images/logos/Icon-white-bg.png"; t.className="h-8 w-8 rounded-full object-contain";}}
+      className="h-[72px] md:h-[88px] w-auto object-contain pointer-events-none"
     />
-  </div>
-</Link>
-          <nav className="flex items-center gap-6 text-sm text-slate-500">
-            <a href="#exhibit" className="hover:text-slate-900">Exhibit</a>
-            <a href="#services" className="hover:text-slate-900">Services</a>
-            <a href="#contact" className="hover:text-slate-900">Contact</a>
-          </nav>
-        </header>
+  </Link>
+
+  {/* Nav stays aligned and unaffected */}
+  <nav className="ml-auto flex items-center gap-6 text-sm text-slate-500">
+    <a href="#exhibit" className="hover:text-slate-900">Exhibit</a>
+    <a href="#services" className="hover:text-slate-900">Services</a>
+    <a href="#contact" className="hover:text-slate-900">Contact</a>
+  </nav>
+</header>
 
         {/* Hero */}
         <section className="space-y-6">
