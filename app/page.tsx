@@ -120,6 +120,8 @@ export default function HomePage() {
           </Link>
           <nav className="flex items-center gap-6 text-sm text-slate-500">
             <a href="#exhibit" className="hover:text-slate-900">Exhibit</a>
+            <a href="#services" className="hover:text-slate-900">Services</a>
+            <a href="#contact" className="hover:text-slate-900">Contact</a>
           </nav>
         </header>
 
@@ -161,26 +163,26 @@ export default function HomePage() {
         <section className="mt-16 border-t border-slate-200 pt-12">
           <div className="grid gap-10 md:grid-cols-2">
             {/* Services */}
-            <div>
+            <div id="services">
               <p className="text-xs font-semibold uppercase tracking-[0.35em] text-slate-500">Services</p>
               <ul className="mt-4 space-y-2 text-[15px] leading-relaxed text-slate-700">
                 <li>• Digital product systems</li>
                 <li>• Funnel + checkout setup</li>
-                <li>• Website Creation</li>
+                <li>• Website + Database  Creation/Management</li>
                 <li>• AI workflows & automations</li>
                 <li>• Brand systems for creators</li>
               </ul>
             </div>
 
             {/* Contact */}
-            <div>
+            <div id="contact">
               <p className="text-xs font-semibold uppercase tracking-[0.35em] text-slate-500">Contact</p>
-              <h2 className="mt-4 text-2xl font-semibold tracking-tight text-slate-900">Automate your income</h2>
+              <h2 className="mt-4 text-2xl font-semibold tracking-tight text-slate-900">AUTOMATE YOUR INCOME<//h2>
               <p className="mt-3 max-w-xl text-[15px] leading-relaxed text-slate-600">
                 If you want help building or scaling a digital system, reach out directly.
               </p>
-              <div className="mt-6 flex flex-wrap items-center gap-4">
-                <a href="mailto:hello@walkperro.com"
+              <div className="mt-6 flex items-center justify-center gap-6">
+                <a href="mailto:walkperro@proton.me"
                    className="inline-flex items-center justify-center rounded-full bg-slate-900 px-5 py-2.5 text-sm font-semibold tracking-wide text-white hover:bg-slate-800">
                   Email me
                 </a>
@@ -194,7 +196,6 @@ export default function HomePage() {
                     <circle cx="12" cy="12" r="3.5" stroke="currentColor" strokeWidth="1.5"/>
                     <circle cx="17.5" cy="6.5" r="1.25" fill="currentColor"/>
                   </svg>
-                  <span>@walkperro</span>
                 </a>
 
                 {/* TikTok */}
@@ -204,7 +205,6 @@ export default function HomePage() {
                   <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                     <path d="M14 3c.2 2.5 1.7 5 5 5v3c-1.9 0-3.5-.6-5-1.7V16a5 5 0 1 1-3-4.6V8.2a8 8 0 0 0-1-.07A8 8 0 1 0 14 16V3Z" fill="currentColor"/>
                   </svg>
-                  <span>@walkperro</span>
                 </a>
               </div>
             </div>
