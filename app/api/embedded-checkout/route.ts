@@ -36,7 +36,7 @@ export async function POST(req: Request) {
       ...(promoId ? {} : { allow_promotion_codes: true }),
     });
 
-    return Response.json({ client_secret: session.client_secret });
+    return Response.json({ client_secret: session.client_secret, session_id: session.id });
   } catch (err: any) {
     console.error("Embedded checkout error:", err);
     return Response.json({ error: err?.message || "server_error" }, { status: 500 });

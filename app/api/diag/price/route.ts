@@ -11,8 +11,8 @@ export async function GET(req: Request) {
     const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
     const price = await stripe.prices.retrieve(priceId, { expand: ["product"] });
 
-    // Narrow product fields we return (no secrets)
     const product = typeof price.product === "object" ? price.product : null;
+    const isDeleted = !!(product as any)?.deleted;
 
     return Response.json({
       ok: true,
@@ -23,12 +23,12 @@ export async function GET(req: Request) {
         unit_amount: price.unit_amount,
         type: price.type,
       },
-      product: product ? {
-        id: product.id,
-        name: product.name,
-        active: product.active,
+      product: product && !isDeleted ? {
+        id: (product as Stripe.Product).id,
+        name: (product as Stripe.Product).name,
+        active: (product as Stripe.Product).active,
         shippable: (product as any).shippable ?? null,
-      } : null
+      } : (isDeleted ? { deleted: true } : null)
     });
   } catch (err: any) {
     return new Response(JSON.stringify({ ok:false, error: err?.message || "stripe_error" }), { status: 400 });

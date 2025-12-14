@@ -36,8 +36,9 @@ export default function ClientCheckout() {
         if (!res.ok) {
           throw new Error("Failed to create checkout session");
         }
-        const { client_secret } = await res.json();
-        return client_secret as string;
+        const { client_secret, session_id } = await res.json();
+if (session_id) { try { sessionStorage.setItem("last_checkout_session_id", session_id); } catch {} }
+return client_secret as string;
       };
 
       const checkout = await stripe.initEmbeddedCheckout({ fetchClientSecret });
