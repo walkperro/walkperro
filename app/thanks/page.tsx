@@ -3,11 +3,7 @@ export const dynamic = "force-dynamic";
 import ParamGuard from "./ParamGuard";
 import Stripe from "stripe";
 import Link from "next/link";
-import { createClient } from "@supabase/supabase-js";
-
-console.log("DEBUG THANKS PAGE sessionId:", searchParams?.session_id);
-
-async function signIfSupabasePath(pathOrUrl: string | null): Promise<string | null> {
+import { createClient } from "@supabase/supabase-js";async function signIfSupabasePath(pathOrUrl: string | null): Promise<string | null> {
   if (!pathOrUrl) return null;
   if (/^https?:\/\//i.test(pathOrUrl)) return pathOrUrl; // already a URL
   // expect "products/filename.ext"
