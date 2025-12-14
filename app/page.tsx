@@ -57,7 +57,7 @@ const products: Product[] = [
     name: "Money Moves Toolkit",
     eyebrow: "FLIP, RESELL & STACK QUICKLY",
     price: "$16.99",
-    coverImage: null,
+    coverImage: "/images/products/money-moves.png",
     payhipUrl: "https://payhip.com/b/3xYzE",
     payhipProductId: "3xYzE",
     stripePriceId: "price_1SbmBeCCBLLo4EMc9ueTdbkv",
