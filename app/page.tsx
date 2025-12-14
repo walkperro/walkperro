@@ -171,6 +171,7 @@ export default function HomePage() {
         </section>
 
         {/* Services + Contact */}
+        
         <section className="mt-16 border-t border-slate-200 pt-12">
           <div className="grid gap-10 md:grid-cols-2">
             {/* Services */}
@@ -187,56 +188,49 @@ export default function HomePage() {
 
             {/* Contact */}
             <div id="contact">
-    <p className="text-xs font-semibold uppercase tracking-[0.35em] text-slate-500">Contact</p>
-    <p className="mt-3 max-w-xl text-[15px] leading-relaxed text-slate-600">
-      If you want help building or scaling a digital system, reach out directly.
-    </p>
+              <p className="text-xs font-semibold uppercase tracking-[0.35em] text-slate-500">Contact</p>
+              <p className="mt-3 max-w-xl text-[15px] leading-relaxed text-slate-600">
+                If you want help building or scaling a digital system, reach out directly.
+              </p>
 
-    {/* Primary CTA (left-aligned, ALL CAPS) */}
-    <div className="mt-6 flex items-center gap-6">
-      <a
-        href="mailto:walkperro@proton.me"
-        className="inline-flex items-center justify-center rounded-full bg-slate-900 px-7 py-3 text-base font-semibold tracking-[0.18em] text-white hover:bg-slate-800 uppercase"
-      >
-        EMAIL ME
-      </a>
-    </div>
+              {/* Primary CTA */}
+              <div className="mt-6">
+                <a
+                  href="mailto:walkperro@proton.me"
+                  className="inline-flex items-center justify-center rounded-full bg-slate-900 px-6 py-3 text-sm md:text-base font-semibold tracking-[0.18em] text-white hover:bg-slate-800 uppercase"
+                >
+                  EMAIL ME
+                </a>
+              </div>
 
-    {/* Social mini-footer (centered, spaced) */}
-    <div className="mt-8 border-t border-slate-200 pt-6">
-      <div className="flex justify-center gap-8">
-        {/* Instagram */}
-        <a
-          href="https://instagram.com/walkperro"
-          aria-label="Instagram"
-          target="_blank" rel="noreferrer"
-          className="opacity-80 hover:opacity-100"
-        >
-          <svg viewBox="0 0 24 24" className="h-6 w-6" fill="currentColor" aria-hidden="true">
-            <path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5Z" fill="none" stroke="currentColor" strokeWidth="1.5"/>
-            <circle cx="12" cy="12" r="3.5" stroke="currentColor" strokeWidth="1.5"/>
-            <circle cx="17.5" cy="6.5" r="1.25" fill="currentColor"/>
-          </svg>
-        </a>
+              {/* Social mini-footer */}
+              <div className="mt-8 border-t border-slate-200 pt-6">
+                <div className="flex justify-center gap-7">
+                  {/* Instagram */}
+                  <a href="https://instagram.com/walkperro" aria-label="Instagram" target="_blank" rel="noreferrer" className="opacity-80 hover:opacity-100">
+                    <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" aria-hidden="true">
+                      <rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" strokeWidth="1.6"/>
+                      <circle cx="12" cy="12" r="3.6" stroke="currentColor" strokeWidth="1.6"/>
+                      <circle cx="17.5" cy="6.5" r="1.2" fill="currentColor"/>
+                    </svg>
+                  </a>
 
-        {/* TikTok — clearer single-color glyph */}
-        <a
-          href="https://www.tiktok.com/@walkperro"
-          aria-label="TikTok"
-          target="_blank" rel="noreferrer"
-          className="opacity-80 hover:opacity-100"
-        >
-          <svg viewBox="0 0 24 24" className="h-6 w-6" fill="currentColor" aria-hidden="true">
-            <path d="M12.9 3h2.1c.3 2 1.8 3.6 3.8 3.9v2.1c-1.6 0-3.1-.5-4.4-1.3v6.5a5.9 5.9 0 1 1-5.9-5.9c.5 0 1 .1 1.5.2v2.2c-.5-.2-1-.3-1.5-.3a3.6 3.6 0 1 0 3.6 3.6V3Z"/>
-          </svg>
-        </a>
-      </div>
-    </div>
-  </div>
-</section>
-
+                  {/* TikTok (cleaner, recognizable) */}
+                  <a href="https://www.tiktok.com/@walkperro" aria-label="TikTok" target="_blank" rel="noreferrer" className="opacity-80 hover:opacity-100">
+                    <svg viewBox="0 0 24 24" className="h-6 w-6" fill="currentColor" aria-hidden="true">
+                      <path d="M16 3v2.2c1.3 1.2 2.9 1.9 4.4 2v2.8c-2-.1-3.6-.7-4.4-1.5V17a6 6 0 1 1-3.8-5.5V8.3H16V3Z"/>
+                    </svg>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
 
       </div>
     </main>
+  );
+}
+
   );
 }
