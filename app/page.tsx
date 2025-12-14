@@ -157,9 +157,21 @@ export default function HomePage() {
           <div className="mt-8">
             <Carousel3D items={products} />
           </div>
+        
+        </section>
+
+        {/* —— Bridge headline —— */}
+        <section id="automate" className="mt-10 sm:mt-12">
+          <h2 className="text-2xl sm:text-3xl font-semibold tracking-tight text-slate-900">
+            AUTOMATE YOUR INCOME
+          </h2>
+          <p className="mt-3 max-w-2xl text-[15px] text-slate-600">
+            DESIGNED FOR SPEED. BUILT TO SCALE. TAILORED TO YOUR BRAND.
+          </p>
         </section>
 
         {/* Services + Contact */}
+}
         <section className="mt-16 border-t border-slate-200 pt-12">
           <div className="grid gap-10 md:grid-cols-2">
             {/* Services */}
@@ -168,7 +180,7 @@ export default function HomePage() {
               <ul className="mt-4 space-y-2 text-[15px] leading-relaxed text-slate-700">
                 <li>• Digital product systems</li>
                 <li>• Funnel + checkout setup</li>
-                <li>• Website + Database  Creation/Management</li>
+                <li>• Website + Database Creation/Management</li>
                 <li>• AI workflows & automations</li>
                 <li>• Brand systems for creators</li>
               </ul>
