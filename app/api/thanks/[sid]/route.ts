@@ -1,3 +1,4 @@
+import { NextRequest } from "next/server";
 import Stripe from "stripe";
 import { createClient } from "@supabase/supabase-js";
 
@@ -16,7 +17,8 @@ async function signIfSupabasePath(pathOrUrl: string | null) {
   return error ? null : (data?.signedUrl ?? null);
 }
 
-export async function GET(_: Request, { params }: { params: { sid: string } }) {
+export async function GET(req: NextRequest, {
+  const { sid } = await params; params }: { params: Promise<{ sid: string }> }){
   try {
     const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
     const s = await stripe.checkout.sessions.retrieve(params.sid, {
