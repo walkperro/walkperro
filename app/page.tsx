@@ -44,7 +44,7 @@ const products: Product[] = [
     coverImage: "/images/products/Wealth_hacks.png",
     payhipUrl: "https://payhip.com/b/1Q7gO",
     payhipProductId: "1Q7gO",
-    stripePriceId: "price_1Sbm8tCCBLLo4EMcp76vrtrw",
+    stripePriceId: "price_1Sbm8tCCBLLo4EMcp76vtrtw",
     bullets: [
       "Faceless content systems built for quiet cashflow.",
       "Page layouts, hooks & posting cadences.",

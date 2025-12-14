@@ -9,7 +9,7 @@ const aliasToSlug: Record<string, string> = {
 
 const slugToPrice: Record<string, string> = {
   "10-quick-codes": "price_1SbjuCCCBLLo4EMcvRTE72Ar",
-  "wealth-hacks": "price_1Sbm8tCCBLLo4EMcp76vrtrw",
+  "wealth-hacks": "price_1Sbm8tCCBLLo4EMcp76vtrtw",
   "money-moves": "price_1SbmBeCCBLLo4EMc9ueTdbkv",
   "chatgpt-cash-hacks": "price_1SbmDoCCBLLo4EMccp2qIyDo",
   "all-in-one": "price_1SbmGUCCBLLo4EMcl3h2ZHKl",

@@ -37,7 +37,7 @@ export const products: Product[] = [
       "How to stack multiple faceless pages into one income web.",
     ],
     footerLine: "Perfect if you want to print cash without being the face.",
-    stripePriceId: "price_1Sbm8tCCBLLo4EMcp76vrtrw",
+    stripePriceId: "price_1Sbm8tCCBLLo4EMcp76vtrtw",
   },
   {
     slug: "money-moves",
