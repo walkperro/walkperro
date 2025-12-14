@@ -1,72 +1,22 @@
-import Link from "next/link";
-import Image from "next/image";
-import CheckoutButton from "@/components/CheckoutButton";
-import { getProductBySlug } from "@/lib/products";
+import { redirect } from "next/navigation";
 
-type Params = { slug: string };
+const map: Record<string,string> = {
+  "10-quick-codes": "price_1SbjuCCCBLLo4EMcvRTE72Ar",
+  "wealth-hacks": "price_1Sbm8tCCBLLo4EMcp76vrtrw",
+  "money-moves": "price_1SbmBeCCBLLo4EMc9ueTdbkv",
+  "ChatGPT-cash-hacks": "price_1SbmDoCCBLLo4EMccp2qIyDo",
+  "all-in-one": "price_1SbmGUCCBLLo4EMcI3h2ZHKl",
+  // legacy aliases
+  "10-quick-codes-for-100-dollar-days": "price_1SbjuCCCBLLo4EMcvRTE72Ar",
+  "25-chatgpt-prompts-that-print-money": "price_1SbmDoCCBLLo4EMccp2qIyDo",
+  "money-moves-toolkit": "price_1SbmBeCCBLLo4EMc9ueTdbkv",
+  "all-in-one-toolkit-bundle": "price_1SbmGUCCBLLo4EMcI3h2ZHKl",
+};
 
-export default function ProductPage({ params }: { params: Params }) {
-  const product = getProductBySlug(params.slug);
-
-  if (!product) {
-    return (
-      <main className="min-h-screen bg-slate-50 text-slate-900">
-        <div className="mx-auto max-w-3xl px-4 py-16">
-          <h1 className="text-2xl font-semibold">Not found</h1>
-          <p className="mt-2 text-slate-600">We couldn’t find that product.</p>
-          <Link href="/" className="mt-6 inline-block text-emerald-700 hover:underline">Back to home</Link>
-        </div>
-      </main>
-    );
+export default function ProductSlugPage({ params }: { params: { slug: string } }) {
+  const price = map[decodeURIComponent(params.slug)];
+  if (!price) {
+    redirect("/404");
   }
-
-  return (
-    <main className="min-h-screen bg-slate-50 text-slate-900">
-      <div className="mx-auto max-w-5xl px-4 py-12">
-        <nav className="text-sm text-slate-500">
-          <Link href="/" className="hover:text-slate-900">Home</Link>
-          <span className="mx-2">/</span>
-          <span className="text-slate-700">{product.name}</span>
-        </nav>
-
-        <div className="mt-6 grid grid-cols-1 gap-8 md:grid-cols-2">
-          <div>
-            {product.coverImage ? (
-              <Image
-                src={product.coverImage}
-                alt={product.name}
-                width={1200}
-                height={900}
-                className="w-full rounded-xl border border-slate-200 bg-white"
-              />
-            ) : (
-              <div className="flex h-64 items-center justify-center rounded-xl border border-dashed border-slate-300 text-slate-400">
-                No cover image
-              </div>
-            )}
-          </div>
-
-          <div>
-            <div className="text-[10px] font-semibold uppercase tracking-[0.28em] text-emerald-600">
-              {product.eyebrow}
-            </div>
-            <h1 className="mt-1 text-3xl font-semibold tracking-tight">{product.name}</h1>
-            <div className="mt-1 text-slate-500">{product.price}</div>
-
-            <ul className="mt-4 list-disc space-y-1 pl-5 text-sm text-slate-600">
-              {product.bullets.map((b, i) => <li key={i}>{b}</li>)}
-            </ul>
-
-            {product.footerLine && <p className="mt-3 text-xs text-slate-500">{product.footerLine}</p>}
-
-            <div className="mt-6">
-              <CheckoutButton
-                priceId={product.stripePriceId}
-                />
-            </div>
-          </div>
-        </div>
-      </div>
-    </main>
-  );
+  redirect(`/checkout?price=${encodeURIComponent(price)}`);
 }
