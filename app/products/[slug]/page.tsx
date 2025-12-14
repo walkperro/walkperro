@@ -1,38 +1,31 @@
 import { redirect } from "next/navigation";
-import { products } from "@/lib/products";
+import { products } from "@/lib/products"; // {slug, stripePriceId, ...}
 
-const priceBySlug: Record<string,string> =
-  Object.fromEntries(products.map(p => [p.slug.toLowerCase(), p.stripePriceId]));
+type Params = { params: { slug: string } };
 
-const legacy: Record<string,string> = {
-  "all-in-one-toolkit-bundle": "all-in-one",
+// Legacy → Canonical slug aliases
+const aliasToSlug: Record<string, string> = {
+  "10-quick-codes-for-100-dollar-days": "10-quick-codes",
+  "wealth-hacks": "wealth-hacks",
   "money-moves-toolkit": "money-moves",
   "25-chatgpt-prompts-that-print-money": "chatgpt-cash-hacks",
-  "10-quick-codes-for-100-dollar-days": "10-quick-codes",
+  "all-in-one-toolkit-bundle": "all-in-one",
+  "all-in-one": "all-in-one",
+  "10-quick-codes": "10-quick-codes",
+  "chatgpt-cash-hacks": "chatgpt-cash-hacks",
 };
 
-function normalize(slug: string): string | null {
-  const s = slug.toLowerCase();
-
-  // Exact current slugs
-  if (priceBySlug[s]) return s;
-
-  // Known legacy aliases
-  if (legacy[s] && priceBySlug[legacy[s]]) return legacy[s];
-
-  // Heuristics
-  if (s.includes("all-in-one")) return "all-in-one";
-  if (s.includes("money-moves")) return "money-moves";
-  if (s.includes("chatgpt") || s.includes("prompts")) return "chatgpt-cash-hacks";
-  if (s.includes("10-quick-codes")) return "10-quick-codes";
-
-  return null;
+function resolvePriceId(incoming: string): string | null {
+  const canonical = aliasToSlug[incoming] ?? incoming;
+  const p = products.find((x) => x.slug === canonical);
+  return p?.stripePriceId ?? null;
 }
 
-export default function ProductSlugPage({ params }: { params: { slug: string } }) {
-  const norm = normalize(decodeURIComponent(params.slug));
-  if (!norm) redirect("/");
-
-  const price = priceBySlug[norm];
-  redirect(`/checkout?price=${encodeURIComponent(price)}`);
+export default function ProductSlugPage({ params }: Params) {
+  const priceId = resolvePriceId((params.slug || "").toLowerCase());
+  if (priceId) {
+    redirect(`/checkout?price=${encodeURIComponent(priceId)}`);
+  }
+  // Fallback: go to home if truly unknown slug
+  redirect("/");
 }
