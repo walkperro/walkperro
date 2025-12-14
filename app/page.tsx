@@ -119,7 +119,7 @@ export default function HomePage() {
     <img
       src="/images/logos/banner-white-bg.png?v=3"
       alt="WalkPerro"
-      className="h-8 sm:h-9 w-auto object-contain"
+      className="h-10 sm:h-11 w-auto object-contain"
     />
   </Link>
           <nav className="flex items-center gap-6 text-sm text-slate-500">
