@@ -79,7 +79,7 @@ export const products: Product[] = [
       "Swipe-ready templates so you don’t start from a blank page.",
     ],
     footerLine: "For the ones who want the full WalkPerro starter stack.",
-    stripePriceId: "price_1SbmGUCCBLLo4EMcI3h2ZHKl",
+    stripePriceId: "price_1SbmGUCCBLLo4EMcl3h2ZHKl",
   },
 ];
 

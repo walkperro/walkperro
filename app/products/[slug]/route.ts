@@ -12,7 +12,7 @@ const slugToPrice: Record<string, string> = {
   "wealth-hacks": "price_1Sbm8tCCBLLo4EMcp76vrtrw",
   "money-moves": "price_1SbmBeCCBLLo4EMc9ueTdbkv",
   "chatgpt-cash-hacks": "price_1SbmDoCCBLLo4EMccp2qIyDo",
-  "all-in-one": "price_1SbmGUCCBLLo4EMcI3h2ZHKl",
+  "all-in-one": "price_1SbmGUCCBLLo4EMcl3h2ZHKl",
 };
 
 export const dynamic = "force-dynamic";
