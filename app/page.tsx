@@ -117,9 +117,9 @@ export default function HomePage() {
         <header className="mb-10 flex items-center justify-between">
           <Link href="/" className="flex items-center">
     <img
-      src="/images/logos/banner-white-bg.png?v=3"
+      src="/images/logos/banner-black-transparent.png?v=4"
       alt="WalkPerro"
-      className="h-10 sm:h-11 w-auto object-contain"
+      className="h-12 sm:h-14 w-auto object-contain"
     />
   </Link>
           <nav className="flex items-center gap-6 text-sm text-slate-500">
