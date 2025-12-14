@@ -1,3 +1,4 @@
+import ParamGuard from "./ParamGuard";
 import Stripe from "stripe";
 import Link from "next/link";
 import { createClient } from "@supabase/supabase-js";
@@ -21,8 +22,9 @@ export default async function ThanksPage({ searchParams }:{ searchParams: { sess
   const sessionId = searchParams?.session_id;
 
   if (!sessionId) {
-    return (
-      <main className="min-h-screen grid place-items-center bg-slate-950 text-slate-100">
+    return (<main className="min-h-screen grid place-items-center bg-slate-950 text-slate-100">
+      {/* fallback if Stripe drops the query param */}
+      <ParamGuard />
         <div className="max-w-md rounded-2xl bg-white/5 p-6 shadow-xl ring-1 ring-white/10">
           <p className="text-base">Missing session. If you just paid, check your email for your receipt & downloads.</p>
           <Link href="/" className="mt-4 inline-block rounded-full bg-emerald-500 px-5 py-2 text-white">Back to home</Link>
