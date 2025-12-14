@@ -115,13 +115,13 @@ export default function HomePage() {
       <div className="mx-auto flex max-w-7xl flex-col px-4 pb-16 pt-10 sm:px-6 lg:px-0">
         {/* Top nav */}
         <header className="mb-10 flex items-center justify-between">
-          <Link href="/" className="flex items-center">
-    <img
-      src="/images/logos/banner-black-transparent.png?v=4"
-      alt="WalkPerro"
-      className="h-16 sm:h-20 w-auto object-contain"
-    />
-  </Link>
+<Link href="/" aria-label="WalkPerro" className="relative flex items-center h-8 sm:h-10">
+  <img
+    src="/images/logos/banner-white-bg.png?v=5"
+    alt="WalkPerro"
+    className="absolute left-0 top-1/2 -translate-y-1/2 h-10 sm:h-12 w-auto object-contain scale-150 origin-left"
+  />
+</Link>
           <nav className="flex items-center gap-6 text-sm text-slate-500">
             <a href="#exhibit" className="hover:text-slate-900">Exhibit</a>
             <a href="#services" className="hover:text-slate-900">Services</a>
