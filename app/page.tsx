@@ -221,11 +221,18 @@ export default function HomePage() {
                   </a>
 
                   {/* TikTok (clean, recognizable) */}
-                  <a href="https://www.tiktok.com/@walkperro" aria-label="TikTok" target="_blank" rel="noreferrer" className="opacity-80 hover:opacity-100">
-                    <svg viewBox="0 0 24 24" className="h-6 w-6" fill="currentColor" aria-hidden="true">
-                      <path d="M16 3v2.2c1.3 1.2 2.9 1.9 4.4 2v2.8c-2-.1-3.6-.7-4.4-1.5V17a6 6 0 1 1-3.8-5.5V8.3H16V3Z"/>
-                    </svg>
-                  </a>
+                  <a href="https://www.tiktok.com/@walkperro"
+      aria-label="TikTok"
+      target="_blank"
+      rel="noreferrer"
+      className="opacity-80 hover:opacity-100">
+      <img
+        src="/images/icons/tiktok.png"
+        alt="TikTok"
+        className="h-6 w-6 object-contain"
+        style={{ filter: "grayscale(100%) brightness(0.6)" }}
+      />
+   </a>
                 </div>
               </div>
             </div>
