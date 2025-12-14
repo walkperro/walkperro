@@ -31,7 +31,7 @@ export async function POST(req: Request) {
       mode: "payment",
       line_items: [{ price: priceId, quantity: 1 }],
       ...(promoId ? { discounts: [{ promotion_code: promoId }] } : {}),
-      return_url: `${origin}/thanks?session_id={CHECKOUT_SESSION_ID}`,
+      return_url: `${origin}/thanks/{CHECKOUT_SESSION_ID}`,
       redirect_on_completion: "always",
       ...(promoId ? {} : { allow_promotion_codes: true }),
     });
