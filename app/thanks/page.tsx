@@ -1,6 +1,7 @@
 export const revalidate = 0;
 export const dynamic = "force-dynamic";
 import ParamGuard from "./ParamGuard";
+import ClientProbe from "./ClientProbe";
 import Stripe from "stripe";
 import Link from "next/link";
 import { createClient } from "@supabase/supabase-js";async function signIfSupabasePath(pathOrUrl: string | null): Promise<string | null> {
@@ -23,6 +24,8 @@ export default async function ThanksPage({ searchParams }:{ searchParams: { sess
 
   if (!sessionId) {
     return (<main className="min-h-screen grid place-items-center bg-slate-950 text-slate-100">
+      {/* PROBE */}
+      <ClientProbe />
       {/* fallback if Stripe drops the query param */}
       <ParamGuard />
         <div className="max-w-md rounded-2xl bg-white/5 p-6 shadow-xl ring-1 ring-white/10">
