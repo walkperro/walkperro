@@ -172,6 +172,7 @@ export default function HomePage() {
 
         {/* Services + Contact */}
         
+        
         <section className="mt-16 border-t border-slate-200 pt-12">
           <div className="grid gap-10 md:grid-cols-2">
             {/* Services */}
@@ -215,7 +216,7 @@ export default function HomePage() {
                     </svg>
                   </a>
 
-                  {/* TikTok (cleaner, recognizable) */}
+                  {/* TikTok (clean, recognizable) */}
                   <a href="https://www.tiktok.com/@walkperro" aria-label="TikTok" target="_blank" rel="noreferrer" className="opacity-80 hover:opacity-100">
                     <svg viewBox="0 0 24 24" className="h-6 w-6" fill="currentColor" aria-hidden="true">
                       <path d="M16 3v2.2c1.3 1.2 2.9 1.9 4.4 2v2.8c-2-.1-3.6-.7-4.4-1.5V17a6 6 0 1 1-3.8-5.5V8.3H16V3Z"/>
@@ -229,8 +230,5 @@ export default function HomePage() {
 
       </div>
     </main>
-  );
-}
-
   );
 }
