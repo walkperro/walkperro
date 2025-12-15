@@ -182,7 +182,7 @@ export default function HomePage() {
           <h2 className="text-2xl sm:text-3xl font-semibold tracking-tight text-slate-900">
             AUTOMATE YOUR INCOME
           </h2>
-          <p className="mt-3 max-w-2xl text-[15px] text-slate-600">
+          <p className="mt-3 max-w-2xl text-[15px] leading-[1.75] text-slate-600/90">
             DESIGNED FOR SPEED. BUILT TO SCALE. TAILORED TO YOUR BRAND.
           </p>
         </section>
@@ -195,7 +195,7 @@ export default function HomePage() {
             {/* Services */}
             <div id="services">
               <p className="text-xs font-semibold uppercase tracking-[0.35em] text-slate-500">Services</p>
-              <ul className="mt-4 space-y-2 text-[15px] leading-relaxed text-slate-700">
+              <ul className="mt-5 space-y-3 text-[15px] leading-relaxed text-slate-700">
                 <li>• Digital product systems</li>
                 <li>• Funnel + checkout setup</li>
                 <li>• Website + Database Creation/Management</li>
