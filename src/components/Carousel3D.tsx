@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState, useCallback } from "react";
 import CheckoutButton from "@/components/CheckoutButton";
 import type { Product } from "@/lib/products";
 
@@ -16,6 +16,63 @@ export default function Carousel3D({ items, className }: Props) {
   const [index, setIndex] = useState(0);
   const [showBack, setShowBack] = useState(false);
   const shellRef = useRef<HTMLDivElement | null>(null);
+
+// --- swipe helpers (injected) ---
+const startRef = useRef<{x:number,y:number}|null>(null);
+const draggingRef = useRef(false);
+
+const SWIPE_THRESH = 28;     // px to trigger
+const DOMINANCE    = 1.2;    // horizontal must be 1.2x vertical
+
+const handleTouchStart = (e: any) => {
+  const t = e.touches?.[0];
+  if (!t) return;
+  startRef.current = { x: t.clientX, y: t.clientY };
+  draggingRef.current = true;
+};
+const handleTouchMove = (e: any) => {
+  if (!draggingRef.current || !startRef.current) return;
+  const t = e.touches?.[0];
+  if (!t) return;
+  const dx = t.clientX - startRef.current.x;
+  const dy = t.clientY - startRef.current.y;
+  // let vertical scrolling happen naturally
+  if (Math.abs(dy) > Math.abs(dx) * DOMINANCE) return;
+};
+const handleTouchEnd = (e: any) => {
+  if (!draggingRef.current || !startRef.current) return;
+  const t = e.changedTouches?.[0];
+  if (!t) { draggingRef.current = false; return; }
+  const dx = t.clientX - startRef.current.x;
+  const dy = t.clientY - startRef.current.y;
+  draggingRef.current = false;
+  if (Math.abs(dx) >= SWIPE_THRESH && Math.abs(dx) > Math.abs(dy) * DOMINANCE) {
+    go(dx < 0 ? 1 : -1);
+  }
+};
+
+const handleMouseDown = (e: any) => {
+  startRef.current = { x: e.clientX, y: e.clientY };
+  draggingRef.current = true;
+};
+const handleMouseMove = (e: any) => {
+  if (!draggingRef.current || !startRef.current) return;
+  e.preventDefault(); // avoid text/image selection
+  const dx = e.clientX - startRef.current.x;
+  const dy = e.clientY - startRef.current.y;
+  if (Math.abs(dy) > Math.abs(dx) * DOMINANCE) return;
+};
+const handleMouseUp = (e: any) => {
+  if (!draggingRef.current || !startRef.current) return;
+  const dx = e.clientX - startRef.current.x;
+  const dy = e.clientY - startRef.current.y;
+  draggingRef.current = false;
+  if (Math.abs(dx) >= SWIPE_THRESH && Math.abs(dx) > Math.abs(dy) * DOMINANCE) {
+    go(dx < 0 ? 1 : -1);
+  }
+};
+const handleMouseLeave = () => { draggingRef.current = false; };
+// --- end swipe helpers ---
   const [dims, setDims] = useState({ w: 360, h: 500, isMobile: false });
 
   useEffect(() => {
@@ -72,7 +129,7 @@ export default function Carousel3D({ items, className }: Props) {
         overflow: "visible",
         marginTop: "clamp(8px, 1.5vh, 16px)",
       }}
-    >
+     onTouchStart={handleTouchStart} onTouchMove={handleTouchMove} onTouchEnd={handleTouchEnd} onMouseDown={handleMouseDown} onMouseMove={handleMouseMove} onMouseUp={handleMouseUp} onMouseLeave={handleMouseLeave}>
       {/* stage */}
       <div
         className="absolute inset-x-0"
@@ -141,7 +198,7 @@ export default function Carousel3D({ items, className }: Props) {
                   }}
                 >
                   {item.coverImage ? (
-                    <img
+                    <img draggable={false}
                       src={item.coverImage}
                       alt={item.name}
                       width={dims.w}
