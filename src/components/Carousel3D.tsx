@@ -116,7 +116,7 @@ export default function Carousel3D({ items, className }: Props) {
             >
               {/* Card wrapper that flips only for the centered item */}
               <div
-                className="relative h-full w-full"
+                className="relative h-full w-full" onClick={(e)=>{const t = e.target as HTMLElement; if(t && (t.closest('button') || t.closest('a'))) return; if (isCenter) setShowBack(v=>!v);}} className="relative h-full w-full cursor-pointer"
                 style={{
                   transformStyle: "preserve-3d",
                   transition: isCenter ? "transform 420ms ease" : undefined,
