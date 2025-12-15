@@ -166,23 +166,23 @@ export default function HomePage() {
         </section>
 
         {/* Exhibit */}
-        <section id="exhibit" className="mt-10 sm:mt-12">
+        <section id="exhibit" className="mt-10 sm:mt-12 mb-14 sm:mb-16">
           <div className="flex flex-wrap items-baseline justify-between gap-3">
             <p className="text-xs font-semibold uppercase tracking-[0.35em] text-slate-500">The Exhibit</p>
             <p className="text-xs text-slate-400">5 pieces • instant access • lifetime updates</p>
           </div>
-          <div className="mt-8">
+          <div className="mt-4 mb-0">
             <Carousel3D items={products} />
           </div>
         
         </section>
 
         {/* —— Bridge headline —— */}
-        <section id="automate" className="mt-8 sm:mt-10">
+        <section id="automate" className="-mt-6 sm:-mt-8">
           <h2 className="text-2xl sm:text-3xl font-semibold tracking-tight text-slate-900">
             AUTOMATE YOUR INCOME
           </h2>
-          <p className="mt-3 max-w-2xl text-[15px] leading-[1.75] text-slate-600/90">
+          <p className="mt-2 max-w-2xl text-[15px] leading-[1.75] text-slate-600/90">
             DESIGNED FOR SPEED. BUILT TO SCALE. TAILORED TO YOUR BRAND.
           </p>
         </section>
@@ -190,12 +190,12 @@ export default function HomePage() {
         {/* Services + Contact */}
         
         
-        <section className="mt-16 border-t border-slate-200 pt-12">
-          <div className="grid gap-10 md:grid-cols-2">
+        <section className="mt-12 border-t border-slate-200 pt-5">
+          <div className="grid gap-6 md:grid-cols-2 md:gap-10">
             {/* Services */}
             <div id="services">
               <p className="text-xs font-semibold uppercase tracking-[0.35em] text-slate-500">Services</p>
-              <ul className="mt-5 space-y-3 text-[15px] leading-relaxed text-slate-700">
+              <ul className="mt-5 mb-6 space-y-3 text-[15px] leading-relaxed text-slate-700">
                 <li>• Digital product systems</li>
                 <li>• Funnel + checkout setup</li>
                 <li>• Website + Database Creation/Management</li>
@@ -204,15 +204,19 @@ export default function HomePage() {
               </ul>
             </div>
 
+            
+            {/* Mobile spacer between Services & Contact */}
+            <div className="h-px bg-slate-200 md:hidden" />
+            
             {/* Contact */}
-            <div id="contact">
+            <div id="contact" className="md:border-l md:border-slate-200 md:pl-10">
               <p className="text-xs font-semibold uppercase tracking-[0.35em] text-slate-500">Contact</p>
-              <p className="mt-3 max-w-xl text-[15px] leading-relaxed text-slate-600">
+              <p className="mt-2 max-w-xl text-[15px] leading-relaxed text-slate-600">
                 If you want help building or scaling a digital system, reach out directly.
               </p>
 
               {/* Primary CTA */}
-              <div className="mt-6">
+              <div className="mt-4">
                 <a
                   href="mailto:walkperro@proton.me"
                   className="inline-flex items-center justify-center rounded-full bg-slate-900 px-6 py-3 text-sm md:text-base font-semibold tracking-[0.18em] text-white hover:bg-slate-800 uppercase"
@@ -222,7 +226,7 @@ export default function HomePage() {
               </div>
 
               {/* Social mini-footer */}
-              <div className="mt-8 border-t border-slate-200 pt-6">
+              <div className="mt-6 border-t border-slate-200 pt-4">
                 <div className="flex justify-center gap-7">
                   {/* Instagram */}
                   <a href="https://instagram.com/walkperro" aria-label="Instagram" target="_blank" rel="noreferrer" className="opacity-80 hover:opacity-100">
