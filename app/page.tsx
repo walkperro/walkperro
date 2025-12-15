@@ -125,9 +125,9 @@ export default function HomePage() {
     className="absolute left-0 top-1/2 -translate-y-1/2 z-20"
   >
     <img
-      src="/images/logos/banner-black-transparent.png?v=8"
+      src="/images/logos/banner-black-transparent.png?v=9"
       alt="WalkPerro"
-      className="h-[72px] md:h-[88px] w-auto object-contain pointer-events-none"
+      className="h-[128px] md:h-[160px] w-auto object-contain pointer-events-none"
     />
   </Link>
 
