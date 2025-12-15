@@ -127,14 +127,8 @@ export default function Carousel3D({ items, className }: Props) {
     transition: isCenter ? "transform 420ms ease" : undefined,
     transform: isCenter && showBack ? "rotateY(180deg)" : "rotateY(0deg)",
   }}
->{const t = e.target as HTMLElement; if(t && (t.closest('button') || t.closest('a'))) return; if (isCenter) setShowBack(v=>!v);}} className="relative h-full w-full cursor-pointer"
-                style={{
-                  transformStyle: "preserve-3d",
-                  transition: isCenter ? "transform 420ms ease" : undefined,
-                  transform: isCenter && showBack ? "rotateY(180deg)" : "rotateY(0deg)",
-                }}
-              >
-                {/* FRONT */}
+>
+{/* FRONT */}
                 <div
                   className="absolute inset-0 rounded-[28px] overflow-hidden"
                   style={{
