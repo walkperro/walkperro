@@ -178,7 +178,7 @@ export default function HomePage() {
         </section>
 
         {/* —— Bridge headline —— */}
-        <section id="automate" className="mt-10 sm:mt-12">
+        <section id="automate" className="mt-8 sm:mt-10">
           <h2 className="text-2xl sm:text-3xl font-semibold tracking-tight text-slate-900">
             AUTOMATE YOUR INCOME
           </h2>
