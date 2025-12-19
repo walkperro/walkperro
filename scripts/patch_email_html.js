@@ -18,7 +18,7 @@ const replacement = String.raw`const html = \`
             <div style="font-weight:700;color:#064e3b;">Upgrade: All-In-One Toolkit</div>
             <div style="margin-top:4px;color:#065f46;">Every current & future digital drop in one sleek bundle.</div>
             <div style="margin-top:6px;color:#047857;">Use code <strong>DOG30</strong> for 30% off.</div>
-            <a href="\${(process.env.NEXT_PUBLIC_SITE_URL||"https://walkperro.com")}/checkout?price=price_1SbmGUCCBLLo4EMcI3h2ZHKl&promotionCode=DOG30" target="_blank" rel="noopener" style="display:inline-block;margin-top:12px;background:#10b981;color:#fff;padding:10px 14px;border-radius:999px;font-weight:600;text-decoration:none">Explore Bundle</a>
+            <a href="\${(process.env.NEXT_PUBLIC_SITE_URL||"https://walkperro.com")}/checkout?price=price_1SbmGUCCBLLo4EMcl3h2ZHKl&promotionCode=DOG30" target="_blank" rel="noopener" style="display:inline-block;margin-top:12px;background:#10b981;color:#fff;padding:10px 14px;border-radius:999px;font-weight:600;text-decoration:none">Explore Bundle</a>
           </div>
 
           <p style="margin-top:16px;color:#334155;font-size:14px">Need help? DM <a style="color:#0ea5e9" href="https://instagram.com/walkperro">@walkperro</a> or email <a style="color:#0ea5e9" href="mailto:walkperro@proton.me">walkperro@proton.me</a>.</p>

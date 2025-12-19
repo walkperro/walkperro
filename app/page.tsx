@@ -92,7 +92,7 @@ const products: Product[] = [
     coverImage: "/images/products/all-in-one-toolkit.png",
     payhipUrl: "https://payhip.com/b/Pgrso",
     payhipProductId: "Pgrso",
-    stripePriceId: "price_1SbmGUCCBLLo4EMcI3h2ZHKl",
+    stripePriceId: "price_1SbmGUCCBLLo4EMcl3h2ZHKl",
     bullets: [
       "Includes ALL WalkPerro digital guides + tools.",
       "Cohesive system: hustles + tools + prompts that lock together.",
@@ -107,7 +107,7 @@ export default function HomePage() {
 
   function buy(priceId: string) {
     setLoadingSku(priceId);
-    window.location.href = `/checkout?price=${priceId}&promo=promo_1ScG1aCCBLLo4EMcTXo1qmQN`;
+    window.location.href = `/checkout?price=${priceId}`;
   }
 
   return (
@@ -156,10 +156,10 @@ export default function HomePage() {
           </p>
           <div className="mt-4 flex flex-wrap items-center gap-4">
             <button
-              onClick={() => buy("price_1SbmGUCCBLLo4EMcI3h2ZHKl")}
-              disabled={loadingSku === "price_1SbmGUCCBLLo4EMcI3h2ZHKl"}
+              onClick={() => buy("price_1SbmGUCCBLLo4EMcl3h2ZHKl")}
+              disabled={loadingSku === "price_1SbmGUCCBLLo4EMcl3h2ZHKl"}
               className="inline-flex items-center justify-center rounded-full bg-slate-900 px-8 py-3 text-sm font-semibold tracking-[0.15em] text-white transition hover:bg-slate-800 disabled:opacity-60">
-              {loadingSku === "price_1SbmGUCCBLLo4EMcI3h2ZHKl" ? "Processing..." : "GET THE BUNDLE"}
+              {loadingSku === "price_1SbmGUCCBLLo4EMcl3h2ZHKl" ? "Processing..." : "GET THE BUNDLE"}
             </button>
           </div>
           <ReviewMarquee />

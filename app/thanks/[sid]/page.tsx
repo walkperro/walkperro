@@ -17,10 +17,9 @@ async function signIfSupabasePath(pathOrUrl: string | null): Promise<string | nu
   return data?.signedUrl ?? null;
 }
 
-export default async function ThanksSidPage({ params }: { params: Promise<{ sid: string }> }) {
-  const { sid } = await params;
-
-  const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
+export default async function ThanksSidPage({ params }: { params: { sid: string } }) {
+  const { sid } = params;
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
   const s = await stripe.checkout.sessions.retrieve(sid, {
     expand: ["line_items.data.price.product","customer"],
   });

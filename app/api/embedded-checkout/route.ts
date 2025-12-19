@@ -24,14 +24,14 @@ export async function POST(req: Request) {
       promoId = process.env.NEXT_PUBLIC_DEFAULT_PROMO_ID;
     }
 
-    const origin = process.env.NEXT_PUBLIC_SITE_URL || "https://walkperro.com";
+    const origin = process.env.NEXT_PUBLIC_SITE_URL || "https://www.walkperro.com";
 
     const session = await stripe.checkout.sessions.create({
       ui_mode: "embedded",
       mode: "payment",
       line_items: [{ price: priceId, quantity: 1 }],
       ...(promoId ? { discounts: [{ promotion_code: promoId }] } : {}),
-      return_url: `${origin}/thanks/{CHECKOUT_SESSION_ID}`,
+      return_url: `${origin}/thanks?session_id={CHECKOUT_SESSION_ID}`,
       redirect_on_completion: "always",
       ...(promoId ? {} : { allow_promotion_codes: true }),
     });
