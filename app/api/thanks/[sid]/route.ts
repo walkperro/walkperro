@@ -1,3 +1,4 @@
+/* HARDEN SID */
 import { NextRequest } from "next/server";
 import Stripe from "stripe";
 import { createClient } from "@supabase/supabase-js";
@@ -31,6 +32,10 @@ async function signIfSupabasePath(pathOrUrl: string | null): Promise<string | nu
 // IMPORTANT: Next 16 expects params as a Promise in the handler context type (per your build error)
 export async function GET(_req: NextRequest, ctx: { params: Promise<{ sid: string }> }) {
   const { sid } = await ctx.params;
+  if (!sid || sid === "undefined" || !sid.startsWith("cs_")) {
+    return Response.json({ ok: false, error: "invalid_session_id" }, { status: 400 });
+  }
+
 
   try {
     const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
