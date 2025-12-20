@@ -7,7 +7,6 @@ export const revalidate = 0;
 export default function ThanksSidPage({ params }: { params: { sid?: string } }) {
   const sid = params?.sid;
 
-  // Guard: never render client component with undefined sid
   if (!sid || sid === "undefined" || !sid.startsWith("cs_")) {
     return (
       <main className="min-h-screen bg-slate-950 text-slate-100">

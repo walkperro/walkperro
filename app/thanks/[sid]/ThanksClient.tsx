@@ -11,49 +11,23 @@ type ApiResp = {
 };
 
 export default function ThanksClient({ sid }: { sid: string }) {
-  if (!sid || sid === "undefined" || !sid.startsWith("cs_")) {
-    return (
-      <main className="min-h-screen bg-slate-950 text-slate-100">
-        <div className="mx-auto max-w-2xl px-6 py-14">
-          <h1 className="text-3xl font-semibold tracking-tight">You’re in. ✅</h1>
-          <div className="mt-7 rounded-xl border border-white/10 bg-white/5 p-4 text-slate-300">
-            Missing or invalid session id. Please use the links in your email receipt.
-          </div>
-          <Link
-            href="/"
-            className="mt-8 inline-block rounded-full bg-white px-5 py-2 text-slate-900 font-semibold"
-          >
-            Back to home
-          </Link>
-        </div>
-      </main>
-    );
-  }
-
   const [data, setData] = useState<ApiResp | null>(null);
   const [status, setStatus] = useState<"loading" | "ready" | "error">("loading");
 
   const ready = useMemo(
-    () => (data?.resolved || []).filter(x => x.resolved_url),
+    () => (data?.resolved || []).filter((x) => x.resolved_url),
     [data]
   );
 
   useEffect(() => {
-    if (!sid || sid === "undefined") {
-      setStatus("error");
-      return;
-    }
-
     let alive = true;
     let tries = 0;
-    const maxTries = 10;
+    const maxTries = 10; // ~25-30s
 
     async function tick() {
       tries++;
       try {
-        const r = await fetch(`/api/thanks/${encodeURIComponent(sid)}`, {
-          cache: "no-store",
-        });
+        const r = await fetch(`/api/thanks/${encodeURIComponent(sid)}`, { cache: "no-store" });
         const j = (await r.json()) as ApiResp;
         if (!alive) return;
 
@@ -64,7 +38,8 @@ export default function ThanksClient({ sid }: { sid: string }) {
           return;
         }
 
-        if ((j.resolved || []).some(x => x.resolved_url)) {
+        const haveLinks = (j.resolved || []).some((x) => x.resolved_url);
+        if (haveLinks) {
           setStatus("ready");
           return;
         }
@@ -94,10 +69,15 @@ export default function ThanksClient({ sid }: { sid: string }) {
       <div className="mx-auto max-w-2xl px-6 py-14">
         <h1 className="text-3xl font-semibold tracking-tight">You’re in. ✅</h1>
 
-        <p className="mt-3 text-slate-300">
-          {email
-            ? <>Receipt + downloads were sent to <span className="font-medium">{email}</span>.</>
-            : <>Receipt + downloads were sent to your email.</>}
+        <p className="mt-3 text-slate-300 leading-relaxed">
+          {email ? (
+            <>
+              Receipt + downloads were sent to{" "}
+              <span className="font-medium text-slate-100">{email}</span>.
+            </>
+          ) : (
+            <>Receipt + downloads were sent to your email.</>
+          )}
         </p>
 
         <div className="mt-7 space-y-3">
@@ -107,13 +87,16 @@ export default function ThanksClient({ sid }: { sid: string }) {
             </div>
           ) : ready.length ? (
             ready.map((d, i) => (
-              <div key={i} className="flex items-center justify-between rounded-xl border border-white/10 bg-white/5 p-4">
-                <div className="font-medium">{d.name}</div>
+              <div
+                key={i}
+                className="flex items-center justify-between gap-4 rounded-xl border border-white/10 bg-white/5 p-4"
+              >
+                <div className="text-slate-100 font-medium">{d.name}</div>
                 <a
                   href={d.resolved_url!}
                   target="_blank"
                   rel="noopener"
-                  className="rounded-full bg-emerald-500 px-4 py-2 text-sm font-semibold text-white"
+                  className="shrink-0 rounded-full bg-emerald-500 px-4 py-2 text-sm font-semibold text-white"
                 >
                   Download
                 </a>
@@ -121,7 +104,8 @@ export default function ThanksClient({ sid }: { sid: string }) {
             ))
           ) : (
             <div className="rounded-xl border border-white/10 bg-white/5 p-4 text-slate-300">
-              We’re generating your secure links now…
+              We’re generating your secure links now… (If you don’t see a button soon, use your email
+              receipt.)
             </div>
           )}
         </div>
@@ -132,7 +116,7 @@ export default function ThanksClient({ sid }: { sid: string }) {
 
         <Link
           href="/"
-          className="mt-8 inline-block rounded-full bg-white px-5 py-2 text-slate-900 font-semibold"
+          className="mt-8 inline-block rounded-full bg-white px-5 py-2 text-slate-900 font-semibold hover:bg-slate-100"
         >
           Back to home
         </Link>
