@@ -4,9 +4,18 @@ import ThanksClient from "./ThanksClient";
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
-export default function ThanksSidPage({ params }: { params: { sid?: string } }) {
-  const sid = params?.sid;
+type MaybePromise<T> = T | Promise<T>;
 
+export default async function ThanksSidPage({
+  params,
+}: {
+  params: MaybePromise<{ sid?: string }>;
+}) {
+  const p = (await params) as { sid?: string };
+  const sid = p?.sid;
+
+  // Guard: never render client component with undefined sid
+  // NOTE: Next 16 may provide params as a Promise; awaiting above hardens this.
   if (!sid || sid === "undefined" || !sid.startsWith("cs_")) {
     return (
       <main className="min-h-screen bg-slate-950 text-slate-100">
