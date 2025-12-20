@@ -44,7 +44,7 @@ src = src.replace(
 // D. convert hero CTA anchor to button that calls buy() with BUNDLE price
 src = src.replace(
   /<a\s*href="#bundle"[^>]*>\s*GET THE BUNDLE\s*<\/a>/s,
-  `<button onClick={() => buy("price_1SbmGUCCBLLo4EMcI3h2ZHKl")} className="inline-flex items-center justify-center rounded-full bg-slate-900 px-8 py-3 text-sm font-semibold tracking-[0.15em] text-white transition hover:bg-slate-800">GET THE BUNDLE</button>`
+  `<button onClick={() => buy("price_1SbmGUCCBLLo4EMcl3h2ZHKl")} className="inline-flex items-center justify-center rounded-full bg-slate-900 px-8 py-3 text-sm font-semibold tracking-[0.15em] text-white transition hover:bg-slate-800">GET THE BUNDLE</button>`
 );
 
 // E. add stripePriceId to each product object right after payhipProductId
@@ -57,10 +57,10 @@ const injectId = (slug, price) => {
 };
 
 injectId("10-quick-codes", "price_1SbjuCCCBLLo4EMcvRTE72Ar");
-injectId("wealth-hacks", "price_1Sbm8tCCBLLo4EMcp76vrtrw");
+injectId("wealth-hacks", "price_1Sbm8tCCBLLo4EMcp76vtrtw");
 injectId("money-moves", "price_1SbmBeCCBLLo4EMc9ueTdbkv");
 injectId("chatgpt-cash-hacks", "price_1SbmDoCCBLLo4EMccp2qIyDo");
-injectId("all-in-one", "price_1SbmGUCCBLLo4EMcI3h2ZHKl");
+injectId("all-in-one", "price_1SbmGUCCBLLo4EMcl3h2ZHKl");
 
 // Save
 fs.writeFileSync(filePath, src);

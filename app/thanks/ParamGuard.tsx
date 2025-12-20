@@ -4,25 +4,31 @@ import { useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 
 export default function ParamGuard() {
-  const sp = useSearchParams();
   const router = useRouter();
+  const sp = useSearchParams();
 
   useEffect(() => {
     const sid =
       sp.get("session_id") ||
       sp.get("checkout_session_id") ||
+      sp.get("nxtPsid") ||
       sp.get("sid") ||
       sp.get("session");
 
-    // If URL already has it, server page will redirect, no need to do anything here.
-    if (sid) return;
+    // If Stripe gave us a session id, go straight to /thanks/[sid]
+    if (sid && sid.trim()) {
+      router.replace(`/thanks/${encodeURIComponent(sid)}`);
+      return;
+    }
 
-    // Rescue: Stripe sometimes returns without params.
+    // Fallback: if embedded checkout stored the session id, use it
     try {
       const last = sessionStorage.getItem("last_checkout_session_id");
-      if (last) router.replace(`/thanks/${last}`);
+      if (last && last.trim()) {
+        router.replace(`/thanks/${encodeURIComponent(last)}`);
+      }
     } catch {}
-  }, [sp, router]);
+  }, [router, sp]);
 
   return null;
 }

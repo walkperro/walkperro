@@ -9,7 +9,7 @@ export async function GET(req: Request) {
     const price = searchParams.get("price");
     const code  = searchParams.get("code");
 
-    const site = process.env.NEXT_PUBLIC_SITE_URL || "https://walkperro.com";
+    const site = process.env.NEXT_PUBLIC_SITE_URL || "https://www.walkperro.com";
     const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 
     let stripePriceId: string | null = null;
@@ -30,7 +30,7 @@ export async function GET(req: Request) {
     const session = await stripe.checkout.sessions.create({
       mode: "payment",
       line_items: [{ price: stripePriceId, quantity: 1 }],
-      success_url: `${site}/thanks?session_id={CHECKOUT_SESSION_ID}`,
+      success_url: `/thanks/{CHECKOUT_SESSION_ID}`,
       cancel_url: `${site}/`,
       allow_promotion_codes: true,
       ...(discounts ? { discounts } : {}),
