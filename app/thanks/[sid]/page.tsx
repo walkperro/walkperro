@@ -25,8 +25,8 @@ function looksLikeCheckoutSessionId(sid: string) {
   return /^cs_(test|live)_[A-Za-z0-9]+$/.test(sid);
 }
 
-function originFromHeaders() {
-  const h = headers();
+async function originFromHeaders() {
+  const h = await headers();
   const proto = h.get("x-forwarded-proto") || "https";
   const host  = h.get("x-forwarded-host") || h.get("host");
   return host ? `${proto}://${host}` : (process.env.NEXT_PUBLIC_SITE_URL || "https://www.walkperro.com");
@@ -57,7 +57,7 @@ export default async function ThanksSidPage({ params }: { params: { sid: string 
   let err = "";
 
   try {
-    const origin = originFromHeaders();
+    const origin = await originFromHeaders();
     const r = await fetch(`${origin}/api/thanks/${encodeURIComponent(sid)}`, { cache: "no-store" });
     const j = (await r.json()) as ApiResp;
 
