@@ -3,9 +3,17 @@
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 
+type ApiItem = {
+  product_id?: string | null;
+  product_name?: string | null;
+  download_url?: string | null;
+  supabase_path?: string | null;
+};
+
 type ApiResp = {
   ok: boolean;
   email?: string | null;
+  items?: ApiItem[];
   resolved?: { name: string; resolved_url: string | null }[];
   error?: string;
 };
@@ -32,7 +40,9 @@ export default function ThanksClient({ sid }: { sid: string }) {
 
   const upsellHref =
     promoId
-      ? `/checkout?price=${encodeURIComponent(aioPriceId)}&promotionCodeId=${encodeURIComponent(promoId)}`
+      ? `/checkout?price=${encodeURIComponent(aioPriceId)}&promotionCodeId=${encodeURIComponent(
+          promoId
+        )}`
       : `/checkout?price=${encodeURIComponent(aioPriceId)}`;
 
   useEffect(() => {
@@ -61,6 +71,16 @@ export default function ThanksClient({ sid }: { sid: string }) {
     () => (data?.resolved || []).filter((x) => x.resolved_url),
     [data]
   );
+
+  // ✅ Hide upsell if they already bought All-In-One
+  const boughtAllInOne = useMemo(() => {
+    const items = data?.items || [];
+    return items.some((it) =>
+      String(it.product_name || "")
+        .toLowerCase()
+        .includes("all-in-one")
+    );
+  }, [data]);
 
   useEffect(() => {
     let alive = true;
@@ -127,31 +147,36 @@ export default function ThanksClient({ sid }: { sid: string }) {
         </p>
 
         {/* --- Upsell (DOG30) --- */}
-        <div className="mt-7 rounded-2xl border border-emerald-400/20 bg-emerald-500/10 p-5">
-          <div className="flex items-start justify-between gap-4">
-            <div>
-              <div className="text-sm font-semibold text-emerald-300">
-                Limited-time upgrade
+        {!boughtAllInOne && (
+          <div className="mt-7 rounded-2xl border border-emerald-400/20 bg-emerald-500/10 p-5">
+            <div className="flex items-start justify-between gap-4">
+              <div>
+                <div className="text-sm font-semibold text-emerald-300">
+                  Limited-time upgrade
+                </div>
+                <div className="mt-1 text-lg font-semibold text-slate-100">
+                  Get the All-In-One Toolkit Bundle
+                </div>
+                <p className="mt-1 text-sm text-slate-300">
+                  Use code{" "}
+                  <span className="font-semibold text-emerald-200">DOG30</span>{" "}
+                  for 30% off.
+                  <span className="ml-2 text-slate-400">
+                    Offer expires in{" "}
+                    <span className="font-mono text-slate-100">{timerText}</span>
+                  </span>
+                </p>
               </div>
-              <div className="mt-1 text-lg font-semibold text-slate-100">
-                Get the All-In-One Toolkit Bundle
-              </div>
-              <p className="mt-1 text-sm text-slate-300">
-                Use code <span className="font-semibold text-emerald-200">DOG30</span> for 30% off.
-                <span className="ml-2 text-slate-400">
-                  Offer expires in <span className="font-mono text-slate-100">{timerText}</span>
-                </span>
-              </p>
-            </div>
 
-            <Link
-              href={upsellHref}
-              className="shrink-0 rounded-full bg-emerald-500 px-4 py-2 text-sm font-semibold text-white hover:bg-emerald-400"
-            >
-              Upgrade (-30%)
-            </Link>
+              <Link
+                href={upsellHref}
+                className="shrink-0 rounded-full bg-emerald-500 px-4 py-2 text-sm font-semibold text-white hover:bg-emerald-400"
+              >
+                Upgrade (-30%)
+              </Link>
+            </div>
           </div>
-        </div>
+        )}
 
         {/* --- Downloads --- */}
         <div className="mt-6 space-y-3">
@@ -178,13 +203,15 @@ export default function ThanksClient({ sid }: { sid: string }) {
             ))
           ) : (
             <div className="rounded-xl border border-white/10 bg-white/5 p-4 text-slate-300">
-              We’re generating your secure links now… (If you don’t see a button soon, use your email receipt.)
+              We’re generating your secure links now… (If you don’t see a button
+              soon, use your email receipt.)
             </div>
           )}
         </div>
 
         <p className="mt-6 text-sm text-slate-400">
-          Tip: secure links expire — if you need them again, use the email receipt.
+          Tip: secure links expire — if you need them again, use the email
+          receipt.
         </p>
 
         <Link
