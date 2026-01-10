@@ -61,30 +61,7 @@ export async function POST(req: Request) {
         expand: ["line_items.data.price.product"],
       });
 
-      
-      // --- WALKPERRO ONLY GUARD ---
-      const md: any = (session as any)?.metadata || {};
-      const priceIds: string[] = (session as any)?.line_items?.data?.map((li: any) => li?.price?.id).filter(Boolean) || [];
-      const productIds: string[] = (session as any)?.line_items?.data?.map((li: any) => {
-        const p = li?.price?.product;
-        if (!p) return null;
-        return typeof p === "string" ? p : p.id;
-      }).filter(Boolean) || [];
-
-      const allowPrices = (process.env.WALKPERRO_PRICE_IDS || "").split(",").map(s => s.trim()).filter(Boolean);
-      const allowProducts = (process.env.WALKPERRO_PRODUCT_IDS || "").split(",").map(s => s.trim()).filter(Boolean);
-
-      const isWalkPerro =
-        md.app === "walkperro" ||
-        priceIds.some((id) => allowPrices.includes(id)) ||
-        productIds.some((id) => allowProducts.includes(id));
-
-      if (!isWalkPerro) {
-        console.log("[WH] skip non-walkperro checkout", { priceIds, productIds, md });
-        return Response.json({ ok: true, skipped: true });
-      }
-      // --- END GUARD ---
-// Only handle WALKPERRO checkouts
+      // Only handle WALKPERRO checkouts
       const appTag = (session.metadata?.app as string | undefined) ?? null;
       if (appTag && appTag !== "walkperro") {
         return Response.json({ ok: true });

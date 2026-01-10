@@ -34,6 +34,8 @@ export async function POST(req: Request) {
     
 
     const session = await stripe.checkout.sessions.create({
+      metadata: { app: "walkperro" },
+      payment_intent_data: { metadata: { app: "walkperro" } },
       ui_mode: "embedded",
       mode: "payment",
       line_items: [{ price: priceId, quantity: 1 }],
