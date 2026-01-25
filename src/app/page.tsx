@@ -1,232 +1,189 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useMemo, useRef, useState } from "react";
+import DogMascot from "@/components/DogMascot";
 
-type Mode = "build" | "convert";
+type BuildNeed = "card" | "more";
+type BoolPick = "yes" | "no";
 
-export default function Home() {
-  const [mode, setMode] = useState<Mode>("build");
-  const [sub, setSub] = useState(0);
+export default function LandingTour() {
+  const [interest, setInterest] = useState<"build" | "convert" | "both" | null>(null);
+  const [buildNeed, setBuildNeed] = useState<BuildNeed | null>(null);
+  const [dashboard, setDashboard] = useState<BoolPick | null>(null);
+  const [seo, setSeo] = useState<BoolPick | null>(null);
+  const [ga4, setGa4] = useState<BoolPick | null>(null);
+  const [ads, setAds] = useState<BoolPick | null>(null);
 
-  const railRef = useRef<HTMLDivElement | null>(null);
+  const [details, setDetails] = useState("");
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [company, setCompany] = useState("");
 
-  const data = useMemo(() => {
-    return {
-      build: {
-        title: "Build",
-        subtitle: "Websites, dashboards, and web apps.",
-        tabs: ["Basic", "Dashboard", "Webapp"],
-        cards: [
-          {
-            key: "basic",
-            name: "Basic Site",
-            price: "$",
-            desc: "Clean, fast, modern site. Built to convert.",
-            bullets: ["1–5 pages", "Fast load", "Modern UI", "Launch-ready"],
-            cta: "Request this",
-          },
-          {
-            key: "dash",
-            name: "Site + Admin Dashboard",
-            price: "$$",
-            desc: "Website + database + admin portal for updates, leads, content, or inventory.",
-            bullets: ["Database", "Admin portal", "Auth", "Analytics-ready"],
-            cta: "Request this",
-          },
-          {
-            key: "webapp",
-            name: "Full Web App",
-            price: "$$$",
-            desc: "A real product: subscriptions, workflows, dashboards, automation.",
-            bullets: ["Custom features", "Scales", "Integrations", "Production build"],
-            cta: "Request this",
-          },
-        ],
-      },
-      convert: {
-        title: "Convert",
-        subtitle: "Traffic, tracking, and paid growth.",
-        tabs: ["SEO", "GA4", "Ads"],
-        cards: [
-          {
-            key: "seo",
-            name: "SEO",
-            price: "$",
-            desc: "Structure + content + technical fixes so you show up for what matters.",
-            bullets: ["On-page SEO", "Indexing", "Local-ready", "Technical audit"],
-            cta: "Request this",
-          },
-          {
-            key: "ga4",
-            name: "GA4 Analytics",
-            price: "$",
-            desc: "Track every important action so you know what works and what doesn’t.",
-            bullets: ["GA4 setup", "Events", "Funnels", "Reports"],
-            cta: "Request this",
-          },
-          {
-            key: "ads",
-            name: "Google Ads",
-            price: "$$",
-            desc: "Conversion-focused campaigns with clean measurement and iteration.",
-            bullets: ["Conversion setup", "Search campaigns", "Optimization", "Reporting"],
-            cta: "Request this",
-          },
-        ],
-      },
-    } as const;
-  }, []);
+  const refs = useRef<Array<HTMLElement | null>>([]);
 
-  const active = data[mode];
+  const go = (i: number) => {
+    const el = refs.current[i];
+    if (!el) return;
+    el.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
 
-  // Reset mini-tab on mode change
-  useEffect(() => {
-    setSub(0);
-    // snap rail back to start
-    requestAnimationFrame(() => {
-      const el = document.getElementById(`card-${mode}-${active.cards[0].key}`);
-      el?.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [mode]);
-
-  // Scroll to card when mini-tab changes
-  useEffect(() => {
-    const card = active.cards[sub];
-    if (!card) return;
-    const el = document.getElementById(`card-${mode}-${card.key}`);
-    el?.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
-  }, [sub, mode, active.cards]);
+  const summary = useMemo(() => {
+    const picks: string[] = [];
+    if (interest) picks.push(`Interest: ${interest}`);
+    if (buildNeed) picks.push(`Website: ${buildNeed === "card" ? "simple" : "more than simple"}`);
+    if (dashboard) picks.push(`Dashboard/Admin: ${dashboard}`);
+    if (seo) picks.push(`SEO: ${seo}`);
+    if (ga4) picks.push(`GA4: ${ga4}`);
+    if (ads) picks.push(`Ads: ${ads}`);
+    return picks.join(" • ");
+  }, [interest, buildNeed, dashboard, seo, ga4, ads]);
 
   return (
-    <main className="min-h-screen bg-black">
-      <div className="mx-auto max-w-6xl px-6 pt-16 pb-16">
-        {/* Header */}
-        <header className="flex items-start justify-between gap-6">
-          <div>
-            <h1 className="text-4xl font-semibold tracking-tight">WalkPerro</h1>
-            <div className="mt-5 h-px w-28 bg-white/12" />
-            <p className="mt-4 muted max-w-sm">
-              Digital systems for modern businesses.
-            </p>
-          </div>
-
-          <a
-            href="#inquiry"
-            className="pill text-sm text-white/80 hover:text-white transition"
-          >
-            Request an Audit <span className="text-white/50">→</span>
-          </a>
-        </header>
-
-        {/* Build / Convert segmented toggle */}
-        <div className="mt-12 flex items-center justify-center">
-          <div className="segment">
-            <button
-              className={mode === "build" ? "active" : ""}
-              onClick={() => setMode("build")}
-              type="button"
-            >
-              Build
-            </button>
-            <button
-              className={mode === "convert" ? "active" : ""}
-              onClick={() => setMode("convert")}
-              type="button"
-            >
-              Convert
-            </button>
-          </div>
-        </div>
-
-        {/* Mini tabs + swipe hint */}
-        <div className="mt-5 flex flex-col items-center gap-3">
-          <div className="minitabs">
-            {active.tabs.map((t, i) => (
-              <button
-                key={t}
-                type="button"
-                className={sub === i ? "active" : ""}
-                onClick={() => setSub(i)}
-              >
-                {t}
-              </button>
-            ))}
-          </div>
-
-          <div className="swipe-hint md:hidden">Swipe →</div>
-        </div>
-
-        {/* Section title */}
-        <div className="mt-8 text-center">
-          <span className="text-xs text-white/55 px-3 py-1 rounded-full border border-white/10 bg-white/[0.03]">
-            Services
-          </span>
-          <h2 className="mt-4 text-3xl font-semibold tracking-tight">{active.title}</h2>
-          <p className="mt-2 muted">{active.subtitle}</p>
-        </div>
-
-        {/* Horizontal slider */}
-        <div ref={railRef} className="mt-10 hscroll">
-          {active.cards.map((c) => (
-            <div
-              key={c.key}
-              id={`card-${mode}-${c.key}`}
-              className="snap-card relative card card-hover p-7"
-            >
-              <div className="card-inner">
-                <div className="flex items-start justify-between gap-4">
-                  <div>
-                    <div className="text-sm text-white/55">Plan</div>
-                    <div className="mt-1 text-2xl font-semibold">{c.name}</div>
-                  </div>
-                  <div className="text-lg text-white/75 font-semibold">{c.price}</div>
-                </div>
-
-                <p className="mt-4 muted text-sm leading-relaxed">{c.desc}</p>
-
-                <div className="mt-6 grid gap-2">
-                  {c.bullets.map((b) => (
-                    <div key={b} className="pill text-sm text-white/80">
-                      {b}
-                    </div>
-                  ))}
-                </div>
-
-                <a
-                  href="#inquiry"
-                  className="mt-6 inline-flex items-center justify-center pill text-sm text-white/90 hover:text-white transition"
-                >
-                  {c.cta} <span className="text-white/50 ml-2">→</span>
-                </a>
-              </div>
+    <main className="tour">
+      <section className="tourSection" ref={(el) => { refs.current[0] = el; }}>
+        <div className="tourInner">
+          <div className="tourTop">
+            <div>
+              <h1 className="tourTitle">WalkPerro</h1>
+              <p className="tourSub">Digital systems for modern businesses.</p>
             </div>
-          ))}
-        </div>
-
-        {/* Inquiry */}
-        <section id="inquiry" className="mt-14 relative card p-8">
-          <div className="card-inner">
-            <h3 className="text-2xl font-semibold">Inquiry</h3>
-            <p className="mt-2 muted">
-              Tell us what you're building. We’ll reply with next steps.
-            </p>
-
-            <form className="mt-6 grid gap-3">
-              <input className="pill text-sm outline-none bg-transparent" placeholder="Name" />
-              <input className="pill text-sm outline-none bg-transparent" placeholder="Email" />
-              <input className="pill text-sm outline-none bg-transparent" placeholder="Company / Project" />
-              <textarea className="pill text-sm outline-none bg-transparent" rows={4} placeholder="What do you need?" />
-              <button
-                type="button"
-                className="pill text-sm text-white/90 hover:text-white transition"
-              >
-                Submit <span className="text-white/50 ml-2">→</span>
-              </button>
-            </form>
           </div>
-        </section>
-      </div>
+
+          <button className="tourPrimary" type="button" onClick={() => go(1)}>
+            Start <span>→</span>
+          </button>
+
+          <div className="tourDog">
+            <DogMascot say="Click me." />
+          </div>
+        </div>
+      </section>
+
+      <section className="tourSection" ref={(el) => { refs.current[1] = el; }}>
+        <div className="tourInner">
+          <h2 className="tourQ">What are you most interested in today?</h2>
+          <div className="tourGrid2">
+            <button className="tourChoice" onClick={() => { setInterest("build"); go(2); }} type="button">Building</button>
+            <button className="tourChoice" onClick={() => { setInterest("convert"); go(4); }} type="button">Conversions</button>
+            <button className="tourChoice" onClick={() => { setInterest("both"); go(2); }} type="button">Both</button>
+          </div>
+          <p className="tourHint">You can change this later. Services are always in the menu.</p>
+        </div>
+      </section>
+
+      <section className="tourSection" ref={(el) => { refs.current[2] = el; }}>
+        <div className="tourInner">
+          <h2 className="tourQ">What do you need your website to do?</h2>
+          <div className="tourGrid">
+            <button
+              className="tourChoice"
+              type="button"
+              onClick={() => { setBuildNeed("card"); go(4); }}
+            >
+              Simple landing / “virtual business card”
+              <span className="tourChoiceSub">Contact info, photos, and clean pages.</span>
+            </button>
+
+            <button
+              className="tourChoice"
+              type="button"
+              onClick={() => { setBuildNeed("more"); go(3); }}
+            >
+              That — and more
+              <span className="tourChoiceSub">Dashboards, portals, automation, logins.</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <section className="tourSection" ref={(el) => { refs.current[3] = el; }}>
+        <div className="tourInner">
+          <h2 className="tourQ">Interested in an admin portal / internal dashboard?</h2>
+          <p className="tourP">
+            This lets you manage leads, customers, content, inventory, and operations — and scale past local competition.
+          </p>
+          <div className="tourGrid2">
+            <button className="tourChoice" onClick={() => { setDashboard("yes"); go(4); }} type="button">Yes</button>
+            <button className="tourChoice" onClick={() => { setDashboard("no"); go(4); }} type="button">Not right now</button>
+          </div>
+        </div>
+      </section>
+
+      <section className="tourSection" ref={(el) => { refs.current[4] = el; }}>
+        <div className="tourInner">
+          <h2 className="tourQ">Do you want your website searchable on Google?</h2>
+          <div className="tourGrid2">
+            <button className="tourChoice" onClick={() => { setSeo("yes"); go(5); }} type="button">Yes</button>
+            <button className="tourChoice" onClick={() => { setSeo("no"); go(5); }} type="button">Not interested</button>
+          </div>
+        </div>
+      </section>
+
+      <section className="tourSection" ref={(el) => { refs.current[5] = el; }}>
+        <div className="tourInner">
+          <h2 className="tourQ">Do you want to track your website traffic and actions?</h2>
+          <div className="tourGrid2">
+            <button className="tourChoice" onClick={() => { setGa4("yes"); go(6); }} type="button">Yes</button>
+            <button className="tourChoice" onClick={() => { setGa4("no"); go(6); }} type="button">Not interested</button>
+          </div>
+        </div>
+      </section>
+
+      <section className="tourSection" ref={(el) => { refs.current[6] = el; }}>
+        <div className="tourInner">
+          <h2 className="tourQ">Want to increase exposure with Google Ads?</h2>
+          <p className="tourP">Conversion-focused campaigns with clean measurement.</p>
+          <div className="tourGrid2">
+            <button className="tourChoice" onClick={() => { setAds("yes"); go(7); }} type="button">Yes</button>
+            <button className="tourChoice" onClick={() => { setAds("no"); go(7); }} type="button">Not interested</button>
+          </div>
+        </div>
+      </section>
+
+      <section className="tourSection" ref={(el) => { refs.current[7] = el; }}>
+        <div className="tourInner">
+          <h2 className="tourQ">Tell us what you’re looking for</h2>
+
+          <div className="tourCard">
+            <div className="tourCardInner">
+              <div className="tourMini">Your selections</div>
+              <div className="tourSummary">{summary || "No selections yet."}</div>
+            </div>
+          </div>
+
+          <div className="tourForm">
+            <textarea
+              className="tourInput"
+              rows={4}
+              placeholder="Explain what you want built..."
+              value={details}
+              onChange={(e) => setDetails(e.target.value)}
+            />
+            <input className="tourInput" placeholder="Name" value={name} onChange={(e) => setName(e.target.value)} />
+            <input className="tourInput" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
+            <input className="tourInput" placeholder="Company (optional)" value={company} onChange={(e) => setCompany(e.target.value)} />
+
+            <button className="tourPrimary" type="button" onClick={() => go(8)}>
+              Submit <span>→</span>
+            </button>
+
+            <p className="tourHint">
+              (Next: we’ll wire this to your real inquiry endpoint / email.)
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section className="tourSection" ref={(el) => { refs.current[8] = el; }}>
+        <div className="tourInner">
+          <h2 className="tourQ">Thank you.</h2>
+          <p className="tourP">We’ll contact you shortly with next steps.</p>
+          <div className="tourDog">
+            <DogMascot say="Woof. We got you." />
+          </div>
+          <a className="tourLink" href="/services">View services <span>→</span></a>
+        </div>
+      </section>
     </main>
   );
 }
