@@ -145,3 +145,67 @@ a:hover { text-decoration: none; }
 @media (min-width: 768px) {
   .snap-card { flex-basis: 360px; }
 }
+
+/* --- Background glow (dark HeyGen-ish) --- */
+.bgfx {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+.bgfx::before {
+  content: "";
+  position: absolute;
+  inset: -20%;
+  background:
+    radial-gradient(800px 420px at 20% 20%, rgba(255,255,255,0.06), transparent 60%),
+    radial-gradient(640px 360px at 75% 28%, rgba(255,255,255,0.04), transparent 62%),
+    radial-gradient(900px 520px at 55% 80%, rgba(255,255,255,0.03), transparent 65%);
+  filter: blur(8px);
+  opacity: 0.9;
+}
+.bgfx::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(1200px 600px at 50% -10%, rgba(255,255,255,0.04), transparent 55%),
+    linear-gradient(to bottom, rgba(0,0,0,0.0), rgba(0,0,0,0.65));
+  opacity: 1;
+}
+
+/* Ensure content sits above background */
+.z-content { position: relative; z-index: 1; }
+
+/* --- Cleaner rail with less clutter --- */
+.hscroll {
+  gap: 18px;
+  padding: 8px 18px 18px 18px;
+}
+
+/* Active card ring + focus */
+.card-active {
+  border-color: rgba(255,255,255,0.22) !important;
+  box-shadow:
+    0 1px 0 rgba(255,255,255,0.06) inset,
+    0 0 0 1px rgba(0,0,0,0.35) inset,
+    0 30px 90px rgba(0,0,0,0.70),
+    0 0 0 2px rgba(255,255,255,0.10),
+    0 0 0 6px rgba(255,255,255,0.04);
+  transform: translateY(-2px) scale(1.02);
+}
+
+/* Make non-active cards slightly calmer */
+.card-calm {
+  opacity: 0.92;
+  transform: scale(0.985);
+}
+
+/* Price/CTA should never be purple/underlined */
+a, a:visited { color: inherit; text-decoration: none; }
+a:hover { text-decoration: none; }
+
+/* Slightly darker inputs */
+input.pill, textarea.pill {
+  background: rgba(255,255,255,0.03);
+}
