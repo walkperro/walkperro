@@ -7,18 +7,17 @@ export default function Dog({ step }: { step: number }) {
   const [walking, setWalking] = useState(false);
 
   useEffect(() => {
-    // trigger a short “walk” cycle on step changes
     setWalking(true);
-    const t = setTimeout(() => setWalking(false), 850);
+    const t = setTimeout(() => setWalking(false), 700);
     return () => clearTimeout(t);
   }, [step]);
 
-  const y = step * 160;
-  const opacity = step >= 3 ? 0.18 : 0.88;
+  const y = step * 150 + (step === 0 ? 40 : 0);
+  const opacity = step >= 3 ? 0.22 : 0.9;
 
   return (
     <motion.div
-      className="fixed z-10 select-none right-4 top-32 md:right-6 md:top-28"
+      className="fixed z-10 select-none right-4 md:right-6 md:top-28"
       animate={{ y, opacity }}
       transition={{ type: "spring", stiffness: 55, damping: 18 }}
     >
@@ -38,71 +37,63 @@ export default function Dog({ step }: { step: number }) {
 function DogMark({ walking }: { walking: boolean }) {
   return (
     <motion.svg
-      width="74"
-      height="40"
-      viewBox="0 0 172 92"
+      width="76"
+      height="44"
+      viewBox="0 0 180 104"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       className="opacity-90 md:opacity-85"
-      animate={walking ? { y: [0, -1.5, 0, -1.0, 0] } : { y: 0 }}
-      transition={walking ? { duration: 0.85, ease: "easeInOut" } : { duration: 0.2 }}
+      animate={
+        walking
+          ? { x: [0, 3, 0, 2, 0], y: [0, -1.5, 0, -1, 0] }
+          : { x: 0, y: 0 }
+      }
+      transition={walking ? { duration: 0.7, ease: "easeInOut" } : { duration: 0.2 }}
     >
-      {/* body */}
+      {/* BODY (clean canine silhouette) */}
       <path
-        d="M36 58 L70 30 L112 36 L126 68 L70 72 Z"
+        d="M40 62 L78 36 L120 40 L138 70 L86 78 L52 76 Z"
+        fill="white"
+        fillOpacity="0.92"
+      />
+      {/* HEAD */}
+      <path
+        d="M120 40 L150 26 L166 40 L146 50 L138 70 L120 40 Z"
+        fill="white"
+        fillOpacity="0.92"
+      />
+      {/* EAR (subtle dog ear) */}
+      <path
+        d="M146 50 L154 38 L166 40 Z"
         fill="white"
         fillOpacity="0.92"
       />
 
-      {/* head */}
-      <path
-        d="M112 36 L146 20 L162 34 L142 44 L126 68 L112 36 Z"
-        fill="white"
-        fillOpacity="0.92"
-      />
-
-      {/* back leg (animated) */}
+      {/* LEGS (bigger + readable) */}
       <motion.g
-        animate={
-          walking
-            ? { rotate: [0, 12, 0, -10, 0] }
-            : { rotate: 0 }
-        }
-        transition={
-          walking
-            ? { duration: 0.45, repeat: 2, ease: "easeInOut" }
-            : { duration: 0.2 }
-        }
-        style={{ transformOrigin: "56px 72px" }}
+        animate={walking ? { rotate: [0, 14, 0, -10, 0] } : { rotate: 0 }}
+        transition={walking ? { duration: 0.35, repeat: 2, ease: "easeInOut" } : { duration: 0.2 }}
+        style={{ transformOrigin: "70px 78px" }}
       >
-        <path d="M52 72 L44 92 L58 92 L66 72 Z" fill="white" fillOpacity="0.92" />
+        <path d="M66 78 L56 104 L76 104 L86 80 Z" fill="white" fillOpacity="0.92" />
       </motion.g>
 
-      {/* front leg (animated opposite phase) */}
       <motion.g
-        animate={
-          walking
-            ? { rotate: [0, -10, 0, 12, 0] }
-            : { rotate: 0 }
-        }
-        transition={
-          walking
-            ? { duration: 0.45, repeat: 2, ease: "easeInOut" }
-            : { duration: 0.2 }
-        }
-        style={{ transformOrigin: "92px 72px" }}
+        animate={walking ? { rotate: [0, -12, 0, 14, 0] } : { rotate: 0 }}
+        transition={walking ? { duration: 0.35, repeat: 2, ease: "easeInOut" } : { duration: 0.2 }}
+        style={{ transformOrigin: "104px 78px" }}
       >
-        <path d="M84 72 L78 92 L92 92 L98 72 Z" fill="white" fillOpacity="0.92" />
+        <path d="M102 78 L92 104 L112 104 L120 82 Z" fill="white" fillOpacity="0.92" />
       </motion.g>
 
-      {/* tail (idle twitch always) */}
+      {/* TAIL (idle twitch always, more dog-like) */}
       <motion.g
         animate={{ rotate: [0, 10, 0, -6, 0] }}
-        transition={{ duration: 1.9, repeat: Infinity, ease: "easeInOut" }}
-        style={{ transformOrigin: "32px 54px" }}
+        transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
+        style={{ transformOrigin: "40px 60px" }}
       >
         <path
-          d="M36 58 L18 48 L22 40 L44 52 Z"
+          d="M40 62 L20 54 L26 44 L48 56 Z"
           fill="white"
           fillOpacity="0.92"
         />

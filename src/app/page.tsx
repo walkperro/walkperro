@@ -47,7 +47,7 @@ export default function Home() {
       <Spotlight step={step} />
       <Dog step={step} />
 
-      <div className="relative z-10 snap-y-mandatory">
+      <div className="relative z-10 snap-wrap">
         <div className="mx-auto max-w-6xl px-6">
           {/* HERO */}
           <section

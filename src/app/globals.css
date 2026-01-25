@@ -23,16 +23,15 @@ body {
   border: 1px solid rgba(255,255,255,0.10);
 }
 
-/* --- Scroll snap (slideshow feel) --- */
-html {
-  scroll-behavior: smooth;
-}
+/* --- Scroll snap (soft, premium) --- */
+html { scroll-behavior: smooth; }
 
-.snap-y-mandatory {
-  scroll-snap-type: y mandatory;
-}
+/* default (mobile): no snap */
+.snap-wrap { scroll-snap-type: none; }
+.snap-start { scroll-snap-align: none; scroll-snap-stop: normal; }
 
-.snap-start {
-  scroll-snap-align: start;
-  scroll-snap-stop: always;
+/* md+ only: soft snap proximity */
+@media (min-width: 768px) {
+  .snap-wrap { scroll-snap-type: y proximity; }
+  .snap-start { scroll-snap-align: start; scroll-snap-stop: normal; }
 }
