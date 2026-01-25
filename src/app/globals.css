@@ -671,3 +671,10 @@ html, body { background:#000 !important; overflow-x:hidden !important; }
 /* DOG sizing/position safety (landing tour) */
 .tourDog { display:flex !important; justify-content:center !important; align-items:center !important; margin-top: 18px !important; }
 .tourDog svg { width: 84px !important; height: auto !important; opacity: .92; }
+
+/* === Dog beside title (landing tour) === */
+.tourBrandRow { display:flex; align-items:center; gap:12px; }
+.tourBrandDog { width:36px; height:auto; color: rgba(255,255,255,0.92); flex: 0 0 auto; }
+
+/* If DogMascot had any wrapper bubble look, keep dog clean */
+.tourDog { background: none !important; border: 0 !important; box-shadow: none !important; }

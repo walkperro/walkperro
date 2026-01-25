@@ -2,6 +2,7 @@
 
 import { useMemo, useRef, useState } from "react";
 import DogMascot from "@/components/DogMascot";
+import AnimatedSittingDog from "@/components/AnimatedSittingDog";
 
 type BuildNeed = "card" | "more";
 type BoolPick = "yes" | "no";
@@ -44,7 +45,7 @@ export default function LandingTour() {
         <div className="tourInner">
           <div className="tourTop">
             <div>
-              <h1 className="tourTitle">WalkPerro</h1>
+              <div className="tourBrandRow"><AnimatedSittingDog className="tourBrandDog" title="WalkPerro dog" /><h1 className="tourTitle">WalkPerro</h1></div>
               <p className="tourSub">Digital systems for modern businesses.</p>
             </div>
           </div>
