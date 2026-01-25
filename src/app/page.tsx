@@ -138,7 +138,7 @@ export default function Home() {
   }, [activeIdx]);
 
   return (
-    <main className="min-h-screen bg-black relative overflow-hidden">
+    <main className="min-h-screen bg-black relative">
       <div className="bgfx" />
       <div className="mx-auto max-w-6xl px-6 pt-16 pb-20 z-content">
         {/* Header */}
@@ -226,13 +226,11 @@ export default function Home() {
 
                   <p className="mt-4 muted text-sm leading-relaxed">{c.desc}</p>
 
-                  <div className="mt-6 grid gap-2">
+                  <ul className="features">
                     {c.bullets.map((b) => (
-                      <div key={b} className="pill text-sm text-white/80">
-                        {b}
-                      </div>
+                      <li key={b}>{b}</li>
                     ))}
-                  </div>
+                  </ul>
 
                   <a
                     href="#inquiry"
