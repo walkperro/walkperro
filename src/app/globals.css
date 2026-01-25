@@ -11,6 +11,13 @@ html, body {
 
 body { color: #fff; }
 
+/* Kill default link styling (purple/underline/visited) */
+a, a:visited {
+  color: inherit;
+  text-decoration: none;
+}
+a:hover { text-decoration: none; }
+
 /* --- Premium Cards --- */
 .card {
   background: rgba(255,255,255,0.03);
@@ -47,7 +54,12 @@ body { color: #fff; }
   background: rgba(255,255,255,0.04);
 }
 
+/* "Pill" button style */
 .pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
   background: rgba(255,255,255,0.04);
   border: 1px solid rgba(255,255,255,0.10);
   border-radius: 18px;
@@ -60,78 +72,6 @@ body { color: #fff; }
 
 .muted { color: rgba(255,255,255,0.60); }
 .muted2 { color: rgba(255,255,255,0.45); }
-
-/* --- Horizontal card rail (HeyGen-style) --- */
-.hscroll {
-  display: flex;
-  gap: 16px;
-  overflow-x: auto;
-  padding: 2px 2px 12px 2px;
-  scroll-snap-type: x mandatory;
-  -webkit-overflow-scrolling: touch;
-}
-.hscroll::-webkit-scrollbar { height: 8px; }
-.hscroll::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.10); border-radius: 999px; }
-.hscroll::-webkit-scrollbar-track { background: rgba(255,255,255,0.04); border-radius: 999px; }
-
-.snap-card {
-  scroll-snap-align: center;
-  flex: 0 0 82%;
-  max-width: 420px;
-}
-@media (min-width: 768px) {
-  .snap-card { flex-basis: 360px; }
-}
-
-/* --- Segmented control --- */
-.segment {
-  display: inline-flex;
-  padding: 6px;
-  border-radius: 999px;
-  background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(255,255,255,0.10);
-}
-.segment button {
-  border-radius: 999px;
-  padding: 10px 14px;
-  font-size: 14px;
-  color: rgba(255,255,255,0.70);
-  transition: all 180ms ease;
-  border: 1px solid transparent;
-}
-.segment button.active {
-  background: rgba(255,255,255,0.08);
-  border-color: rgba(255,255,255,0.14);
-  color: rgba(255,255,255,0.92);
-}
-
-/* --- Horizontal card rail (HeyGen-style) --- */
-.hscroll {
-  display: flex;
-  gap: 16px;
-  overflow-x: auto;
-  padding: 2px 18px 14px 18px; /* peek space */
-  scroll-snap-type: x mandatory;
-  -webkit-overflow-scrolling: touch;
-}
-.hscroll::-webkit-scrollbar { height: 8px; }
-.hscroll::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.10); border-radius: 999px; }
-.hscroll::-webkit-scrollbar-track { background: rgba(255,255,255,0.04); border-radius: 999px; }
-
-.snap-card {
-  scroll-snap-align: center;
-  flex: 0 0 78%;        /* makes the next card peek on mobile */
-  max-width: 420px;
-}
-@media (min-width: 768px) {
-  .snap-card { flex-basis: 360px; }
-}
-
-.swipe-hint {
-  color: rgba(255,255,255,0.45);
-  font-size: 12px;
-  user-select: none;
-}
 
 /* --- Segmented control (Build/Convert) --- */
 .segment {
@@ -155,7 +95,7 @@ body { color: #fff; }
   color: rgba(255,255,255,0.92);
 }
 
-/* --- Mini tabs row (Basic/Dashboard/Webapp, SEO/GA4/Ads) --- */
+/* --- Mini tabs row --- */
 .minitabs {
   display: inline-flex;
   gap: 10px;
@@ -176,4 +116,32 @@ body { color: #fff; }
   background: rgba(255,255,255,0.07);
   border-color: rgba(255,255,255,0.12);
   color: rgba(255,255,255,0.92);
+}
+
+.swipe-hint {
+  color: rgba(255,255,255,0.45);
+  font-size: 12px;
+  user-select: none;
+}
+
+/* --- Horizontal card rail (peek + snap) --- */
+.hscroll {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  padding: 2px 18px 14px 18px; /* peek space */
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+}
+.hscroll::-webkit-scrollbar { height: 8px; }
+.hscroll::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.10); border-radius: 999px; }
+.hscroll::-webkit-scrollbar-track { background: rgba(255,255,255,0.04); border-radius: 999px; }
+
+.snap-card {
+  scroll-snap-align: center;
+  flex: 0 0 78%;
+  max-width: 420px;
+}
+@media (min-width: 768px) {
+  .snap-card { flex-basis: 360px; }
 }
