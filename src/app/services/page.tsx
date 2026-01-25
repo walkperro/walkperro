@@ -1,5 +1,6 @@
 "use client";
 
+import NavMenu from "@/components/NavMenu";
 import { useEffect, useMemo, useState } from "react";
 
 type Mode = "build" | "convert";
@@ -19,48 +20,43 @@ export default function ServicesPage() {
             key: "basic",
             name: "Basic Site",
             price: "$",
-            desc: "Clean, fast, modern site. Built to convert.",
-            bullets: ["1–5 pages", "Fast load", "Modern UI", "Launch-ready"],
-            cta: "Request this",
+            desc: "Clean, fast, modern. Built to look premium and convert.",
+            bullets: ["1–5 pages", "Mobile-first", "Modern UI", "Launch-ready"],
           },
           {
             key: "dash",
             name: "Site + Admin Dashboard",
             price: "$$",
-            desc: "Website + database + admin portal for updates, leads, content, or inventory.",
-            bullets: ["Database", "Admin portal", "Auth", "Analytics-ready"],
-            cta: "Request this",
+            desc: "Website + database + internal dashboard to manage leads, content, or operations.",
+            bullets: ["Database", "Admin portal", "Auth", "Automation-ready"],
           },
           {
             key: "webapp",
             name: "Full Web App",
             price: "$$$",
-            desc: "A real product: subscriptions, workflows, dashboards, automation.",
-            bullets: ["Custom features", "Scales", "Integrations", "Production build"],
-            cta: "Request this",
+            desc: "A real product: subscriptions, workflows, dashboards, automation, integrations.",
+            bullets: ["Custom features", "Payments", "Integrations", "Production build"],
           },
         ],
       },
       convert: {
         title: "Convert",
-        subtitle: "Traffic, tracking, and paid growth.",
+        subtitle: "Search, tracking, and paid growth.",
         tabs: ["SEO", "GA4", "Ads"],
         cards: [
           {
             key: "seo",
             name: "SEO",
             price: "$",
-            desc: "Structure + content + technical fixes so you show up for what matters.",
-            bullets: ["On-page SEO", "Indexing", "Local-ready", "Technical audit"],
-            cta: "Request this",
+            desc: "Structure + technical fixes so you show up for what matters.",
+            bullets: ["On-page", "Indexing", "Local-ready", "Technical audit"],
           },
           {
             key: "ga4",
             name: "GA4 Analytics",
             price: "$",
-            desc: "Track every important action so you know what works and what doesn’t.",
-            bullets: ["GA4 setup", "Events", "Funnels", "Reports"],
-            cta: "Request this",
+            desc: "Track key actions so you know what works and what doesn’t.",
+            bullets: ["GA4 setup", "Key events", "Funnels", "Reports"],
           },
           {
             key: "ads",
@@ -68,7 +64,6 @@ export default function ServicesPage() {
             price: "$$",
             desc: "Conversion-focused campaigns with clean measurement and iteration.",
             bullets: ["Conversion setup", "Search campaigns", "Optimization", "Reporting"],
-            cta: "Request this",
           },
         ],
       },
@@ -80,146 +75,99 @@ export default function ServicesPage() {
   useEffect(() => {
     setSub(0);
     requestAnimationFrame(() => {
-      const el = document.getElementById(`card-${mode}-${active.cards[0].key}`);
-      el?.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+      const first = active.cards[0];
+      document.getElementById(`card-${mode}-${first.key}`)?.scrollIntoView({
+        behavior: "smooth",
+        inline: "center",
+        block: "nearest",
+      });
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mode]);
 
   useEffect(() => {
-    const card = active.cards[sub];
-    if (!card) return;
-    const el = document.getElementById(`card-${mode}-${card.key}`);
-    el?.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+    const c = active.cards[sub];
+    if (!c) return;
+    document.getElementById(`card-${mode}-${c.key}`)?.scrollIntoView({
+      behavior: "smooth",
+      inline: "center",
+      block: "nearest",
+    });
   }, [sub, mode, active.cards]);
 
   return (
-    <main className="min-h-screen bg-black">
-      <div className="mx-auto max-w-6xl px-6 pt-16 pb-20">
-        {/* Header */}
-        <header className="flex items-start justify-between gap-6">
-          <div>
-            <h1 className="text-4xl font-semibold tracking-tight">Services</h1>
-            <div className="mt-5 h-px w-28 bg-white/12" />
-            <p className="mt-4 muted max-w-sm">
-              Pick a lane. We’ll build it clean, track it properly, and scale it.
-            </p>
-          </div>
+    <main className="wpPage" style={{ overflowX: "hidden" }}>
+      <NavMenu />
 
-          <a
-            href="#inquiry"
-            className="pill text-sm text-white/80 hover:text-white transition"
-          >
-            Request an Audit <span className="text-white/50">→</span>
-          </a>
+      <div className="wpWrap">
+        <header className="wpHeader">
+          <h1 className="wpH1">Services</h1>
+          <p className="wpLead">Pick what you want. We’ll scope it and reply with next steps.</p>
         </header>
 
-        {/* Build / Convert segmented toggle */}
-        <div className="mt-10 flex items-center justify-center">
-          <div className="segment">
-            <button
-              className={mode === "build" ? "active" : ""}
-              onClick={() => setMode("build")}
-              type="button"
-            >
+        <div className="wpControls">
+          <div className="wpSegment">
+            <button className={mode === "build" ? "active" : ""} onClick={() => setMode("build")} type="button">
               Build
             </button>
-            <button
-              className={mode === "convert" ? "active" : ""}
-              onClick={() => setMode("convert")}
-              type="button"
-            >
+            <button className={mode === "convert" ? "active" : ""} onClick={() => setMode("convert")} type="button">
               Convert
             </button>
           </div>
-        </div>
 
-        {/* Mini tabs */}
-        <div className="mt-6 flex flex-col items-center gap-3">
-          <div className="minitabs">
+          <div className="wpTabs">
             {active.tabs.map((t, i) => (
-              <button
-                key={t}
-                type="button"
-                className={sub === i ? "active" : ""}
-                onClick={() => setSub(i)}
-              >
+              <button key={t} className={sub === i ? "active" : ""} onClick={() => setSub(i)} type="button">
                 {t}
               </button>
             ))}
           </div>
         </div>
 
-        {/* Section title */}
-        <div className="mt-10 text-center">
-          <span className="text-xs text-white/55 px-3 py-1 rounded-full border border-white/10 bg-white/[0.03]">
-            Services
-          </span>
-          <h2 className="mt-4 text-3xl font-semibold tracking-tight">{active.title}</h2>
-          <p className="mt-2 muted">{active.subtitle}</p>
-        </div>
+        <section className="wpSectionIntro" aria-label="Active category">
+          <div className="wpKicker">{active.title}</div>
+          <h2 className="wpH2">{active.subtitle}</h2>
+        </section>
 
-        {/* Horizontal slider */}
-        <div className="mt-10 hscroll">
+        <div className="wpRail" aria-label="Service cards">
           {active.cards.map((c) => (
-            <div
-              key={c.key}
-              id={`card-${mode}-${c.key}`}
-              className="snap-card relative card card-hover p-7"
-            >
-              <div className="card-inner">
-                <div className="flex items-start justify-between gap-4">
-                  <div>
-                    <div className="text-sm text-white/55">Plan</div>
-                    <div className="mt-1 text-2xl font-semibold">{c.name}</div>
-                  </div>
-                  <div className="text-lg text-white/75 font-semibold">{c.price}</div>
-                </div>
-
-                <p className="mt-4 muted text-sm leading-relaxed">{c.desc}</p>
-
-                {/* SLICK BULLETS (no pills) */}
-                <ul className="mt-6 grid gap-2 text-sm text-white/70">
-                  {c.bullets.map((b) => (
-                    <li key={b} className="flex items-start gap-3">
-                      <span className="mt-2 h-1.5 w-1.5 rounded-full bg-white/30" />
-                      <span>{b}</span>
-                    </li>
-                  ))}
-                </ul>
-
-                <a
-                  href="#inquiry"
-                  className="mt-6 inline-flex items-center justify-center pill text-sm text-white/90 hover:text-white transition"
-                >
-                  {c.cta} <span className="text-white/50 ml-2">→</span>
-                </a>
+            <article key={c.key} id={`card-${mode}-${c.key}`} className="wpCard">
+              <div className="wpCardTop">
+                <div className="wpCardTitle">{c.name}</div>
+                <div className="wpPrice">{c.price}</div>
               </div>
-            </div>
+
+              <p className="wpDesc">{c.desc}</p>
+
+              <ul className="wpBullets">
+                {c.bullets.map((b) => (
+                  <li key={b}>
+                    <span className="wpDot" />
+                    <span>{b}</span>
+                  </li>
+                ))}
+              </ul>
+
+              <a href="#inquiry" className="wpCta">
+                Request this <span>→</span>
+              </a>
+            </article>
           ))}
         </div>
 
-        {/* Inquiry */}
-        <section id="inquiry" className="mt-14 relative card p-8">
-          <div className="card-inner">
-            <h3 className="text-2xl font-semibold">Inquiry</h3>
-            <p className="mt-2 muted">
-              Tell us what you're building. We’ll reply with next steps.
-            </p>
+        <section id="inquiry" className="wpInquiry">
+          <h3 className="wpH3">Inquiry</h3>
+          <p className="wpLead2">Tell us what you want built. We’ll reply with next steps.</p>
 
-            <form className="mt-6 grid gap-3">
-              <input className="pill text-sm outline-none bg-transparent" placeholder="Name" />
-              <input className="pill text-sm outline-none bg-transparent" placeholder="Email" />
-              <input className="pill text-sm outline-none bg-transparent" placeholder="Company / Project" />
-              <textarea className="pill text-sm outline-none bg-transparent" rows={4} placeholder="What do you need?" />
-              <button
-                type="button"
-                className="pill text-sm text-white/90 hover:text-white transition"
-              >
-                Submit <span className="text-white/50 ml-2">→</span>
-              </button>
-            </form>
-          </div>
+          <form className="wpForm">
+            <input className="wpInput" placeholder="Name" />
+            <input className="wpInput" placeholder="Email" />
+            <input className="wpInput" placeholder="Company / Project" />
+            <textarea className="wpInput" rows={4} placeholder="What do you need?" />
+            <button className="wpBtn" type="button">
+              Submit <span>→</span>
+            </button>
+          </form>
         </section>
       </div>
     </main>

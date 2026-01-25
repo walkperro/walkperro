@@ -1,0 +1,333 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root { color-scheme: dark; }
+
+html, body {
+  height: 100%;
+  background: #000;
+}
+
+body { color: #fff; }
+
+/* ---------- Global helpers ---------- */
+.muted { color: rgba(255,255,255,0.60); }
+.muted2 { color: rgba(255,255,255,0.45); }
+
+/* ---------- Nav dropdown ---------- */
+.navWrap{
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  z-index: 50;
+}
+.navBtn{
+  width: 44px;
+  height: 44px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.10);
+  display: grid;
+  place-items: center;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.55);
+}
+.navIcon{
+  width: 18px;
+  height: 12px;
+  position: relative;
+}
+.navIcon::before, .navIcon::after, .navIcon span{
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: rgba(255,255,255,0.8);
+  border-radius: 999px;
+}
+.navIcon::before{ top: 0; }
+.navIcon::after{ bottom: 0; }
+.navIcon span{ top: 50%; transform: translateY(-50%); }
+
+.navMenu{
+  margin-top: 10px;
+  border-radius: 18px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.10);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  overflow: hidden;
+  min-width: 180px;
+}
+.navItem{
+  display: block;
+  padding: 12px 14px;
+  color: rgba(255,255,255,0.78);
+  text-decoration: none;
+  border-top: 1px solid rgba(255,255,255,0.06);
+}
+.navItem:first-child{ border-top: 0; }
+.navItem:hover{
+  color: rgba(255,255,255,0.95);
+  background: rgba(255,255,255,0.05);
+}
+
+/* ---------- Premium cards (services page) ---------- */
+.card {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.10);
+  border-radius: 24px;
+  box-shadow:
+    0 1px 0 rgba(255,255,255,0.05) inset,
+    0 0 0 1px rgba(0,0,0,0.30) inset,
+    0 30px 80px rgba(0,0,0,0.65);
+  position: relative;
+}
+.card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 24px;
+  pointer-events: none;
+  background: radial-gradient(900px 420px at 20% 0%, rgba(255,255,255,0.05), transparent 60%);
+  opacity: 0.9;
+}
+.card-inner { position: relative; z-index: 1; }
+
+.pill {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.10);
+  border-radius: 18px;
+  padding: 14px 16px;
+}
+
+/* Horizontal rail */
+.hscroll {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  padding: 2px 18px 14px 18px;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+}
+.hscroll::-webkit-scrollbar { height: 8px; }
+.hscroll::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.10); border-radius: 999px; }
+.hscroll::-webkit-scrollbar-track { background: rgba(255,255,255,0.04); border-radius: 999px; }
+
+.snap-card {
+  scroll-snap-align: center;
+  flex: 0 0 78%;
+  max-width: 420px;
+}
+@media (min-width: 768px) {
+  .snap-card { flex-basis: 360px; }
+}
+
+.segment {
+  display: inline-flex;
+  padding: 6px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.10);
+}
+.segment button {
+  border-radius: 999px;
+  padding: 10px 14px;
+  font-size: 14px;
+  color: rgba(255,255,255,0.70);
+  transition: all 180ms ease;
+  border: 1px solid transparent;
+}
+.segment button.active {
+  background: rgba(255,255,255,0.08);
+  border-color: rgba(255,255,255,0.14);
+  color: rgba(255,255,255,0.92);
+}
+
+.minitabs {
+  display: inline-flex;
+  gap: 10px;
+  padding: 6px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.08);
+}
+.minitabs button {
+  border-radius: 999px;
+  padding: 8px 12px;
+  font-size: 13px;
+  color: rgba(255,255,255,0.60);
+  transition: all 180ms ease;
+  border: 1px solid transparent;
+}
+.minitabs button.active {
+  background: rgba(255,255,255,0.07);
+  border-color: rgba(255,255,255,0.12);
+  color: rgba(255,255,255,0.92);
+}
+
+/* ---------- Landing tour ---------- */
+.tour{
+  background: #000;
+}
+.tourSection{
+  min-height: 100svh;
+  display: grid;
+  place-items: center;
+  padding: 80px 18px 60px 18px;
+}
+.tourInner{
+  width: 100%;
+  max-width: 720px;
+}
+.tourTop{
+  display:flex;
+  justify-content: space-between;
+  gap: 18px;
+}
+.tourTitle{
+  font-size: 44px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+.tourSub{
+  margin-top: 10px;
+  color: rgba(255,255,255,0.55);
+  font-size: 16px;
+}
+
+.tourQ{
+  font-size: 30px;
+  font-weight: 650;
+  letter-spacing: -0.02em;
+}
+.tourP{
+  margin-top: 10px;
+  color: rgba(255,255,255,0.62);
+  line-height: 1.6;
+}
+.tourHint{
+  margin-top: 14px;
+  color: rgba(255,255,255,0.45);
+  font-size: 13px;
+}
+
+.tourGrid{ display:grid; gap: 12px; margin-top: 18px; }
+.tourGrid2{ display:grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 18px; }
+@media (max-width: 420px){
+  .tourGrid2{ grid-template-columns: 1fr; }
+}
+
+.tourChoice{
+  text-align: left;
+  padding: 16px 16px;
+  border-radius: 20px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.10);
+  color: rgba(255,255,255,0.88);
+}
+.tourChoice:hover{
+  border-color: rgba(255,255,255,0.16);
+  background: rgba(255,255,255,0.05);
+}
+.tourChoiceSub{
+  display:block;
+  margin-top: 6px;
+  color: rgba(255,255,255,0.55);
+  font-size: 13px;
+}
+
+.tourPrimary{
+  margin-top: 22px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap: 10px;
+  padding: 14px 16px;
+  border-radius: 18px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.12);
+  color: rgba(255,255,255,0.92);
+}
+.tourPrimary span{ color: rgba(255,255,255,0.55); }
+
+.tourForm{ margin-top: 16px; display:grid; gap: 10px; }
+.tourInput{
+  width: 100%;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.10);
+  border-radius: 18px;
+  padding: 14px 16px;
+  color: rgba(255,255,255,0.9);
+  outline: none;
+}
+.tourInput:focus{
+  border-color: rgba(255,255,255,0.18);
+}
+
+.tourCard{
+  margin-top: 16px;
+  border-radius: 22px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.10);
+  padding: 16px;
+}
+.tourCardInner{ }
+.tourMini{ font-size: 12px; color: rgba(255,255,255,0.45); }
+.tourSummary{ margin-top: 6px; color: rgba(255,255,255,0.70); line-height: 1.5; }
+
+.tourDog{ margin-top: 26px; }
+
+.tourLink{
+  margin-top: 18px;
+  display:inline-flex;
+  align-items:center;
+  gap: 10px;
+  color: rgba(255,255,255,0.78);
+  text-decoration: none;
+}
+.tourLink:hover{ color: rgba(255,255,255,0.95); }
+
+/* ---------- Dog ---------- */
+.dogWrap{
+  display:flex;
+  align-items:center;
+  gap: 12px;
+}
+.dogBubble{
+  padding: 10px 12px;
+  border-radius: 14px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.10);
+  color: rgba(255,255,255,0.80);
+  font-size: 13px;
+}
+.dogCard{
+  width: 86px;
+  height: 58px;
+  border-radius: 22px;
+  display:grid;
+  place-items:center;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.10);
+}
+.dogTail{
+  transform-origin: 6px 22px;
+  animation: wag 0.7s ease-in-out infinite;
+}
+@keyframes wag{
+  0%{ transform: rotate(14deg); }
+  50%{ transform: rotate(-18deg); }
+  100%{ transform: rotate(14deg); }
+}
+
+/* ---------- Simple page wrappers ---------- */
+.pageWrap{
+  min-height: 100svh;
+  padding: 90px 18px 60px 18px;
+  max-width: 860px;
+  margin: 0 auto;
+}
+.pageTitle{ font-size: 36px; font-weight: 700; }
+.pageMuted{ margin-top: 10px; color: rgba(255,255,255,0.55); }

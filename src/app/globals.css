@@ -331,3 +331,343 @@ body { color: #fff; }
 }
 .pageTitle{ font-size: 36px; font-weight: 700; }
 .pageMuted{ margin-top: 10px; color: rgba(255,255,255,0.55); }
+
+
+/* === WALKPERRO PATCH: NAV + GLOW + OVERFLOW === */
+:root { color-scheme: dark; }
+
+html, body {
+  height: 100%;
+  background: #000;
+  overflow-x: hidden; /* IMPORTANT: stops the “push right” */
+}
+
+html { scroll-behavior: smooth; }
+
+/* ---------- MENU ---------- */
+.navWrap{
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  pointer-events: none;
+}
+
+.navHome{
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  pointer-events: auto;
+  width: 44px;
+  height: 44px;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.10);
+  color: rgba(255,255,255,0.85);
+}
+
+.navRight{
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  pointer-events: auto;
+}
+
+.navBtn{
+  width: 52px;
+  height: 52px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.10);
+  display: grid;
+  place-items:center;
+}
+
+.hamburger{
+  width: 18px;
+  display: grid;
+  gap: 6px;
+}
+.hamburger span{
+  height: 2px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.75);
+}
+
+.navMenu{
+  margin-top: 12px;
+  width: 210px;
+  border-radius: 18px;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.10);
+  background: rgba(0,0,0,0.65);
+  backdrop-filter: blur(14px);
+
+  opacity: 0;
+  transform: translateY(-6px);
+  pointer-events: none;
+  transition: opacity .18s ease, transform .18s ease;
+}
+.navMenu.open{
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.navItem{
+  display:block;
+  padding: 14px 16px;
+  color: rgba(255,255,255,0.80);
+  border-top: 1px solid rgba(255,255,255,0.06);
+}
+.navItem:first-child{ border-top: 0; }
+.navItem:hover{ color: rgba(255,255,255,0.95); background: rgba(255,255,255,0.03); }
+
+/* ---------- LANDING FORM OVERFLOW FIX ---------- */
+.tourSummary{
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+/* ---------- HEYGEN-ISH DARK GLOW ---------- */
+.pageBg{
+  position: relative;
+  background: #000;
+}
+.pageBg::before,
+.pageBg::after{
+  content:"";
+  position: fixed;
+  inset: -20vh -20vw;
+  pointer-events: none;
+  z-index: 0;
+}
+.pageBg::before{
+  background:
+    radial-gradient(60vh 60vh at 20% 25%, rgba(120,70,255,.18), transparent 60%),
+    radial-gradient(70vh 70vh at 85% 30%, rgba(0,180,255,.12), transparent 60%),
+    radial-gradient(80vh 80vh at 50% 85%, rgba(255,255,255,.06), transparent 60%);
+  filter: blur(46px);
+  opacity: .9;
+}
+.pageBg::after{
+  background: radial-gradient(90vh 90vh at 50% 50%, rgba(255,255,255,.05), transparent 65%);
+  filter: blur(52px);
+  opacity: .55;
+}
+.pageBg > *{
+  position: relative;
+  z-index: 1;
+}
+
+/* ---------- PRICE TAG ---------- */
+.priceTag{
+  font-size: 12px;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.70);
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.10);
+  background: rgba(255,255,255,0.03);
+  align-self: flex-start;
+  white-space: nowrap;
+}
+
+/* ---------- DOG bubble removal (if you still have this class) ---------- */
+.dogCard{
+  background: transparent;
+  border: 0;
+}
+/* === END WALKPERRO PATCH === */
+
+
+
+/* === DOG MASCOT (no bubble) === */
+.dogWrap{
+  display:flex;
+  align-items:center;
+  gap:14px;
+}
+.dogSvg{
+  color: rgba(255,255,255,0.92);
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+}
+.dogSvg svg{
+  width:100%;
+  height:100%;
+  display:block;
+}
+.dogSay{
+  font-size: 14px;
+  color: rgba(255,255,255,0.72);
+  padding: 10px 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.10);
+  background: rgba(255,255,255,0.03);
+}
+
+/* === WALKPERRO HARD OVERRIDES (pure black + clean hierarchy) === */
+html, body { background:#000 !important; overflow-x:hidden !important; }
+* { -webkit-tap-highlight-color: transparent; }
+
+/* kill any previous glow layers */
+.pageBg::before, .pageBg::after { content:none !important; display:none !important; opacity:0 !important; }
+.pageBg { background:#000 !important; }
+
+/* NAV (no bubbles) */
+.navRoot { position: fixed; top: 16px; left: 16px; right: 16px; z-index: 100; pointer-events: none; }
+.navBar { display:flex; align-items:center; justify-content:space-between; gap:12px; pointer-events: auto; }
+.navHomeIcon { display:inline-flex; align-items:center; justify-content:center; color: rgba(255,255,255,0.92); text-decoration:none; }
+.navMenuBtn { background: transparent; border: 0; padding: 0; color: rgba(255,255,255,0.82); font-size: 16px; letter-spacing: 0.02em; }
+.navMenuBtn:active { opacity: 0.7; }
+
+.navOverlay {
+  position: fixed; inset: 0; background: transparent; border: 0;
+  pointer-events: auto; z-index: 98;
+}
+
+.navPanel {
+  position: fixed;
+  top: 56px; right: 16px;
+  width: 220px;
+  border-radius: 18px;
+  border: 1px solid rgba(255,255,255,0.10);
+  background: rgba(0,0,0,0.78);
+  backdrop-filter: blur(14px);
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(-10px);
+  pointer-events: none;
+  transition: opacity .18s ease, transform .18s ease;
+  z-index: 99;
+}
+.navPanel.open { opacity: 1; transform: translateY(0); pointer-events: auto; }
+.navItem { display:block; padding: 14px 16px; color: rgba(255,255,255,0.78); text-decoration:none; border-top: 1px solid rgba(255,255,255,0.06); }
+.navItem:first-child { border-top:0; }
+.navItem:hover { color: rgba(255,255,255,0.95); background: rgba(255,255,255,0.03); }
+
+/* SERVICES clean system */
+.wpPage { min-height: 100vh; background:#000; color:#fff; }
+.wpWrap { max-width: 980px; margin: 0 auto; padding: 92px 22px 90px; }
+.wpHeader { display:grid; gap: 10px; }
+.wpH1 { font-size: 44px; font-weight: 750; letter-spacing: -0.02em; margin: 0; }
+.wpLead { color: rgba(255,255,255,0.58); line-height: 1.5; margin: 0; max-width: 560px; }
+
+.wpControls { margin-top: 28px; display:grid; gap: 14px; justify-items:center; }
+.wpSegment, .wpTabs {
+  display: inline-flex; gap: 10px;
+  padding: 6px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.10);
+  background: rgba(255,255,255,0.03);
+}
+.wpSegment button, .wpTabs button {
+  border: 0;
+  background: transparent;
+  color: rgba(255,255,255,0.62);
+  font-size: 14px;
+  padding: 10px 14px;
+  border-radius: 999px;
+}
+.wpSegment button.active, .wpTabs button.active {
+  background: rgba(255,255,255,0.08);
+  color: rgba(255,255,255,0.95);
+}
+
+.wpSectionIntro { margin-top: 26px; text-align:center; display:grid; gap: 10px; }
+.wpKicker {
+  display:inline-flex; justify-self:center;
+  font-size: 12px; letter-spacing: .16em; text-transform: uppercase;
+  color: rgba(255,255,255,0.58);
+}
+.wpH2 { margin:0; font-size: 16px; font-weight: 500; color: rgba(255,255,255,0.62); }
+
+.wpRail {
+  margin-top: 22px;
+  display:flex;
+  gap: 18px;
+  overflow-x:auto;
+  padding: 10px 10px 18px;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
+}
+.wpRail::-webkit-scrollbar { height: 8px; }
+.wpRail::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.10); border-radius: 999px; }
+.wpRail::-webkit-scrollbar-track { background: rgba(255,255,255,0.04); border-radius: 999px; }
+
+.wpCard {
+  flex: 0 0 78%;
+  max-width: 420px;
+  scroll-snap-align: center;
+  border-radius: 24px;
+  border: 1px solid rgba(255,255,255,0.10);
+  background: rgba(255,255,255,0.03);
+  box-shadow: 0 30px 80px rgba(0,0,0,0.65);
+  padding: 22px;
+}
+@media (min-width: 768px) { .wpCard { flex-basis: 360px; } }
+
+.wpCardTop { display:flex; align-items:flex-start; justify-content:space-between; gap: 16px; }
+.wpCardTitle { font-size: 22px; font-weight: 700; letter-spacing: -0.02em; }
+.wpPrice {
+  font-size: 12px;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.72);
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.10);
+  background: rgba(255,255,255,0.02);
+  white-space: nowrap;
+}
+
+.wpDesc { margin: 12px 0 0; color: rgba(255,255,255,0.62); line-height: 1.6; font-size: 14px; }
+
+.wpBullets { margin: 16px 0 0; padding: 0; list-style: none; display:grid; gap: 10px; color: rgba(255,255,255,0.72); }
+.wpBullets li { display:flex; align-items:flex-start; gap: 10px; }
+.wpDot { width: 6px; height: 6px; border-radius: 999px; background: rgba(255,255,255,0.25); margin-top: 8px; flex: 0 0 6px; }
+
+.wpCta {
+  margin-top: 18px;
+  display:inline-flex; align-items:center; gap: 10px;
+  text-decoration:none;
+  color: rgba(255,255,255,0.90);
+  padding: 12px 14px;
+  border-radius: 16px;
+  border: 1px solid rgba(255,255,255,0.10);
+  background: rgba(255,255,255,0.03);
+}
+.wpCta span { color: rgba(255,255,255,0.55); }
+
+.wpInquiry { margin-top: 42px; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 26px; }
+.wpH3 { margin:0; font-size: 26px; font-weight: 750; letter-spacing: -0.02em; }
+.wpLead2 { margin: 10px 0 0; color: rgba(255,255,255,0.58); max-width: 560px; }
+
+.wpForm { margin-top: 16px; display:grid; gap: 10px; max-width: 560px; }
+.wpInput {
+  width: 100%;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.10);
+  border-radius: 16px;
+  padding: 14px 14px;
+  color: rgba(255,255,255,0.90);
+  outline: none;
+}
+.wpBtn {
+  width: 100%;
+  display:inline-flex; justify-content:center; align-items:center; gap: 10px;
+  padding: 14px 14px;
+  border-radius: 16px;
+  border: 1px solid rgba(255,255,255,0.12);
+  background: rgba(255,255,255,0.05);
+  color: rgba(255,255,255,0.92);
+}
+
+/* DOG sizing/position safety (landing tour) */
+.tourDog { display:flex !important; justify-content:center !important; align-items:center !important; margin-top: 18px !important; }
+.tourDog svg { width: 84px !important; height: auto !important; opacity: .92; }
