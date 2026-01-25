@@ -53,6 +53,7 @@ export default function Home() {
           <header className="flex items-start justify-between gap-6">
             <div>
               <h1 className="text-4xl font-semibold tracking-tight">WalkPerro</h1>
+              <div className="mt-5 h-px w-28 bg-white/15" />
               <p className="mt-2 text-white/60 max-w-sm">
                 Digital systems for modern businesses.
               </p>
