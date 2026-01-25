@@ -1,8 +1,6 @@
 "use client";
 
 import { useMemo, useRef, useState } from "react";
-import DogMascot from "@/components/DogMascot";
-import AnimatedSittingDog from "@/components/AnimatedSittingDog";
 
 type BuildNeed = "card" | "more";
 type BoolPick = "yes" | "no";
@@ -45,7 +43,7 @@ export default function LandingTour() {
         <div className="tourInner">
           <div className="tourTop">
             <div>
-              <div className="tourBrandRow"><AnimatedSittingDog className="tourBrandDog" title="WalkPerro dog" /><h1 className="tourTitle">WalkPerro</h1></div>
+              <h1 className="tourTitle">WalkPerro</h1>
               <p className="tourSub">Digital systems for modern businesses.</p>
             </div>
           </div>
@@ -54,9 +52,7 @@ export default function LandingTour() {
             Start <span>→</span>
           </button>
 
-          <div className="tourDog">
-            <DogMascot say="Click me." />
-          </div>
+          
         </div>
       </section>
 
@@ -179,9 +175,7 @@ export default function LandingTour() {
         <div className="tourInner">
           <h2 className="tourQ">Thank you.</h2>
           <p className="tourP">We’ll contact you shortly with next steps.</p>
-          <div className="tourDog">
-            <DogMascot say="Woof. We got you." />
-          </div>
+          
           <a className="tourLink" href="/services">View services <span>→</span></a>
         </div>
       </section>
