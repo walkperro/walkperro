@@ -39,11 +39,4 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
-
-# After initial commit, DO NOT re-upload images
-# Lock images so they never get staged again
-public/images/*
-!public/images/.gitkeep
 .env*.local
-
-.env*
