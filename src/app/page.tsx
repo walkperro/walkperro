@@ -19,11 +19,30 @@ export default function LandingTour() {
   const [company, setCompany] = useState("");
 
   const refs = useRef<Array<HTMLElement | null>>([]);
+  const scrollToEl = (el: HTMLElement, duration = 1400) => {
+    const scrollEl = (document.scrollingElement || document.documentElement) as HTMLElement;
+    const start = scrollEl.scrollTop;
+    const end = start + el.getBoundingClientRect().top;
+    const dist = end - start;
+    const t0 = performance.now();
+
+    const easeInOut = (t: number) =>
+      t < 0.5 ? 2 * t * t : 1 - ((-2 * t + 2) ** 2) / 2;
+
+    const tick = (now: number) => {
+      const p = Math.min(1, (now - t0) / duration);
+      const y = start + dist * easeInOut(p);
+      window.scrollTo(0, y);
+      if (p < 1) requestAnimationFrame(tick);
+    };
+
+    requestAnimationFrame(tick);
+  };
 
   const go = (i: number) => {
     const el = refs.current[i];
     if (!el) return;
-    el.scrollIntoView({ behavior: "smooth", block: "start" });
+    scrollToEl(el, 1400);
   };
 
   const summary = useMemo(() => {
@@ -141,38 +160,41 @@ export default function LandingTour() {
       </section>
 
       <section className="tourSection" ref={(el) => { refs.current[7] = el; }}>
-        <div className="tourInner">
-          <h2 className="tourQ">Tell us what you’re looking for</h2>
+  <div className="tourInner">
+    <h2 className="tourQ">Tell us what you’re looking for</h2>
+<div className="tourForm">
+      <textarea
+        className="tourInput"
+        rows={4}
+        placeholder="Explain what you want built..."
+        value={details}
+        onChange={(e) => setDetails(e.target.value)}
+      />
+      <input
+        className="tourInput"
+        placeholder="Name"
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+      />
+      <input
+        className="tourInput"
+        placeholder="Email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+      />
+      <input
+        className="tourInput"
+        placeholder="Company (optional)"
+        value={company}
+        onChange={(e) => setCompany(e.target.value)}
+      />
 
-          <div className="tourCard">
-            <div className="tourCardInner">
-              <div className="tourMini">Your selections</div>
-              <div className="tourSummary">{summary || "No selections yet."}</div>
-            </div>
-          </div>
-
-          <div className="tourForm">
-            <textarea
-              className="tourInput"
-              rows={4}
-              placeholder="Explain what you want built..."
-              value={details}
-              onChange={(e) => setDetails(e.target.value)}
-            />
-            <input className="tourInput" placeholder="Name" value={name} onChange={(e) => setName(e.target.value)} />
-            <input className="tourInput" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
-            <input className="tourInput" placeholder="Company (optional)" value={company} onChange={(e) => setCompany(e.target.value)} />
-
-            <button className="tourPrimary" type="button" onClick={() => go(8)}>
-              Submit <span>→</span>
-            </button>
-
-            <p className="tourHint">
-              (Next: we’ll wire this to your real inquiry endpoint / email.)
-            </p>
-          </div>
-        </div>
-      </section>
+      <button className="tourPrimary" type="button" onClick={() => go(8)}>
+        Submit <span>→</span>
+      </button>
+    </div>
+  </div>
+</section>
 
       <section className="tourSection" ref={(el) => { refs.current[8] = el; }}>
         <div className="tourInner">

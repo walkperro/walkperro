@@ -1,7 +1,7 @@
 "use client";
 
 import NavMenu from "@/components/NavMenu";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, useRef } from "react";
 
 type Mode = "build" | "convert";
 
@@ -9,7 +9,21 @@ export default function ServicesPage() {
   const [mode, setMode] = useState<Mode>("build");
   const [sub, setSub] = useState(0);
 
-  const data = useMemo(() => {
+  const railRef = useRef<HTMLDivElement | null>(null);
+  const rafRef = useRef<number | null>(null);
+
+  
+
+  const onTabClick = (i: number) => {
+    setSub(i);
+    const rail = railRef.current;
+    if (!rail) return;
+    const cards = Array.from(rail.children) as HTMLElement[];
+    const el = cards[i];
+    if (!el) return;
+    el.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+  };
+const data = useMemo(() => {
     return {
       build: {
         title: "Build",
@@ -95,6 +109,41 @@ export default function ServicesPage() {
     });
   }, [sub, mode, active.cards]);
 
+const onRailScroll = () => {
+  const rail = railRef.current;
+  if (!rail) return;
+
+  if (rafRef.current) cancelAnimationFrame(rafRef.current);
+  rafRef.current = requestAnimationFrame(() => {
+    const rect = rail.getBoundingClientRect();
+    const centerX = rect.left + rect.width / 2;
+
+    const els = Array.from(rail.querySelectorAll<HTMLElement>("[data-sub-idx]"));
+    let bestIdx = 0;
+    let bestDist = Number.POSITIVE_INFINITY;
+
+    for (const el of els) {
+      const r = el.getBoundingClientRect();
+      const c = r.left + r.width / 2;
+      const d = Math.abs(c - centerX);
+      const idxAttr = el.getAttribute("data-sub-idx");
+      const idx = idxAttr ? parseInt(idxAttr, 10) : 0
+      if (d < bestDist) {
+        bestDist = d;
+        bestIdx = idx;
+      }
+    }
+
+    if (bestIdx !== sub) setSub(bestIdx);
+  });
+};
+
+  useEffect(() => {
+    const t = setTimeout(() => onRailScroll(), 50);
+    return () => clearTimeout(t);
+  }, [mode]);
+
+
   return (
     <main className="wpPage" style={{ overflowX: "hidden" }}>
       <NavMenu />
@@ -117,25 +166,26 @@ export default function ServicesPage() {
 
           <div className="wpTabs">
             {active.tabs.map((t, i) => (
-              <button key={t} className={sub === i ? "active" : ""} onClick={() => setSub(i)} type="button">
+              <button key={t} className={sub === i ? "active" : ""} onClick={() => onTabClick(i)} type="button">
                 {t}
               </button>
             ))}
           </div>
         </div>
 
+        <div className="wpModePane" key={mode}>
+
         <section className="wpSectionIntro" aria-label="Active category">
           <div className="wpKicker">{active.title}</div>
           <h2 className="wpH2">{active.subtitle}</h2>
         </section>
 
-        <div className="wpRail" aria-label="Service cards">
-          {active.cards.map((c) => (
-            <article key={c.key} id={`card-${mode}-${c.key}`} className="wpCard">
+        <div className="wpRail" aria-label="Service cards" ref={railRef} onScroll={onRailScroll}>
+          {active.cards.map((c, idx) => (
+            <article key={c.key} id={`card-${mode}-${c.key}`} className="wpCard" data-sub-idx={idx}>
               <div className="wpCardTop">
                 <div className="wpCardTitle">{c.name}</div>
-                <div className="wpPrice">{c.price}</div>
-              </div>
+</div>
 
               <p className="wpDesc">{c.desc}</p>
 
@@ -170,6 +220,8 @@ export default function ServicesPage() {
           </form>
         </section>
       </div>
+    </div>
     </main>
   );
 }
+
