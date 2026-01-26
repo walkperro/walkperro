@@ -7,7 +7,17 @@
 html, body {
   height: 100%;
   background: #000;
+  overflow-x: hidden;
+
+  overflow-x: hidden;
+
+  overflow-x: hidden;
 }
+
+body { max-width: 100%; }
+
+main { max-width: 100%; overflow-x: hidden; }
+
 
 body { color: #fff; }
 
@@ -104,6 +114,7 @@ body { color: #fff; }
 
 /* Horizontal rail */
 .hscroll {
+  max-width: 100%;
   display: flex;
   gap: 16px;
   overflow-x: auto;
@@ -671,3 +682,52 @@ html, body { background:#000 !important; overflow-x:hidden !important; }
 /* DOG sizing/position safety (landing tour) */
 .tourDog { display:flex !important; justify-content:center !important; align-items:center !important; margin-top: 18px !important; }
 .tourDog svg { width: 84px !important; height: auto !important; opacity: .92; }
+
+/* Prevent horizontal "side-scroll" on mobile */
+body { overscroll-behavior-x: none; }
+main { overflow-x: clip; }
+
+/* Landing title + dog mark */
+.tourTitleRow{
+  display:flex;
+  align-items:center;
+  gap:12px;
+
+  overflow: visible;
+
+  overflow: visible;
+}
+.tourTitleDog{
+  width:40px;
+  height:40px;
+  flex:0 0 auto;
+  opacity:.95;
+}
+
+/* Title + Perro PNG mark */
+.tourTitleMark{ display:inline-flex; align-items:center; justify-content:center; }
+.tourTitleMark img{
+  width:56px !important;
+  height:56px !important;
+  object-fit:contain;
+  transform: translate(-14px, 1px);
+}
+
+
+
+
+
+
+/* === Hero dog mark (clean, no transforms) === */
+.tourTitleRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.heroDog {
+  flex: 0 0 auto;
+}
+
+@media (max-width: 640px) {
+  .heroDog { transform: scale(0.9); }
+}

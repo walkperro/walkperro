@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useRef, useState } from "react";
-
+import PerroPngMark from "@/components/PerroPngMark";
 type BuildNeed = "card" | "more";
 type BoolPick = "yes" | "no";
 
@@ -41,12 +41,15 @@ export default function LandingTour() {
     <main className="tour">
       <section className="tourSection" ref={(el) => { refs.current[0] = el; }}>
         <div className="tourInner">
-          <div className="tourTop">
-            <div>
-              <h1 className="tourTitle">WalkPerro</h1>
-              <p className="tourSub">Digital systems for modern businesses.</p>
-            </div>
-          </div>
+          
+<div className="tourTop">
+  <div>
+    <div className="tourTitleRow"><h1 className="tourTitle">WalkPerro</h1><PerroPngMark variant="white" className="tourTitleMark" /></div>
+    <p className="tourSub">Digital systems for modern businesses.</p>
+  </div>
+</div>
+
+            
 
           <button className="tourPrimary" type="button" onClick={() => go(1)}>
             Start <span>→</span>
