@@ -1,6 +1,5 @@
 "use client";
 
-import NavMenu from "@/components/NavMenu";
 import { useEffect, useMemo, useState, useRef } from "react";
 
 type Mode = "build" | "convert";
@@ -8,17 +7,36 @@ type Mode = "build" | "convert";
 export default function ServicesPage() {
   const [mode, setMode] = useState<Mode>("build");
   const [sub, setSub] = useState(0);
+  const [formName, setFormName] = useState("");
+  const [formEmail, setFormEmail] = useState("");
+  const [formCompany, setFormCompany] = useState("");
+  const [formDetails, setFormDetails] = useState("");
+  const [formError, setFormError] = useState("");
+  const [formSent, setFormSent] = useState(false);
 
   const railRef = useRef<HTMLDivElement | null>(null);
   const rafRef = useRef<number | null>(null);
 
   
 
+
+  // Prevent onScroll from fighting click-to-scroll
+  const progRef = useRef(false);
+  const progTimerRef = useRef<number | null>(null);
+  const lockScrollSync = (ms = 700) => {
+    progRef.current = true;
+    if (progTimerRef.current) window.clearTimeout(progTimerRef.current);
+    progTimerRef.current = window.setTimeout(() => {
+      progRef.current = false;
+    }, ms);
+  };
+
   const onTabClick = (i: number) => {
+    lockScrollSync(750);
     setSub(i);
     const rail = railRef.current;
     if (!rail) return;
-    const cards = Array.from(rail.children) as HTMLElement[];
+    const cards = Array.from(rail.querySelectorAll<HTMLElement>("[data-sub-idx]"));
     const el = cards[i];
     if (!el) return;
     el.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
@@ -88,6 +106,7 @@ const data = useMemo(() => {
 
   useEffect(() => {
     setSub(0);
+    lockScrollSync(750);
     requestAnimationFrame(() => {
       const first = active.cards[0];
       document.getElementById(`card-${mode}-${first.key}`)?.scrollIntoView({
@@ -112,6 +131,7 @@ const data = useMemo(() => {
 const onRailScroll = () => {
   const rail = railRef.current;
   if (!rail) return;
+  if (progRef.current) return;
 
   if (rafRef.current) cancelAnimationFrame(rafRef.current);
   rafRef.current = requestAnimationFrame(() => {
@@ -143,11 +163,42 @@ const onRailScroll = () => {
     return () => clearTimeout(t);
   }, [mode]);
 
+  const submitInquiry = () => {
+    setFormError("");
+    const name = formName.trim();
+    const email = formEmail.trim();
+    const details = formDetails.trim();
+
+    if (!name || !email || !details) {
+      setFormError("Name, email, and project details are required.");
+      return;
+    }
+
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      setFormError("Enter a valid email address.");
+      return;
+    }
+
+    const body = [
+      `Page: /services`,
+      `Mode: ${mode}`,
+      `Category: ${active.tabs[sub] ?? "n/a"}`,
+      `Name: ${name}`,
+      `Email: ${email}`,
+      `Company/Project: ${formCompany.trim() || "N/A"}`,
+      "",
+      details,
+    ].join("\n");
+
+    window.location.href = `mailto:hello@walkperro.com?subject=${encodeURIComponent(
+      `WalkPerro service inquiry (${mode})`,
+    )}&body=${encodeURIComponent(body)}`;
+    setFormSent(true);
+  };
+
 
   return (
     <main className="wpPage" style={{ overflowX: "hidden" }}>
-      <NavMenu />
-
       <div className="wpWrap">
         <header className="wpHeader">
           <h1 className="wpH1">Services</h1>
@@ -210,11 +261,13 @@ const onRailScroll = () => {
           <p className="wpLead2">Tell us what you want built. We’ll reply with next steps.</p>
 
           <form className="wpForm">
-            <input className="wpInput" placeholder="Name" />
-            <input className="wpInput" placeholder="Email" />
-            <input className="wpInput" placeholder="Company / Project" />
-            <textarea className="wpInput" rows={4} placeholder="What do you need?" />
-            <button className="wpBtn" type="button">
+            <input className="wpInput" placeholder="Name" value={formName} onChange={(e) => setFormName(e.target.value)} />
+            <input className="wpInput" type="email" placeholder="Email" value={formEmail} onChange={(e) => setFormEmail(e.target.value)} />
+            <input className="wpInput" placeholder="Company / Project" value={formCompany} onChange={(e) => setFormCompany(e.target.value)} />
+            <textarea className="wpInput" rows={4} placeholder="What do you need?" value={formDetails} onChange={(e) => setFormDetails(e.target.value)} />
+            {formError ? <p className="wpFormNote wpFormError">{formError}</p> : null}
+            {formSent ? <p className="wpFormNote">Your email app was opened with a draft inquiry.</p> : null}
+            <button className="wpBtn" type="button" onClick={submitInquiry}>
               Submit <span>→</span>
             </button>
           </form>
@@ -224,4 +277,3 @@ const onRailScroll = () => {
     </main>
   );
 }
-

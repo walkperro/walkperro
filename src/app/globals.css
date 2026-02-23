@@ -781,3 +781,878 @@ html, body {
 .tour {
   overflow: visible !important;
 }
+
+/* Revenue leak audit quick fixes */
+.tourLead {
+  margin-top: 12px;
+  max-width: 60ch;
+  color: rgba(255,255,255,0.72);
+  line-height: 1.55;
+}
+
+.tourProof {
+  margin-top: 18px;
+  display: grid;
+  gap: 10px;
+}
+
+.tourProofItem {
+  display: grid;
+  gap: 2px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(255,255,255,0.02);
+}
+
+.tourProofItem strong {
+  font-size: 14px;
+  color: rgba(255,255,255,0.92);
+}
+
+.tourProofItem span {
+  color: rgba(255,255,255,0.6);
+  font-size: 13px;
+}
+
+.tourError,
+.wpFormError {
+  margin: 0;
+  color: #ffb3b3;
+  font-size: 13px;
+}
+
+.wpFormNote {
+  margin: 0;
+  font-size: 13px;
+  color: rgba(255,255,255,0.65);
+}
+
+.policySection {
+  margin-top: 22px;
+  padding-top: 18px;
+  border-top: 1px solid rgba(255,255,255,0.08);
+}
+
+.policyH2 {
+  margin: 0 0 8px;
+  font-size: 20px;
+  font-weight: 650;
+}
+
+.siteFooter {
+  border-top: 1px solid rgba(255,255,255,0.08);
+  padding: 28px 18px 42px;
+}
+
+.siteFooterInner {
+  max-width: 980px;
+  margin: 0 auto;
+}
+
+.siteFooterBrand {
+  margin: 0;
+  font-weight: 700;
+}
+
+.siteFooterMeta {
+  margin: 8px 0 0;
+  color: rgba(255,255,255,0.58);
+}
+
+.siteFooterLinks {
+  margin-top: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+
+.siteFooterLinks a {
+  color: rgba(255,255,255,0.82);
+  text-decoration: none;
+}
+
+/* ---------- WalkPerro lead flow ---------- */
+.wpLeadFlow {
+  background: #000;
+}
+
+.wpHero {
+  position: relative;
+  padding: 104px 18px 40px;
+  overflow: clip;
+}
+
+.wpHeroGlow {
+  position: absolute;
+  inset: -20% -10%;
+  background:
+    radial-gradient(36rem 22rem at 15% 10%, rgba(255, 200, 120, 0.12), transparent 65%),
+    radial-gradient(32rem 24rem at 80% 20%, rgba(80, 160, 255, 0.18), transparent 70%),
+    radial-gradient(44rem 26rem at 50% 100%, rgba(255, 255, 255, 0.06), transparent 65%);
+  filter: blur(22px);
+  pointer-events: none;
+}
+
+.wpHeroInner {
+  position: relative;
+  z-index: 1;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+.wpHeroTitleRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.wpHeroTitle {
+  font-size: clamp(34px, 8vw, 58px);
+  line-height: 0.95;
+  letter-spacing: -0.04em;
+  font-weight: 700;
+}
+
+.wpHeroMark {
+  width: 34px;
+  height: 34px;
+}
+
+.wpHeroHeadline {
+  margin-top: 14px;
+  font-size: clamp(28px, 6.4vw, 44px);
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  font-weight: 650;
+  max-width: 14ch;
+  color: rgba(255, 255, 255, 0.96);
+}
+
+.wpHeroSubhead {
+  margin-top: 12px;
+  color: rgba(255, 255, 255, 0.68);
+  font-size: 16px;
+  line-height: 1.55;
+  max-width: 42ch;
+}
+
+.wpHeroActions {
+  margin-top: 22px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.wpBtnPrimary,
+.wpBtnSecondary,
+.wpBtnGhost {
+  min-height: 46px;
+  border-radius: 14px;
+  padding: 12px 14px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  font-weight: 600;
+  font-size: 14px;
+  transition: background 120ms ease, border-color 120ms ease, color 120ms ease, opacity 120ms ease;
+}
+
+.wpBtnPrimary {
+  background: rgba(255, 255, 255, 0.92);
+  color: #0d0d0d;
+}
+
+.wpBtnPrimary:hover:not(:disabled) {
+  background: #fff;
+}
+
+.wpBtnPrimary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.wpBtnSecondary,
+.wpBtnGhost {
+  background: rgba(255, 255, 255, 0.03);
+  color: rgba(255, 255, 255, 0.88);
+}
+
+.wpBtnSecondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+}
+
+.wpBtnSecondary:hover,
+.wpBtnGhost:hover:not(:disabled) {
+  border-color: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.wpBtnGhost:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.wpHeroProof {
+  margin-top: 22px;
+  display: grid;
+  gap: 10px;
+}
+
+.wpHeroProofItem {
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.02);
+  padding: 12px 14px;
+}
+
+.wpHeroProofItem strong {
+  display: block;
+  font-size: 14px;
+}
+
+.wpHeroProofItem span {
+  display: block;
+  margin-top: 4px;
+  color: rgba(255, 255, 255, 0.58);
+  font-size: 13px;
+}
+
+.wpFlowSection {
+  padding: 14px 18px 80px;
+}
+
+.wpFlowCard {
+  max-width: 960px;
+  margin: 0 auto;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.03);
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.4);
+  padding: 16px;
+}
+
+.wpFlowHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.wpFlowKicker {
+  color: rgba(255, 255, 255, 0.55);
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.wpFlowTitle {
+  margin-top: 6px;
+  font-size: clamp(20px, 4.6vw, 28px);
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+}
+
+.wpFlowProgressText {
+  color: rgba(255, 255, 255, 0.55);
+  font-size: 13px;
+  white-space: nowrap;
+  padding-top: 4px;
+}
+
+.wpFlowProgressBar {
+  margin-top: 12px;
+  height: 8px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.05);
+  overflow: hidden;
+}
+
+.wpFlowProgressBar > span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.92), rgba(145, 198, 255, 0.9));
+  transition: width 200ms ease;
+}
+
+.wpFlowSummary {
+  margin-top: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.wpChipMuted {
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  background: rgba(255, 255, 255, 0.03);
+  padding: 6px 10px;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.wpStepBody {
+  margin-top: 14px;
+}
+
+.wpChoiceGrid,
+.wpMultiGrid {
+  display: grid;
+  gap: 10px;
+}
+
+.wpChoice {
+  text-align: left;
+  width: 100%;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.02);
+  color: rgba(255, 255, 255, 0.92);
+  padding: 13px 14px;
+  line-height: 1.35;
+}
+
+.wpChoice:hover {
+  border-color: rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.wpChoiceActive {
+  border-color: rgba(156, 208, 255, 0.65);
+  background: rgba(84, 142, 199, 0.16);
+  box-shadow: inset 0 0 0 1px rgba(156, 208, 255, 0.2);
+}
+
+.wpHint {
+  color: rgba(255, 255, 255, 0.52);
+  font-size: 13px;
+  padding: 4px 2px 0;
+}
+
+.wpFormStack {
+  display: grid;
+  gap: 14px;
+}
+
+.wpFieldGroup {
+  display: grid;
+  gap: 8px;
+}
+
+.wpFieldLabel {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.wpLabel {
+  display: grid;
+  gap: 8px;
+}
+
+.wpLabel > span {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.wpInput {
+  width: 100%;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.03);
+  color: rgba(255, 255, 255, 0.94);
+  padding: 12px 14px;
+  outline: none;
+}
+
+.wpInput:focus {
+  border-color: rgba(156, 208, 255, 0.45);
+}
+
+.wpTextarea {
+  resize: vertical;
+  min-height: 124px;
+}
+
+.wpGridTwo {
+  display: grid;
+  gap: 12px;
+}
+
+.wpToggleRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.02);
+  padding: 12px 14px;
+  color: rgba(255, 255, 255, 0.86);
+}
+
+.wpToggleRow input {
+  accent-color: #cfe5ff;
+}
+
+.wpTurnstileWrap {
+  margin-top: 2px;
+}
+
+.wpHp {
+  position: absolute;
+  left: -9999px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.wpError {
+  color: #ff9d9d;
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.wpFlowFooter {
+  margin-top: 14px;
+  display: flex;
+  gap: 10px;
+  justify-content: space-between;
+}
+
+.wpFlowFooter .wpBtnPrimary,
+.wpFlowFooter .wpBtnGhost {
+  flex: 1;
+}
+
+.wpClearBtn {
+  justify-self: start;
+}
+
+.wpSuccess {
+  display: grid;
+  gap: 12px;
+}
+
+.wpSuccessText {
+  color: rgba(255, 255, 255, 0.68);
+  line-height: 1.55;
+}
+
+.wpSuccessMeta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+@media (min-width: 700px) {
+  .wpHero {
+    padding-top: 120px;
+  }
+
+  .wpHeroProof {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .wpFlowCard {
+    padding: 20px;
+  }
+
+  .wpChoiceGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .wpGridTwo {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .wpFlowFooter {
+    justify-content: flex-end;
+  }
+
+  .wpFlowFooter .wpBtnGhost,
+  .wpFlowFooter .wpBtnPrimary {
+    flex: 0 0 auto;
+    min-width: 140px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wpFlowProgressBar > span,
+  .wpBtnPrimary,
+  .wpBtnSecondary,
+  .wpBtnGhost {
+    transition: none;
+  }
+}
+
+/* ---------- Admin leads dashboard ---------- */
+.adminWrap {
+  max-width: 1100px;
+}
+
+.adminHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.adminEyebrow {
+  color: rgba(255,255,255,0.55);
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.adminTabs {
+  display: grid;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.adminTab {
+  display: grid;
+  gap: 3px;
+  text-decoration: none;
+  color: rgba(255,255,255,0.8);
+  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(255,255,255,0.02);
+  border-radius: 14px;
+  padding: 10px 12px;
+}
+
+.adminTab small {
+  color: rgba(255,255,255,0.5);
+}
+
+.adminTabActive {
+  border-color: rgba(255,255,255,0.18);
+  background: rgba(255,255,255,0.05);
+}
+
+.adminNotice {
+  margin-bottom: 12px;
+  border-radius: 12px;
+  padding: 10px 12px;
+  border: 1px solid rgba(255,255,255,0.08);
+}
+
+.adminNoticeOk {
+  background: rgba(68, 176, 114, 0.12);
+  border-color: rgba(68, 176, 114, 0.28);
+  color: rgba(199, 255, 219, 0.9);
+}
+
+.adminNoticeErr {
+  background: rgba(218, 88, 88, 0.12);
+  border-color: rgba(218, 88, 88, 0.24);
+  color: rgba(255, 196, 196, 0.92);
+}
+
+.adminLeadList {
+  display: grid;
+  gap: 14px;
+}
+
+.adminLeadCard {
+  border-radius: 20px;
+}
+
+.adminLeadInner {
+  padding: 16px;
+  display: grid;
+  gap: 14px;
+}
+
+.adminLeadTop {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.adminLeadTitleRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.adminLeadTitle {
+  font-size: 18px;
+  font-weight: 650;
+}
+
+.adminLeadMeta,
+.adminLeadDate {
+  margin-top: 6px;
+  color: rgba(255,255,255,0.58);
+  font-size: 13px;
+}
+
+.adminBadge {
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.1);
+  background: rgba(255,255,255,0.03);
+  padding: 4px 8px;
+  font-size: 12px;
+  color: rgba(255,255,255,0.8);
+}
+
+.adminBadgeHigh {
+  border-color: rgba(255,132,132,0.38);
+  background: rgba(255, 86, 86, 0.12);
+  color: rgba(255, 210, 210, 0.95);
+}
+
+.adminBadgeMedium {
+  border-color: rgba(255,210,120,0.35);
+  background: rgba(255, 181, 55, 0.10);
+  color: rgba(255, 227, 180, 0.95);
+}
+
+.adminBadgeLow {
+  border-color: rgba(143,177,255,0.25);
+  background: rgba(111, 155, 255, 0.08);
+  color: rgba(209, 222, 255, 0.92);
+}
+
+.adminBadgeScore {
+  border-color: rgba(255,255,255,0.16);
+}
+
+.adminGrid {
+  display: grid;
+  gap: 10px;
+}
+
+.adminPill {
+  display: grid;
+  gap: 6px;
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.adminMessage,
+.adminReviewBlock {
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(255,255,255,0.02);
+  padding: 12px;
+  line-height: 1.5;
+  color: rgba(255,255,255,0.9);
+}
+
+.adminBlockLabel {
+  margin-bottom: 6px;
+  color: rgba(255,255,255,0.6);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+.adminReviewForm {
+  display: grid;
+  gap: 10px;
+  border-top: 1px solid rgba(255,255,255,0.08);
+  padding-top: 12px;
+}
+
+.adminReviewForm label {
+  display: grid;
+  gap: 6px;
+}
+
+.adminReviewForm label span {
+  color: rgba(255,255,255,0.7);
+  font-size: 12px;
+}
+
+.adminReviewForm select,
+.adminReviewForm textarea {
+  width: 100%;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.1);
+  background: rgba(255,255,255,0.03);
+  color: rgba(255,255,255,0.92);
+  padding: 10px 12px;
+}
+
+.adminReviewForm textarea {
+  resize: vertical;
+}
+
+.adminReviewNotes {
+  grid-column: 1 / -1;
+}
+
+.adminEmpty {
+  padding: 18px;
+  color: rgba(255,255,255,0.62);
+}
+
+@media (min-width: 840px) {
+  .adminTabs {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .adminGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .adminReviewForm {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    align-items: end;
+  }
+
+  .adminReviewForm .wpBtnPrimary {
+    justify-self: start;
+  }
+}
+
+/* ---------- LeadOps hub ---------- */
+.leadopsPage { max-width: 1240px; }
+.leadopsShell { display: grid; gap: 14px; }
+.leadopsTopBar { display: grid; gap: 12px; }
+.leadopsTopActions { display: flex; flex-wrap: wrap; gap: 10px; }
+.leadopsMetricRow { display: grid; gap: 10px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.leadopsMetricCard {
+  border-radius: 16px;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(255,255,255,0.02);
+  padding: 12px;
+}
+.leadopsMetricCard-hot { border-color: rgba(255,120,120,0.25); background: rgba(255, 91, 91, 0.08); }
+.leadopsMetricCard-warn { border-color: rgba(255,190,90,0.22); background: rgba(255, 186, 88, 0.06); }
+.leadopsMetricLabel { color: rgba(255,255,255,0.55); font-size: 12px; }
+.leadopsMetricValue { margin-top: 4px; font-size: 24px; font-weight: 700; letter-spacing: -0.03em; }
+.leadopsMetricHint { margin-top: 2px; color: rgba(255,255,255,0.5); font-size: 12px; }
+
+.leadopsLayout { display: grid; gap: 14px; }
+.leadopsSidebar { display: grid; gap: 14px; align-content: start; }
+.leadopsMain { min-width: 0; }
+.leadopsPanel { padding: 14px; display: grid; gap: 10px; }
+.leadopsPanelTitle { font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.62); }
+.leadopsMetaLine { color: rgba(255,255,255,0.6); font-size: 12px; }
+
+.leadopsFilterForm,
+.leadopsMiniForm,
+.leadopsUpdateForm,
+.leadopsCategoryGrid {
+  display: grid;
+  gap: 10px;
+}
+.leadopsFilterForm label,
+.leadopsMiniForm label,
+.leadopsUpdateForm label,
+.leadopsCategoryGrid label {
+  display: grid;
+  gap: 6px;
+}
+.leadopsFilterForm label span,
+.leadopsMiniForm label span,
+.leadopsUpdateForm label span,
+.leadopsCategoryGrid label span {
+  font-size: 12px;
+  color: rgba(255,255,255,0.68);
+}
+.leadopsFilterForm select,
+.leadopsMiniForm select,
+.leadopsUpdateForm select,
+.leadopsCategoryGrid select,
+.leadopsMiniForm textarea,
+.leadopsUpdateForm textarea {
+  width: 100%;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.10);
+  background: rgba(255,255,255,0.03);
+  color: rgba(255,255,255,0.92);
+  padding: 10px 12px;
+}
+.leadopsUpdateForm textarea,
+.leadopsMiniForm textarea { resize: vertical; }
+.leadopsFilterGrid2 { display: grid; gap: 10px; }
+.leadopsFilterChecks { display: grid; gap: 8px; font-size: 13px; color: rgba(255,255,255,0.8); }
+.leadopsFilterChecks label { display: flex; align-items: center; gap: 8px; }
+.leadopsPanelActions { display: flex; gap: 8px; flex-wrap: wrap; }
+
+.leadopsSavedList { display: grid; gap: 8px; }
+.leadopsSavedItem {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  align-items: center;
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.06);
+  background: rgba(255,255,255,0.02);
+  padding: 8px 10px;
+}
+.leadopsSavedItem a { color: rgba(255,255,255,0.88); text-decoration: none; }
+.leadopsInlineBtn {
+  border: 1px solid rgba(255,255,255,0.10);
+  background: rgba(255,255,255,0.03);
+  color: rgba(255,255,255,0.82);
+  border-radius: 10px;
+  padding: 6px 8px;
+  font-size: 12px;
+}
+.leadopsInlineBtn:hover { background: rgba(255,255,255,0.05); }
+.leadopsDetails summary { cursor: pointer; color: rgba(255,255,255,0.82); }
+.leadopsDetails[open] { display: grid; gap: 10px; }
+
+.leadopsCards { display: grid; gap: 12px; }
+.leadopsLeadCard { border-radius: 18px; }
+.leadopsLeadInner { padding: 14px; display: grid; gap: 12px; }
+.leadopsLeadHead { display: grid; grid-template-columns: auto 1fr; gap: 10px; align-items: start; }
+.leadopsCheckbox { padding-top: 4px; }
+.leadopsLeadTitleWrap { min-width: 0; }
+.leadopsLeadDates { color: rgba(255,255,255,0.52); font-size: 12px; display: none; }
+.leadopsMetaGrid { display: grid; gap: 10px; }
+.leadopsTagWrap { display: flex; flex-wrap: wrap; gap: 8px; }
+.leadopsBadgeDanger {
+  border-color: rgba(255,99,99,0.28);
+  background: rgba(255, 90, 90, 0.10);
+  color: rgba(255,215,215,0.96);
+}
+.leadopsBadgeWarn {
+  border-color: rgba(255,192,95,0.25);
+  background: rgba(255, 187, 84, 0.08);
+  color: rgba(255,235,199,0.95);
+}
+.leadopsSpan2 { grid-column: 1 / -1; }
+.leadopsCode { color: rgba(255,255,255,0.72); }
+
+.leadopsBottomGrid { display: grid; gap: 14px; }
+.leadopsSourceHealthList,
+.leadopsMiniList,
+.leadopsDupes,
+.leadopsActivityList { display: grid; gap: 8px; }
+.leadopsSourceHealthItem,
+.leadopsActivityRow {
+  display: flex; justify-content: space-between; gap: 10px; align-items: center;
+  border-radius: 12px; border: 1px solid rgba(255,255,255,0.06); background: rgba(255,255,255,0.02); padding: 10px;
+}
+.leadopsSourceHealthMeta { display: grid; justify-items: end; gap: 4px; }
+.leadopsSourceHealthMeta small { color: rgba(255,255,255,0.52); font-size: 11px; }
+.leadopsMiniRow {
+  display: flex; justify-content: space-between; gap: 8px; text-decoration: none;
+  color: rgba(255,255,255,0.84); border-radius: 10px; border: 1px solid rgba(255,255,255,0.05); padding: 8px 10px;
+  background: rgba(255,255,255,0.02);
+}
+.leadopsDupeGroup { border-radius: 12px; border: 1px solid rgba(255,255,255,0.06); padding: 10px; display: grid; gap: 8px; }
+.leadopsDupeRow { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+
+.leadopsCategoryList { margin-top: 14px; display: grid; gap: 12px; }
+
+@media (min-width: 900px) {
+  .leadopsMetricRow { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .leadopsLayout { grid-template-columns: 360px minmax(0, 1fr); align-items: start; }
+  .leadopsSidebar { position: sticky; top: 84px; }
+  .leadopsLeadHead { grid-template-columns: auto 1fr auto; }
+  .leadopsLeadDates { display: grid; justify-items: end; }
+  .leadopsMetaGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .leadopsFilterGrid2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .leadopsBottomGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .leadopsUpdateForm { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .leadopsCategoryGrid { grid-template-columns: repeat(3, minmax(0, 1fr)); align-items: end; }
+}

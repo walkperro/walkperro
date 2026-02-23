@@ -54,7 +54,7 @@ export default function NavMenu() {
         <Link className="navItem" href="/services" role="menuitem" onClick={() => setOpen(false)}>
           Services
         </Link>
-        <Link className="navItem" href="/#inquiry" role="menuitem" onClick={() => setOpen(false)}>
+        <Link className="navItem" href="/contact" role="menuitem" onClick={() => setOpen(false)}>
           Contact
         </Link>
         <Link className="navItem" href="/policy" role="menuitem" onClick={() => setOpen(false)}>

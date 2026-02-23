@@ -18,6 +18,33 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
+## Revenue Audit
+
+Run the lightweight revenue leak audit (CRO + SEO + performance proxies + trust checks) and write the report to `reports/revenue-leak-report.md`.
+
+1. Start the app locally (or use a deployed URL):
+
+```bash
+npm run dev
+```
+
+2. Run the audit:
+
+```bash
+npm run audit:revenue
+```
+
+If your app is running on a different port, set `AUDIT_URL`:
+
+```bash
+AUDIT_URL=http://localhost:4100 npm run audit:revenue
+```
+
+Notes:
+- The script uses lightweight checks (HTTP/meta parsing, route health, proxy performance metrics).
+- It does not run Lighthouse by default (keeps tooling lightweight and avoids Chrome dependency issues on constrained environments).
+- Raw fetched HTML snapshots are saved under `reports/raw/`.
+
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
 ## Learn More
