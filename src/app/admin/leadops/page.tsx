@@ -1,4 +1,5 @@
 import Link from "next/link";
+import AdminErrorState from "@/components/admin/AdminErrorState";
 import LeadOpsInboxClient from "@/components/admin/LeadOpsInboxClient";
 import {
   fetchCategories,
@@ -14,6 +15,7 @@ import {
 } from "@/lib/leadops";
 
 export const dynamic = "force-dynamic";
+export const runtime = "nodejs";
 
 function pickFilters(params: Record<string, string | string[] | undefined>): LeadOpsFilter {
   const filter: LeadOpsFilter = {
@@ -55,11 +57,30 @@ export default async function LeadOpsPage({
   const saved = params.saved === "1";
   const error = parseStringParam(params.error);
 
-  const [categories, sources, savedViews] = await Promise.all([
-    fetchCategories({ activeOnly: false, kinds: [] }),
-    fetchSources(),
-    fetchSavedViews(),
-  ]);
+  let categories: Awaited<ReturnType<typeof fetchCategories>>;
+  let sources: Awaited<ReturnType<typeof fetchSources>>;
+  let savedViews: Awaited<ReturnType<typeof fetchSavedViews>>;
+  try {
+    [categories, sources, savedViews] = await Promise.all([
+      fetchCategories({ activeOnly: false, kinds: [] }),
+      fetchSources(),
+      fetchSavedViews(),
+    ]);
+  } catch (error) {
+    const message = error instanceof Error ? error.message : "Failed to load admin data.";
+    return (
+      <main className="pageWrap adminWrap leadopsPage">
+        <div className="adminHeader">
+          <div>
+            <p className="adminEyebrow">WalkPerro Admin</p>
+            <h1 className="pageTitle">LeadOps Hub</h1>
+            <p className="pageMuted">Unified lead inbox for all projects.</p>
+          </div>
+        </div>
+        <AdminErrorState title="LeadOps could not load" message={message} />
+      </main>
+    );
+  }
 
   let filter = incoming;
   if (savedViewSlug) {
@@ -69,13 +90,34 @@ export default async function LeadOpsPage({
     }
   }
 
-  const [rawLeads, metrics, sourceHealth, activities, duplicateGroups] = await Promise.all([
-    fetchLeadOpsLeads(filter, 200),
-    fetchLeadOpsMetrics(),
-    fetchSourceHealthSummary(),
-    fetchRecentLeadOpsActivities(30),
-    fetchDuplicateCandidates(12),
-  ]);
+  let rawLeads: Awaited<ReturnType<typeof fetchLeadOpsLeads>>;
+  let metrics: Awaited<ReturnType<typeof fetchLeadOpsMetrics>>;
+  let sourceHealth: Awaited<ReturnType<typeof fetchSourceHealthSummary>>;
+  let activities: Awaited<ReturnType<typeof fetchRecentLeadOpsActivities>>;
+  let duplicateGroups: Awaited<ReturnType<typeof fetchDuplicateCandidates>>;
+  try {
+    [rawLeads, metrics, sourceHealth, activities, duplicateGroups] = await Promise.all([
+      fetchLeadOpsLeads(filter, 200),
+      fetchLeadOpsMetrics(),
+      fetchSourceHealthSummary(),
+      fetchRecentLeadOpsActivities(30),
+      fetchDuplicateCandidates(12),
+    ]);
+  } catch (error) {
+    const message = error instanceof Error ? error.message : "Failed to load admin data.";
+    return (
+      <main className="pageWrap adminWrap leadopsPage">
+        <div className="adminHeader">
+          <div>
+            <p className="adminEyebrow">WalkPerro Admin</p>
+            <h1 className="pageTitle">LeadOps Hub</h1>
+            <p className="pageMuted">Unified lead inbox for all projects.</p>
+          </div>
+        </div>
+        <AdminErrorState title="LeadOps data fetch failed" message={message} />
+      </main>
+    );
+  }
 
   const leads = filter.category_slug
     ? rawLeads.filter((lead) => (lead.lead_category_links || []).some((link) => link.category?.slug === filter.category_slug))

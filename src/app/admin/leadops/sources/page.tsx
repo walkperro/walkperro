@@ -1,8 +1,10 @@
 import Link from "next/link";
+import AdminErrorState from "@/components/admin/AdminErrorState";
 import { fetchSources } from "@/lib/leadops";
 import { supabaseRestRequest } from "@/lib/supabase-rest";
 
 export const dynamic = "force-dynamic";
+export const runtime = "nodejs";
 
 type SourceRow = Awaited<ReturnType<typeof fetchSources>>[number] & {
   active?: boolean;
@@ -27,7 +29,13 @@ export default async function LeadOpsSourcesPage({
   const params = (await searchParams) || {};
   const saved = params.saved === "1";
   const error = typeof params.error === "string" ? params.error : "";
-  const sources = await fetchSourceRows();
+  let sources: SourceRow[] = [];
+  let loadError = "";
+  try {
+    sources = await fetchSourceRows();
+  } catch (error) {
+    loadError = error instanceof Error ? error.message : "Failed to load sources.";
+  }
 
   return (
     <main className="pageWrap adminWrap leadopsPage">
@@ -44,8 +52,10 @@ export default async function LeadOpsSourcesPage({
 
       {saved ? <p className="adminNotice adminNoticeOk">Source saved.</p> : null}
       {error ? <p className="adminNotice adminNoticeErr">Error: {error}</p> : null}
+      {loadError ? <p className="adminNotice adminNoticeErr">{loadError}</p> : null}
+      {loadError ? <AdminErrorState title="Sources could not load" message={loadError} /> : null}
 
-      <section className="card">
+      {!loadError ? <section className="card">
         <div className="card-inner leadopsPanel">
           <p className="leadopsPanelTitle">Add Source</p>
           <form method="post" action="/admin/api/leadops/sources" className="leadopsCategoryGrid">
@@ -60,9 +70,9 @@ export default async function LeadOpsSourcesPage({
             <button className="wpBtnPrimary" type="submit">Create Source</button>
           </form>
         </div>
-      </section>
+      </section> : null}
 
-      <section className="leadopsCategoryList">
+      {!loadError ? <section className="leadopsCategoryList">
         {sources.map((source) => (
           <article key={source.id} className="card">
             <div className="card-inner leadopsPanel">
@@ -90,7 +100,7 @@ export default async function LeadOpsSourcesPage({
             </div>
           </article>
         ))}
-      </section>
+      </section> : null}
     </main>
   );
 }

@@ -1656,3 +1656,998 @@ html, body {
   .leadopsUpdateForm { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .leadopsCategoryGrid { grid-template-columns: repeat(3, minmax(0, 1fr)); align-items: end; }
 }
+
+/* ---------- 2026 Premium System Override (Apple x LV) ---------- */
+:root {
+  --wp-bg: #070708;
+  --wp-bg-2: #0d0d10;
+  --wp-fg: rgba(252, 252, 253, 0.95);
+  --wp-muted: rgba(240, 239, 236, 0.64);
+  --wp-muted-2: rgba(240, 239, 236, 0.48);
+  --wp-line: rgba(255, 255, 255, 0.12);
+  --wp-line-soft: rgba(255, 255, 255, 0.07);
+  --wp-panel: rgba(255, 255, 255, 0.028);
+  --wp-panel-strong: rgba(255, 255, 255, 0.042);
+  --wp-shadow: 0 24px 70px rgba(0, 0, 0, 0.38);
+  --wp-radius: 18px;
+  --wp-radius-lg: 26px;
+}
+
+html, body {
+  background: var(--wp-bg) !important;
+}
+
+body {
+  color: var(--wp-fg);
+  position: relative;
+  isolation: isolate;
+  letter-spacing: -0.01em;
+  font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+body::before,
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+}
+
+body::before {
+  z-index: -2;
+  background:
+    radial-gradient(58rem 34rem at 12% 8%, rgba(166, 127, 76, 0.12), transparent 70%),
+    radial-gradient(52rem 30rem at 86% 12%, rgba(255, 255, 255, 0.06), transparent 72%),
+    radial-gradient(46rem 34rem at 58% 100%, rgba(120, 92, 54, 0.08), transparent 72%),
+    linear-gradient(180deg, #09090b 0%, #050505 62%, #030303 100%);
+}
+
+body::after {
+  z-index: -1;
+  background:
+    radial-gradient(circle at 50% 50%, transparent 38%, rgba(0, 0, 0, 0.44) 100%),
+    repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.012), rgba(255, 255, 255, 0.012) 1px, transparent 1px, transparent 3px),
+    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.006), rgba(255, 255, 255, 0.006) 1px, transparent 1px, transparent 4px);
+  opacity: 0.42;
+}
+
+a {
+  text-underline-offset: 3px;
+}
+
+.pageTitle,
+.wpH1,
+.wpHeroTitle,
+.wpHeroHeadline,
+.wpFlowTitle,
+.wpH3,
+.wpCardTitle {
+  font-family: "Iowan Old Style", "Baskerville", "Palatino Linotype", ui-serif, serif;
+}
+
+.card {
+  background: linear-gradient(180deg, rgba(255,255,255,0.035), rgba(255,255,255,0.02));
+  border-color: var(--wp-line);
+  border-radius: var(--wp-radius-lg);
+  box-shadow: var(--wp-shadow);
+}
+
+.card::before {
+  background: radial-gradient(120% 65% at 14% 0%, rgba(255,255,255,0.06), transparent 65%);
+}
+
+.pill {
+  background: var(--wp-panel);
+  border-color: var(--wp-line-soft);
+  border-radius: 16px;
+}
+
+.navRoot {
+  top: 14px;
+  left: 14px;
+  right: 14px;
+}
+
+.navBar {
+  padding: 8px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(9, 9, 11, 0.48);
+  backdrop-filter: blur(14px);
+}
+
+.navHomeIcon,
+.navMenuBtn {
+  color: rgba(255,255,255,0.9);
+}
+
+.navMenuBtn {
+  font-size: 14px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.navPanel {
+  top: 62px;
+  right: 14px;
+  width: 240px;
+  border-radius: 20px;
+  border-color: var(--wp-line);
+  background: rgba(10, 10, 12, 0.76);
+  box-shadow: 0 28px 70px rgba(0,0,0,0.45);
+}
+
+.navItem {
+  color: rgba(255,255,255,0.82);
+}
+
+.siteFooter {
+  border-top: 1px solid var(--wp-line-soft);
+  padding: 34px 18px 48px;
+  background: linear-gradient(180deg, transparent, rgba(255,255,255,0.01));
+}
+
+.siteFooterInner {
+  max-width: 1120px;
+  display: grid;
+  gap: 8px;
+}
+
+.siteFooterBrand {
+  font-size: 15px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.siteFooterMeta {
+  color: var(--wp-muted);
+}
+
+.siteFooterLinks a {
+  color: rgba(255,255,255,0.86);
+}
+
+.pageWrap {
+  max-width: 980px;
+  padding: 112px 20px 84px;
+}
+
+.pageTitle {
+  font-size: clamp(30px, 4.4vw, 46px);
+  line-height: 1;
+  letter-spacing: -0.03em;
+  font-weight: 700;
+}
+
+.pageMuted {
+  color: var(--wp-muted);
+  max-width: 68ch;
+  line-height: 1.65;
+}
+
+.policySection {
+  margin-top: 26px;
+  padding: 16px 16px 14px;
+  border: 1px solid var(--wp-line-soft);
+  border-radius: 18px;
+  background: rgba(255,255,255,0.015);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.02);
+}
+
+.policyH2 {
+  font-size: 19px;
+  letter-spacing: -0.02em;
+}
+
+.wpPage,
+.wpLeadFlow {
+  background: transparent;
+}
+
+.wpWrap {
+  max-width: 1080px;
+  padding: 118px 20px 96px;
+}
+
+.wpHeader {
+  gap: 12px;
+}
+
+.wpH1 {
+  font-size: clamp(36px, 6vw, 56px);
+  line-height: 0.95;
+  letter-spacing: -0.04em;
+}
+
+.wpLead,
+.wpLead2 {
+  color: var(--wp-muted);
+  line-height: 1.65;
+}
+
+.wpHero {
+  padding: 118px 20px 46px;
+}
+
+.wpHeroGlow {
+  background:
+    radial-gradient(42rem 28rem at 10% 8%, rgba(191, 147, 89, 0.11), transparent 70%),
+    radial-gradient(36rem 26rem at 86% 14%, rgba(255,255,255,0.07), transparent 72%),
+    radial-gradient(40rem 28rem at 52% 96%, rgba(143, 107, 62, 0.08), transparent 72%);
+  filter: blur(28px);
+  opacity: 0.92;
+}
+
+.wpHeroInner {
+  max-width: 1080px;
+  display: grid;
+  gap: 14px;
+}
+
+.wpHeroTitle {
+  font-weight: 650;
+}
+
+.wpHeroHeadline {
+  max-width: 15ch;
+  text-wrap: balance;
+}
+
+.wpHeroSubhead {
+  color: var(--wp-muted);
+  line-height: 1.6;
+  text-wrap: pretty;
+}
+
+.wpBtnPrimary,
+.wpBtnSecondary,
+.wpBtnGhost,
+.wpBtn,
+.wpCta {
+  border-radius: 999px;
+}
+
+.wpBtnPrimary,
+.wpBtn {
+  background: linear-gradient(180deg, rgba(255,255,255,0.94), rgba(241,241,241,0.88));
+  color: #0b0b0d;
+  border-color: rgba(255,255,255,0.4);
+  box-shadow: 0 10px 28px rgba(255,255,255,0.06);
+}
+
+.wpBtnSecondary,
+.wpBtnGhost,
+.wpCta {
+  background: rgba(255,255,255,0.025);
+  border-color: var(--wp-line);
+  color: rgba(255,255,255,0.9);
+}
+
+.wpCapabilityCard {
+  margin-top: 24px;
+  border-radius: 22px;
+  border: 1px solid var(--wp-line);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.035), rgba(255,255,255,0.02)),
+    radial-gradient(100% 80% at 0% 0%, rgba(255,255,255,0.04), transparent 70%);
+  box-shadow: var(--wp-shadow);
+  padding: 14px;
+  display: grid;
+  gap: 10px;
+}
+
+.wpCapabilityHead {
+  display: grid;
+  gap: 6px;
+  padding: 4px 4px 2px;
+}
+
+.wpCapabilityHead .wpHeroSubhead {
+  margin: 0;
+  max-width: 52ch;
+  font-size: 14px;
+}
+
+.wpCapabilityRows {
+  display: grid;
+  gap: 8px;
+}
+
+.wpCapabilityRow {
+  display: grid;
+  gap: 4px;
+  border-radius: 16px;
+  border: 1px solid var(--wp-line-soft);
+  background: rgba(255,255,255,0.015);
+  padding: 12px 13px;
+}
+
+.wpCapabilityRow strong {
+  font-size: 14px;
+  color: rgba(255,255,255,0.94);
+  letter-spacing: -0.01em;
+}
+
+.wpCapabilityRow span {
+  color: var(--wp-muted);
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.wpFlowSection {
+  padding: 16px 20px 92px;
+}
+
+.wpFlowCard {
+  max-width: 1080px;
+  border-radius: 24px;
+  border: 1px solid var(--wp-line);
+  background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
+  box-shadow: var(--wp-shadow);
+  padding: 18px;
+}
+
+.wpFlowHeader {
+  gap: 12px;
+}
+
+.wpChoice,
+.wpInput,
+.wpToggleRow,
+.wpChipMuted,
+.wpSegment,
+.wpTabs,
+.wpCard,
+.wpInquiry {
+  border-color: var(--wp-line);
+}
+
+.wpChoice,
+.wpInput,
+.wpToggleRow,
+.wpChipMuted,
+.wpCard,
+.wpInquiry,
+.wpSegment,
+.wpTabs {
+  background: var(--wp-panel);
+}
+
+.wpSegment,
+.wpTabs {
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.02);
+}
+
+.wpChoice:hover {
+  background: var(--wp-panel-strong);
+}
+
+.wpChoiceActive {
+  border-color: rgba(218, 187, 136, 0.45);
+  background: rgba(188, 149, 91, 0.12);
+  box-shadow: inset 0 0 0 1px rgba(219, 190, 142, 0.14);
+}
+
+.wpInput,
+.wpChoice,
+.wpToggleRow {
+  border-radius: 16px;
+}
+
+.wpInput:focus {
+  border-color: rgba(224, 196, 152, 0.35);
+  box-shadow: 0 0 0 1px rgba(224, 196, 152, 0.12);
+}
+
+.wpInput::placeholder {
+  color: rgba(255,255,255,0.38);
+}
+
+.wpFlowProgressBar > span {
+  background: linear-gradient(90deg, rgba(255,255,255,0.92), rgba(214, 183, 132, 0.92));
+}
+
+.wpInquiry {
+  border-top: 1px solid var(--wp-line-soft);
+  margin-top: 50px;
+  padding-top: 28px;
+}
+
+.wpCard {
+  background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
+  border-radius: 24px;
+}
+
+.wpDesc,
+.wpBullets,
+.wpHint,
+.wpFlowProgressText,
+.wpFieldLabel,
+.wpLabel > span {
+  color: var(--wp-muted);
+}
+
+.wpCta {
+  background: rgba(255,255,255,0.02);
+}
+
+.adminShellNavWrap {
+  padding: 78px 20px 0;
+}
+
+.adminShellNav {
+  max-width: 1100px;
+  margin: 0 auto;
+  border-radius: 18px;
+  border: 1px solid var(--wp-line);
+  background: rgba(10,10,12,0.56);
+  backdrop-filter: blur(14px);
+  box-shadow: 0 18px 48px rgba(0,0,0,0.28);
+  padding: 12px;
+  display: grid;
+  gap: 10px;
+}
+
+.adminShellBrand {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 8px;
+  color: rgba(255,255,255,0.92);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.adminShellBrand small {
+  color: var(--wp-muted-2);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 11px;
+}
+
+.adminShellLinks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.adminShellLink {
+  text-decoration: none;
+  color: rgba(255,255,255,0.88);
+  border: 1px solid var(--wp-line);
+  background: rgba(255,255,255,0.02);
+  border-radius: 999px;
+  padding: 8px 12px;
+  font-size: 13px;
+}
+
+.adminShellLink:hover {
+  background: rgba(255,255,255,0.04);
+}
+
+.adminWrap {
+  max-width: 1140px;
+  padding-top: 18px;
+}
+
+.adminHeader {
+  gap: 14px;
+}
+
+.adminNotice {
+  border-radius: 14px;
+}
+
+.adminErrorState {
+  padding: 16px;
+}
+
+.adminHeader .pageMuted,
+.adminLeadMeta,
+.adminLeadDate {
+  color: var(--wp-muted);
+}
+
+.adminLeadCard,
+.leadopsLeadCard {
+  border-radius: 22px;
+}
+
+@media (min-width: 700px) {
+  .wpCapabilityCard {
+    padding: 16px;
+  }
+
+  .wpCapabilityRows {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (min-width: 900px) {
+  .adminShellNav {
+    grid-template-columns: auto 1fr;
+    align-items: center;
+  }
+
+  .adminShellLinks {
+    justify-content: flex-end;
+  }
+
+  .wpHero {
+    padding-top: 132px;
+  }
+
+  .wpHeroInner {
+    gap: 18px;
+  }
+
+  .wpCapabilityRows {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .wpCapabilityRow {
+    align-content: start;
+    min-height: 108px;
+  }
+}
+
+@media (max-width: 640px) {
+  .navBar {
+    padding: 7px 9px;
+  }
+
+  .wpWrap,
+  .pageWrap,
+  .wpHero,
+  .wpFlowSection {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .wpFlowCard {
+    padding: 14px;
+    border-radius: 20px;
+  }
+
+  .wpHeroActions .wpBtnPrimary,
+  .wpHeroActions .wpBtnSecondary {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .adminShellNavWrap {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .adminShellNav {
+    padding: 10px;
+  }
+}
+
+/* ---------- 2026 Minimal Refinement (clean / bianca-inspired direction) ---------- */
+:root {
+  --wp-bg: #060606;
+  --wp-fg: rgba(245, 245, 244, 0.96);
+  --wp-muted: rgba(245, 245, 244, 0.62);
+  --wp-muted-2: rgba(245, 245, 244, 0.44);
+  --wp-line: rgba(255, 255, 255, 0.10);
+  --wp-line-soft: rgba(255, 255, 255, 0.06);
+  --wp-panel: rgba(255, 255, 255, 0.015);
+  --wp-panel-strong: rgba(255, 255, 255, 0.026);
+  --wp-shadow: 0 20px 56px rgba(0, 0, 0, 0.32);
+}
+
+body {
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: #050505 !important;
+}
+
+body::before {
+  background:
+    radial-gradient(44rem 28rem at 12% 18%, rgba(255,255,255,0.05), transparent 72%),
+    radial-gradient(40rem 28rem at 88% 20%, rgba(255,255,255,0.03), transparent 75%),
+    radial-gradient(56rem 38rem at 55% 105%, rgba(255,255,255,0.025), transparent 76%),
+    linear-gradient(180deg, #070707 0%, #050505 55%, #030303 100%);
+}
+
+body::after {
+  background:
+    radial-gradient(circle at 50% 50%, transparent 42%, rgba(0,0,0,0.35) 100%),
+    repeating-linear-gradient(0deg, rgba(255,255,255,0.008), rgba(255,255,255,0.008) 1px, transparent 1px, transparent 4px);
+  opacity: 0.28;
+}
+
+.pageTitle,
+.wpH1,
+.wpHeroTitle,
+.wpHeroHeadline,
+.wpFlowTitle,
+.wpH3,
+.wpCardTitle {
+  font-family: inherit;
+  letter-spacing: -0.03em;
+  font-weight: 700;
+}
+
+.navRoot {
+  top: 12px;
+  left: 16px;
+  right: 16px;
+}
+
+.navRoot::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 36px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.09), transparent);
+  pointer-events: none;
+}
+
+.navBar {
+  background: transparent;
+  border: 0;
+  backdrop-filter: none;
+  padding: 0;
+}
+
+.navHomeIcon {
+  width: 22px;
+  height: 22px;
+  color: rgba(255,255,255,0.9);
+}
+
+.navMenuBtn {
+  font-size: 13px;
+  letter-spacing: 0.12em;
+  color: rgba(255,255,255,0.78);
+  padding: 0;
+}
+
+.navPanel {
+  top: 34px;
+  right: 0;
+  width: 190px;
+  border-radius: 14px;
+  border: 1px solid var(--wp-line-soft);
+  background: rgba(8,8,8,0.92);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 18px 42px rgba(0,0,0,0.36);
+}
+
+.navItem {
+  padding: 12px 14px;
+  color: rgba(255,255,255,0.76);
+}
+
+.wpHero {
+  padding-top: 92px;
+}
+
+.wpHeroGlow {
+  background:
+    radial-gradient(42rem 24rem at 18% 14%, rgba(255,255,255,0.03), transparent 75%),
+    radial-gradient(44rem 28rem at 85% 24%, rgba(255,255,255,0.022), transparent 76%);
+  filter: blur(30px);
+}
+
+.wpHeroInner {
+  gap: 16px;
+}
+
+.wpHeroTitleRow {
+  align-items: center;
+  gap: 8px;
+}
+
+.wpHeroTitle {
+  line-height: 0.94;
+}
+
+.wpHeroMark {
+  width: 24px;
+  height: 24px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transform: translateY(1px);
+}
+
+.wpHeroMark img {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: contain;
+}
+
+.wpHeroHeadline {
+  font-size: clamp(24px, 7vw, 42px);
+  line-height: 0.96;
+  max-width: 13ch;
+  text-wrap: balance;
+}
+
+.wpHeroSubhead {
+  margin-top: 10px;
+  max-width: 38ch;
+  font-size: 15px;
+  color: var(--wp-muted);
+}
+
+.wpHeroActions {
+  margin-top: 14px;
+  gap: 8px;
+}
+
+.wpBtnPrimary,
+.wpBtnSecondary,
+.wpBtnGhost,
+.wpBtn,
+.wpCta,
+.adminShellLink {
+  border-radius: 12px;
+}
+
+.wpBtnPrimary,
+.wpBtn {
+  background: #f0f0ef;
+  border-color: rgba(255,255,255,0.18);
+  box-shadow: none;
+}
+
+.wpBtnSecondary,
+.wpBtnGhost,
+.wpCta {
+  background: rgba(255,255,255,0.01);
+  border-color: var(--wp-line-soft);
+}
+
+.wpCapabilityCard,
+.wpFlowCard,
+.card,
+.adminShellNav {
+  border-color: var(--wp-line-soft);
+  background: linear-gradient(180deg, rgba(255,255,255,0.014), rgba(255,255,255,0.01));
+  box-shadow: 0 12px 34px rgba(0,0,0,0.22);
+}
+
+.wpCapabilityCard {
+  margin-top: 18px;
+  border-radius: 18px;
+  padding: 12px;
+}
+
+.wpCapabilityRow {
+  border-radius: 12px;
+  border-color: rgba(255,255,255,0.05);
+  background: rgba(255,255,255,0.008);
+}
+
+.wpFlowCard {
+  border-radius: 20px;
+}
+
+.wpChoice,
+.wpInput,
+.wpToggleRow,
+.wpChipMuted,
+.wpSegment,
+.wpTabs,
+.wpCard {
+  border-color: rgba(255,255,255,0.07);
+  background: rgba(255,255,255,0.012);
+}
+
+.wpChoiceActive {
+  border-color: rgba(255,255,255,0.18);
+  background: rgba(255,255,255,0.04);
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.03);
+}
+
+.wpFlowProgressBar > span {
+  background: linear-gradient(90deg, rgba(255,255,255,0.94), rgba(255,255,255,0.74));
+}
+
+.wpInput:focus {
+  border-color: rgba(255,255,255,0.18);
+  box-shadow: 0 0 0 1px rgba(255,255,255,0.06);
+}
+
+.wpTurnstileWrap {
+  min-height: 72px;
+}
+
+.wpTurnstileMount {
+  min-height: 65px;
+}
+
+.wpTurnstileMount iframe {
+  max-width: 100%;
+}
+
+.adminShellNavWrap {
+  padding-top: 58px;
+}
+
+.adminShellNav {
+  border-radius: 14px;
+  padding: 10px;
+  backdrop-filter: blur(8px);
+}
+
+.adminShellBrand {
+  font-size: 14px;
+}
+
+.adminShellLink {
+  padding: 7px 10px;
+  border-color: rgba(255,255,255,0.06);
+  background: rgba(255,255,255,0.01);
+}
+
+.adminNoticeErr {
+  background: rgba(120, 18, 18, 0.28);
+  border-color: rgba(189, 40, 40, 0.22);
+}
+
+.policySection {
+  background: rgba(255,255,255,0.008);
+  border-color: rgba(255,255,255,0.05);
+  box-shadow: none;
+}
+
+@media (max-width: 640px) {
+  .navRoot {
+    top: 10px;
+    left: 14px;
+    right: 14px;
+  }
+
+  .navRoot::after {
+    top: 30px;
+  }
+
+  .navPanel {
+    top: 30px;
+    right: 0;
+    width: 172px;
+  }
+
+  .wpHero {
+    padding-top: 84px;
+  }
+
+  .wpHeroMark {
+    width: 22px;
+    height: 22px;
+    transform: translateY(2px);
+  }
+
+  .adminShellNavWrap {
+    padding-top: 52px;
+  }
+}
+
+/* ---------- 2026 polish hotfixes (latest) ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+
+.wpBtnSecondary { white-space: nowrap; }
+
+.wpHeroMark {
+  width: 34px !important;
+  height: 34px !important;
+  transform: translateY(2px) !important;
+}
+
+.wpHeroMark img {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.wpCapabilityCarousel {
+  display: grid;
+  gap: 10px;
+}
+
+.wpCapabilityRow {
+  min-height: 92px;
+  display: grid;
+  align-content: start;
+  gap: 6px;
+}
+
+.wpCapabilityMedia {
+  width: 100%;
+  height: 140px;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.05);
+  background: rgba(255,255,255,0.02);
+  margin-bottom: 2px;
+}
+
+.wpCapabilityPhoto {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  filter: grayscale(1) contrast(0.92) brightness(0.78);
+  transform: scale(1.01);
+}
+
+.wpCapabilityDots {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding-left: 2px;
+}
+
+.wpCapabilityDots span {
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.18);
+  transition: width 180ms ease, background-color 180ms ease;
+}
+
+.wpCapabilityDots span.active {
+  width: 18px;
+  background: rgba(255,255,255,0.66);
+}
+
+.wpTurnstileWrap {
+  min-height: 76px;
+  overflow: hidden;
+}
+
+.wpTurnstileMount {
+  min-height: 68px;
+}
+
+.wpTurnstileMount iframe {
+  max-width: 100%;
+}
+
+.siteFooterBrand {
+  text-transform: none !important;
+  letter-spacing: 0 !important;
+}
+
+.wpPage,
+.wpWrap {
+  overflow-x: clip !important;
+}
+
+.wpRail {
+  padding-inline: 8px 14px !important;
+  scroll-padding-inline: 8px;
+  overflow-y: hidden;
+}
+
+.wpRail > *:last-child {
+  margin-right: 2px;
+}
+
+.wpForm .wpInput,
+.wpForm .wpBtn {
+  max-width: 100%;
+}
+
+.wpForm .wpInput {
+  padding: 12px 14px;
+  border-radius: 14px;
+}
+
+@media (max-width: 640px) {
+  .wpHeroMark {
+    width: 32px !important;
+    height: 32px !important;
+    transform: translateY(2px) !important;
+  }
+
+  .wpCapabilityMedia {
+    height: 118px;
+  }
+}

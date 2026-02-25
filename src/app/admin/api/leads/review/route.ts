@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { getSupabaseServerConfig } from "@/lib/supabase-rest";
 
 export const runtime = "nodejs";
 
@@ -9,17 +10,6 @@ type LeadPriority = "low" | "medium" | "high";
 const REVIEW_DECISIONS = new Set<ReviewDecision>(["qualified", "nurture", "disqualify", "follow-up"]);
 const LEAD_STATUSES = new Set<LeadStatus>(["new", "contacted", "won", "lost"]);
 const LEAD_PRIORITIES = new Set<LeadPriority>(["low", "medium", "high"]);
-
-function getSupabaseServerConfig() {
-  const supabaseUrl = process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
-
-  if (!supabaseUrl || !serviceRoleKey) {
-    throw new Error("Supabase server env vars are missing.");
-  }
-
-  return { supabaseUrl: supabaseUrl.replace(/\/$/, ""), serviceRoleKey };
-}
 
 function getReviewer(req: NextRequest) {
   const auth = req.headers.get("authorization");
@@ -85,11 +75,13 @@ export async function POST(req: NextRequest) {
         "Content-Type": "application/json",
         apikey: serviceRoleKey,
         Authorization: `Bearer ${serviceRoleKey}`,
+        "Accept-Profile": "walkperro",
         "Content-Profile": "walkperro",
         Prefer: "return=minimal",
       },
       body: JSON.stringify(updateBody),
       cache: "no-store",
+      signal: AbortSignal.timeout(10_000),
     });
 
     if (!res.ok) {

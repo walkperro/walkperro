@@ -18,7 +18,13 @@ export function middleware(req: NextRequest) {
   const expectedPass = process.env.ADMIN_LEADS_PASSWORD;
 
   if (!expectedUser || !expectedPass) {
-    return new NextResponse("Admin credentials are not configured.", { status: 503 });
+    const missing = [
+      !expectedUser ? "ADMIN_LEADS_USER" : null,
+      !expectedPass ? "ADMIN_LEADS_PASSWORD" : null,
+    ].filter(Boolean);
+    return new NextResponse(`Admin credentials are not configured. Missing env vars: ${missing.join(", ")}`, {
+      status: 503,
+    });
   }
 
   const auth = req.headers.get("authorization");

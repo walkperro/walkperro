@@ -18,6 +18,7 @@ import {
 } from "@/lib/lead-scoring";
 import { cleanupRateLimitStore, hitRateLimit } from "@/lib/rate-limit";
 import { mirrorWalkPerroLeadToLeadOps } from "@/lib/leadops/walkperro-mirror";
+import { getSupabaseServerConfig } from "@/lib/supabase-rest";
 
 export const runtime = "nodejs";
 
@@ -85,7 +86,10 @@ function getClientIp(req: NextRequest): string {
 }
 
 async function verifyTurnstile(token: string, ip: string) {
-  const secret = process.env.CLOUDFLARE_API;
+  const secret =
+    process.env.CLOUDFLARE_TURNSTILE_SECRET_KEY ||
+    process.env.TURNSTILE_SECRET_KEY ||
+    process.env.CLOUDFLARE_API;
   if (!secret) {
     return { ok: false, reason: "Turnstile secret is not configured." };
   }
@@ -117,20 +121,16 @@ async function verifyTurnstile(token: string, ip: string) {
 }
 
 async function insertLead(row: Record<string, unknown>) {
-  const supabaseUrl = process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  const { supabaseUrl, serviceRoleKey } = getSupabaseServerConfig();
 
-  if (!supabaseUrl || !serviceRoleKey) {
-    throw new Error("Supabase server env vars are missing.");
-  }
-
-  const res = await fetch(`${supabaseUrl.replace(/\/$/, "")}/rest/v1/leads`, {
+  const res = await fetch(`${supabaseUrl}/rest/v1/leads`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
       apikey: serviceRoleKey,
       Authorization: `Bearer ${serviceRoleKey}`,
       Prefer: "return=representation",
+      "Accept-Profile": "walkperro",
       "Content-Profile": "walkperro",
       Accept: "application/json",
     },

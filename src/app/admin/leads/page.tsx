@@ -1,6 +1,9 @@
 import Link from "next/link";
+import AdminErrorState from "@/components/admin/AdminErrorState";
+import { getSupabaseServerConfig } from "@/lib/supabase-rest";
 
 export const dynamic = "force-dynamic";
+export const runtime = "nodejs";
 
 type ViewMode = "hot" | "queue" | "reviewed";
 
@@ -45,17 +48,6 @@ const views: Array<{ id: ViewMode; label: string; hint: string }> = [
   { id: "queue", label: "Review Queue", hint: "Medium/low leads awaiting classification review" },
   { id: "reviewed", label: "Reviewed", hint: "Medium/low leads after classification review" },
 ];
-
-function getSupabaseServerConfig() {
-  const supabaseUrl = process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
-
-  if (!supabaseUrl || !serviceRoleKey) {
-    throw new Error("Supabase server env vars are missing.");
-  }
-
-  return { supabaseUrl: supabaseUrl.replace(/\/$/, ""), serviceRoleKey };
-}
 
 function getActiveView(value?: string): ViewMode {
   if (value === "queue" || value === "reviewed" || value === "hot") return value;
@@ -115,15 +107,22 @@ async function fetchLeads(view: ViewMode) {
   ].join(",");
 
   const query = `${supabaseUrl}/rest/v1/leads?select=${encodeURIComponent(select)}&${buildFilter(view)}&order=score.desc,created_at.desc&limit=100`;
-  const res = await fetch(query, {
-    headers: {
-      apikey: serviceRoleKey,
-      Authorization: `Bearer ${serviceRoleKey}`,
-      "Content-Profile": "walkperro",
-      Accept: "application/json",
-    },
-    cache: "no-store",
-  });
+  let res: Response;
+  try {
+    res = await fetch(query, {
+      headers: {
+        apikey: serviceRoleKey,
+        Authorization: `Bearer ${serviceRoleKey}`,
+        "Accept-Profile": "walkperro",
+        Accept: "application/json",
+      },
+      cache: "no-store",
+      signal: AbortSignal.timeout(15_000),
+    });
+  } catch (error) {
+    const detail = error instanceof Error ? error.message : String(error);
+    throw new Error(`Supabase leads request network error: ${detail}`);
+  }
 
   if (!res.ok) {
     const text = await res.text();
@@ -201,6 +200,8 @@ export default async function AdminLeadsPage({
       {error ? <p className="adminNotice adminNoticeErr">Action error: {error}</p> : null}
       {loadError ? <p className="adminNotice adminNoticeErr">{loadError}</p> : null}
 
+      {loadError ? <AdminErrorState title="Leads inbox could not load" message={loadError} /> : null}
+
       <section className="adminLeadList">
         {!loadError && leads.length === 0 ? (
           <div className="card">
@@ -208,7 +209,8 @@ export default async function AdminLeadsPage({
           </div>
         ) : null}
 
-        {leads.map((lead) => (
+        {!loadError &&
+          leads.map((lead) => (
           <article key={lead.id} className="card adminLeadCard">
             <div className="card-inner adminLeadInner">
               <div className="adminLeadTop">

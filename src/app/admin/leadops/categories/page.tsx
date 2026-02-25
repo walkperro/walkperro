@@ -1,7 +1,9 @@
 import Link from "next/link";
+import AdminErrorState from "@/components/admin/AdminErrorState";
 import { fetchCategories } from "@/lib/leadops";
 
 export const dynamic = "force-dynamic";
+export const runtime = "nodejs";
 
 export default async function LeadOpsCategoriesPage({
   searchParams,
@@ -11,7 +13,13 @@ export default async function LeadOpsCategoriesPage({
   const params = (await searchParams) || {};
   const saved = params.saved === "1";
   const error = typeof params.error === "string" ? params.error : "";
-  const categories = await fetchCategories({ activeOnly: false, kinds: [] });
+  let categories: Awaited<ReturnType<typeof fetchCategories>> = [];
+  let loadError = "";
+  try {
+    categories = await fetchCategories({ activeOnly: false, kinds: [] });
+  } catch (error) {
+    loadError = error instanceof Error ? error.message : "Failed to load categories.";
+  }
 
   return (
     <main className="pageWrap adminWrap leadopsPage">
@@ -28,8 +36,10 @@ export default async function LeadOpsCategoriesPage({
 
       {saved ? <p className="adminNotice adminNoticeOk">Category saved.</p> : null}
       {error ? <p className="adminNotice adminNoticeErr">Error: {error}</p> : null}
+      {loadError ? <p className="adminNotice adminNoticeErr">{loadError}</p> : null}
+      {loadError ? <AdminErrorState title="Categories could not load" message={loadError} /> : null}
 
-      <section className="card">
+      {!loadError ? <section className="card">
         <div className="card-inner leadopsPanel">
           <p className="leadopsPanelTitle">Add Category</p>
           <form method="post" action="/admin/api/leadops/categories" className="leadopsCategoryGrid">
@@ -43,9 +53,9 @@ export default async function LeadOpsCategoriesPage({
             <button className="wpBtnPrimary" type="submit">Create Category</button>
           </form>
         </div>
-      </section>
+      </section> : null}
 
-      <section className="leadopsCategoryList">
+      {!loadError ? <section className="leadopsCategoryList">
         {categories.map((cat) => (
           <article key={cat.id} className="card">
             <div className="card-inner leadopsPanel">
@@ -65,7 +75,7 @@ export default async function LeadOpsCategoriesPage({
             </div>
           </article>
         ))}
-      </section>
+      </section> : null}
     </main>
   );
 }

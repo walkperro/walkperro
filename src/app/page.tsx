@@ -24,8 +24,19 @@ import {
 
 declare global {
   interface Window {
-    onWalkPerroTurnstileSuccess?: (token: string) => void;
-    onWalkPerroTurnstileExpired?: () => void;
+    turnstile?: {
+      render: (
+        container: string | HTMLElement,
+        options: {
+          sitekey: string;
+          theme?: "light" | "dark" | "auto";
+          callback?: (token: string) => void;
+          "expired-callback"?: () => void;
+        },
+      ) => string | number;
+      remove?: (widgetId: string | number) => void;
+      reset?: (widgetId?: string | number) => void;
+    };
   }
 }
 
@@ -59,7 +70,31 @@ type FormState = {
 
 const TOTAL_STEPS = 6;
 const TURNSTILE_SITE_KEY =
-  process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || process.env.NEXT_PUBLIC_CLOUDFLARE_TURNSTILE_SITE_KEY || "";
+  process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY ||
+  process.env.NEXT_PUBLIC_CLOUDFLARE_TURNSTILE_SITE_KEY ||
+  process.env.NEXT_PUBLIC_CLOUDFLARE_SITE_KEY ||
+  "";
+
+const HERO_CAPABILITY_SLIDES = [
+  {
+    title: "Launch Architecture",
+    body: "Conversion-first website structure with clean mobile UX and premium visual direction.",
+    image:
+      "https://images.unsplash.com/photo-1511818966892-d7d671e672a2?auto=format&fit=crop&w=1400&q=70",
+  },
+  {
+    title: "Lead Quality",
+    body: "Intent-focused funnels, form qualification, and admin review workflow for cleaner pipeline decisions.",
+    image:
+      "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1400&q=70",
+  },
+  {
+    title: "Measurement",
+    body: "SEO, analytics, and paid traffic foundations wired so growth decisions are measurable.",
+    image:
+      "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1400&q=70",
+  },
+] as const;
 
 function stepTitle(step: number) {
   switch (step) {
@@ -84,6 +119,9 @@ export default function HomePage() {
   const [submitError, setSubmitError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState<null | { score?: number; priority?: string }>(null);
+  const [turnstileScriptReady, setTurnstileScriptReady] = useState(false);
+  const [turnstileRenderError, setTurnstileRenderError] = useState("");
+  const [heroSlideIndex, setHeroSlideIndex] = useState(0);
   const [form, setForm] = useState<FormState>({
     intent: "",
     timeline: "",
@@ -113,6 +151,8 @@ export default function HomePage() {
   });
 
   const flowRef = useRef<HTMLDivElement | null>(null);
+  const turnstileRef = useRef<HTMLDivElement | null>(null);
+  const turnstileWidgetIdRef = useRef<string | number | null>(null);
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -129,18 +169,75 @@ export default function HomePage() {
   }, []);
 
   useEffect(() => {
-    window.onWalkPerroTurnstileSuccess = (token: string) => {
-      setForm((prev) => ({ ...prev, turnstileToken: token }));
-      setSubmitError("");
-    };
-    window.onWalkPerroTurnstileExpired = () => {
-      setForm((prev) => ({ ...prev, turnstileToken: "" }));
+    if (typeof window !== "undefined" && window.turnstile) {
+      setTurnstileScriptReady(true);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (step !== 5 || !TURNSTILE_SITE_KEY || !turnstileScriptReady) return;
+    let cancelled = false;
+    let attempts = 0;
+    let retryTimer: number | null = null;
+    setTurnstileRenderError("");
+
+    const renderTurnstile = () => {
+      if (cancelled) return;
+      attempts += 1;
+      const api = window.turnstile;
+      const el = turnstileRef.current;
+
+      if (!api || !el) {
+        if (attempts < 12) retryTimer = window.setTimeout(renderTurnstile, 350);
+        else setTurnstileRenderError("Spam protection failed to load. Refresh and try again.");
+        return;
+      }
+
+      if (turnstileWidgetIdRef.current != null && api.remove) {
+        try {
+          api.remove(turnstileWidgetIdRef.current);
+        } catch {
+          // ignore and recreate below
+        }
+        turnstileWidgetIdRef.current = null;
+      }
+
+      try {
+        el.innerHTML = "";
+        turnstileWidgetIdRef.current = api.render(el, {
+          sitekey: TURNSTILE_SITE_KEY,
+          theme: "dark",
+          callback: (token: string) => {
+            setForm((prev) => ({ ...prev, turnstileToken: token }));
+            setSubmitError("");
+            setTurnstileRenderError("");
+          },
+          "expired-callback": () => {
+            setForm((prev) => ({ ...prev, turnstileToken: "" }));
+          },
+        });
+      } catch {
+        if (attempts < 12) {
+          retryTimer = window.setTimeout(renderTurnstile, 400);
+          return;
+        }
+        setTurnstileRenderError("Spam protection could not initialize. Refresh and try again.");
+      }
     };
 
+    renderTurnstile();
+
     return () => {
-      delete window.onWalkPerroTurnstileSuccess;
-      delete window.onWalkPerroTurnstileExpired;
+      cancelled = true;
+      if (retryTimer != null) window.clearTimeout(retryTimer);
     };
+  }, [step, turnstileScriptReady]);
+
+  useEffect(() => {
+    const timer = window.setInterval(() => {
+      setHeroSlideIndex((prev) => (prev + 1) % HERO_CAPABILITY_SLIDES.length);
+    }, 4000);
+    return () => window.clearInterval(timer);
   }, []);
 
   const summaryChips = useMemo(() => {
@@ -262,7 +359,12 @@ export default function HomePage() {
   return (
     <main className="wpLeadFlow">
       {TURNSTILE_SITE_KEY ? (
-        <Script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer />
+        <Script
+          src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit"
+          async
+          defer
+          onLoad={() => setTurnstileScriptReady(true)}
+        />
       ) : null}
 
       <script
@@ -302,27 +404,49 @@ export default function HomePage() {
 
           <div className="wpHeroActions">
             <button className="wpBtnPrimary" type="button" onClick={scrollToFlow}>
-              Get a fast quote (60 seconds)
+              Start quote
             </button>
             <Link className="wpBtnSecondary" href="/services">
               See work
             </Link>
           </div>
 
-          <div className="wpHeroProof" aria-label="Why WalkPerro">
-            <div className="wpHeroProofItem">
-              <strong>Fast launch</strong>
-              <span>Conversion-ready pages and tracking</span>
+          <section className="wpCapabilityCard" aria-label="Capabilities">
+            <div className="wpCapabilityHead">
+              <p className="wpFlowKicker">Capabilities</p>
+              <p className="wpHeroSubhead">Minimal build systems with premium execution and clean measurement.</p>
             </div>
-            <div className="wpHeroProofItem">
-              <strong>Qualified pipeline</strong>
-              <span>Lead capture focused on buying intent</span>
+            <div className="wpCapabilityCarousel" aria-live="polite">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={heroSlideIndex}
+                  initial={{ opacity: 0, y: 6 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -6 }}
+                  transition={{ duration: 0.25 }}
+                  className="wpCapabilityRow"
+                >
+                  <div className="wpCapabilityMedia" aria-hidden="true">
+                    <img
+                      src={HERO_CAPABILITY_SLIDES[heroSlideIndex].image}
+                      alt=""
+                      className="wpCapabilityPhoto"
+                      loading="eager"
+                      decoding="async"
+                      referrerPolicy="no-referrer"
+                    />
+                  </div>
+                  <strong>{HERO_CAPABILITY_SLIDES[heroSlideIndex].title}</strong>
+                  <span>{HERO_CAPABILITY_SLIDES[heroSlideIndex].body}</span>
+                </motion.div>
+              </AnimatePresence>
+              <div className="wpCapabilityDots" aria-hidden="true">
+                {HERO_CAPABILITY_SLIDES.map((slide, index) => (
+                  <span key={slide.title} className={index === heroSlideIndex ? "active" : ""} />
+                ))}
+              </div>
             </div>
-            <div className="wpHeroProofItem">
-              <strong>Measurement built-in</strong>
-              <span>SEO, GA4, ads tracking, follow-up options</span>
-            </div>
-          </div>
+          </section>
         </div>
       </section>
 
@@ -544,19 +668,14 @@ export default function HomePage() {
 
                       <div className="wpTurnstileWrap">
                         {TURNSTILE_SITE_KEY ? (
-                          <div
-                            className="cf-turnstile"
-                            data-sitekey={TURNSTILE_SITE_KEY}
-                            data-theme="dark"
-                            data-callback="onWalkPerroTurnstileSuccess"
-                            data-expired-callback="onWalkPerroTurnstileExpired"
-                          />
+                          <div ref={turnstileRef} className="wpTurnstileMount" />
                         ) : (
                           <p className="wpError">
                             Turnstile site key missing. Add `NEXT_PUBLIC_TURNSTILE_SITE_KEY` to enable submissions.
                           </p>
                         )}
                       </div>
+                      {turnstileRenderError ? <p className="wpError">{turnstileRenderError}</p> : null}
 
                       {submitError ? <p className="wpError">{submitError}</p> : null}
                     </div>
