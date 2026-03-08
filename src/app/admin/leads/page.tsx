@@ -69,7 +69,14 @@ function buildFilter(view: ViewMode) {
 }
 
 async function fetchLeads(view: ViewMode) {
-  const { supabaseUrl, serviceRoleKey } = getSupabaseServerConfig();
+  let supabaseUrl: string;
+  let serviceRoleKey: string;
+  try {
+    ({ supabaseUrl, serviceRoleKey } = getSupabaseServerConfig());
+  } catch (error) {
+    const detail = error instanceof Error ? error.message : String(error);
+    throw new Error(`Admin Supabase config error: ${detail}`);
+  }
   const select = [
     "id",
     "created_at",
@@ -108,6 +115,8 @@ async function fetchLeads(view: ViewMode) {
 
   const query = `${supabaseUrl}/rest/v1/leads?select=${encodeURIComponent(select)}&${buildFilter(view)}&order=score.desc,created_at.desc&limit=100`;
   let res: Response;
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 15_000);
   try {
     res = await fetch(query, {
       headers: {
@@ -117,11 +126,21 @@ async function fetchLeads(view: ViewMode) {
         Accept: "application/json",
       },
       cache: "no-store",
-      signal: AbortSignal.timeout(15_000),
+      signal: controller.signal,
     });
   } catch (error) {
     const detail = error instanceof Error ? error.message : String(error);
-    throw new Error(`Supabase leads request network error: ${detail}`);
+    let supabaseHost = supabaseUrl;
+    try {
+      supabaseHost = new URL(supabaseUrl).origin;
+    } catch {
+      // Fall back to the configured URL string if parsing fails unexpectedly.
+    }
+    throw new Error(
+      `Network error calling Supabase REST at ${supabaseHost}. Check SUPABASE_URL/NEXT_PUBLIC_SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY on Vercel. (${detail})`,
+    );
+  } finally {
+    clearTimeout(timeoutId);
   }
 
   if (!res.ok) {

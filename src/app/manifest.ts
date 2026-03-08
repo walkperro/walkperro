@@ -4,11 +4,11 @@ export default function manifest(): MetadataRoute.Manifest {
   return {
     name: "WalkPerro",
     short_name: "WalkPerro",
-    description: "Websites and conversion systems for modern businesses.",
+    description: "Editorial websites, premium visuals, and AI systems for modern brands and service businesses.",
     start_url: "/",
     display: "standalone",
-    background_color: "#000000",
-    theme_color: "#000000",
+    background_color: "#f4efe7",
+    theme_color: "#f4efe7",
     icons: [
       {
         src: "/perro/white_perro_v2_no_bg.png",

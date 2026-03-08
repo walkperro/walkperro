@@ -16,6 +16,7 @@ import {
   type MonthlyRevenueRange,
   type ProjectBudgetRange,
 } from "@/lib/lead-scoring";
+import { deriveScopeFromIntent } from "@/lib/public-site";
 import { cleanupRateLimitStore, hitRateLimit } from "@/lib/rate-limit";
 import { mirrorWalkPerroLeadToLeadOps } from "@/lib/leadops/walkperro-mirror";
 import { getSupabaseServerConfig } from "@/lib/supabase-rest";
@@ -46,6 +47,8 @@ type LeadPayload = {
   utm_content?: unknown;
   referrer?: unknown;
   client_timezone?: unknown;
+  referral_source?: unknown;
+  anything_else?: unknown;
   website?: unknown; // honeypot
   turnstileToken?: unknown;
 };
@@ -87,10 +90,11 @@ function getClientIp(req: NextRequest): string {
 
 async function verifyTurnstile(token: string, ip: string) {
   const secret =
-    process.env.CLOUDFLARE_TURNSTILE_SECRET_KEY ||
-    process.env.TURNSTILE_SECRET_KEY ||
-    process.env.CLOUDFLARE_API;
+    process.env.TURNSTILE_SECRET_KEY || process.env.CLOUDFLARE_TURNSTILE_SECRET_KEY;
   if (!secret) {
+    console.error(
+      "[walkperro] Turnstile secret missing. Set TURNSTILE_SECRET_KEY or CLOUDFLARE_TURNSTILE_SECRET_KEY.",
+    );
     return { ok: false, reason: "Turnstile secret is not configured." };
   }
 
@@ -101,20 +105,33 @@ async function verifyTurnstile(token: string, ip: string) {
 
   if (ip && ip !== "unknown") body.set("remoteip", ip);
 
-  const res = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", {
-    method: "POST",
-    headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    body,
-    cache: "no-store",
-  });
+  let res: Response;
+  try {
+    res = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body,
+      cache: "no-store",
+    });
+  } catch (error) {
+    console.error("[walkperro] Turnstile siteverify request failed", error);
+    return { ok: false, reason: "Turnstile verification request failed." };
+  }
 
   if (!res.ok) {
+    const text = await res.text().catch(() => "");
+    console.error("[walkperro] Turnstile siteverify non-200 response", {
+      status: res.status,
+      body: text.slice(0, 400),
+    });
     return { ok: false, reason: `Turnstile verification failed (${res.status}).` };
   }
 
   const json = (await res.json()) as { success?: boolean; "error-codes"?: string[] };
   if (!json.success) {
-    return { ok: false, reason: json["error-codes"]?.join(", ") || "Turnstile rejected." };
+    const errorCodes = json["error-codes"] || [];
+    console.error("[walkperro] Turnstile rejected token", { errorCodes });
+    return { ok: false, reason: errorCodes.join(", ") || "Turnstile rejected." };
   }
 
   return { ok: true as const };
@@ -186,7 +203,7 @@ async function sendResendEmail(args: {
   }
 }
 
-export async function POST(req: NextRequest) {
+async function postLead(req: NextRequest) {
   cleanupRateLimitStore();
 
   let payload: LeadPayload;
@@ -220,27 +237,48 @@ export async function POST(req: NextRequest) {
 
   const turnstile = await verifyTurnstile(turnstileToken, ip);
   if (!turnstile.ok) {
+    const response: { ok: false; error: string; error_detail?: string } = {
+      ok: false,
+      error: "Could not verify your submission. Please refresh and try again.",
+    };
+    if (process.env.NODE_ENV !== "production") {
+      response.error_detail = turnstile.reason;
+    }
     return NextResponse.json(
-      { ok: false, error: "Could not verify your submission. Please refresh and try again." },
+      response,
       { status: 400 },
     );
   }
 
   const name = toTrimmed(payload.name);
   const email = toTrimmed(payload.email).toLowerCase();
+  const company = toTrimmed(payload.company);
+  const websiteUrl = toTrimmed(payload.website_url);
   const message = toTrimmed(payload.message);
+  const anythingElse = toTrimmed(payload.anything_else);
+  const referralSource = toTrimmed(payload.referral_source);
 
   const intent = toTrimmed(payload.intent);
   const timeline = toTrimmed(payload.timeline);
-  const scope = toTrimmed(payload.scope);
+  const requestedScope = toTrimmed(payload.scope);
   const projectBudget = toTrimmed(payload.project_budget_range);
-  const marketingSpend = toTrimmed(payload.monthly_marketing_spend_range);
+  const marketingSpend = toTrimmed(payload.monthly_marketing_spend_range) || "$0 (not yet)";
   const monthlyRevenue = toTrimmed(payload.monthly_revenue_range);
   const growthFlags = uniqueStringArray(payload.growth_flags);
 
-  if (!name || !email || !message) {
+  const scopeCandidate = requestedScope || deriveScopeFromIntent(intent);
+
+  const composedMessage = [
+    message,
+    anythingElse ? `Anything else we should know:\n${anythingElse}` : "",
+    referralSource ? `Referral source: ${referralSource}` : "",
+  ]
+    .filter(Boolean)
+    .join("\n\n");
+
+  if (!name || !email || !company || !websiteUrl || !message) {
     return NextResponse.json(
-      { ok: false, error: "Name, email, and message are required." },
+      { ok: false, error: "Name, email, company, website or social link, and project brief are required." },
       { status: 400 },
     );
   }
@@ -255,8 +293,8 @@ export async function POST(req: NextRequest) {
   if (!isOneOf(timeline, TIMELINE_OPTIONS)) {
     return NextResponse.json({ ok: false, error: "Please choose a timeline." }, { status: 400 });
   }
-  if (!isOneOf(scope, SCOPE_OPTIONS)) {
-    return NextResponse.json({ ok: false, error: "Please choose a scope." }, { status: 400 });
+  if (!isOneOf(scopeCandidate, SCOPE_OPTIONS)) {
+    return NextResponse.json({ ok: false, error: "Please choose a valid project direction." }, { status: 400 });
   }
   if (!isOneOf(projectBudget, PROJECT_BUDGET_OPTIONS)) {
     return NextResponse.json({ ok: false, error: "Please choose a project budget." }, { status: 400 });
@@ -289,7 +327,7 @@ export async function POST(req: NextRequest) {
   const scored = scoreLead({
     intent: intent as LeadIntent,
     timeline: timeline as LeadTimeline,
-    scope: scope as LeadScope,
+    scope: scopeCandidate as LeadScope,
     growth_flags: validatedGrowthFlags,
     project_budget_range: projectBudget as ProjectBudgetRange,
     monthly_marketing_spend_range: marketingSpend as MonthlyMarketingSpendRange,
@@ -301,13 +339,13 @@ export async function POST(req: NextRequest) {
     name,
     email,
     phone: toOptionalTrimmed(payload.phone),
-    company: toOptionalTrimmed(payload.company),
-    website_url: toOptionalTrimmed(payload.website_url),
+    company,
+    website_url: websiteUrl,
     location: toOptionalTrimmed(payload.location),
-    message,
+    message: composedMessage,
     intent,
     timeline,
-    scope,
+    scope: scopeCandidate,
     growth_flags: validatedGrowthFlags,
     project_budget_range: projectBudget,
     monthly_marketing_spend_range: marketingSpend,
@@ -343,13 +381,13 @@ export async function POST(req: NextRequest) {
       name,
       email,
       phone: toOptionalTrimmed(payload.phone),
-      company: toOptionalTrimmed(payload.company),
-      website_url: toOptionalTrimmed(payload.website_url),
+      company,
+      website_url: websiteUrl,
       location: toOptionalTrimmed(payload.location),
-      message,
+      message: composedMessage,
       intent,
       timeline,
-      scope,
+      scope: scopeCandidate,
       growth_flags: validatedGrowthFlags,
       project_budget_range: projectBudget,
       monthly_marketing_spend_range: marketingSpend,
@@ -386,20 +424,22 @@ export async function POST(req: NextRequest) {
     `Name: ${name}`,
     `Email: ${email}`,
     `Phone: ${toTrimmed(payload.phone) || "N/A"}`,
-    `Company: ${toTrimmed(payload.company) || "N/A"}`,
-    `Website URL: ${toTrimmed(payload.website_url) || "N/A"}`,
+    `Company: ${company || "N/A"}`,
+    `Website URL: ${websiteUrl || "N/A"}`,
     `Location: ${toTrimmed(payload.location) || "N/A"}`,
     `Decision maker: ${decisionMaker ? "Yes" : "No"}`,
     "",
     "Project",
     `Intent: ${intent}`,
     `Timeline: ${timeline}`,
-    `Scope: ${scope}`,
+    `Scope: ${scopeCandidate}`,
     `Growth flags: ${validatedGrowthFlags.join(", ") || "None selected"}`,
     `Project budget: ${projectBudget}`,
     `Monthly marketing spend: ${marketingSpend}`,
     `Open to ads if ROI clear: ${openToAds ? "Yes" : "No"}`,
     `Current monthly revenue: ${validatedMonthlyRevenue || "N/A"}`,
+    `Referral source: ${referralSource || "N/A"}`,
+    `Anything else: ${anythingElse || "N/A"}`,
     "",
     "Message",
     message,
@@ -415,7 +455,7 @@ export async function POST(req: NextRequest) {
 
   try {
     await sendResendEmail({
-      subject: buildSubject(scored.priority, scored.score, scope, timeline),
+      subject: buildSubject(scored.priority, scored.score, scopeCandidate, timeline),
       body: emailBody,
     });
   } catch (error) {
@@ -423,4 +463,16 @@ export async function POST(req: NextRequest) {
   }
 
   return NextResponse.json({ ok: true, id: inserted?.id, score: scored.score, priority: scored.priority });
+}
+
+export async function POST(req: NextRequest) {
+  try {
+    return await postLead(req);
+  } catch (error) {
+    console.error("[walkperro] leads POST unhandled error", error);
+    return NextResponse.json(
+      { ok: false, error: "Server error. Please try again." },
+      { status: 500 },
+    );
+  }
 }

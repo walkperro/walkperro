@@ -1,49 +1,84 @@
-export type LeadIntent =
-  | "Get more leads"
-  | "Launch a new site"
-  | "Fix a site that isn’t converting"
-  | "Build an internal dashboard / portal"
-  | "Not sure (need guidance)";
+import {
+  INQUIRY_HELP_OPTIONS,
+  INQUIRY_INVESTMENT_OPTIONS,
+  INQUIRY_TIMELINE_OPTIONS,
+} from "@/lib/public-site";
 
-export type LeadTimeline =
-  | "ASAP (1–2 weeks)"
-  | "This month"
-  | "Next 1–2 months"
-  | "Exploring / no rush";
+const LEGACY_INTENT_OPTIONS = [
+  "Get more leads",
+  "Launch a new site",
+  "Fix a site that isn’t converting",
+  "Build an internal dashboard / portal",
+  "Not sure (need guidance)",
+] as const;
 
-export type LeadScope =
-  | "Landing / 1–3 pages"
-  | "Full website (5–12 pages)"
-  | "Website + booking / inquiry system"
-  | "Website + admin portal"
-  | "Custom build (tell us)";
+const LEAN_SCOPE_OPTIONS = [
+  "Editorial visuals",
+  "Website presentation project",
+  "Website + backend system",
+  "AI workflow / automation",
+  "Custom build / app",
+  "Creative direction / branding",
+] as const;
 
-export type GrowthFlag =
-  | "Google searchable (SEO)"
-  | "Track actions + traffic (GA4)"
-  | "Conversion tracking for Ads"
-  | "Google Ads setup"
-  | "Email/SMS follow-up automations";
+const LEGACY_SCOPE_OPTIONS = [
+  "Landing / 1–3 pages",
+  "Full website (5–12 pages)",
+  "Website + booking / inquiry system",
+  "Website + admin portal",
+  "Custom build (tell us)",
+] as const;
 
-export type ProjectBudgetRange =
-  | "$500–$1,500 (starter)"
-  | "$1,500–$4,000 (serious)"
-  | "$4,000–$10,000 (premium)"
-  | "$10,000+ (full system)";
+const LEGACY_BUDGET_OPTIONS = [
+  "$500–$1,500 (starter)",
+  "$1,500–$4,000 (serious)",
+  "$4,000–$10,000 (premium)",
+  "$10,000+ (full system)",
+] as const;
 
-export type MonthlyMarketingSpendRange =
-  | "$0 (not yet)"
-  | "$1–$500/mo"
-  | "$500–$2,000/mo"
-  | "$2,000–$10,000/mo"
-  | "$10,000+/mo";
+const LEGACY_TIMELINE_OPTIONS = [
+  "ASAP (1–2 weeks)",
+  "This month",
+  "Next 1–2 months",
+  "Exploring / no rush",
+] as const;
 
-export type MonthlyRevenueRange =
-  | "Pre-revenue / just starting"
-  | "$1k–$10k"
-  | "$10k–$50k"
-  | "$50k–$200k"
-  | "$200k+";
+export const GROWTH_FLAG_OPTIONS = [
+  "Google searchable (SEO)",
+  "Track actions + traffic (GA4)",
+  "Conversion tracking for Ads",
+  "Google Ads setup",
+  "Email/SMS follow-up automations",
+] as const;
+
+export const MARKETING_SPEND_OPTIONS = [
+  "$0 (not yet)",
+  "$1–$500/mo",
+  "$500–$2,000/mo",
+  "$2,000–$10,000/mo",
+  "$10,000+/mo",
+] as const;
+
+export const MONTHLY_REVENUE_OPTIONS = [
+  "Pre-revenue / just starting",
+  "$1k–$10k",
+  "$10k–$50k",
+  "$50k–$200k",
+  "$200k+",
+] as const;
+
+export const INTENT_OPTIONS = [...INQUIRY_HELP_OPTIONS, ...LEGACY_INTENT_OPTIONS] as const;
+export const TIMELINE_OPTIONS = [...INQUIRY_TIMELINE_OPTIONS, ...LEGACY_TIMELINE_OPTIONS] as const;
+export const SCOPE_OPTIONS = [...LEAN_SCOPE_OPTIONS, ...LEGACY_SCOPE_OPTIONS] as const;
+export const PROJECT_BUDGET_OPTIONS = [...INQUIRY_INVESTMENT_OPTIONS, ...LEGACY_BUDGET_OPTIONS] as const;
+
+export type LeadIntent = (typeof INTENT_OPTIONS)[number];
+export type LeadTimeline = (typeof TIMELINE_OPTIONS)[number];
+export type LeadScope = (typeof SCOPE_OPTIONS)[number];
+export type GrowthFlag = (typeof GROWTH_FLAG_OPTIONS)[number];
+export type ProjectBudgetRange = (typeof PROJECT_BUDGET_OPTIONS)[number];
+export type MonthlyMarketingSpendRange = (typeof MARKETING_SPEND_OPTIONS)[number];
+export type MonthlyRevenueRange = (typeof MONTHLY_REVENUE_OPTIONS)[number];
 
 export type ScoringInput = {
   intent: LeadIntent;
@@ -62,176 +97,143 @@ export type ScoringResult = {
   tags: string[];
 };
 
-export const INTENT_OPTIONS: LeadIntent[] = [
-  "Get more leads",
-  "Launch a new site",
-  "Fix a site that isn’t converting",
-  "Build an internal dashboard / portal",
-  "Not sure (need guidance)",
-];
+function slugify(value: string) {
+  return value
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "")
+    .slice(0, 64);
+}
 
-export const TIMELINE_OPTIONS: LeadTimeline[] = [
-  "ASAP (1–2 weeks)",
-  "This month",
-  "Next 1–2 months",
-  "Exploring / no rush",
-];
+function scoreBudget(range: ProjectBudgetRange) {
+  switch (range) {
+    case "$300":
+      return 8;
+    case "$1,500":
+      return 26;
+    case "$3,000":
+      return 44;
+    case "$5,000+":
+      return 56;
+    case "Not sure yet":
+      return 16;
+    case "$500–$1,500 (starter)":
+      return 12;
+    case "$1,500–$4,000 (serious)":
+      return 25;
+    case "$4,000–$10,000 (premium)":
+      return 40;
+    case "$10,000+ (full system)":
+      return 52;
+    default:
+      return 0;
+  }
+}
 
-export const SCOPE_OPTIONS: LeadScope[] = [
-  "Landing / 1–3 pages",
-  "Full website (5–12 pages)",
-  "Website + booking / inquiry system",
-  "Website + admin portal",
-  "Custom build (tell us)",
-];
+function scoreTimeline(timeline: LeadTimeline) {
+  switch (timeline) {
+    case "ASAP (within 2 weeks)":
+    case "ASAP (1–2 weeks)":
+      return 18;
+    case "This month":
+      return 14;
+    case "Next 1–2 months":
+      return 10;
+    case "Flexible / exploring":
+    case "Exploring / no rush":
+      return 4;
+    default:
+      return 0;
+  }
+}
 
-export const GROWTH_FLAG_OPTIONS: GrowthFlag[] = [
-  "Google searchable (SEO)",
-  "Track actions + traffic (GA4)",
-  "Conversion tracking for Ads",
-  "Google Ads setup",
-  "Email/SMS follow-up automations",
-];
+function scoreScope(scope: LeadScope) {
+  switch (scope) {
+    case "Editorial visuals":
+      return 6;
+    case "Website presentation project":
+      return 12;
+    case "Website + backend system":
+      return 22;
+    case "AI workflow / automation":
+      return 18;
+    case "Custom build / app":
+      return 20;
+    case "Creative direction / branding":
+      return 12;
+    case "Landing / 1–3 pages":
+      return 6;
+    case "Full website (5–12 pages)":
+      return 10;
+    case "Website + booking / inquiry system":
+      return 14;
+    case "Website + admin portal":
+      return 22;
+    case "Custom build (tell us)":
+      return 16;
+    default:
+      return 0;
+  }
+}
 
-export const PROJECT_BUDGET_OPTIONS: ProjectBudgetRange[] = [
-  "$500–$1,500 (starter)",
-  "$1,500–$4,000 (serious)",
-  "$4,000–$10,000 (premium)",
-  "$10,000+ (full system)",
-];
+function scoreMarketingSpend(range: MonthlyMarketingSpendRange) {
+  switch (range) {
+    case "$0 (not yet)":
+      return 0;
+    case "$1–$500/mo":
+      return 4;
+    case "$500–$2,000/mo":
+      return 8;
+    case "$2,000–$10,000/mo":
+      return 16;
+    case "$10,000+/mo":
+      return 22;
+    default:
+      return 0;
+  }
+}
 
-export const MARKETING_SPEND_OPTIONS: MonthlyMarketingSpendRange[] = [
-  "$0 (not yet)",
-  "$1–$500/mo",
-  "$500–$2,000/mo",
-  "$2,000–$10,000/mo",
-  "$10,000+/mo",
-];
-
-export const MONTHLY_REVENUE_OPTIONS: MonthlyRevenueRange[] = [
-  "Pre-revenue / just starting",
-  "$1k–$10k",
-  "$10k–$50k",
-  "$50k–$200k",
-  "$200k+",
-];
-
-const budgetScores: Record<ProjectBudgetRange, number> = {
-  "$500–$1,500 (starter)": 10,
-  "$1,500–$4,000 (serious)": 25,
-  "$4,000–$10,000 (premium)": 40,
-  "$10,000+ (full system)": 50,
-};
-
-const timelineScores: Record<LeadTimeline, number> = {
-  "ASAP (1–2 weeks)": 20,
-  "This month": 15,
-  "Next 1–2 months": 10,
-  "Exploring / no rush": 0,
-};
-
-const scopeScores: Record<LeadScope, number> = {
-  "Landing / 1–3 pages": 5,
-  "Full website (5–12 pages)": 10,
-  "Website + booking / inquiry system": 15,
-  "Website + admin portal": 25,
-  "Custom build (tell us)": 15,
-};
-
-const growthScores: Record<GrowthFlag, number> = {
-  "Google searchable (SEO)": 5,
-  "Track actions + traffic (GA4)": 5,
-  "Conversion tracking for Ads": 5,
-  "Google Ads setup": 15,
-  "Email/SMS follow-up automations": 10,
-};
-
-const marketingScores: Record<MonthlyMarketingSpendRange, number> = {
-  "$0 (not yet)": 0,
-  "$1–$500/mo": 5,
-  "$500–$2,000/mo": 10,
-  "$2,000–$10,000/mo": 20,
-  "$10,000+/mo": 30,
-};
-
-const intentTags: Record<LeadIntent, string> = {
-  "Get more leads": "more-leads",
-  "Launch a new site": "launch",
-  "Fix a site that isn’t converting": "fix-conversions",
-  "Build an internal dashboard / portal": "admin-portal",
-  "Not sure (need guidance)": "unsure",
-};
-
-const timelineTags: Record<LeadTimeline, string> = {
-  "ASAP (1–2 weeks)": "asap",
-  "This month": "this-month",
-  "Next 1–2 months": "1-2-months",
-  "Exploring / no rush": "exploring",
-};
-
-const growthTags: Record<GrowthFlag, string> = {
-  "Google searchable (SEO)": "seo",
-  "Track actions + traffic (GA4)": "ga4",
-  "Conversion tracking for Ads": "ads-tracking",
-  "Google Ads setup": "google-ads",
-  "Email/SMS follow-up automations": "automations",
-};
-
-const budgetTags: Record<ProjectBudgetRange, string> = {
-  "$500–$1,500 (starter)": "budget-starter",
-  "$1,500–$4,000 (serious)": "budget-serious",
-  "$4,000–$10,000 (premium)": "budget-premium",
-  "$10,000+ (full system)": "budget-10k-plus",
-};
-
-const marketingTags: Record<MonthlyMarketingSpendRange, string> = {
-  "$0 (not yet)": "mkt-0",
-  "$1–$500/mo": "mkt-1-500",
-  "$500–$2,000/mo": "mkt-500-2000",
-  "$2,000–$10,000/mo": "mkt-2000-10000",
-  "$10,000+/mo": "mkt-10000-plus",
-};
-
-const scopeTags: Record<LeadScope, string> = {
-  "Landing / 1–3 pages": "landing",
-  "Full website (5–12 pages)": "full-site",
-  "Website + booking / inquiry system": "booking-system",
-  "Website + admin portal": "admin-portal-scope",
-  "Custom build (tell us)": "custom-build",
-};
+function scoreGrowthFlags(flags: GrowthFlag[]) {
+  return flags.reduce((total, flag) => {
+    switch (flag) {
+      case "Google Ads setup":
+        return total + 10;
+      case "Email/SMS follow-up automations":
+        return total + 8;
+      default:
+        return total + 4;
+    }
+  }, 0);
+}
 
 export function scoreLead(input: ScoringInput): ScoringResult {
   let score = 0;
 
-  score += budgetScores[input.project_budget_range] ?? 0;
-  score += timelineScores[input.timeline] ?? 0;
-  score += scopeScores[input.scope] ?? 0;
-  score += marketingScores[input.monthly_marketing_spend_range] ?? 0;
+  score += scoreBudget(input.project_budget_range);
+  score += scoreTimeline(input.timeline);
+  score += scoreScope(input.scope);
+  score += scoreMarketingSpend(input.monthly_marketing_spend_range);
+  score += scoreGrowthFlags(input.growth_flags);
 
-  for (const flag of input.growth_flags) {
-    score += growthScores[flag] ?? 0;
-  }
-
-  if (input.open_to_ads_if_roi_clear) score += 10;
-  if (input.decision_maker) score += 10;
+  if (input.open_to_ads_if_roi_clear) score += 6;
+  if (input.decision_maker) score += 8;
 
   score = Math.min(100, score);
 
   const priority: ScoringResult["priority"] =
-    score >= 70 ? "high" : score >= 40 ? "medium" : "low";
+    score >= 70 ? "high" : score >= 38 ? "medium" : "low";
 
-  const tags = new Set<string>();
-  tags.add(intentTags[input.intent]);
-  tags.add(timelineTags[input.timeline]);
-  tags.add(scopeTags[input.scope]);
-  tags.add(budgetTags[input.project_budget_range]);
-  tags.add(marketingTags[input.monthly_marketing_spend_range]);
+  const tags = new Set<string>([
+    `intent-${slugify(input.intent)}`,
+    `timeline-${slugify(input.timeline)}`,
+    `scope-${slugify(input.scope)}`,
+    `budget-${slugify(input.project_budget_range)}`,
+    `marketing-${slugify(input.monthly_marketing_spend_range)}`,
+  ]);
 
-  for (const flag of input.growth_flags) {
-    tags.add(growthTags[flag]);
-  }
-
+  input.growth_flags.forEach((flag) => tags.add(`growth-${slugify(flag)}`));
   if (input.decision_maker) tags.add("decision-maker");
+  if (input.open_to_ads_if_roi_clear) tags.add("ads-open");
 
   return {
     score,

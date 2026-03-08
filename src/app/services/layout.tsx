@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Services",
   description:
-    "WalkPerro services for websites, admin dashboards, SEO, GA4 analytics, and Google Ads.",
+    "Ways to work with WalkPerro across editorial visuals, websites, business systems, and custom creative direction.",
   alternates: { canonical: "/services" },
 };
 

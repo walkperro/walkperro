@@ -5,9 +5,11 @@ import Image from "next/image";
 export default function PerroPngMark({
   className = "",
   variant = "white",
+  size = 56,
 }: {
   className?: string;
   variant?: "white" | "black";
+  size?: number;
 }) {
   const src =
     variant === "white"
@@ -16,7 +18,7 @@ export default function PerroPngMark({
 
   return (
     <span className={className} aria-hidden="true">
-      <Image src={src} alt="" width={56} height={56} priority />
+      <Image src={src} alt="" width={size} height={size} priority />
     </span>
   );
 }

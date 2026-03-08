@@ -2,2652 +2,358 @@
 @tailwind components;
 @tailwind utilities;
 
-:root { color-scheme: dark; }
-
-html, body {
-  height: 100%;
-  background: #000;
-  overflow-x: hidden;
-
-  overflow-x: hidden;
-
-  overflow-x: hidden;
-}
-
-body { max-width: 100%; }
-
-main { max-width: 100%; overflow-x: hidden; }
-
-
-body { color: #fff; }
-
-/* ---------- Global helpers ---------- */
-.muted { color: rgba(255,255,255,0.60); }
-.muted2 { color: rgba(255,255,255,0.45); }
-
-/* ---------- Nav dropdown ---------- */
-.navWrap{
-  position: fixed;
-  top: 16px;
-  right: 16px;
-  z-index: 50;
-}
-.navBtn{
-  width: 44px;
-  height: 44px;
-  border-radius: 999px;
-  background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(255,255,255,0.10);
-  display: grid;
-  place-items: center;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.55);
-}
-.navIcon{
-  width: 18px;
-  height: 12px;
-  position: relative;
-}
-.navIcon::before, .navIcon::after, .navIcon span{
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: rgba(255,255,255,0.8);
-  border-radius: 999px;
-}
-.navIcon::before{ top: 0; }
-.navIcon::after{ bottom: 0; }
-.navIcon span{ top: 50%; transform: translateY(-50%); }
-
-.navMenu{
-  margin-top: 10px;
-  border-radius: 18px;
-  background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(255,255,255,0.10);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  overflow: hidden;
-  min-width: 180px;
-}
-.navItem{
-  display: block;
-  padding: 12px 14px;
-  color: rgba(255,255,255,0.78);
-  text-decoration: none;
-  border-top: 1px solid rgba(255,255,255,0.06);
-}
-.navItem:first-child{ border-top: 0; }
-.navItem:hover{
-  color: rgba(255,255,255,0.95);
-  background: rgba(255,255,255,0.05);
-}
-
-/* ---------- Premium cards (services page) ---------- */
-.card {
-  background: rgba(255,255,255,0.03);
-  border: 1px solid rgba(255,255,255,0.10);
-  border-radius: 24px;
-  box-shadow:
-    0 1px 0 rgba(255,255,255,0.05) inset,
-    0 0 0 1px rgba(0,0,0,0.30) inset,
-    0 30px 80px rgba(0,0,0,0.65);
-  position: relative;
-}
-.card::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: 24px;
-  pointer-events: none;
-  background: radial-gradient(900px 420px at 20% 0%, rgba(255,255,255,0.05), transparent 60%);
-  opacity: 0.9;
-}
-.card-inner { position: relative; z-index: 1; }
-
-.pill {
-  background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(255,255,255,0.10);
-  border-radius: 18px;
-  padding: 14px 16px;
-}
-
-/* Horizontal rail */
-.hscroll {
-  max-width: 100%;
-  display: flex;
-  gap: 16px;
-  overflow-x: auto;
-  padding: 2px 18px 14px 18px;
-  scroll-snap-type: x mandatory;
-  -webkit-overflow-scrolling: touch;
-}
-.hscroll::-webkit-scrollbar { height: 8px; }
-.hscroll::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.10); border-radius: 999px; }
-.hscroll::-webkit-scrollbar-track { background: rgba(255,255,255,0.04); border-radius: 999px; }
-
-.snap-card {
-  scroll-snap-align: center;
-  flex: 0 0 78%;
-  max-width: 420px;
-}
-@media (min-width: 768px) {
-  .snap-card { flex-basis: 360px; }
-}
-
-.segment {
-  display: inline-flex;
-  padding: 6px;
-  border-radius: 999px;
-  background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(255,255,255,0.10);
-}
-.segment button {
-  border-radius: 999px;
-  padding: 10px 14px;
-  font-size: 14px;
-  color: rgba(255,255,255,0.70);
-  transition: all 180ms ease;
-  border: 1px solid transparent;
-}
-.segment button.active {
-  background: rgba(255,255,255,0.08);
-  border-color: rgba(255,255,255,0.14);
-  color: rgba(255,255,255,0.92);
-}
-
-.minitabs {
-  display: inline-flex;
-  gap: 10px;
-  padding: 6px;
-  border-radius: 999px;
-  background: rgba(255,255,255,0.03);
-  border: 1px solid rgba(255,255,255,0.08);
-}
-.minitabs button {
-  border-radius: 999px;
-  padding: 8px 12px;
-  font-size: 13px;
-  color: rgba(255,255,255,0.60);
-  transition: all 180ms ease;
-  border: 1px solid transparent;
-}
-.minitabs button.active {
-  background: rgba(255,255,255,0.07);
-  border-color: rgba(255,255,255,0.12);
-  color: rgba(255,255,255,0.92);
-}
-
-/* ---------- Landing tour ---------- */
-.tour{
-  background: #000;
-}
-.tourSection{
-  min-height: 100svh;
-  display: grid;
-  place-items: center;
-  padding: 80px 18px 60px 18px;
-}
-.tourInner{
-  width: 100%;
-  max-width: 720px;
-}
-.tourTop{
-  display:flex;
-  justify-content: space-between;
-  gap: 18px;
-}
-.tourTitle{
-  font-size: 44px;
-  font-weight: 700;
-  letter-spacing: -0.02em;
-}
-.tourSub{
-  margin-top: 10px;
-  color: rgba(255,255,255,0.55);
-  font-size: 16px;
-}
-
-.tourQ{
-  font-size: 30px;
-  font-weight: 650;
-  letter-spacing: -0.02em;
-}
-.tourP{
-  margin-top: 10px;
-  color: rgba(255,255,255,0.62);
-  line-height: 1.6;
-}
-.tourHint{
-  margin-top: 14px;
-  color: rgba(255,255,255,0.45);
-  font-size: 13px;
-}
-
-.tourGrid{ display:grid; gap: 12px; margin-top: 18px; }
-.tourGrid2{ display:grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 18px; }
-@media (max-width: 420px){
-  .tourGrid2{ grid-template-columns: 1fr; }
-}
-
-.tourChoice{
-  text-align: left;
-  padding: 16px 16px;
-  border-radius: 20px;
-  background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(255,255,255,0.10);
-  color: rgba(255,255,255,0.88);
-}
-.tourChoice:hover{
-  border-color: rgba(255,255,255,0.16);
-  background: rgba(255,255,255,0.05);
-}
-.tourChoiceSub{
-  display:block;
-  margin-top: 6px;
-  color: rgba(255,255,255,0.55);
-  font-size: 13px;
-}
-
-.tourPrimary{
-  margin-top: 22px;
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  gap: 10px;
-  padding: 14px 16px;
-  border-radius: 18px;
-  background: rgba(255,255,255,0.06);
-  border: 1px solid rgba(255,255,255,0.12);
-  color: rgba(255,255,255,0.92);
-}
-.tourPrimary span{ color: rgba(255,255,255,0.55); }
-
-.tourForm{ margin-top: 16px; display:grid; gap: 10px; }
-.tourInput{
-  width: 100%;
-  background: rgba(255,255,255,0.03);
-  border: 1px solid rgba(255,255,255,0.10);
-  border-radius: 18px;
-  padding: 14px 16px;
-  color: rgba(255,255,255,0.9);
-  outline: none;
-}
-.tourInput:focus{
-  border-color: rgba(255,255,255,0.18);
-}
-
-.tourCard{
-  margin-top: 16px;
-  border-radius: 22px;
-  background: rgba(255,255,255,0.03);
-  border: 1px solid rgba(255,255,255,0.10);
-  padding: 16px;
-}
-.tourCardInner{ }
-.tourMini{ font-size: 12px; color: rgba(255,255,255,0.45); }
-.tourSummary{ margin-top: 6px; color: rgba(255,255,255,0.70); line-height: 1.5; }
-
-.tourDog{ margin-top: 26px; }
-
-.tourLink{
-  margin-top: 18px;
-  display:inline-flex;
-  align-items:center;
-  gap: 10px;
-  color: rgba(255,255,255,0.78);
-  text-decoration: none;
-}
-.tourLink:hover{ color: rgba(255,255,255,0.95); }
-
-/* ---------- Dog ---------- */
-.dogWrap{
-  display:flex;
-  align-items:center;
-  gap: 12px;
-}
-.dogBubble{
-  padding: 10px 12px;
-  border-radius: 14px;
-  background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(255,255,255,0.10);
-  color: rgba(255,255,255,0.80);
-  font-size: 13px;
-}
-.dogCard{
-  width: 86px;
-  height: 58px;
-  border-radius: 22px;
-  display:grid;
-  place-items:center;
-  background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(255,255,255,0.10);
-}
-.dogTail{
-  transform-origin: 6px 22px;
-  animation: wag 0.7s ease-in-out infinite;
-}
-@keyframes wag{
-  0%{ transform: rotate(14deg); }
-  50%{ transform: rotate(-18deg); }
-  100%{ transform: rotate(14deg); }
-}
-
-/* ---------- Simple page wrappers ---------- */
-.pageWrap{
-  min-height: 100svh;
-  padding: 90px 18px 60px 18px;
-  max-width: 860px;
-  margin: 0 auto;
-}
-.pageTitle{ font-size: 36px; font-weight: 700; }
-.pageMuted{ margin-top: 10px; color: rgba(255,255,255,0.55); }
-
-
-/* === WALKPERRO PATCH: NAV + GLOW + OVERFLOW === */
-:root { color-scheme: dark; }
-
-html, body {
-  height: 100%;
-  background: #000;
-  overflow-x: hidden; /* IMPORTANT: stops the “push right” */
-}
-
-html { scroll-behavior: smooth; }
-
-/* ---------- MENU ---------- */
-.navWrap{
-  position: fixed;
-  inset: 0;
-  z-index: 50;
-  pointer-events: none;
-}
-
-.navHome{
-  position: absolute;
-  top: 16px;
-  left: 16px;
-  pointer-events: auto;
-  width: 44px;
-  height: 44px;
-  border-radius: 999px;
-  display: grid;
-  place-items: center;
-  background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(255,255,255,0.10);
-  color: rgba(255,255,255,0.85);
-}
-
-.navRight{
-  position: absolute;
-  top: 16px;
-  right: 16px;
-  pointer-events: auto;
-}
-
-.navBtn{
-  width: 52px;
-  height: 52px;
-  border-radius: 999px;
-  background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(255,255,255,0.10);
-  display: grid;
-  place-items:center;
-}
-
-.hamburger{
-  width: 18px;
-  display: grid;
-  gap: 6px;
-}
-.hamburger span{
-  height: 2px;
-  border-radius: 999px;
-  background: rgba(255,255,255,0.75);
-}
-
-.navMenu{
-  margin-top: 12px;
-  width: 210px;
-  border-radius: 18px;
-  overflow: hidden;
-  border: 1px solid rgba(255,255,255,0.10);
-  background: rgba(0,0,0,0.65);
-  backdrop-filter: blur(14px);
-
-  opacity: 0;
-  transform: translateY(-6px);
-  pointer-events: none;
-  transition: opacity .18s ease, transform .18s ease;
-}
-.navMenu.open{
-  opacity: 1;
-  transform: translateY(0);
-  pointer-events: auto;
-}
-
-.navItem{
-  display:block;
-  padding: 14px 16px;
-  color: rgba(255,255,255,0.80);
-  border-top: 1px solid rgba(255,255,255,0.06);
-}
-.navItem:first-child{ border-top: 0; }
-.navItem:hover{ color: rgba(255,255,255,0.95); background: rgba(255,255,255,0.03); }
-
-/* ---------- LANDING FORM OVERFLOW FIX ---------- */
-.tourSummary{
-  overflow-wrap: anywhere;
-  word-break: break-word;
-}
-
-/* ---------- HEYGEN-ISH DARK GLOW ---------- */
-.pageBg{
-  position: relative;
-  background: #000;
-}
-.pageBg::before,
-.pageBg::after{
-  content:"";
-  position: fixed;
-  inset: -20vh -20vw;
-  pointer-events: none;
-  z-index: 0;
-}
-.pageBg::before{
-  background:
-    radial-gradient(60vh 60vh at 20% 25%, rgba(120,70,255,.18), transparent 60%),
-    radial-gradient(70vh 70vh at 85% 30%, rgba(0,180,255,.12), transparent 60%),
-    radial-gradient(80vh 80vh at 50% 85%, rgba(255,255,255,.06), transparent 60%);
-  filter: blur(46px);
-  opacity: .9;
-}
-.pageBg::after{
-  background: radial-gradient(90vh 90vh at 50% 50%, rgba(255,255,255,.05), transparent 65%);
-  filter: blur(52px);
-  opacity: .55;
-}
-.pageBg > *{
-  position: relative;
-  z-index: 1;
-}
-
-/* ---------- PRICE TAG ---------- */
-.priceTag{
-  font-size: 12px;
-  letter-spacing: .18em;
-  text-transform: uppercase;
-  color: rgba(255,255,255,0.70);
-  padding: 6px 10px;
-  border-radius: 999px;
-  border: 1px solid rgba(255,255,255,0.10);
-  background: rgba(255,255,255,0.03);
-  align-self: flex-start;
-  white-space: nowrap;
-}
-
-/* ---------- DOG bubble removal (if you still have this class) ---------- */
-.dogCard{
-  background: transparent;
-  border: 0;
-}
-/* === END WALKPERRO PATCH === */
-
-
-
-/* === DOG MASCOT (no bubble) === */
-.dogWrap{
-  display:flex;
-  align-items:center;
-  gap:14px;
-}
-.dogSvg{
-  color: rgba(255,255,255,0.92);
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-}
-.dogSvg svg{
-  width:100%;
-  height:100%;
-  display:block;
-}
-.dogSay{
-  font-size: 14px;
-  color: rgba(255,255,255,0.72);
-  padding: 10px 14px;
-  border-radius: 999px;
-  border: 1px solid rgba(255,255,255,0.10);
-  background: rgba(255,255,255,0.03);
-}
-
-/* === WALKPERRO HARD OVERRIDES (pure black + clean hierarchy) === */
-html, body { background:#000 !important; overflow-x:hidden !important; }
-* { -webkit-tap-highlight-color: transparent; }
-
-/* kill any previous glow layers */
-.pageBg::before, .pageBg::after { content:none !important; display:none !important; opacity:0 !important; }
-.pageBg { background:#000 !important; }
-
-/* NAV (no bubbles) */
-.navRoot { position: fixed; top: 16px; left: 16px; right: 16px; z-index: 100; pointer-events: none; 
-  padding-left: env(safe-area-inset-left);
-  padding-right: env(safe-area-inset-right);
-}
-.navBar { display:flex; align-items:center; justify-content:space-between; gap:12px; pointer-events: auto; }
-.navHomeIcon { display:inline-flex; align-items:center; justify-content:center; color: rgba(255,255,255,0.92); text-decoration:none; }
-.navMenuBtn { background: transparent; border: 0; padding: 0; color: rgba(255,255,255,0.82); font-size: 16px; letter-spacing: 0.02em; }
-.navMenuBtn:active { opacity: 0.7; }
-
-.navOverlay {
-  position: fixed; inset: 0; background: transparent; border: 0;
-  pointer-events: auto; z-index: 98;
-}
-
-.navPanel {
-  position: fixed;
-  top: 56px; right: 16px;
-  width: 220px;
-  border-radius: 18px;
-  border: 1px solid rgba(255,255,255,0.10);
-  background: rgba(0,0,0,0.78);
-  backdrop-filter: blur(14px);
-  overflow: hidden;
-  opacity: 0;
-  transform: translateY(-10px);
-  pointer-events: none;
-  transition: opacity .18s ease, transform .18s ease;
-  z-index: 99;
-}
-.navPanel.open { opacity: 1; transform: translateY(0); pointer-events: auto; }
-.navItem { display:block; padding: 14px 16px; color: rgba(255,255,255,0.78); text-decoration:none; border-top: 1px solid rgba(255,255,255,0.06); }
-.navItem:first-child { border-top:0; }
-.navItem:hover { color: rgba(255,255,255,0.95); background: rgba(255,255,255,0.03); }
-
-/* SERVICES clean system */
-.wpPage { min-height: 100vh; background:#000; color:#fff; }
-.wpWrap { max-width: 980px; margin: 0 auto; padding: 92px 22px 90px; }
-.wpHeader { display:grid; gap: 10px; }
-.wpH1 { font-size: 44px; font-weight: 750; letter-spacing: -0.02em; margin: 0; }
-.wpLead { color: rgba(255,255,255,0.58); line-height: 1.5; margin: 0; max-width: 560px; }
-
-.wpControls { margin-top: 28px; display:grid; gap: 14px; justify-items:center; }
-.wpSegment { display: inline-flex; gap: 10px; padding: 8px; border-radius: 999px; border: 1px solid rgba(255,255,255,0.16); background: rgba(255,255,255,0.06); box-shadow: 0 18px 50px rgba(0,0,0,0.55); }
-.wpTabs { display: inline-flex; gap: 10px; padding: 6px; border-radius: 999px; border: 1px solid rgba(255,255,255,0.10); background: rgba(255,255,255,0.03); }
-.wpSegment button, .wpTabs button {
-  border: 0;
-  background: transparent;
-  color: rgba(255,255,255,0.62);
-  font-size: 14px;
-  padding: 10px 14px;
-  border-radius: 999px;
-}
-.wpSegment button.active, .wpTabs button.active {
-  background: rgba(255,255,255,0.08);
-  color: rgba(255,255,255,0.95);
-}
-
-.wpSectionIntro { margin-top: 26px; text-align:center; display:grid; gap: 10px; }
-.wpKicker {
-  display:inline-flex; justify-self:center;
-  font-size: 12px; letter-spacing: .16em; text-transform: uppercase;
-  color: rgba(255,255,255,0.58);
-}
-.wpH2 { margin:0; font-size: 16px; font-weight: 500; color: rgba(255,255,255,0.62); }
-
-.wpRail {
-  margin-top: 22px;
-  display:flex;
-  gap: 18px;
-  overflow-x:auto;
-  padding: 10px 10px 18px;
-  scroll-snap-type: x mandatory;
-  -webkit-overflow-scrolling: touch;
-  overscroll-behavior-x: contain;
-}
-.wpRail::-webkit-scrollbar { height: 8px; }
-.wpRail::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.10); border-radius: 999px; }
-.wpRail::-webkit-scrollbar-track { background: rgba(255,255,255,0.04); border-radius: 999px; }
-
-.wpCard {
-  flex: 0 0 78%;
-  max-width: 420px;
-  scroll-snap-align: center;
-  border-radius: 24px;
-  border: 1px solid rgba(255,255,255,0.10);
-  background: rgba(255,255,255,0.03);
-  box-shadow: 0 30px 80px rgba(0,0,0,0.65);
-  padding: 22px;
-}
-@media (min-width: 768px) { .wpCard { flex-basis: 360px; } }
-
-.wpCardTop { display:flex; align-items:flex-start; justify-content:space-between; gap: 16px; }
-.wpCardTitle { font-size: 22px; font-weight: 700; letter-spacing: -0.02em; }
-.wpPrice {
-  font-size: 12px;
-  letter-spacing: .18em;
-  text-transform: uppercase;
-  color: rgba(255,255,255,0.72);
-  padding: 6px 10px;
-  border-radius: 999px;
-  border: 1px solid rgba(255,255,255,0.10);
-  background: rgba(255,255,255,0.02);
-  white-space: nowrap;
-}
-
-.wpDesc { margin: 12px 0 0; color: rgba(255,255,255,0.62); line-height: 1.6; font-size: 14px; }
-
-.wpBullets { margin: 16px 0 0; padding: 0; list-style: none; display:grid; gap: 10px; color: rgba(255,255,255,0.72); }
-.wpBullets li { display:flex; align-items:flex-start; gap: 10px; }
-.wpDot { width: 6px; height: 6px; border-radius: 999px; background: rgba(255,255,255,0.25); margin-top: 8px; flex: 0 0 6px; }
-
-.wpCta {
-  margin-top: 18px;
-  display:inline-flex; align-items:center; gap: 10px;
-  text-decoration:none;
-  color: rgba(255,255,255,0.90);
-  padding: 12px 14px;
-  border-radius: 16px;
-  border: 1px solid rgba(255,255,255,0.10);
-  background: rgba(255,255,255,0.03);
-}
-.wpCta span { color: rgba(255,255,255,0.55); }
-
-.wpInquiry { margin-top: 42px; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 26px; }
-.wpH3 { margin:0; font-size: 26px; font-weight: 750; letter-spacing: -0.02em; }
-.wpLead2 { margin: 10px 0 0; color: rgba(255,255,255,0.58); max-width: 560px; }
-
-.wpForm { margin-top: 16px; display:grid; gap: 10px; max-width: 560px; }
-.wpInput {
-  width: 100%;
-  background: rgba(255,255,255,0.03);
-  border: 1px solid rgba(255,255,255,0.10);
-  border-radius: 16px;
-  padding: 14px 14px;
-  color: rgba(255,255,255,0.90);
-  outline: none;
-}
-.wpBtn {
-  width: 100%;
-  display:inline-flex; justify-content:center; align-items:center; gap: 10px;
-  padding: 14px 14px;
-  border-radius: 16px;
-  border: 1px solid rgba(255,255,255,0.12);
-  background: rgba(255,255,255,0.05);
-  color: rgba(255,255,255,0.92);
-}
-
-/* DOG sizing/position safety (landing tour) */
-.tourDog { display:flex !important; justify-content:center !important; align-items:center !important; margin-top: 18px !important; }
-.tourDog svg { width: 84px !important; height: auto !important; opacity: .92; }
-
-/* Prevent horizontal "side-scroll" on mobile */
-body { overscroll-behavior-x: none; }
-main { overflow-x: visible; }
-
-/* Landing title + dog mark */
-.tourTitleRow{
-  display:flex;
-  align-items:center;
-  gap:12px;
-
-  overflow: visible;
-
-  overflow: visible;
-}
-.tourTitleDog{
-  width:40px;
-  height:40px;
-  flex:0 0 auto;
-  opacity:.95;
-}
-
-/* Title + Perro PNG mark */
-.tourTitleMark{ display:inline-flex; align-items:center; justify-content:center; }
-.tourTitleMark img{
-  width:56px !important;
-  height:56px !important;
-  object-fit:contain;
-  transform: translate(-14px, 1px);
-}
-
-
-
-
-
-
-/* === Hero dog mark (clean, no transforms) === */
-.tourTitleRow {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-.heroDog {
-  flex: 0 0 auto;
-}
-
-@media (max-width: 640px) {
-  .heroDog { transform: scale(0.9); }
-}
-
-
-/* Mode transition (Build <-> Convert) */
-.wpModePane{ animation: wpFade .22s ease both; }
-@keyframes wpFade{ from{ opacity:0; transform: translateY(8px);} to{ opacity:1; transform: translateY(0);} }
-
-html{ -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
-
-/* === Services: hierarchy + mode transition === */
-.wpSegment {
-  border-color: rgba(255,255,255,0.16);
-  background: rgba(255,255,255,0.05);
-}
-.wpSegment button {
-  font-weight: 650;
-  color: rgba(255,255,255,0.72);
-}
-.wpSegment button.active {
-  background: rgba(255,255,255,0.12);
-  color: rgba(255,255,255,0.98);
-}
-
-.wpTabs {
-  border-color: rgba(255,255,255,0.10);
-  background: rgba(255,255,255,0.025);
-}
-.wpTabs button {
-  font-size: 13px;
-  padding: 9px 12px;
-  color: rgba(255,255,255,0.55);
-}
-.wpTabs button.active {
-  background: rgba(255,255,255,0.07);
-  color: rgba(255,255,255,0.92);
-}
-
-.wpModePane { animation: wpFadeIn .22s ease; }
-@keyframes wpFadeIn {
-  from { opacity: 0; transform: translateY(6px); }
-  to   { opacity: 1; transform: none; }
-}
-
-
-/* === TOUR SCROLL SAFETY OVERRIDES === */
-html, body {
-  height: auto !important;
-  overflow-y: auto !important;
-}
-/* don't let any wrapper accidentally trap scrolling */
-.tour {
-  overflow: visible !important;
-}
-
-/* Revenue leak audit quick fixes */
-.tourLead {
-  margin-top: 12px;
-  max-width: 60ch;
-  color: rgba(255,255,255,0.72);
-  line-height: 1.55;
-}
-
-.tourProof {
-  margin-top: 18px;
-  display: grid;
-  gap: 10px;
-}
-
-.tourProofItem {
-  display: grid;
-  gap: 2px;
-  padding: 12px 14px;
-  border-radius: 14px;
-  border: 1px solid rgba(255,255,255,0.08);
-  background: rgba(255,255,255,0.02);
-}
-
-.tourProofItem strong {
-  font-size: 14px;
-  color: rgba(255,255,255,0.92);
-}
-
-.tourProofItem span {
-  color: rgba(255,255,255,0.6);
-  font-size: 13px;
-}
-
-.tourError,
-.wpFormError {
-  margin: 0;
-  color: #ffb3b3;
-  font-size: 13px;
-}
-
-.wpFormNote {
-  margin: 0;
-  font-size: 13px;
-  color: rgba(255,255,255,0.65);
-}
-
-.policySection {
-  margin-top: 22px;
-  padding-top: 18px;
-  border-top: 1px solid rgba(255,255,255,0.08);
-}
-
-.policyH2 {
-  margin: 0 0 8px;
-  font-size: 20px;
-  font-weight: 650;
-}
-
-.siteFooter {
-  border-top: 1px solid rgba(255,255,255,0.08);
-  padding: 28px 18px 42px;
-}
-
-.siteFooterInner {
-  max-width: 980px;
-  margin: 0 auto;
-}
-
-.siteFooterBrand {
-  margin: 0;
-  font-weight: 700;
-}
-
-.siteFooterMeta {
-  margin: 8px 0 0;
-  color: rgba(255,255,255,0.58);
-}
-
-.siteFooterLinks {
-  margin-top: 12px;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 14px;
-}
-
-.siteFooterLinks a {
-  color: rgba(255,255,255,0.82);
-  text-decoration: none;
-}
-
-/* ---------- WalkPerro lead flow ---------- */
-.wpLeadFlow {
-  background: #000;
-}
-
-.wpHero {
-  position: relative;
-  padding: 104px 18px 40px;
-  overflow: clip;
-}
-
-.wpHeroGlow {
-  position: absolute;
-  inset: -20% -10%;
-  background:
-    radial-gradient(36rem 22rem at 15% 10%, rgba(255, 200, 120, 0.12), transparent 65%),
-    radial-gradient(32rem 24rem at 80% 20%, rgba(80, 160, 255, 0.18), transparent 70%),
-    radial-gradient(44rem 26rem at 50% 100%, rgba(255, 255, 255, 0.06), transparent 65%);
-  filter: blur(22px);
-  pointer-events: none;
-}
-
-.wpHeroInner {
-  position: relative;
-  z-index: 1;
-  max-width: 960px;
-  margin: 0 auto;
-}
-
-.wpHeroTitleRow {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.wpHeroTitle {
-  font-size: clamp(34px, 8vw, 58px);
-  line-height: 0.95;
-  letter-spacing: -0.04em;
-  font-weight: 700;
-}
-
-.wpHeroMark {
-  width: 34px;
-  height: 34px;
-}
-
-.wpHeroHeadline {
-  margin-top: 14px;
-  font-size: clamp(28px, 6.4vw, 44px);
-  line-height: 1.05;
-  letter-spacing: -0.03em;
-  font-weight: 650;
-  max-width: 14ch;
-  color: rgba(255, 255, 255, 0.96);
-}
-
-.wpHeroSubhead {
-  margin-top: 12px;
-  color: rgba(255, 255, 255, 0.68);
-  font-size: 16px;
-  line-height: 1.55;
-  max-width: 42ch;
-}
-
-.wpHeroActions {
-  margin-top: 22px;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-
-.wpBtnPrimary,
-.wpBtnSecondary,
-.wpBtnGhost {
-  min-height: 46px;
-  border-radius: 14px;
-  padding: 12px 14px;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  font-weight: 600;
-  font-size: 14px;
-  transition: background 120ms ease, border-color 120ms ease, color 120ms ease, opacity 120ms ease;
-}
-
-.wpBtnPrimary {
-  background: rgba(255, 255, 255, 0.92);
-  color: #0d0d0d;
-}
-
-.wpBtnPrimary:hover:not(:disabled) {
-  background: #fff;
-}
-
-.wpBtnPrimary:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-
-.wpBtnSecondary,
-.wpBtnGhost {
-  background: rgba(255, 255, 255, 0.03);
-  color: rgba(255, 255, 255, 0.88);
-}
-
-.wpBtnSecondary {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  text-decoration: none;
-}
-
-.wpBtnSecondary:hover,
-.wpBtnGhost:hover:not(:disabled) {
-  border-color: rgba(255, 255, 255, 0.2);
-  background: rgba(255, 255, 255, 0.05);
-}
-
-.wpBtnGhost:disabled {
-  opacity: 0.35;
-  cursor: not-allowed;
-}
-
-.wpHeroProof {
-  margin-top: 22px;
-  display: grid;
-  gap: 10px;
-}
-
-.wpHeroProofItem {
-  border-radius: 16px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  background: rgba(255, 255, 255, 0.02);
-  padding: 12px 14px;
-}
-
-.wpHeroProofItem strong {
-  display: block;
-  font-size: 14px;
-}
-
-.wpHeroProofItem span {
-  display: block;
-  margin-top: 4px;
-  color: rgba(255, 255, 255, 0.58);
-  font-size: 13px;
-}
-
-.wpFlowSection {
-  padding: 14px 18px 80px;
-}
-
-.wpFlowCard {
-  max-width: 960px;
-  margin: 0 auto;
-  border-radius: 20px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  background: rgba(255, 255, 255, 0.03);
-  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.4);
-  padding: 16px;
-}
-
-.wpFlowHeader {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 8px;
-}
-
-.wpFlowKicker {
-  color: rgba(255, 255, 255, 0.55);
-  font-size: 12px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-}
-
-.wpFlowTitle {
-  margin-top: 6px;
-  font-size: clamp(20px, 4.6vw, 28px);
-  line-height: 1.1;
-  letter-spacing: -0.03em;
-}
-
-.wpFlowProgressText {
-  color: rgba(255, 255, 255, 0.55);
-  font-size: 13px;
-  white-space: nowrap;
-  padding-top: 4px;
-}
-
-.wpFlowProgressBar {
-  margin-top: 12px;
-  height: 8px;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.05);
-  overflow: hidden;
-}
-
-.wpFlowProgressBar > span {
-  display: block;
-  height: 100%;
-  border-radius: inherit;
-  background: linear-gradient(90deg, rgba(255, 255, 255, 0.92), rgba(145, 198, 255, 0.9));
-  transition: width 200ms ease;
-}
-
-.wpFlowSummary {
-  margin-top: 12px;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-
-.wpChipMuted {
-  border-radius: 999px;
-  border: 1px solid rgba(255, 255, 255, 0.09);
-  background: rgba(255, 255, 255, 0.03);
-  padding: 6px 10px;
-  font-size: 12px;
-  color: rgba(255, 255, 255, 0.72);
-}
-
-.wpStepBody {
-  margin-top: 14px;
-}
-
-.wpChoiceGrid,
-.wpMultiGrid {
-  display: grid;
-  gap: 10px;
-}
-
-.wpChoice {
-  text-align: left;
-  width: 100%;
-  border-radius: 14px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  background: rgba(255, 255, 255, 0.02);
-  color: rgba(255, 255, 255, 0.92);
-  padding: 13px 14px;
-  line-height: 1.35;
-}
-
-.wpChoice:hover {
-  border-color: rgba(255, 255, 255, 0.18);
-  background: rgba(255, 255, 255, 0.04);
-}
-
-.wpChoiceActive {
-  border-color: rgba(156, 208, 255, 0.65);
-  background: rgba(84, 142, 199, 0.16);
-  box-shadow: inset 0 0 0 1px rgba(156, 208, 255, 0.2);
-}
-
-.wpHint {
-  color: rgba(255, 255, 255, 0.52);
-  font-size: 13px;
-  padding: 4px 2px 0;
-}
-
-.wpFormStack {
-  display: grid;
-  gap: 14px;
-}
-
-.wpFieldGroup {
-  display: grid;
-  gap: 8px;
-}
-
-.wpFieldLabel {
-  font-size: 13px;
-  color: rgba(255, 255, 255, 0.72);
-}
-
-.wpLabel {
-  display: grid;
-  gap: 8px;
-}
-
-.wpLabel > span {
-  font-size: 13px;
-  color: rgba(255, 255, 255, 0.72);
-}
-
-.wpInput {
-  width: 100%;
-  border-radius: 14px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  background: rgba(255, 255, 255, 0.03);
-  color: rgba(255, 255, 255, 0.94);
-  padding: 12px 14px;
-  outline: none;
-}
-
-.wpInput:focus {
-  border-color: rgba(156, 208, 255, 0.45);
-}
-
-.wpTextarea {
-  resize: vertical;
-  min-height: 124px;
-}
-
-.wpGridTwo {
-  display: grid;
-  gap: 12px;
-}
-
-.wpToggleRow {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  border-radius: 14px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  background: rgba(255, 255, 255, 0.02);
-  padding: 12px 14px;
-  color: rgba(255, 255, 255, 0.86);
-}
-
-.wpToggleRow input {
-  accent-color: #cfe5ff;
-}
-
-.wpTurnstileWrap {
-  margin-top: 2px;
-}
-
-.wpHp {
-  position: absolute;
-  left: -9999px;
-  opacity: 0;
-  pointer-events: none;
-}
-
-.wpError {
-  color: #ff9d9d;
-  font-size: 13px;
-  line-height: 1.45;
-}
-
-.wpFlowFooter {
-  margin-top: 14px;
-  display: flex;
-  gap: 10px;
-  justify-content: space-between;
-}
-
-.wpFlowFooter .wpBtnPrimary,
-.wpFlowFooter .wpBtnGhost {
-  flex: 1;
-}
-
-.wpClearBtn {
-  justify-self: start;
-}
-
-.wpSuccess {
-  display: grid;
-  gap: 12px;
-}
-
-.wpSuccessText {
-  color: rgba(255, 255, 255, 0.68);
-  line-height: 1.55;
-}
-
-.wpSuccessMeta {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-
-@media (min-width: 700px) {
-  .wpHero {
-    padding-top: 120px;
-  }
-
-  .wpHeroProof {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-
-  .wpFlowCard {
-    padding: 20px;
-  }
-
-  .wpChoiceGrid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .wpGridTwo {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .wpFlowFooter {
-    justify-content: flex-end;
-  }
-
-  .wpFlowFooter .wpBtnGhost,
-  .wpFlowFooter .wpBtnPrimary {
-    flex: 0 0 auto;
-    min-width: 140px;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .wpFlowProgressBar > span,
-  .wpBtnPrimary,
-  .wpBtnSecondary,
-  .wpBtnGhost {
-    transition: none;
-  }
-}
-
-/* ---------- Admin leads dashboard ---------- */
-.adminWrap {
-  max-width: 1100px;
-}
-
-.adminHeader {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 12px;
-  margin-bottom: 16px;
-}
-
-.adminEyebrow {
-  color: rgba(255,255,255,0.55);
-  font-size: 12px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-}
-
-.adminTabs {
-  display: grid;
-  gap: 10px;
-  margin-bottom: 14px;
-}
-
-.adminTab {
-  display: grid;
-  gap: 3px;
-  text-decoration: none;
-  color: rgba(255,255,255,0.8);
-  border: 1px solid rgba(255,255,255,0.08);
-  background: rgba(255,255,255,0.02);
-  border-radius: 14px;
-  padding: 10px 12px;
-}
-
-.adminTab small {
-  color: rgba(255,255,255,0.5);
-}
-
-.adminTabActive {
-  border-color: rgba(255,255,255,0.18);
-  background: rgba(255,255,255,0.05);
-}
-
-.adminNotice {
-  margin-bottom: 12px;
-  border-radius: 12px;
-  padding: 10px 12px;
-  border: 1px solid rgba(255,255,255,0.08);
-}
-
-.adminNoticeOk {
-  background: rgba(68, 176, 114, 0.12);
-  border-color: rgba(68, 176, 114, 0.28);
-  color: rgba(199, 255, 219, 0.9);
-}
-
-.adminNoticeErr {
-  background: rgba(218, 88, 88, 0.12);
-  border-color: rgba(218, 88, 88, 0.24);
-  color: rgba(255, 196, 196, 0.92);
-}
-
-.adminLeadList {
-  display: grid;
-  gap: 14px;
-}
-
-.adminLeadCard {
-  border-radius: 20px;
-}
-
-.adminLeadInner {
-  padding: 16px;
-  display: grid;
-  gap: 14px;
-}
-
-.adminLeadTop {
-  display: flex;
-  justify-content: space-between;
-  gap: 10px;
-}
-
-.adminLeadTitleRow {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  align-items: center;
-}
-
-.adminLeadTitle {
-  font-size: 18px;
-  font-weight: 650;
-}
-
-.adminLeadMeta,
-.adminLeadDate {
-  margin-top: 6px;
-  color: rgba(255,255,255,0.58);
-  font-size: 13px;
-}
-
-.adminBadge {
-  border-radius: 999px;
-  border: 1px solid rgba(255,255,255,0.1);
-  background: rgba(255,255,255,0.03);
-  padding: 4px 8px;
-  font-size: 12px;
-  color: rgba(255,255,255,0.8);
-}
-
-.adminBadgeHigh {
-  border-color: rgba(255,132,132,0.38);
-  background: rgba(255, 86, 86, 0.12);
-  color: rgba(255, 210, 210, 0.95);
-}
-
-.adminBadgeMedium {
-  border-color: rgba(255,210,120,0.35);
-  background: rgba(255, 181, 55, 0.10);
-  color: rgba(255, 227, 180, 0.95);
-}
-
-.adminBadgeLow {
-  border-color: rgba(143,177,255,0.25);
-  background: rgba(111, 155, 255, 0.08);
-  color: rgba(209, 222, 255, 0.92);
-}
-
-.adminBadgeScore {
-  border-color: rgba(255,255,255,0.16);
-}
-
-.adminGrid {
-  display: grid;
-  gap: 10px;
-}
-
-.adminPill {
-  display: grid;
-  gap: 6px;
-  font-size: 13px;
-  line-height: 1.45;
-}
-
-.adminMessage,
-.adminReviewBlock {
-  border-radius: 14px;
-  border: 1px solid rgba(255,255,255,0.08);
-  background: rgba(255,255,255,0.02);
-  padding: 12px;
-  line-height: 1.5;
-  color: rgba(255,255,255,0.9);
-}
-
-.adminBlockLabel {
-  margin-bottom: 6px;
-  color: rgba(255,255,255,0.6);
-  font-size: 12px;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-}
-
-.adminReviewForm {
-  display: grid;
-  gap: 10px;
-  border-top: 1px solid rgba(255,255,255,0.08);
-  padding-top: 12px;
-}
-
-.adminReviewForm label {
-  display: grid;
-  gap: 6px;
-}
-
-.adminReviewForm label span {
-  color: rgba(255,255,255,0.7);
-  font-size: 12px;
-}
-
-.adminReviewForm select,
-.adminReviewForm textarea {
-  width: 100%;
-  border-radius: 12px;
-  border: 1px solid rgba(255,255,255,0.1);
-  background: rgba(255,255,255,0.03);
-  color: rgba(255,255,255,0.92);
-  padding: 10px 12px;
-}
-
-.adminReviewForm textarea {
-  resize: vertical;
-}
-
-.adminReviewNotes {
-  grid-column: 1 / -1;
-}
-
-.adminEmpty {
-  padding: 18px;
-  color: rgba(255,255,255,0.62);
-}
-
-@media (min-width: 840px) {
-  .adminTabs {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-
-  .adminGrid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .adminReviewForm {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    align-items: end;
-  }
-
-  .adminReviewForm .wpBtnPrimary {
-    justify-self: start;
-  }
-}
-
-/* ---------- LeadOps hub ---------- */
-.leadopsPage { max-width: 1240px; }
-.leadopsShell { display: grid; gap: 14px; }
-.leadopsTopBar { display: grid; gap: 12px; }
-.leadopsTopActions { display: flex; flex-wrap: wrap; gap: 10px; }
-.leadopsMetricRow { display: grid; gap: 10px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
-.leadopsMetricCard {
-  border-radius: 16px;
-  border: 1px solid rgba(255,255,255,0.08);
-  background: rgba(255,255,255,0.02);
-  padding: 12px;
-}
-.leadopsMetricCard-hot { border-color: rgba(255,120,120,0.25); background: rgba(255, 91, 91, 0.08); }
-.leadopsMetricCard-warn { border-color: rgba(255,190,90,0.22); background: rgba(255, 186, 88, 0.06); }
-.leadopsMetricLabel { color: rgba(255,255,255,0.55); font-size: 12px; }
-.leadopsMetricValue { margin-top: 4px; font-size: 24px; font-weight: 700; letter-spacing: -0.03em; }
-.leadopsMetricHint { margin-top: 2px; color: rgba(255,255,255,0.5); font-size: 12px; }
-
-.leadopsLayout { display: grid; gap: 14px; }
-.leadopsSidebar { display: grid; gap: 14px; align-content: start; }
-.leadopsMain { min-width: 0; }
-.leadopsPanel { padding: 14px; display: grid; gap: 10px; }
-.leadopsPanelTitle { font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.62); }
-.leadopsMetaLine { color: rgba(255,255,255,0.6); font-size: 12px; }
-
-.leadopsFilterForm,
-.leadopsMiniForm,
-.leadopsUpdateForm,
-.leadopsCategoryGrid {
-  display: grid;
-  gap: 10px;
-}
-.leadopsFilterForm label,
-.leadopsMiniForm label,
-.leadopsUpdateForm label,
-.leadopsCategoryGrid label {
-  display: grid;
-  gap: 6px;
-}
-.leadopsFilterForm label span,
-.leadopsMiniForm label span,
-.leadopsUpdateForm label span,
-.leadopsCategoryGrid label span {
-  font-size: 12px;
-  color: rgba(255,255,255,0.68);
-}
-.leadopsFilterForm select,
-.leadopsMiniForm select,
-.leadopsUpdateForm select,
-.leadopsCategoryGrid select,
-.leadopsMiniForm textarea,
-.leadopsUpdateForm textarea {
-  width: 100%;
-  border-radius: 12px;
-  border: 1px solid rgba(255,255,255,0.10);
-  background: rgba(255,255,255,0.03);
-  color: rgba(255,255,255,0.92);
-  padding: 10px 12px;
-}
-.leadopsUpdateForm textarea,
-.leadopsMiniForm textarea { resize: vertical; }
-.leadopsFilterGrid2 { display: grid; gap: 10px; }
-.leadopsFilterChecks { display: grid; gap: 8px; font-size: 13px; color: rgba(255,255,255,0.8); }
-.leadopsFilterChecks label { display: flex; align-items: center; gap: 8px; }
-.leadopsPanelActions { display: flex; gap: 8px; flex-wrap: wrap; }
-
-.leadopsSavedList { display: grid; gap: 8px; }
-.leadopsSavedItem {
-  display: flex;
-  justify-content: space-between;
-  gap: 8px;
-  align-items: center;
-  border-radius: 10px;
-  border: 1px solid rgba(255,255,255,0.06);
-  background: rgba(255,255,255,0.02);
-  padding: 8px 10px;
-}
-.leadopsSavedItem a { color: rgba(255,255,255,0.88); text-decoration: none; }
-.leadopsInlineBtn {
-  border: 1px solid rgba(255,255,255,0.10);
-  background: rgba(255,255,255,0.03);
-  color: rgba(255,255,255,0.82);
-  border-radius: 10px;
-  padding: 6px 8px;
-  font-size: 12px;
-}
-.leadopsInlineBtn:hover { background: rgba(255,255,255,0.05); }
-.leadopsDetails summary { cursor: pointer; color: rgba(255,255,255,0.82); }
-.leadopsDetails[open] { display: grid; gap: 10px; }
-
-.leadopsCards { display: grid; gap: 12px; }
-.leadopsLeadCard { border-radius: 18px; }
-.leadopsLeadInner { padding: 14px; display: grid; gap: 12px; }
-.leadopsLeadHead { display: grid; grid-template-columns: auto 1fr; gap: 10px; align-items: start; }
-.leadopsCheckbox { padding-top: 4px; }
-.leadopsLeadTitleWrap { min-width: 0; }
-.leadopsLeadDates { color: rgba(255,255,255,0.52); font-size: 12px; display: none; }
-.leadopsMetaGrid { display: grid; gap: 10px; }
-.leadopsTagWrap { display: flex; flex-wrap: wrap; gap: 8px; }
-.leadopsBadgeDanger {
-  border-color: rgba(255,99,99,0.28);
-  background: rgba(255, 90, 90, 0.10);
-  color: rgba(255,215,215,0.96);
-}
-.leadopsBadgeWarn {
-  border-color: rgba(255,192,95,0.25);
-  background: rgba(255, 187, 84, 0.08);
-  color: rgba(255,235,199,0.95);
-}
-.leadopsSpan2 { grid-column: 1 / -1; }
-.leadopsCode { color: rgba(255,255,255,0.72); }
-
-.leadopsBottomGrid { display: grid; gap: 14px; }
-.leadopsSourceHealthList,
-.leadopsMiniList,
-.leadopsDupes,
-.leadopsActivityList { display: grid; gap: 8px; }
-.leadopsSourceHealthItem,
-.leadopsActivityRow {
-  display: flex; justify-content: space-between; gap: 10px; align-items: center;
-  border-radius: 12px; border: 1px solid rgba(255,255,255,0.06); background: rgba(255,255,255,0.02); padding: 10px;
-}
-.leadopsSourceHealthMeta { display: grid; justify-items: end; gap: 4px; }
-.leadopsSourceHealthMeta small { color: rgba(255,255,255,0.52); font-size: 11px; }
-.leadopsMiniRow {
-  display: flex; justify-content: space-between; gap: 8px; text-decoration: none;
-  color: rgba(255,255,255,0.84); border-radius: 10px; border: 1px solid rgba(255,255,255,0.05); padding: 8px 10px;
-  background: rgba(255,255,255,0.02);
-}
-.leadopsDupeGroup { border-radius: 12px; border: 1px solid rgba(255,255,255,0.06); padding: 10px; display: grid; gap: 8px; }
-.leadopsDupeRow { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
-
-.leadopsCategoryList { margin-top: 14px; display: grid; gap: 12px; }
-
-@media (min-width: 900px) {
-  .leadopsMetricRow { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-  .leadopsLayout { grid-template-columns: 360px minmax(0, 1fr); align-items: start; }
-  .leadopsSidebar { position: sticky; top: 84px; }
-  .leadopsLeadHead { grid-template-columns: auto 1fr auto; }
-  .leadopsLeadDates { display: grid; justify-items: end; }
-  .leadopsMetaGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .leadopsFilterGrid2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .leadopsBottomGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .leadopsUpdateForm { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-  .leadopsCategoryGrid { grid-template-columns: repeat(3, minmax(0, 1fr)); align-items: end; }
-}
-
-/* ---------- 2026 Premium System Override (Apple x LV) ---------- */
 :root {
-  --wp-bg: #070708;
-  --wp-bg-2: #0d0d10;
-  --wp-fg: rgba(252, 252, 253, 0.95);
-  --wp-muted: rgba(240, 239, 236, 0.64);
-  --wp-muted-2: rgba(240, 239, 236, 0.48);
-  --wp-line: rgba(255, 255, 255, 0.12);
-  --wp-line-soft: rgba(255, 255, 255, 0.07);
-  --wp-panel: rgba(255, 255, 255, 0.028);
-  --wp-panel-strong: rgba(255, 255, 255, 0.042);
-  --wp-shadow: 0 24px 70px rgba(0, 0, 0, 0.38);
-  --wp-radius: 18px;
-  --wp-radius-lg: 26px;
+  color-scheme: light;
+  --bg: #f4efe7;
+  --surface: rgba(255, 255, 255, 0.62);
+  --surface-strong: #fbf8f2;
+  --ink-strong: #2e2923;
+  --ink-soft: #6f665b;
+  --line: rgba(67, 59, 49, 0.14);
+  --line-soft: rgba(67, 59, 49, 0.08);
+  --shadow: 0 18px 48px rgba(76, 65, 50, 0.07);
+  --font-display: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Palatino, Georgia, serif;
+  --font-body: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
-html, body {
-  background: var(--wp-bg) !important;
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+  background:
+    radial-gradient(circle at top, rgba(255, 255, 255, 0.72), transparent 34%),
+    var(--bg);
+  color: var(--ink-strong);
+  font-family: var(--font-body);
 }
 
 body {
-  color: var(--wp-fg);
-  position: relative;
-  isolation: isolate;
-  letter-spacing: -0.01em;
-  font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  overflow-x: clip;
 }
 
-body::before,
-body::after {
-  content: "";
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-}
-
-body::before {
-  z-index: -2;
-  background:
-    radial-gradient(58rem 34rem at 12% 8%, rgba(166, 127, 76, 0.12), transparent 70%),
-    radial-gradient(52rem 30rem at 86% 12%, rgba(255, 255, 255, 0.06), transparent 72%),
-    radial-gradient(46rem 34rem at 58% 100%, rgba(120, 92, 54, 0.08), transparent 72%),
-    linear-gradient(180deg, #09090b 0%, #050505 62%, #030303 100%);
-}
-
-body::after {
-  z-index: -1;
-  background:
-    radial-gradient(circle at 50% 50%, transparent 38%, rgba(0, 0, 0, 0.44) 100%),
-    repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.012), rgba(255, 255, 255, 0.012) 1px, transparent 1px, transparent 3px),
-    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.006), rgba(255, 255, 255, 0.006) 1px, transparent 1px, transparent 4px);
-  opacity: 0.42;
+a,
+button,
+input,
+textarea,
+select {
+  font: inherit;
 }
 
 a {
-  text-underline-offset: 3px;
+  color: inherit;
 }
 
-.pageTitle,
-.wpH1,
-.wpHeroTitle,
-.wpHeroHeadline,
-.wpFlowTitle,
-.wpH3,
-.wpCardTitle {
-  font-family: "Iowan Old Style", "Baskerville", "Palatino Linotype", ui-serif, serif;
+img {
+  max-width: 100%;
 }
 
-.card {
-  background: linear-gradient(180deg, rgba(255,255,255,0.035), rgba(255,255,255,0.02));
-  border-color: var(--wp-line);
-  border-radius: var(--wp-radius-lg);
-  box-shadow: var(--wp-shadow);
+button {
+  cursor: pointer;
 }
 
-.card::before {
-  background: radial-gradient(120% 65% at 14% 0%, rgba(255,255,255,0.06), transparent 65%);
+main {
+  width: 100%;
 }
 
-.pill {
-  background: var(--wp-panel);
-  border-color: var(--wp-line-soft);
-  border-radius: 16px;
-}
-
-.navRoot {
-  top: 14px;
-  left: 14px;
-  right: 14px;
-}
-
-.navBar {
-  padding: 8px 10px;
-  border-radius: 999px;
-  border: 1px solid rgba(255,255,255,0.08);
-  background: rgba(9, 9, 11, 0.48);
-  backdrop-filter: blur(14px);
-}
-
-.navHomeIcon,
-.navMenuBtn {
-  color: rgba(255,255,255,0.9);
-}
-
-.navMenuBtn {
-  font-size: 14px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-.navPanel {
-  top: 62px;
-  right: 14px;
-  width: 240px;
-  border-radius: 20px;
-  border-color: var(--wp-line);
-  background: rgba(10, 10, 12, 0.76);
-  box-shadow: 0 28px 70px rgba(0,0,0,0.45);
-}
-
-.navItem {
-  color: rgba(255,255,255,0.82);
-}
-
-.siteFooter {
-  border-top: 1px solid var(--wp-line-soft);
-  padding: 34px 18px 48px;
-  background: linear-gradient(180deg, transparent, rgba(255,255,255,0.01));
-}
-
-.siteFooterInner {
-  max-width: 1120px;
-  display: grid;
-  gap: 8px;
-}
-
-.siteFooterBrand {
-  font-size: 15px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-.siteFooterMeta {
-  color: var(--wp-muted);
-}
-
-.siteFooterLinks a {
-  color: rgba(255,255,255,0.86);
+.muted2,
+.pageMuted {
+  color: var(--ink-soft);
 }
 
 .pageWrap {
   max-width: 980px;
-  padding: 112px 20px 84px;
+  margin: 0 auto;
+  padding: 24px 20px 72px;
 }
 
 .pageTitle {
-  font-size: clamp(30px, 4.4vw, 46px);
-  line-height: 1;
-  letter-spacing: -0.03em;
-  font-weight: 700;
-}
-
-.pageMuted {
-  color: var(--wp-muted);
-  max-width: 68ch;
-  line-height: 1.65;
-}
-
-.policySection {
-  margin-top: 26px;
-  padding: 16px 16px 14px;
-  border: 1px solid var(--wp-line-soft);
-  border-radius: 18px;
-  background: rgba(255,255,255,0.015);
-  box-shadow: inset 0 1px 0 rgba(255,255,255,0.02);
-}
-
-.policyH2 {
-  font-size: 19px;
-  letter-spacing: -0.02em;
-}
-
-.wpPage,
-.wpLeadFlow {
-  background: transparent;
-}
-
-.wpWrap {
-  max-width: 1080px;
-  padding: 118px 20px 96px;
-}
-
-.wpHeader {
-  gap: 12px;
-}
-
-.wpH1 {
-  font-size: clamp(36px, 6vw, 56px);
-  line-height: 0.95;
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(2.3rem, 5vw, 4rem);
+  line-height: 0.98;
   letter-spacing: -0.04em;
 }
 
-.wpLead,
-.wpLead2 {
-  color: var(--wp-muted);
-  line-height: 1.65;
-}
-
-.wpHero {
-  padding: 118px 20px 46px;
-}
-
-.wpHeroGlow {
-  background:
-    radial-gradient(42rem 28rem at 10% 8%, rgba(191, 147, 89, 0.11), transparent 70%),
-    radial-gradient(36rem 26rem at 86% 14%, rgba(255,255,255,0.07), transparent 72%),
-    radial-gradient(40rem 28rem at 52% 96%, rgba(143, 107, 62, 0.08), transparent 72%);
-  filter: blur(28px);
-  opacity: 0.92;
-}
-
-.wpHeroInner {
-  max-width: 1080px;
-  display: grid;
-  gap: 14px;
-}
-
-.wpHeroTitle {
-  font-weight: 650;
-}
-
-.wpHeroHeadline {
-  max-width: 15ch;
-  text-wrap: balance;
-}
-
-.wpHeroSubhead {
-  color: var(--wp-muted);
-  line-height: 1.6;
-  text-wrap: pretty;
-}
-
-.wpBtnPrimary,
-.wpBtnSecondary,
-.wpBtnGhost,
-.wpBtn,
-.wpCta {
-  border-radius: 999px;
-}
-
-.wpBtnPrimary,
-.wpBtn {
-  background: linear-gradient(180deg, rgba(255,255,255,0.94), rgba(241,241,241,0.88));
-  color: #0b0b0d;
-  border-color: rgba(255,255,255,0.4);
-  box-shadow: 0 10px 28px rgba(255,255,255,0.06);
-}
-
-.wpBtnSecondary,
-.wpBtnGhost,
-.wpCta {
-  background: rgba(255,255,255,0.025);
-  border-color: var(--wp-line);
-  color: rgba(255,255,255,0.9);
-}
-
-.wpCapabilityCard {
-  margin-top: 24px;
-  border-radius: 22px;
-  border: 1px solid var(--wp-line);
-  background:
-    linear-gradient(180deg, rgba(255,255,255,0.035), rgba(255,255,255,0.02)),
-    radial-gradient(100% 80% at 0% 0%, rgba(255,255,255,0.04), transparent 70%);
-  box-shadow: var(--wp-shadow);
-  padding: 14px;
-  display: grid;
-  gap: 10px;
-}
-
-.wpCapabilityHead {
-  display: grid;
-  gap: 6px;
-  padding: 4px 4px 2px;
-}
-
-.wpCapabilityHead .wpHeroSubhead {
-  margin: 0;
-  max-width: 52ch;
-  font-size: 14px;
-}
-
-.wpCapabilityRows {
-  display: grid;
-  gap: 8px;
-}
-
-.wpCapabilityRow {
-  display: grid;
-  gap: 4px;
-  border-radius: 16px;
-  border: 1px solid var(--wp-line-soft);
-  background: rgba(255,255,255,0.015);
-  padding: 12px 13px;
-}
-
-.wpCapabilityRow strong {
-  font-size: 14px;
-  color: rgba(255,255,255,0.94);
-  letter-spacing: -0.01em;
-}
-
-.wpCapabilityRow span {
-  color: var(--wp-muted);
-  font-size: 13px;
-  line-height: 1.45;
-}
-
-.wpFlowSection {
-  padding: 16px 20px 92px;
-}
-
-.wpFlowCard {
-  max-width: 1080px;
-  border-radius: 24px;
-  border: 1px solid var(--wp-line);
-  background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
-  box-shadow: var(--wp-shadow);
-  padding: 18px;
-}
-
-.wpFlowHeader {
-  gap: 12px;
-}
-
-.wpChoice,
-.wpInput,
-.wpToggleRow,
-.wpChipMuted,
-.wpSegment,
-.wpTabs,
-.wpCard,
-.wpInquiry {
-  border-color: var(--wp-line);
-}
-
-.wpChoice,
-.wpInput,
-.wpToggleRow,
-.wpChipMuted,
-.wpCard,
-.wpInquiry,
-.wpSegment,
-.wpTabs {
-  background: var(--wp-panel);
-}
-
-.wpSegment,
-.wpTabs {
-  box-shadow: inset 0 1px 0 rgba(255,255,255,0.02);
-}
-
-.wpChoice:hover {
-  background: var(--wp-panel-strong);
-}
-
-.wpChoiceActive {
-  border-color: rgba(218, 187, 136, 0.45);
-  background: rgba(188, 149, 91, 0.12);
-  box-shadow: inset 0 0 0 1px rgba(219, 190, 142, 0.14);
-}
-
-.wpInput,
-.wpChoice,
-.wpToggleRow {
-  border-radius: 16px;
-}
-
-.wpInput:focus {
-  border-color: rgba(224, 196, 152, 0.35);
-  box-shadow: 0 0 0 1px rgba(224, 196, 152, 0.12);
-}
-
-.wpInput::placeholder {
-  color: rgba(255,255,255,0.38);
-}
-
-.wpFlowProgressBar > span {
-  background: linear-gradient(90deg, rgba(255,255,255,0.92), rgba(214, 183, 132, 0.92));
-}
-
-.wpInquiry {
-  border-top: 1px solid var(--wp-line-soft);
-  margin-top: 50px;
-  padding-top: 28px;
-}
-
-.wpCard {
-  background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
-  border-radius: 24px;
-}
-
-.wpDesc,
-.wpBullets,
-.wpHint,
-.wpFlowProgressText,
-.wpFieldLabel,
-.wpLabel > span {
-  color: var(--wp-muted);
-}
-
-.wpCta {
-  background: rgba(255,255,255,0.02);
-}
-
-.adminShellNavWrap {
-  padding: 78px 20px 0;
-}
-
-.adminShellNav {
-  max-width: 1100px;
-  margin: 0 auto;
-  border-radius: 18px;
-  border: 1px solid var(--wp-line);
-  background: rgba(10,10,12,0.56);
-  backdrop-filter: blur(14px);
-  box-shadow: 0 18px 48px rgba(0,0,0,0.28);
-  padding: 12px;
-  display: grid;
-  gap: 10px;
-}
-
-.adminShellBrand {
-  display: inline-flex;
-  align-items: baseline;
-  gap: 8px;
-  color: rgba(255,255,255,0.92);
-  font-weight: 600;
-  letter-spacing: 0.02em;
-}
-
-.adminShellBrand small {
-  color: var(--wp-muted-2);
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-  font-size: 11px;
-}
-
-.adminShellLinks {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-
-.adminShellLink {
-  text-decoration: none;
-  color: rgba(255,255,255,0.88);
-  border: 1px solid var(--wp-line);
-  background: rgba(255,255,255,0.02);
-  border-radius: 999px;
-  padding: 8px 12px;
-  font-size: 13px;
-}
-
-.adminShellLink:hover {
-  background: rgba(255,255,255,0.04);
-}
-
-.adminWrap {
-  max-width: 1140px;
-  padding-top: 18px;
-}
-
-.adminHeader {
-  gap: 14px;
-}
-
-.adminNotice {
-  border-radius: 14px;
-}
-
-.adminErrorState {
-  padding: 16px;
-}
-
-.adminHeader .pageMuted,
-.adminLeadMeta,
-.adminLeadDate {
-  color: var(--wp-muted);
-}
-
-.adminLeadCard,
-.leadopsLeadCard {
-  border-radius: 22px;
-}
-
-@media (min-width: 700px) {
-  .wpCapabilityCard {
-    padding: 16px;
-  }
-
-  .wpCapabilityRows {
-    grid-template-columns: 1fr;
-  }
-}
-
-@media (min-width: 900px) {
-  .adminShellNav {
-    grid-template-columns: auto 1fr;
-    align-items: center;
-  }
-
-  .adminShellLinks {
-    justify-content: flex-end;
-  }
-
-  .wpHero {
-    padding-top: 132px;
-  }
-
-  .wpHeroInner {
-    gap: 18px;
-  }
-
-  .wpCapabilityRows {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-
-  .wpCapabilityRow {
-    align-content: start;
-    min-height: 108px;
-  }
-}
-
-@media (max-width: 640px) {
-  .navBar {
-    padding: 7px 9px;
-  }
-
-  .wpWrap,
-  .pageWrap,
-  .wpHero,
-  .wpFlowSection {
-    padding-left: 16px;
-    padding-right: 16px;
-  }
-
-  .wpFlowCard {
-    padding: 14px;
-    border-radius: 20px;
-  }
-
-  .wpHeroActions .wpBtnPrimary,
-  .wpHeroActions .wpBtnSecondary {
-    width: 100%;
-    justify-content: center;
-  }
-
-  .adminShellNavWrap {
-    padding-left: 16px;
-    padding-right: 16px;
-  }
-
-  .adminShellNav {
-    padding: 10px;
-  }
-}
-
-/* ---------- 2026 Minimal Refinement (clean / bianca-inspired direction) ---------- */
-:root {
-  --wp-bg: #060606;
-  --wp-fg: rgba(245, 245, 244, 0.96);
-  --wp-muted: rgba(245, 245, 244, 0.62);
-  --wp-muted-2: rgba(245, 245, 244, 0.44);
-  --wp-line: rgba(255, 255, 255, 0.10);
-  --wp-line-soft: rgba(255, 255, 255, 0.06);
-  --wp-panel: rgba(255, 255, 255, 0.015);
-  --wp-panel-strong: rgba(255, 255, 255, 0.026);
-  --wp-shadow: 0 20px 56px rgba(0, 0, 0, 0.32);
-}
-
-body {
-  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  background: #050505 !important;
-}
-
-body::before {
-  background:
-    radial-gradient(44rem 28rem at 12% 18%, rgba(255,255,255,0.05), transparent 72%),
-    radial-gradient(40rem 28rem at 88% 20%, rgba(255,255,255,0.03), transparent 75%),
-    radial-gradient(56rem 38rem at 55% 105%, rgba(255,255,255,0.025), transparent 76%),
-    linear-gradient(180deg, #070707 0%, #050505 55%, #030303 100%);
-}
-
-body::after {
-  background:
-    radial-gradient(circle at 50% 50%, transparent 42%, rgba(0,0,0,0.35) 100%),
-    repeating-linear-gradient(0deg, rgba(255,255,255,0.008), rgba(255,255,255,0.008) 1px, transparent 1px, transparent 4px);
-  opacity: 0.28;
-}
-
-.pageTitle,
-.wpH1,
-.wpHeroTitle,
-.wpHeroHeadline,
-.wpFlowTitle,
-.wpH3,
-.wpCardTitle {
-  font-family: inherit;
-  letter-spacing: -0.03em;
-  font-weight: 700;
-}
-
-.navRoot {
-  top: 12px;
-  left: 16px;
-  right: 16px;
-}
-
-.navRoot::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 36px;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.09), transparent);
-  pointer-events: none;
-}
-
-.navBar {
-  background: transparent;
-  border: 0;
-  backdrop-filter: none;
-  padding: 0;
-}
-
-.navHomeIcon {
-  width: 22px;
-  height: 22px;
-  color: rgba(255,255,255,0.9);
-}
-
-.navMenuBtn {
-  font-size: 13px;
-  letter-spacing: 0.12em;
-  color: rgba(255,255,255,0.78);
-  padding: 0;
-}
-
-.navPanel {
-  top: 34px;
-  right: 0;
-  width: 190px;
-  border-radius: 14px;
-  border: 1px solid var(--wp-line-soft);
-  background: rgba(8,8,8,0.92);
-  backdrop-filter: blur(10px);
-  box-shadow: 0 18px 42px rgba(0,0,0,0.36);
-}
-
-.navItem {
-  padding: 12px 14px;
-  color: rgba(255,255,255,0.76);
-}
-
-.wpHero {
-  padding-top: 92px;
-}
-
-.wpHeroGlow {
-  background:
-    radial-gradient(42rem 24rem at 18% 14%, rgba(255,255,255,0.03), transparent 75%),
-    radial-gradient(44rem 28rem at 85% 24%, rgba(255,255,255,0.022), transparent 76%);
-  filter: blur(30px);
-}
-
-.wpHeroInner {
-  gap: 16px;
-}
-
-.wpHeroTitleRow {
-  align-items: center;
-  gap: 8px;
-}
-
-.wpHeroTitle {
-  line-height: 0.94;
-}
-
-.wpHeroMark {
-  width: 24px;
-  height: 24px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  transform: translateY(1px);
-}
-
-.wpHeroMark img {
-  display: block;
-  width: 100% !important;
-  height: 100% !important;
-  object-fit: contain;
-}
-
-.wpHeroHeadline {
-  font-size: clamp(24px, 7vw, 42px);
-  line-height: 0.96;
-  max-width: 13ch;
-  text-wrap: balance;
-}
-
-.wpHeroSubhead {
-  margin-top: 10px;
-  max-width: 38ch;
-  font-size: 15px;
-  color: var(--wp-muted);
-}
-
-.wpHeroActions {
-  margin-top: 14px;
-  gap: 8px;
-}
-
-.wpBtnPrimary,
-.wpBtnSecondary,
-.wpBtnGhost,
-.wpBtn,
-.wpCta,
-.adminShellLink {
-  border-radius: 12px;
-}
-
-.wpBtnPrimary,
-.wpBtn {
-  background: #f0f0ef;
-  border-color: rgba(255,255,255,0.18);
-  box-shadow: none;
-}
-
-.wpBtnSecondary,
-.wpBtnGhost,
-.wpCta {
-  background: rgba(255,255,255,0.01);
-  border-color: var(--wp-line-soft);
-}
-
-.wpCapabilityCard,
-.wpFlowCard,
-.card,
-.adminShellNav {
-  border-color: var(--wp-line-soft);
-  background: linear-gradient(180deg, rgba(255,255,255,0.014), rgba(255,255,255,0.01));
-  box-shadow: 0 12px 34px rgba(0,0,0,0.22);
-}
-
-.wpCapabilityCard {
-  margin-top: 18px;
-  border-radius: 18px;
-  padding: 12px;
-}
-
-.wpCapabilityRow {
-  border-radius: 12px;
-  border-color: rgba(255,255,255,0.05);
-  background: rgba(255,255,255,0.008);
-}
-
-.wpFlowCard {
-  border-radius: 20px;
-}
-
-.wpChoice,
-.wpInput,
-.wpToggleRow,
-.wpChipMuted,
-.wpSegment,
-.wpTabs,
-.wpCard {
-  border-color: rgba(255,255,255,0.07);
-  background: rgba(255,255,255,0.012);
-}
-
-.wpChoiceActive {
-  border-color: rgba(255,255,255,0.18);
-  background: rgba(255,255,255,0.04);
-  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.03);
-}
-
-.wpFlowProgressBar > span {
-  background: linear-gradient(90deg, rgba(255,255,255,0.94), rgba(255,255,255,0.74));
-}
-
-.wpInput:focus {
-  border-color: rgba(255,255,255,0.18);
-  box-shadow: 0 0 0 1px rgba(255,255,255,0.06);
-}
-
-.wpTurnstileWrap {
-  min-height: 72px;
-}
-
-.wpTurnstileMount {
-  min-height: 65px;
-}
-
-.wpTurnstileMount iframe {
-  max-width: 100%;
-}
-
-.adminShellNavWrap {
-  padding-top: 58px;
-}
-
-.adminShellNav {
-  border-radius: 14px;
-  padding: 10px;
-  backdrop-filter: blur(8px);
-}
-
-.adminShellBrand {
-  font-size: 14px;
-}
-
-.adminShellLink {
-  padding: 7px 10px;
-  border-color: rgba(255,255,255,0.06);
-  background: rgba(255,255,255,0.01);
-}
-
-.adminNoticeErr {
-  background: rgba(120, 18, 18, 0.28);
-  border-color: rgba(189, 40, 40, 0.22);
+.policySection,
+.card {
+  border: 1px solid var(--line);
+  border-radius: 28px;
+  background: var(--surface);
+  box-shadow: var(--shadow);
 }
 
 .policySection {
-  background: rgba(255,255,255,0.008);
-  border-color: rgba(255,255,255,0.05);
-  box-shadow: none;
+  margin-top: 20px;
+  padding: 24px;
 }
 
-@media (max-width: 640px) {
-  .navRoot {
-    top: 10px;
-    left: 14px;
-    right: 14px;
-  }
-
-  .navRoot::after {
-    top: 30px;
-  }
-
-  .navPanel {
-    top: 30px;
-    right: 0;
-    width: 172px;
-  }
-
-  .wpHero {
-    padding-top: 84px;
-  }
-
-  .wpHeroMark {
-    width: 22px;
-    height: 22px;
-    transform: translateY(2px);
-  }
-
-  .adminShellNavWrap {
-    padding-top: 52px;
-  }
+.policyH2,
+.adminLeadTitle,
+.leadopsPanelTitle {
+  margin: 0 0 10px;
+  color: var(--ink-strong);
+  font-size: 1.2rem;
+  line-height: 1.25;
 }
 
-/* ---------- 2026 polish hotfixes (latest) ---------- */
-*, *::before, *::after { box-sizing: border-box; }
-
-.wpBtnSecondary { white-space: nowrap; }
-
-.wpHeroMark {
-  width: 34px !important;
-  height: 34px !important;
-  transform: translateY(2px) !important;
+.card-inner {
+  padding: 24px;
 }
 
-.wpHeroMark img {
-  width: 100% !important;
-  height: 100% !important;
+.pill,
+.wpChipMuted,
+.adminBadge,
+.adminBadgeScore,
+.leadopsBadgeWarn,
+.leadopsBadgeDanger {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 32px;
+  padding: 0 12px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.68);
+  color: var(--ink-soft);
+  font-size: 0.86rem;
 }
 
-.wpCapabilityCarousel {
-  display: grid;
+.leadopsBadgeDanger,
+.adminNoticeErr {
+  color: #8f3b2a;
+  border-color: rgba(143, 59, 42, 0.16);
+  background: rgba(143, 59, 42, 0.06);
+}
+
+.adminNoticeOk,
+.leadopsBadgeWarn {
+  border-color: rgba(145, 113, 41, 0.16);
+  background: rgba(145, 113, 41, 0.06);
+  color: #7f6631;
+}
+
+.wpBtnPrimary,
+.wpBtnSecondary,
+.wpBtnGhost,
+.wpInput,
+.wpHeroActions a,
+.wpHeroActions button,
+.adminShellLink {
+  min-height: 44px;
+  border-radius: 999px;
+}
+
+.wpBtnPrimary,
+.wpBtnSecondary,
+.wpBtnGhost,
+.adminShellLink {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 16px;
+  text-decoration: none;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.7);
+  color: var(--ink-strong);
+}
+
+.wpBtnPrimary {
+  background: var(--ink-strong);
+  color: #f8f5ef;
+}
+
+.wpBtnGhost {
+  background: transparent;
+}
+
+.wpHeroActions {
+  display: flex;
+  flex-wrap: wrap;
   gap: 10px;
 }
 
-.wpCapabilityRow {
-  min-height: 92px;
-  display: grid;
-  align-content: start;
-  gap: 6px;
-}
-
-.wpCapabilityMedia {
+.wpInput {
   width: 100%;
-  height: 140px;
-  border-radius: 10px;
-  overflow: hidden;
-  border: 1px solid rgba(255,255,255,0.05);
-  background: rgba(255,255,255,0.02);
-  margin-bottom: 2px;
+  min-height: 46px;
+  padding: 12px 14px;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.78);
+  color: var(--ink-strong);
 }
 
-.wpCapabilityPhoto {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-  filter: grayscale(1) contrast(0.92) brightness(0.78);
-  transform: scale(1.01);
+.wpInput:focus {
+  outline: none;
+  border-color: rgba(67, 59, 49, 0.28);
+  box-shadow: 0 0 0 4px rgba(67, 59, 49, 0.06);
 }
 
-.wpCapabilityDots {
+.adminShellNavWrap {
+  padding: 18px 20px 0;
+}
+
+.adminShellNav,
+.adminHeader,
+.leadopsPanel,
+.leadopsLeadCard,
+.adminLeadCard,
+.leadopsSidebar {
+  border: 1px solid var(--line);
+  border-radius: 28px;
+  background: var(--surface);
+  box-shadow: var(--shadow);
+}
+
+.adminShellNav {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 14px 18px;
   display: flex;
   align-items: center;
-  gap: 6px;
-  padding-left: 2px;
+  justify-content: space-between;
+  gap: 16px;
 }
 
-.wpCapabilityDots span {
-  width: 6px;
-  height: 6px;
-  border-radius: 999px;
-  background: rgba(255,255,255,0.18);
-  transition: width 180ms ease, background-color 180ms ease;
+.adminShellBrand {
+  display: grid;
+  gap: 2px;
+  color: var(--ink-strong);
 }
 
-.wpCapabilityDots span.active {
-  width: 18px;
-  background: rgba(255,255,255,0.66);
+.adminShellBrand small,
+.adminEyebrow,
+.adminBlockLabel {
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.74rem;
+  color: var(--ink-soft);
 }
 
-.wpTurnstileWrap {
-  min-height: 76px;
-  overflow: hidden;
+.adminShellLinks,
+.adminTabs,
+.leadopsTopActions,
+.leadopsPanelActions,
+.leadopsSavedList,
+.leadopsTagWrap,
+.adminLeadMeta,
+.adminLeadTitleRow,
+.leadopsLeadHead,
+.leadopsLeadDates,
+.leadopsMetricRow,
+.leadopsSourceHealthMeta,
+.leadopsSourceHealthList,
+.leadopsMiniList,
+.leadopsActivityList,
+.leadopsFilterChecks,
+.leadopsBottomGrid,
+.leadopsDupes,
+.leadopsMiniForm,
+.adminGrid,
+.leadopsCards,
+.leadopsLayout {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
 }
 
-.wpTurnstileMount {
-  min-height: 68px;
+.adminWrap,
+.leadopsPage,
+.leadopsShell {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 24px 20px 72px;
 }
 
-.wpTurnstileMount iframe {
-  max-width: 100%;
+.adminHeader,
+.adminLeadCard,
+.leadopsLeadCard,
+.leadopsPanel,
+.leadopsSidebar,
+.adminErrorState {
+  padding: 24px;
 }
 
-.siteFooterBrand {
-  text-transform: none !important;
-  letter-spacing: 0 !important;
+.adminLeadList,
+.leadopsMain,
+.leadopsSidebar,
+.leadopsSourceHealthList,
+.leadopsActivityList,
+.leadopsDupes,
+.leadopsCategoryList,
+.leadopsCategoryGrid,
+.adminReviewForm {
+  display: grid;
+  gap: 16px;
 }
 
-.wpPage,
-.wpWrap {
-  overflow-x: clip !important;
+.leadopsLayout {
+  align-items: start;
 }
 
-.wpRail {
-  padding-inline: 8px 14px !important;
-  scroll-padding-inline: 8px;
-  overflow-y: hidden;
+.leadopsSidebar {
+  flex: 0 0 320px;
 }
 
-.wpRail > *:last-child {
-  margin-right: 2px;
+.leadopsMain {
+  flex: 1 1 620px;
 }
 
-.wpForm .wpInput,
-.wpForm .wpBtn {
-  max-width: 100%;
+.leadopsFilterGrid2,
+.leadopsMetaGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
 }
 
-.wpForm .wpInput {
-  padding: 12px 14px;
-  border-radius: 14px;
+.leadopsSpan2 {
+  grid-column: 1 / -1;
 }
 
-@media (max-width: 640px) {
-  .wpHeroMark {
-    width: 32px !important;
-    height: 32px !important;
-    transform: translateY(2px) !important;
+.adminMessage,
+.leadopsDetails,
+.leadopsMetaLine,
+.leadopsActivityRow,
+.leadopsDupeRow,
+.leadopsSourceHealthItem,
+.adminLeadDate,
+.adminNotice,
+.adminReviewNotes,
+.leadopsCode {
+  color: var(--ink-soft);
+  line-height: 1.65;
+}
+
+.adminNotice {
+  margin-top: 14px;
+  padding: 14px 16px;
+  border-radius: 18px;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.68);
+}
+
+@media (max-width: 900px) {
+  .pageWrap,
+  .adminWrap,
+  .leadopsPage,
+  .leadopsShell,
+  .adminShellNavWrap {
+    padding-inline: 14px;
   }
 
-  .wpCapabilityMedia {
-    height: 118px;
+  .leadopsFilterGrid2,
+  .leadopsMetaGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .adminShellNav {
+    flex-direction: column;
+    align-items: flex-start;
   }
 }

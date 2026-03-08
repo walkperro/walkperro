@@ -33,11 +33,13 @@ function pickSupabaseRestBaseUrl() {
 }
 
 export function formatSupabaseServerEnvError() {
+  const urlHint =
+    "SUPABASE_URL / NEXT_PUBLIC_SUPABASE_URL must be the https://xxxxx.supabase.co URL, NOT the Postgres connection string.";
   const missing = getMissingSupabaseServerEnvVars();
   if (missing.length === 0) {
-    return `Supabase server env vars are required: ${SUPABASE_SERVER_ENV_NAMES.join(", ")}.`;
+    return `Supabase server env vars are required: ${SUPABASE_SERVER_ENV_NAMES.join(", ")}. ${urlHint}`;
   }
-  return `Missing Supabase server env vars: ${missing.join(", ")}.`;
+  return `Missing Supabase server env vars: ${missing.join(", ")}. ${urlHint}`;
 }
 
 export function getSupabaseServerConfig() {
@@ -62,6 +64,8 @@ export async function supabaseRestRequest<T = unknown>(opts: RequestOptions): Pr
   const isWrite = method !== "GET";
   const requestUrl = `${supabaseUrl}/rest/v1/${opts.path}`;
   let res: Response;
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 15_000);
   try {
     res = await fetch(requestUrl, {
       method,
@@ -76,11 +80,13 @@ export async function supabaseRestRequest<T = unknown>(opts: RequestOptions): Pr
       },
       body: opts.body === undefined ? undefined : JSON.stringify(opts.body),
       cache: "no-store",
-      signal: AbortSignal.timeout(15_000),
+      signal: controller.signal,
     });
   } catch (error) {
     const detail = error instanceof Error ? error.message : String(error);
     throw new Error(`Supabase REST ${method} ${opts.path} network error: ${detail}`);
+  } finally {
+    clearTimeout(timeoutId);
   }
 
   if (!res.ok) {
