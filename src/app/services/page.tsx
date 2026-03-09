@@ -22,11 +22,14 @@ export default function ServicesPage() {
           {STUDIO_OFFERS.map((offer) => (
             <article key={offer.slug} className={styles.offerCard}>
               <div className={styles.offerHead}>
-                <div>
+                <div className={styles.offerMeta}>
                   <p className={styles.eyebrow}>Offer</p>
                   <h2 className={styles.offerName}>{offer.name}</h2>
                 </div>
-                <div className={styles.offerPrice}>{offer.price}</div>
+                <div className={styles.offerPriceBlock}>
+                  <span className={styles.offerPriceLabel}>{offer.price === "Custom" ? "Pricing" : "Investment"}</span>
+                  <div className={styles.offerPrice}>{offer.price}</div>
+                </div>
               </div>
 
               <p className={styles.offerSummary}>{offer.summary}</p>

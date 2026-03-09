@@ -29,11 +29,12 @@ export default function HomePage() {
     <main className={styles.page}>
       <section className={styles.hero}>
         <Image
-          src="/images/editorial/hero-office-landscape.png"
+          src="/images/editorial/hero-office-landscape.webp"
           alt="Minimal office interior with a designer working at a desk"
           fill
           priority
-          sizes="100vw"
+          quality={98}
+          sizes="(max-width: 720px) 100vw, (max-width: 1440px) 96vw, 1240px"
           className={styles.heroImage}
         />
         <div className={styles.heroOverlay} />
@@ -84,7 +85,7 @@ export default function HomePage() {
         </div>
       </Reveal>
 
-      <Reveal className={styles.section}>
+      <Reveal className={`${styles.section} ${styles.sectionShowcase}`}>
         <div className={styles.sectionHeader}>
           <p className={styles.eyebrow}>Selected work</p>
           <h2 className={styles.heading}>Designed to present quality clearly, even when the build is doing serious work underneath.</h2>
@@ -94,16 +95,22 @@ export default function HomePage() {
         <div className={styles.workGrid}>
           <div className={styles.mediaWrap}>
             <Image
-              src="/images/editorial/portfolio-laptop-dark.png"
+              src="/images/editorial/portfolio-laptop-dark.webp"
               alt="Laptop displaying a refined editorial-style website interface"
               fill
-              sizes="(max-width: 1120px) 100vw, 54vw"
+              quality={100}
+              sizes="(max-width: 720px) 100vw, (max-width: 1120px) 94vw, 720px"
               className={styles.mediaImage}
             />
-            <div className={styles.mediaCaption}>Web experiences with restraint, whitespace, and better visual hierarchy.</div>
           </div>
 
           <div className={styles.detailCard}>
+            <div className={styles.copyStack}>
+              <p className={styles.eyebrow}>Capability focus</p>
+              <p className={styles.body}>
+                A premium surface matters more when the build underneath is structured to support inquiry, visibility, and future operational depth.
+              </p>
+            </div>
             <ul className={styles.featureList}>
               {[
                 {
@@ -132,15 +139,21 @@ export default function HomePage() {
         </div>
       </Reveal>
 
-      <Reveal className={styles.section}>
+      <Reveal className={`${styles.section} ${styles.sectionAuthority}`}>
         <div className={styles.authorityGrid}>
           <div className={styles.detailCard}>
-            <p className={styles.eyebrow}>Brand authority</p>
-            <h2 className={styles.heading}>Thoughtful, design-led, and systems-minded.</h2>
-            <p className={styles.body}>
-              WalkPerro approaches web design with taste and structure in equal measure. The goal is not to make something louder.
-              It is to make it feel more considered, more credible, and easier for the right clients to trust.
-            </p>
+            <div className={styles.copyStack}>
+              <p className={styles.eyebrow}>Brand authority</p>
+              <h2 className={styles.heading}>Thoughtful, design-led, and quietly systems-minded.</h2>
+            </div>
+            <div className={styles.authorityText}>
+              <p className={styles.body}>
+                WalkPerro approaches web design with taste and structure in equal measure. The goal is not to make something louder.
+              </p>
+              <p className={styles.body}>
+                It is to make a brand feel more considered, more credible, and more aligned with the kind of clients it wants to attract.
+              </p>
+            </div>
             <ul className={styles.miniList}>
               {[
                 "Strong visual judgment without unnecessary ornament",
@@ -157,17 +170,18 @@ export default function HomePage() {
 
           <div className={styles.mediaWrap}>
             <Image
-              src="/images/editorial/brand-male-window.png"
+              src="/images/editorial/brand-male-window.webp"
               alt="Well-dressed creative standing thoughtfully beside a tall architectural window"
               fill
-              sizes="(max-width: 1120px) 100vw, 46vw"
+              quality={98}
+              sizes="(max-width: 720px) 100vw, (max-width: 1120px) 94vw, 560px"
               className={styles.mediaImage}
             />
           </div>
         </div>
       </Reveal>
 
-      <Reveal className={styles.section}>
+      <Reveal className={`${styles.section} ${styles.sectionOffers}`}>
         <div className={styles.sectionHeader}>
           <p className={styles.eyebrow}>Ways to work together</p>
           <h2 className={styles.heading}>Clear offers, presented with enough detail to make the next step easy.</h2>
@@ -177,10 +191,13 @@ export default function HomePage() {
           {STUDIO_OFFERS.map((offer) => (
             <article key={offer.slug} className={styles.offerCard}>
               <div className={styles.offerHead}>
-                <div>
+                <div className={styles.offerMeta}>
                   <h3 className={styles.offerName}>{offer.name}</h3>
                 </div>
-                <div className={styles.offerPrice}>{offer.price}</div>
+                <div className={styles.offerPriceBlock}>
+                  <span className={styles.offerPriceLabel}>{offer.price === "Custom" ? "Pricing" : "Investment"}</span>
+                  <div className={styles.offerPrice}>{offer.price}</div>
+                </div>
               </div>
               <p className={styles.offerSummary}>{offer.summary}</p>
               <ul className={styles.offerList}>
@@ -211,10 +228,11 @@ export default function HomePage() {
         <div className={styles.processGrid}>
           <div className={styles.mediaWrap}>
             <Image
-              src="/images/editorial/process-designer-side.png"
+              src="/images/editorial/process-designer-side.webp"
               alt="Designer working quietly at a desk on a minimal laptop setup"
               fill
-              sizes="(max-width: 1120px) 100vw, 46vw"
+              quality={98}
+              sizes="(max-width: 720px) 100vw, (max-width: 1120px) 94vw, 560px"
               className={styles.mediaImage}
             />
           </div>
@@ -236,16 +254,17 @@ export default function HomePage() {
       <section className={styles.dividerSection} aria-hidden="true">
         <div className={styles.dividerWrap}>
           <Image
-            src="/images/editorial/divider-texture-shadow.png"
+            src="/images/editorial/divider-texture-shadow.webp"
             alt=""
             fill
+            quality={96}
             sizes="100vw"
             className={styles.dividerImage}
           />
         </div>
       </section>
 
-      <Reveal className={styles.section}>
+      <Reveal className={`${styles.section} ${styles.sectionInquiry}`}>
         <div className={styles.sectionHeader} id="inquiry">
           <p className={styles.eyebrow}>Inquiry</p>
           <h2 className={styles.heading}>Tell us what you’re building, refining, or rethinking.</h2>

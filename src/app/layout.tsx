@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     siteName: "WalkPerro",
     images: [
       {
-        url: "/images/editorial/hero-office-landscape.png",
+        url: "/images/editorial/hero-office-landscape.webp",
         width: 1536,
         height: 1024,
         alt: "WalkPerro editorial website design studio",
@@ -35,7 +35,7 @@ export const metadata: Metadata = {
     title: "WalkPerro | Editorial Websites, Visuals, and AI Systems",
     description:
       "Editorial websites, premium visuals, and AI systems built with clarity and intention.",
-    images: ["/images/editorial/hero-office-landscape.png"],
+    images: ["/images/editorial/hero-office-landscape.webp"],
   },
   icons: {
     icon: [{ url: "/perro/white_perro_v2_no_bg.png", sizes: "500x500", type: "image/png" }],

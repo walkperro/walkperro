@@ -8,10 +8,10 @@
   --surface: rgba(255, 255, 255, 0.62);
   --surface-strong: #fbf8f2;
   --ink-strong: #2e2923;
-  --ink-soft: #6f665b;
-  --line: rgba(67, 59, 49, 0.14);
-  --line-soft: rgba(67, 59, 49, 0.08);
-  --shadow: 0 18px 48px rgba(76, 65, 50, 0.07);
+  --ink-soft: #4f473f;
+  --line: rgba(67, 59, 49, 0.16);
+  --line-soft: rgba(67, 59, 49, 0.1);
+  --shadow: 0 18px 48px rgba(76, 65, 50, 0.075);
   --font-display: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Palatino, Georgia, serif;
   --font-body: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
