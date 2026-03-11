@@ -9,6 +9,9 @@
   --surface-strong: #fbf8f2;
   --ink-strong: #2e2923;
   --ink-soft: #4f473f;
+  --ink-body: #352e28;
+  --ink-muted: #4b4238;
+  --ink-kicker: #564d43;
   --line: rgba(67, 59, 49, 0.16);
   --line-soft: rgba(67, 59, 49, 0.1);
   --shadow: 0 18px 48px rgba(76, 65, 50, 0.075);
@@ -63,9 +66,12 @@ main {
   width: 100%;
 }
 
-.muted2,
-.pageMuted {
+.muted2 {
   color: var(--ink-soft);
+}
+
+.pageMuted {
+  color: var(--ink-body);
 }
 
 .pageWrap {
