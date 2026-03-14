@@ -1,17 +1,17 @@
 export const INQUIRY_HELP_OPTIONS = [
   "AI Editorial Visuals",
-  "Signature Site",
-  "Business System Site",
+  "Virtual Business Card",
+  "Business Growth Suite",
   "Website Redesign",
   "New Website",
   "AI Workflow / Automation",
   "Custom Build / App",
-  "Creative Direction / Branding",
+  "Custom Inquiry",
 ] as const;
 
 export const INQUIRY_INVESTMENT_OPTIONS = [
   "$300",
-  "$1,500",
+  "$1,200",
   "$3,000",
   "$5,000+",
   "Not sure yet",
@@ -28,65 +28,103 @@ export type InquiryHelpOption = (typeof INQUIRY_HELP_OPTIONS)[number];
 export type InquiryInvestmentOption = (typeof INQUIRY_INVESTMENT_OPTIONS)[number];
 export type InquiryTimelineOption = (typeof INQUIRY_TIMELINE_OPTIONS)[number];
 
-export const STUDIO_OFFERS = [
+type OfferInclude = {
+  text: string;
+  accent?: string;
+  emphasis?: boolean;
+};
+
+type StudioOffer = {
+  slug: string;
+  name: string;
+  price: string;
+  summary: string;
+  badge?: string;
+  ctaLabel: string;
+  footLabel: string;
+  featured?: boolean;
+  includes: readonly OfferInclude[];
+};
+
+export const STUDIO_OFFERS: readonly StudioOffer[] = [
   {
     slug: "ai-editorial-visuals",
     name: "AI Editorial Visuals",
     price: "$300",
-    summary:
-      "Polished visuals for websites, branding, campaigns, and social content. We refine existing photos or create elevated visuals based on client references.",
+    summary: "Editorial visuals for websites, campaigns, profiles, and promotional use.",
+    ctaLabel: "Ask about visuals",
+    footLabel: "Creative add-on",
     includes: [
-      "Up to 6 edited or generated images",
-      "Website-ready exports",
-      "Social-ready crops",
-      "Cohesive visual direction",
-      "High-resolution delivery",
+      {
+        text: "12 AI-edited or generated editorial-style visuals for websites, social media, model profiles, ads, album covers, magazine covers, and similar use.",
+      },
+      {
+        text: "Existing photos can be transformed through changes to angle, lighting, wardrobe, posture, expression, and image elements.",
+      },
+      { text: "Finished visuals can also be arranged into editorial collage or poster layouts for promotion." },
+      { text: "Deliverables include both the final images and the completed collage layouts." },
+      {
+        text: "If no photos exist, realistic professional visuals can be created from a face reference or even an idea.",
+      },
+      { text: "Delivered in high quality, including 2K / 4K options." },
     ],
   },
   {
-    slug: "signature-site",
-    name: "Signature Site",
-    price: "$1,500",
-    summary:
-      "A polished website built to present a business clearly, professionally, and beautifully. Includes AI-enhanced visuals, strong structure, and a clean web presence designed to convert attention into inquiries.",
+    slug: "virtual-business-card",
+    name: "Virtual Business Card",
+    price: "$1,200",
+    summary: "A polished website for businesses and creators who need stronger presentation and clearer conversion.",
+    badge: "Most Popular",
+    ctaLabel: "Start here",
+    footLabel: "Best starting point",
+    featured: true,
     includes: [
-      "Custom homepage + core information pages",
-      "AI-enhanced or AI-generated visuals based on client references",
-      "Mobile-responsive design",
-      "On-page SEO foundation",
-      "Google presence / indexing setup",
-      "Inquiry / contact system",
-      "Performance-optimized build",
-      "No backend/admin",
+      {
+        text: "Beautifully designed website for businesses and creators that represents the brand clearly and is built to convert clients.",
+      },
+      { text: "Includes the essential informational pages your business needs." },
+      {
+        text: "We edit existing photos or create visuals from scratch to fit what the layout actually needs.",
+      },
+      {
+        text: "Unless you prefer otherwise, we refine and expand your messaging so the site communicates your value more clearly.",
+      },
+      { text: "Designed to feel polished across desktop, tablet, and mobile." },
+      { text: "SEO setup helps your business name and relevant keywords appear on Google." },
+      { text: "Logo creation is included if needed." },
     ],
   },
   {
-    slug: "business-system-site",
-    name: "Business System Site",
+    slug: "business-growth-suite",
+    name: "Business Growth Suite",
     price: "$3,000",
-    summary:
-      "Everything in the Signature Site, plus a custom admin/backend experience for managing content, leads, or internal workflows.",
+    summary: "For businesses that want the website and the growth-ready operational layer behind it.",
+    ctaLabel: "Discuss this build",
+    footLabel: "Scale-ready scope",
     includes: [
-      "Everything in Signature Site",
-      "Custom admin/backend dashboard",
-      "Content or lead management tools",
-      "Flexible architecture for growth",
-      "Workflow integration capability",
+      {
+        text: "Everything included in Virtual Business Card",
+        accent: "Virtual Business Card",
+        emphasis: true,
+      },
+      { text: "Includes a customizable admin portal or dashboard for the owner or manager." },
+      {
+        text: "Example features can include lead tracking, traffic monitoring, page editing, email blasts, banner updates, and file or lead storage.",
+      },
+      { text: "Feasible admin ideas can be discussed and implemented around the business's needs." },
     ],
   },
   {
-    slug: "custom-builds-creative-direction",
-    name: "Custom Builds & Creative Direction",
+    slug: "custom-inquiry",
+    name: "Custom Inquiry",
     price: "Custom",
-    summary: "For brands that need more than a standard site.",
+    summary: "For businesses that need something beyond the listed packages.",
+    ctaLabel: "Request a consultation",
+    footLabel: "Consultation-led",
     includes: [
-      "Custom logos and visual direction",
-      "Brand positioning and creative direction",
-      "Special app creation inquiries",
-      "Sign-in / authentication systems",
-      "AI workflow automation and bot setup",
-      "Internal tools and process systems",
-      "Consultation-based custom work",
+      {
+        text: "If you need user-login systems, AI workflow automation, creative direction, branding, or other custom functionality, reach out by email or social media for a consultation.",
+      },
     ],
   },
 ] as const;
@@ -96,14 +134,17 @@ export function deriveScopeFromIntent(intent: string) {
     case "AI Editorial Visuals":
       return "Editorial visuals";
     case "Signature Site":
+    case "Virtual Business Card":
     case "Website Redesign":
     case "New Website":
       return "Website presentation project";
     case "Business System Site":
+    case "Business Growth Suite":
       return "Website + backend system";
     case "AI Workflow / Automation":
       return "AI workflow / automation";
     case "Custom Build / App":
+    case "Custom Inquiry":
       return "Custom build / app";
     case "Creative Direction / Branding":
       return "Creative direction / branding";
@@ -116,6 +157,13 @@ export function normalizeIntentQuery(value?: string | string[]) {
   const raw = Array.isArray(value) ? value[0] : value;
   if (!raw) return "";
   const decoded = decodeURIComponent(raw).trim().toLowerCase();
+  const aliases: Record<string, string> = {
+    "signature site": "Virtual Business Card",
+    "business system site": "Business Growth Suite",
+    "custom builds & creative direction": "Custom Inquiry",
+    "creative direction / branding": "Custom Inquiry",
+  };
+  if (aliases[decoded]) return aliases[decoded];
   const match = INQUIRY_HELP_OPTIONS.find((option) => option.toLowerCase() === decoded);
   return match || "";
 }
