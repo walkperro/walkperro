@@ -85,7 +85,7 @@ export default function ServicesPage() {
       <Reveal className={styles.section}>
         <div className={styles.sectionHeader} id="inquiry">
           <p className={styles.eyebrow}>Start here</p>
-          <h2 className={styles.heading}>Choose the offer that feels closest and tell us where you want the work to go.</h2>
+          <h2 className={styles.heading}>Choose the closest fit — we’ll refine it into exactly what you need, with a personally guided process from start to finish.</h2>
           <p className={styles.lede}>If the scope is custom, use the inquiry form anyway. We’ll shape the project from there.</p>
         </div>
 
