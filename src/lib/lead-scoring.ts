@@ -109,7 +109,7 @@ function scoreBudget(range: ProjectBudgetRange) {
   switch (range) {
     case "$300":
       return 8;
-    case "$1,500":
+    case "$1,200":
       return 26;
     case "$3,000":
       return 44;
