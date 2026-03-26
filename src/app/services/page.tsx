@@ -38,7 +38,7 @@ export default function ServicesPage() {
                 {offer.includes.map((item) => (
                   <li key={item.text}>
                     <span className={styles.dot} />
-                    <span className={styles.listText}>{item}</span>
+                    <span className={styles.listText}>{item.text}</span>
                   </li>
                 ))}
               </ul>
