@@ -36,7 +36,7 @@ export default function ServicesPage() {
 
               <ul className={styles.offerList}>
                 {offer.includes.map((item) => (
-                  <li key={item}>
+                  <li key={item.text}>
                     <span className={styles.dot} />
                     <span className={styles.listText}>{item}</span>
                   </li>
