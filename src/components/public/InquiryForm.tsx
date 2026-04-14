@@ -1,7 +1,6 @@
 "use client";
 
-import Script from "next/script";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   INQUIRY_HELP_OPTIONS,
   INQUIRY_INVESTMENT_OPTIONS,
@@ -9,23 +8,6 @@ import {
   type InquiryHelpOption,
 } from "@/lib/public-site";
 import styles from "./site.module.css";
-
-declare global {
-  interface Window {
-    turnstile?: {
-      render: (
-        container: string | HTMLElement,
-        options: {
-          sitekey: string;
-          theme?: "light" | "dark" | "auto";
-          callback?: (token: string) => void;
-          "expired-callback"?: () => void;
-        },
-      ) => string | number;
-      remove?: (widgetId: string | number) => void;
-    };
-  }
-}
 
 type InquiryState = {
   name: string;
@@ -47,14 +29,7 @@ type InquiryState = {
   referrer: string;
   client_timezone: string;
   website: string;
-  turnstileToken: string;
 };
-
-const TURNSTILE_SITE_KEY =
-  process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY ||
-  process.env.NEXT_PUBLIC_CLOUDFLARE_TURNSTILE_SITE_KEY ||
-  process.env.NEXT_PUBLIC_CLOUDFLARE_SITE_KEY ||
-  "";
 
 export default function InquiryForm({
   defaultIntent = "",
@@ -81,15 +56,10 @@ export default function InquiryForm({
     referrer: "",
     client_timezone: "",
     website: "",
-    turnstileToken: "",
   });
   const [error, setError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
-  const [scriptReady, setScriptReady] = useState(false);
-  const [turnstileError, setTurnstileError] = useState("");
-  const turnstileRef = useRef<HTMLDivElement | null>(null);
-  const widgetIdRef = useRef<string | number | null>(null);
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -104,55 +74,6 @@ export default function InquiryForm({
       client_timezone: Intl.DateTimeFormat().resolvedOptions().timeZone || "",
     }));
   }, []);
-
-  useEffect(() => {
-    if (!TURNSTILE_SITE_KEY || !scriptReady || !turnstileRef.current) return;
-
-    let cancelled = false;
-    let retries = 0;
-    let retryTimer: number | null = null;
-
-    const mountTurnstile = () => {
-      if (cancelled) return;
-      const api = window.turnstile;
-      if (!api) {
-        retries += 1;
-        if (retries < 10) {
-          retryTimer = window.setTimeout(mountTurnstile, 350);
-          return;
-        }
-        setTurnstileError("Spam protection could not initialize. Refresh and try again.");
-        return;
-      }
-
-      if (widgetIdRef.current != null && api.remove) {
-        try {
-          api.remove(widgetIdRef.current);
-        } catch {
-          // ignore stale widget removal errors
-        }
-        widgetIdRef.current = null;
-      }
-
-      setTurnstileError("");
-      const mountNode = turnstileRef.current;
-      if (!mountNode) return;
-
-      widgetIdRef.current = api.render(mountNode, {
-        sitekey: TURNSTILE_SITE_KEY,
-        theme: "light",
-        callback: (token) => setForm((prev) => ({ ...prev, turnstileToken: token })),
-        "expired-callback": () => setForm((prev) => ({ ...prev, turnstileToken: "" })),
-      });
-    };
-
-    mountTurnstile();
-
-    return () => {
-      cancelled = true;
-      if (retryTimer != null) window.clearTimeout(retryTimer);
-    };
-  }, [scriptReady]);
 
   function updateField<K extends keyof InquiryState>(key: K, value: InquiryState[K]) {
     setForm((prev) => ({ ...prev, [key]: value }));
@@ -169,8 +90,6 @@ export default function InquiryForm({
     if (!form.project_budget_range) return "Select an estimated investment.";
     if (!form.timeline) return "Select your timeline.";
     if (!form.message.trim()) return "A short project brief is required.";
-    if (!TURNSTILE_SITE_KEY) return "Turnstile site key is missing. Add NEXT_PUBLIC_TURNSTILE_SITE_KEY.";
-    if (!form.turnstileToken) return "Complete the spam protection check before submitting.";
     return "";
   }
 
@@ -232,15 +151,6 @@ export default function InquiryForm({
 
   return (
     <div className={styles.inquiryPanel}>
-      {TURNSTILE_SITE_KEY ? (
-        <Script
-          src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit"
-          async
-          defer
-          onLoad={() => setScriptReady(true)}
-        />
-      ) : null}
-
       <form className={styles.form} onSubmit={handleSubmit}>
         <div className={styles.formGrid}>
           <div className={styles.field}>
@@ -331,8 +241,6 @@ export default function InquiryForm({
           onChange={(e) => updateField("website", e.target.value)}
         />
 
-        <div ref={turnstileRef} />
-        {turnstileError ? <p className={styles.error}>{turnstileError}</p> : null}
         {error ? <p className={styles.error}>{error}</p> : null}
 
         <button className={styles.buttonPrimary} type="submit" disabled={isSubmitting}>

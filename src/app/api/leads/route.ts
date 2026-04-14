@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { checkBotId } from "botid/server";
 import {
   GROWTH_FLAG_OPTIONS,
   INTENT_OPTIONS,
@@ -18,6 +19,7 @@ import {
 } from "@/lib/lead-scoring";
 import { deriveScopeFromIntent } from "@/lib/public-site";
 import { cleanupRateLimitStore, hitRateLimit } from "@/lib/rate-limit";
+import { BOTID_CHECK_OPTIONS } from "@/lib/bot-protection";
 import { mirrorWalkPerroLeadToLeadOps } from "@/lib/leadops/walkperro-mirror";
 import { getSupabaseServerConfig } from "@/lib/supabase-rest";
 
@@ -50,7 +52,6 @@ type LeadPayload = {
   referral_source?: unknown;
   anything_else?: unknown;
   website?: unknown; // honeypot
-  turnstileToken?: unknown;
 };
 
 function toTrimmed(value: unknown): string {
@@ -81,60 +82,9 @@ function uniqueStringArray(value: unknown): string[] {
 }
 
 function getClientIp(req: NextRequest): string {
-  const cf = req.headers.get("cf-connecting-ip");
-  if (cf) return cf;
   const forwarded = req.headers.get("x-forwarded-for");
   if (forwarded) return forwarded.split(",")[0]?.trim() || "unknown";
   return "unknown";
-}
-
-async function verifyTurnstile(token: string, ip: string) {
-  const secret =
-    process.env.TURNSTILE_SECRET_KEY || process.env.CLOUDFLARE_TURNSTILE_SECRET_KEY;
-  if (!secret) {
-    console.error(
-      "[walkperro] Turnstile secret missing. Set TURNSTILE_SECRET_KEY or CLOUDFLARE_TURNSTILE_SECRET_KEY.",
-    );
-    return { ok: false, reason: "Turnstile secret is not configured." };
-  }
-
-  const body = new URLSearchParams({
-    secret,
-    response: token,
-  });
-
-  if (ip && ip !== "unknown") body.set("remoteip", ip);
-
-  let res: Response;
-  try {
-    res = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", {
-      method: "POST",
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body,
-      cache: "no-store",
-    });
-  } catch (error) {
-    console.error("[walkperro] Turnstile siteverify request failed", error);
-    return { ok: false, reason: "Turnstile verification request failed." };
-  }
-
-  if (!res.ok) {
-    const text = await res.text().catch(() => "");
-    console.error("[walkperro] Turnstile siteverify non-200 response", {
-      status: res.status,
-      body: text.slice(0, 400),
-    });
-    return { ok: false, reason: `Turnstile verification failed (${res.status}).` };
-  }
-
-  const json = (await res.json()) as { success?: boolean; "error-codes"?: string[] };
-  if (!json.success) {
-    const errorCodes = json["error-codes"] || [];
-    console.error("[walkperro] Turnstile rejected token", { errorCodes });
-    return { ok: false, reason: errorCodes.join(", ") || "Turnstile rejected." };
-  }
-
-  return { ok: true as const };
 }
 
 async function insertLead(row: Record<string, unknown>) {
@@ -227,27 +177,28 @@ async function postLead(req: NextRequest) {
     );
   }
 
-  const turnstileToken = toTrimmed(payload.turnstileToken);
-  if (!turnstileToken) {
+  let botVerification: Awaited<ReturnType<typeof checkBotId>>;
+  try {
+    botVerification = await checkBotId({
+      advancedOptions: BOTID_CHECK_OPTIONS,
+    });
+  } catch (error) {
+    console.error("[walkperro] BotID verification failed", error);
     return NextResponse.json(
-      { ok: false, error: "Spam protection check is required. Please try again." },
-      { status: 400 },
+      { ok: false, error: "Spam protection is temporarily unavailable. Please try again later." },
+      { status: 503 },
     );
   }
 
-  const turnstile = await verifyTurnstile(turnstileToken, ip);
-  if (!turnstile.ok) {
+  if (botVerification.isBot) {
     const response: { ok: false; error: string; error_detail?: string } = {
       ok: false,
       error: "Could not verify your submission. Please refresh and try again.",
     };
     if (process.env.NODE_ENV !== "production") {
-      response.error_detail = turnstile.reason;
+      response.error_detail = "BotID flagged this request as automated.";
     }
-    return NextResponse.json(
-      response,
-      { status: 400 },
-    );
+    return NextResponse.json(response, { status: 403 });
   }
 
   const name = toTrimmed(payload.name);

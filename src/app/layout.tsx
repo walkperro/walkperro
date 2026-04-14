@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
+import { BotIdClient } from "botid/client";
 import "./globals.css";
 import NavMenu from "@/components/NavMenu";
 import PublicSiteFooter from "@/components/public/PublicSiteFooter";
+import { BOTID_PROTECTED_ROUTES } from "@/lib/bot-protection";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://walkperro.com"),
@@ -46,6 +48,9 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
+      <head>
+        <BotIdClient protect={BOTID_PROTECTED_ROUTES} />
+      </head>
       <body>
         <NavMenu />
         {children}
