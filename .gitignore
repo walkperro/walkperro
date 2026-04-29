@@ -32,6 +32,7 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
+!.env.example
 
 # vercel
 .vercel
@@ -40,3 +41,10 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 .env*.local
+
+# script caches (raw image-gen PNGs before optimization)
+/scripts/.cache/
+
+# playwright local browser cache (system-wide cache is fine)
+/test-results/
+/playwright-report/

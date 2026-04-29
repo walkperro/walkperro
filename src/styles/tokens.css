@@ -1,0 +1,55 @@
+/* WalkPerro design tokens — single source of truth for color, type, motion, spacing. */
+
+:root {
+  /* Surfaces */
+  --bg: #f2efe8;        /* warm bone */
+  --fg: #0e0e0c;        /* warm near-black */
+  --muted: #6b6b66;     /* AA on bg */
+  --border: #ddd8cc;    /* hairlines */
+  --accent: #5a0e0e;    /* oxblood — used in <= 3 places per page */
+  --invert-bg: #0e0e0c;
+  --invert-fg: #f2efe8;
+  --invert-muted: #a8a59a;
+  --invert-border: #2a2826;
+
+  /* Type */
+  --font-display: "InstrumentSerifFallback", ui-serif, Georgia, "Times New Roman", serif;
+  --font-body: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+
+  /* Spacing rhythm (8px baseline) */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-24: 6rem;
+  --space-32: 8rem;
+
+  /* Motion */
+  --ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --duration-fast: 200ms;
+  --duration-base: 400ms;
+  --duration-reveal: 600ms;
+}
+
+/* Reduced motion: collapse to opacity-only, instant. */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --duration-fast: 0ms;
+    --duration-base: 0ms;
+    --duration-reveal: 0ms;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0ms !important;
+    scroll-behavior: auto !important;
+  }
+}

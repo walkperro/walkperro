@@ -6,25 +6,47 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "typecheck": "tsc --noEmit",
+    "brand:generate": "node --import tsx --env-file=.env.local scripts/generate-brand-images.ts",
+    "portfolio:capture": "node --import tsx --env-file=.env.local scripts/portfolio-screenshot.ts",
+    "admin:capture": "node --import tsx --env-file=.env.local scripts/admin-screenshots.ts",
+    "lighthouse": "node --import tsx scripts/lighthouse.ts"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "sharp",
+      "esbuild",
+      "protobufjs",
+      "unrs-resolver"
+    ]
   },
   "dependencies": {
-    "framer-motion": "^12.29.0",
+    "@fortawesome/fontawesome-svg-core": "^7.2.0",
+    "@fortawesome/free-solid-svg-icons": "^7.2.0",
+    "@fortawesome/react-fontawesome": "^3.3.1",
+    "geist": "^1.7.0",
     "next": "16.1.4",
     "react": "19.2.3",
     "react-dom": "19.2.3"
   },
   "devDependencies": {
+    "@google/genai": "^1.50.1",
+    "@supabase/supabase-js": "^2.105.1",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "autoprefixer": "^10.4.23",
     "babel-plugin-react-compiler": "1.0.0",
+    "dotenv": "^17.4.2",
     "eslint": "^9",
     "eslint-config-next": "16.1.4",
+    "playwright": "^1.59.1",
     "postcss": "^8.5.6",
+    "sharp": "^0.34.5",
     "tailwindcss": "^4",
+    "tsx": "^4.21.0",
     "typescript": "^5"
   }
 }
