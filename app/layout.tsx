@@ -1,22 +1,40 @@
 import type { Metadata } from "next";
-import { Inter, Playfair_Display } from "next/font/google";
+import { Instrument_Serif, JetBrains_Mono, Inter } from "next/font/google";
 import "./globals.css";
 import ScrollReveal from "@/components/ScrollReveal";
 
-const inter = Inter({
+const serif = Instrument_Serif({
   subsets: ["latin"],
-  variable: "--font-inter",
+  weight: "400",
+  variable: "--font-serif",
+  display: "swap",
 });
 
-const playfair = Playfair_Display({
+const mono = JetBrains_Mono({
   subsets: ["latin"],
-  variable: "--font-playfair",
+  variable: "--font-mono",
+  display: "swap",
+});
+
+const sans = Inter({
+  subsets: ["latin"],
+  variable: "--font-sans",
+  display: "swap",
 });
 
 export const metadata: Metadata = {
-  title: "WalkPerro — Luxury-minimal tools for relentless cashflow",
+  metadataBase: new URL("https://www.walkperro.com"),
+  title: "walkperro — operator's hub for the AI era",
   description:
-    "Digital systems, playbooks and prompt packs for builders, ghosts and quiet killers who move with taste.",
+    "Tools, opinions, and field notes from one person doing what used to take a team. Read. Build. Steal.",
+  openGraph: {
+    title: "walkperro",
+    description: "Operator's hub for the AI/vibe-coding era.",
+    url: "https://www.walkperro.com",
+    siteName: "walkperro",
+    type: "website",
+  },
+  robots: { index: true, follow: true },
 };
 
 export default function RootLayout({
@@ -25,19 +43,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <head>
-        {/* Payhip overlay script */}
-        <script src="https://payhip.com/payhip.js" defer />
-      </head>
-      <body
-        className={`${inter.variable} ${playfair.variable} bg-[#050608] text-slate-100 antialiased`}
-      >
-        {/* site-wide scroll fade-in */}
+    <html lang="en" className={`${serif.variable} ${mono.variable} ${sans.variable}`}>
+      <body className="bg-bone text-charcoal font-sans antialiased">
         <ScrollReveal />
-        <div className="font-sans min-h-dvh bg-[radial-gradient(circle_at_top,_#020617,_#050608_55%,_#02010b_100%)] text-slate-100">
-          {children}
-        </div>
+        {children}
       </body>
     </html>
   );

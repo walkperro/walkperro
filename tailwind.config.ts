@@ -10,29 +10,41 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        ink: "#02040A",          // deep ink background
-        bone: "#FDFBF5",         // warm off-white
-        silver: "#A1A1AA",       // muted gray
-        emerald: {
-          DEFAULT: "#22C55E",    // main accent
-          50: "#ECFDF5",
-          100: "#D1FAE5",
-          200: "#A7F3D0",
-          300: "#6EE7B7",
-          400: "#34D399",
-          500: "#22C55E",
-          600: "#16A34A",
-          700: "#15803D",
-          800: "#166534",
-          900: "#14532D",
-        },
+        bone: "#F5F1E8",
+        charcoal: "#0E0E0E",
+        signal: "#EBFF00",
+        ink: "#1A1A1A",
+        smoke: "#6B6B6B",
+        line: "#E5E0D2",
+        "line-dark": "#2A2A2A",
       },
       fontFamily: {
-        sans: ["var(--font-inter)", "system-ui", "sans-serif"],
-        playfair: ["var(--font-playfair)", "serif"],
+        serif: ["var(--font-serif)", "Instrument Serif", "Georgia", "serif"],
+        mono: [
+          "var(--font-mono)",
+          "JetBrains Mono",
+          "ui-monospace",
+          "SFMono-Regular",
+          "monospace",
+        ],
+        sans: ["var(--font-sans)", "Inter", "system-ui", "sans-serif"],
+      },
+      letterSpacing: {
+        label: "0.08em",
+        wider: "0.12em",
       },
       borderRadius: {
-        "3xl": "1.5rem",
+        none: "0",
+        sm: "2px",
+      },
+      maxWidth: {
+        prose: "65ch",
+      },
+      transitionTimingFunction: {
+        snap: "cubic-bezier(0.2, 0, 0, 1)",
+      },
+      transitionDuration: {
+        snap: "180ms",
       },
     },
   },

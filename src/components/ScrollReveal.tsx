@@ -11,16 +11,18 @@ export default function ScrollReveal() {
 
     const root = document.querySelector("main") || document.body;
     const els = Array.from(
-      root.querySelectorAll<HTMLElement>("section, article, [data-sr]")
-    ).filter((el) => !el.classList.contains("sr-ignore"));
+      root.querySelectorAll<HTMLElement>("[data-reveal]")
+    );
 
-    els.forEach((el) => el.classList.add("sr"));
+    els.forEach((el) => el.classList.add("reveal"));
 
     const io = new IntersectionObserver(
       (entries) => {
         entries.forEach((e) => {
-          if (e.isIntersecting) e.target.classList.add("sr-show");
-          else e.target.classList.remove("sr-show");
+          if (e.isIntersecting) {
+            e.target.classList.add("visible");
+            io.unobserve(e.target);
+          }
         });
       },
       { threshold: 0.08, rootMargin: "0px 0px -10% 0px" }

@@ -1,169 +1,129 @@
-/* Prevent 3D overflow from causing sideways scroll */
-html, body { overflow-x: hidden; }
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  color-scheme: dark;
+  color-scheme: light;
+  --bone: #F5F1E8;
+  --charcoal: #0E0E0E;
+  --signal: #EBFF00;
+  --ink: #1A1A1A;
+  --smoke: #6B6B6B;
+  --line: #E5E0D2;
+  --line-dark: #2A2A2A;
+  --snap: cubic-bezier(0.2, 0, 0, 1);
 }
 
-html,
-body {
-  min-height: 100%;
-}
-
-body {
+html, body {
   margin: 0;
-  -webkit-font-smoothing: antialiased;
+  min-height: 100%;
+  background: var(--bone);
+  color: var(--charcoal);
 }
 
-/* Default link behavior – no browser purple/blue */
+body {
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
 a {
   color: inherit;
   text-decoration: none;
 }
-a:hover {
-  text-decoration: underline;
-  text-underline-offset: 0.18em;
+
+::selection {
+  background: var(--signal);
+  color: var(--charcoal);
 }
 
-/* Subtle entrance animation */
-@keyframes wp-fade-up {
-  from {
-    opacity: 0;
-    transform: translateY(14px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+@layer base {
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-serif), "Instrument Serif", Georgia, serif;
+    letter-spacing: -0.02em;
+    line-height: 1.05;
   }
 }
 
-.wp-fade {
-  animation: wp-fade-up 0.7s cubic-bezier(0.22, 0.61, 0.36, 1) both;
-}
+@layer utilities {
+  .font-display { font-family: var(--font-serif), "Instrument Serif", Georgia, serif; letter-spacing: -0.02em; }
+  .font-mono-ui { font-family: var(--font-mono), "JetBrains Mono", ui-monospace, monospace; }
 
-/* WalkPerro mobile carousel drift */
-@keyframes wp-carousel-drift {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(-20%);
-  }
-}
-
-.wp-carousel {
-  position: relative;
-}
-
-@media (max-width: 767px) {
-  .wp-carousel-track {
-    animation: wp-carousel-drift 40s ease-in-out infinite alternate;
+  .label {
+    font-family: var(--font-mono), "JetBrains Mono", ui-monospace, monospace;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 0.75rem;
+    line-height: 1.2;
+    color: var(--smoke);
   }
 
-  /* Pause when touched/hovered */
-  .wp-carousel:hover .wp-carousel-track,
-  .wp-carousel:active .wp-carousel-track {
+  .hairline {
+    border-top: 1px solid var(--line);
+  }
+  .hairline-dark {
+    border-top: 1px solid var(--line-dark);
+  }
+
+  .prose-field {
+    max-width: 65ch;
+    font-family: var(--font-serif), "Instrument Serif", Georgia, serif;
+    font-size: 1.125rem;
+    line-height: 1.6;
+  }
+
+  .prose-field p { margin: 0 0 1.25em; }
+  .prose-field h2 { font-size: 1.75rem; margin: 2em 0 0.5em; letter-spacing: -0.015em; }
+  .prose-field h3 { font-size: 1.25rem; margin: 1.6em 0 0.4em; }
+  .prose-field blockquote {
+    font-family: var(--font-mono), "JetBrains Mono", ui-monospace, monospace;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    border-left: 1px solid var(--charcoal);
+    padding: 0.25em 0 0.25em 1.25em;
+    margin: 1.5em 0;
+    color: var(--charcoal);
+  }
+  .prose-field a {
+    border-bottom: 1px solid var(--charcoal);
+  }
+  .prose-field a:hover {
+    background: var(--signal);
+  }
+
+  .marquee-row {
+    display: flex;
+    gap: 1.5rem;
+    width: max-content;
+    animation: wp-marquee 60s linear infinite;
+  }
+  .marquee-row.reverse {
+    animation-direction: reverse;
+  }
+  .marquee-mask {
+    -webkit-mask-image: linear-gradient(90deg, transparent 0, black 6%, black 94%, transparent 100%);
+    mask-image: linear-gradient(90deg, transparent 0, black 6%, black 94%, transparent 100%);
+  }
+  .marquee-mask:hover .marquee-row {
     animation-play-state: paused;
   }
 }
 
-/* ——— WalkPerro: Carousel back-face legibility ——— */
-.wp-card-back {
-  /* subtle white glass with depth */
-  background: linear-gradient(180deg, rgba(255,255,255,0.96) 0%, rgba(255,255,255,0.90) 60%, rgba(255,255,255,0.86) 100%);
-  -webkit-backdrop-filter: saturate(1.2) blur(4px);
-  backdrop-filter: saturate(1.2) blur(4px);
+@keyframes wp-marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
 }
 
-/* mobile-first readable sizes with clamp */
-.wp-card-back h3 {
-  font-size: clamp(18px, 5.0vw, 24px);
-  line-height: 1.22;
-  letter-spacing: -0.01em;
-}
-.wp-card-back .wp-price {
-  font-size: clamp(14px, 4.2vw, 18px);
-  line-height: 1.2;
-  font-weight: 600;
-}
-.wp-card-back .wp-bullets { 
-  font-size: clamp(13px, 3.6vw, 15px);
-  line-height: 1.5;
-}
-.wp-card-back .wp-cta { 
-  margin-top: 14px;
-}
-
-/* slightly larger on md+ */
-@media (min-width: 768px) {
-  .wp-card-back h3 { font-size: clamp(20px, 2.6vw, 28px); }
-  .wp-card-back .wp-bullets { font-size: clamp(14px, 1.2vw, 16px); }
-}
-
-/* ——— WalkPerro: Carousel back-face legibility ——— */
-.wp-card-back {
-  background: linear-gradient(180deg, rgba(255,255,255,0.96) 0%, rgba(255,255,255,0.90) 60%, rgba(255,255,255,0.86) 100%);
-  -webkit-backdrop-filter: saturate(1.2) blur(4px);
-  backdrop-filter: saturate(1.2) blur(4px);
-}
-.wp-card-back h3 {
-  font-size: clamp(18px, 5.0vw, 24px);
-  line-height: 1.22;
-  letter-spacing: -0.01em;
-}
-.wp-card-back .wp-price { font-size: clamp(14px, 4.2vw, 18px); line-height: 1.2; font-weight: 600; }
-.wp-card-back .wp-bullets { font-size: clamp(13px, 3.6vw, 15px); line-height: 1.5; }
-.wp-card-back .wp-cta { margin-top: 14px; }
-
-@media (min-width: 768px) {
-  .wp-card-back h3 { font-size: clamp(20px, 2.6vw, 28px); }
-  .wp-card-back .wp-bullets { font-size: clamp(14px, 1.2vw, 16px); }
-}
-/* --- Smooth scrolling (respects reduced motion) --- */
-html:focus-within { scroll-behavior: smooth; }
-@media (prefers-reduced-motion: reduce) {
-  html:focus-within { scroll-behavior: auto; }
-}
-
-/* --- Fade-in on scroll --- */
 .reveal {
   opacity: 0;
-  transform: translateY(14px);
-  transition:
-    opacity 600ms cubic-bezier(.22,.61,.36,1),
-    transform 600ms cubic-bezier(.22,.61,.36,1);
-  will-change: opacity, transform;
+  transform: translateY(8px);
+  transition: opacity 280ms var(--snap), transform 280ms var(--snap);
 }
 .reveal.visible {
   opacity: 1;
   transform: translateY(0);
 }
 
-/* ---------- Smooth scrolling ---------- */
-html { scroll-behavior: smooth; }
 @media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
-}
-
-/* ---------- Scroll reveal (fade + subtle lift) ---------- */
-:root { --sr-duration: 900ms; --sr-ease: cubic-bezier(.22,.61,.36,1); }
-.sr {
-  opacity: 0;
-  transform: translateY(14px);
-  will-change: transform, opacity;
-  transition:
-    opacity var(--sr-duration) var(--sr-ease),
-    transform var(--sr-duration) var(--sr-ease);
-}
-.sr.sr-show {
-  opacity: 1;
-  transform: translateY(0);
-}
-/* Reduce motion: no transitions */
-@media (prefers-reduced-motion: reduce) {
-  .sr, .sr.sr-show { opacity: 1; transform: none; transition: none; }
+  .reveal, .reveal.visible { opacity: 1; transform: none; transition: none; }
+  .marquee-row { animation: none; }
 }

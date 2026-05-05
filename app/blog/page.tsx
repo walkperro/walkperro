@@ -1,34 +1,87 @@
 import Link from "next/link";
 
-export default function BlogPage() {
+const POSTS = [
+  {
+    slug: "pricing-mistake",
+    date: "2026.05.04",
+    label: "BUILD LOG",
+    title: "The pricing mistake that almost killed my freelance year.",
+    dek: "I priced for the project. I should have priced for the room.",
+  },
+  {
+    slug: "shape-of-one-person",
+    date: "2026.04.22",
+    label: "FIELD NOTE",
+    title: "Cursor, Claude, and the new shape of a one-person team.",
+    dek: "What used to need three people now needs one operator and a spec.",
+  },
+  {
+    slug: "twelve-line-cms",
+    date: "2026.04.10",
+    label: "TOOL",
+    title: "The 12-line script that replaced my CMS.",
+    dek: "MDX, gray-matter, a glob. That's it. That's the post.",
+  },
+];
+
+export default function BlogIndex() {
   return (
-    <main className="min-h-dvh bg-slate-50 text-slate-900">
-      <div className="mx-auto max-w-3xl px-4 py-16 sm:px-6">
-        <header className="mb-10 flex items-center justify-between">
-          <Link href="/" className="text-sm text-slate-500 hover:text-slate-900">← Back home</Link>
-          <span className="text-xs uppercase tracking-widest text-slate-400">Blog</span>
-        </header>
+    <main className="min-h-dvh bg-bone text-charcoal">
+      <header className="border-b border-line">
+        <div className="mx-auto max-w-[1280px] px-6 lg:px-12 py-5 flex items-center justify-between">
+          <Link href="/" className="font-mono text-sm tracking-label">
+            walkperro
+          </Link>
+          <Link href="/" className="label">← BACK</Link>
+        </div>
+      </header>
 
-        <h1 className="mb-6 text-3xl font-semibold tracking-tight">Notes from the build</h1>
-        <p className="mb-8 text-slate-600">Quick hits on systems, cashflow, aesthetics, and product plays.</p>
+      <div className="mx-auto max-w-[1280px] px-6 lg:px-12">
+        {/* Section header */}
+        <section className="pt-20 pb-10">
+          <div className="flex items-baseline justify-between gap-6">
+            <p className="label">// BUILD LOG — FIELD NOTES</p>
+            <p className="label">{POSTS.length} ENTRIES</p>
+          </div>
+          <div className="hairline mt-3" />
+          <h1 className="font-display text-[clamp(2.5rem,6vw,4rem)] leading-[0.95] tracking-[-0.03em] mt-6 max-w-3xl">
+            Notes from one operator, in real time.
+          </h1>
+          <p className="mt-6 max-w-prose text-lg leading-relaxed text-charcoal/80">
+            Long-form. First person. One opinion per post, defended. Written for
+            the people who would rather read a page than skim a thread.
+          </p>
+        </section>
 
-        {/* Replace with real posts later */}
-        <ul className="space-y-4">
-          <li className="rounded-xl border border-slate-200 bg-white p-5 hover:shadow-sm">
-            <a className="block" href="#">
-              <p className="text-sm text-emerald-600">Playbook</p>
-              <h3 className="text-lg font-semibold">The 90-day momentum stack</h3>
-              <p className="text-sm text-slate-600">The small set of moves that compounds quietly.</p>
-            </a>
-          </li>
-          <li className="rounded-xl border border-slate-200 bg-white p-5 hover:shadow-sm">
-            <a className="block" href="#">
-              <p className="text-sm text-emerald-600">Design</p>
-              <h3 className="text-lg font-semibold">Luxury minimalism, without the fluff</h3>
-              <p className="text-sm text-slate-600">Aesthetic first. Complexity is a tax.</p>
-            </a>
-          </li>
-        </ul>
+        {/* Post list */}
+        <section className="pb-24">
+          <ul className="border-t border-line">
+            {POSTS.map((p) => (
+              <li key={p.slug} className="border-b border-line">
+                <article className="grid grid-cols-1 md:grid-cols-12 gap-4 py-8">
+                  <div className="md:col-span-3 label">
+                    {`// ${p.date}`}
+                    <span className="ml-3">{p.label}</span>
+                  </div>
+                  <div className="md:col-span-9">
+                    <h2 className="font-display text-3xl leading-tight tracking-[-0.015em]">
+                      {p.title}
+                    </h2>
+                    <p className="mt-3 max-w-prose text-charcoal/80 text-lg leading-relaxed">
+                      {p.dek}
+                    </p>
+                    <p className="mt-4 label text-charcoal/60">SOON →</p>
+                  </div>
+                </article>
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        <footer className="hairline mb-12 pt-8 flex flex-wrap items-baseline justify-between gap-3">
+          <p className="label">— walkperro</p>
+          <Link href="/" className="label hover:text-charcoal">RETURN HOME →</Link>
+        </footer>
       </div>
     </main>
   );
