@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://walkperro.com/sitemap.xml
+Sitemap: https://www.walkperro.com/sitemap.xml
