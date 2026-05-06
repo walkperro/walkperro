@@ -47,3 +47,9 @@ public/images/*
 .env*.local
 
 .env*
+
+# local Claude settings
+.claude/
+
+# local script caches (raw drive pulls etc.)
+scripts/.cache/

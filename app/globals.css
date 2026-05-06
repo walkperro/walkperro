@@ -94,7 +94,7 @@ a {
     display: flex;
     gap: 1.5rem;
     width: max-content;
-    animation: wp-marquee 60s linear infinite;
+    animation: wp-marquee 40s linear infinite;
   }
   .marquee-row.reverse {
     animation-direction: reverse;

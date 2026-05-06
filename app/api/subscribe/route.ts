@@ -5,17 +5,20 @@ const FROM = process.env.RESEND_FROM || "walkperro <hello@walkperro.com>";
 const AUDIENCE_ID = process.env.RESEND_AUDIENCE_ID;
 
 export async function POST(req: NextRequest) {
-  const apiKey = process.env.RESEND_API_KEY;
-  if (!apiKey) {
-    return NextResponse.json({ ok: false, error: "not_configured" }, { status: 503 });
-  }
-  const resend = new Resend(apiKey);
-
   try {
-    const { email } = await req.json();
+    const { email, source } = await req.json();
     if (!email || typeof email !== "string") {
       return NextResponse.json({ ok: false }, { status: 400 });
     }
+
+    const src = typeof source === "string" ? source : "unknown";
+    console.log(`SUBSCRIBE email=${email} source=${src}`);
+
+    const apiKey = process.env.RESEND_API_KEY;
+    if (!apiKey) {
+      return NextResponse.json({ ok: true, mode: "log_only" });
+    }
+    const resend = new Resend(apiKey);
 
     if (AUDIENCE_ID) {
       await resend.contacts.create({ email, audienceId: AUDIENCE_ID });
@@ -39,8 +42,8 @@ export async function POST(req: NextRequest) {
       await resend.emails.send({
         from: FROM,
         to: process.env.NOTIFY_SIGNUPS_TO,
-        subject: "new walkperro subscriber",
-        text: email,
+        subject: `new walkperro subscriber (${src})`,
+        text: `${email}\nsource: ${src}`,
       });
     }
 
