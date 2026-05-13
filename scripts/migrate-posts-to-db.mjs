@@ -46,26 +46,40 @@ async function main() {
       continue;
     }
 
-    const row = {
-      slug: dataSlug,
-      title,
-      category,
-      excerpt,
-      body_md: content,
-      status: scheduledFor ? "scheduled" : "draft",
-      scheduled_for: scheduledFor,
-    };
-
-    const { error } = await supabase
+    // Check if this slug already exists in DB so we don't clobber status/published_at.
+    const { data: existing } = await supabase
       .from("posts")
-      .upsert(row, { onConflict: "slug" });
+      .select("status, published_at, scheduled_for")
+      .eq("slug", dataSlug)
+      .maybeSingle();
 
-    if (error) {
-      console.error(`Upsert error for ${dataSlug}:`, error.message);
-      continue;
+    // Content fields we always sync from markdown (markdown is the source of truth for prose).
+    const contentFields = { title, category, excerpt, body_md: content };
+
+    if (existing) {
+      // Existing row → only update the content fields. Preserve status,
+      // published_at, scheduled_for, view_count etc. that may have been
+      // edited in admin since the last sync.
+      const { error } = await supabase
+        .from("posts")
+        .update(contentFields)
+        .eq("slug", dataSlug);
+      if (error) { console.error(`Update error for ${dataSlug}:`, error.message); continue; }
+      upserted++;
+      console.log(`  ✓ ${dataSlug}  (content synced; status=${existing.status} preserved)`);
+    } else {
+      // Brand-new row → insert with defaults from SCHEDULE map (or 'draft').
+      const row = {
+        slug: dataSlug,
+        ...contentFields,
+        status: scheduledFor ? "scheduled" : "draft",
+        scheduled_for: scheduledFor,
+      };
+      const { error } = await supabase.from("posts").insert(row);
+      if (error) { console.error(`Insert error for ${dataSlug}:`, error.message); continue; }
+      upserted++;
+      console.log(`  ✓ ${dataSlug}  (new; status=${row.status} scheduled_for=${scheduledFor || "(none)"})`);
     }
-    upserted++;
-    console.log(`  ✓ ${dataSlug}  status=${row.status}  scheduled_for=${scheduledFor || "(none)"}`);
   }
 
   console.log(`\nDone. Upserted ${upserted} posts.`);

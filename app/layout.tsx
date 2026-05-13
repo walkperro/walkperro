@@ -82,6 +82,13 @@ export const metadata: Metadata = {
       "max-snippet": -1,
     },
   },
+  verification: {
+    // Google Search Console site verification — the service account in
+    // scripts/gsc-verify.mjs issues this token and self-verifies, so the
+    // Indexing API will accept submissions for walkperro.com without
+    // needing a manual UI step. Env var is set by `gsc-verify.mjs token`.
+    google: process.env.GOOGLE_SITE_VERIFICATION_TOKEN,
+  },
 };
 
 export default function RootLayout({

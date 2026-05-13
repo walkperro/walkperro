@@ -4,7 +4,7 @@ import SectionHeader from "@/components/SectionHeader";
 import Badge from "@/components/Badge";
 import PortfolioMarquee from "@/components/PortfolioMarquee";
 import EmailCapture from "@/components/EmailCapture";
-import { getPublishedPosts, getPublicTools, formatDate } from "@/lib/posts-db";
+import { getPublishedPosts, getPublicTools, getSiteStats, formatDate } from "@/lib/posts-db";
 
 export const revalidate = 60;
 
@@ -18,17 +18,20 @@ const SERVICES = [
   "Brand systems",
 ];
 
-const STATS = [
-  { label: "PROJECTS", value: "12" },
-  { label: "TOOLS", value: "1" },
-  { label: "WORDS", value: "14,200" },
-];
-
 export default async function HomePage() {
-  const [posts, tools] = await Promise.all([
+  const [posts, tools, stats] = await Promise.all([
     getPublishedPosts({ limit: 3 }),
     getPublicTools(), // DB filter: status != 'DRAFT' → only Painmine returns
+    getSiteStats(),
   ]);
+
+  // Real-time counters from DB. Labels chosen to be self-explanatory + grow
+  // with the site instead of static aspirational figures.
+  const STATS = [
+    { label: "POSTS", value: String(stats.posts) },
+    { label: "TOOLS", value: String(stats.tools) },
+    { label: "READERS", value: String(stats.subscribers) },
+  ];
 
   return (
     <main className="min-h-dvh bg-bone text-charcoal">
@@ -74,7 +77,7 @@ export default async function HomePage() {
           </div>
           <aside className="md:col-span-4 md:pl-8 md:border-l md:border-line flex flex-col gap-2">
             <p className="label">// {TODAY}</p>
-            <p className="label">HIRE / OPEN</p>
+            <p className="label">BUILD / DAILY</p>
             <p className="label">WRITE / WEEKLY</p>
             <p className="label">IG / @WALKPERRO</p>
           </aside>
@@ -129,7 +132,6 @@ export default async function HomePage() {
               <p className="label text-smoke">STATE / PRE-LAUNCH</p>
               <p className="label text-smoke">ACCESS / VETTED</p>
               <p className="label text-smoke">FEE / NONE</p>
-              <p className="label text-smoke">EXIT / OPEN</p>
             </div>
           </div>
         </section>
@@ -139,7 +141,6 @@ export default async function HomePage() {
           <SectionHeader
             index="02"
             label="BUILD LOG"
-            title="What I'm shipping, testing, and learning."
             meta={`${posts.length} ${posts.length === 1 ? "ENTRY" : "ENTRIES"}`}
           />
           {posts.length > 0 ? (
@@ -234,28 +235,19 @@ export default async function HomePage() {
             label="CONTACT"
             title="Direct line."
           />
-          <div className="mt-10 grid grid-cols-1 md:grid-cols-12 gap-8">
-            <div className="md:col-span-7 max-w-xl">
-              <p className="text-lg leading-relaxed">
-                If you're building something and want a second pair of hands —
-                or a second opinion — write me. I read everything. I reply to
-                most.
-              </p>
-              <div className="mt-8 flex flex-wrap gap-3">
-                <Button href="mailto:walkperro@proton.me" external>
-                  EMAIL →
-                </Button>
-                <Button href="https://instagram.com/walkperro" external variant="ghost">
-                  INSTAGRAM →
-                </Button>
-              </div>
-            </div>
-            <div className="md:col-span-5 md:pl-8 md:border-l md:border-line">
-              <p className="label">// META</p>
-              <p className="label mt-3">RESPONSE / 24–48H</p>
-              <p className="label mt-2">RATES / ON REQUEST</p>
-              <p className="label mt-2">AVAILABILITY / ON REQUEST</p>
-              <p className="label mt-2">TIMEZONE / EST</p>
+          <div className="mt-10 max-w-xl">
+            <p className="text-lg leading-relaxed">
+              If you're building something and want a second pair of hands —
+              or a second opinion — write me. I read everything. I reply to
+              most.
+            </p>
+            <div className="mt-8 flex flex-wrap gap-3">
+              <Button href="mailto:walkperro@proton.me" external>
+                EMAIL →
+              </Button>
+              <Button href="https://instagram.com/walkperro" external variant="ghost">
+                INSTAGRAM →
+              </Button>
             </div>
           </div>
         </section>

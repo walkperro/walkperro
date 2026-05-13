@@ -94,6 +94,26 @@ export type PublicTool = {
   price_cents: number;
 };
 
+export type SiteStats = {
+  posts: number;
+  tools: number;
+  subscribers: number;
+};
+
+export async function getSiteStats(): Promise<SiteStats> {
+  try {
+    const supa = admin();
+    const [{ count: posts }, { count: tools }, { count: subscribers }] = await Promise.all([
+      supa.from("posts").select("id", { count: "exact", head: true }).eq("status", "published"),
+      supa.from("tools").select("id", { count: "exact", head: true }).neq("status", "DRAFT"),
+      supa.from("subscribers").select("id", { count: "exact", head: true }).eq("status", "active"),
+    ]);
+    return { posts: posts ?? 0, tools: tools ?? 0, subscribers: subscribers ?? 0 };
+  } catch {
+    return { posts: 0, tools: 0, subscribers: 0 };
+  }
+}
+
 export async function getPublicTools(): Promise<PublicTool[]> {
   try {
     const { data } = await admin()

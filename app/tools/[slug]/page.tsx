@@ -61,8 +61,7 @@ export default async function ToolPage({
             </div>
           </div>
           <aside className="md:col-span-4 md:pl-8 md:border-l md:border-line flex flex-col gap-2 self-start">
-            <p className="label">// META</p>
-            <p className="label mt-2">STATUS / {tool.status}</p>
+            <p className="label">STATUS / {tool.status}</p>
             {tool.price_cents > 0 ? (
               <p className="label">PRICE / ${(tool.price_cents / 100).toFixed(2)}</p>
             ) : (
