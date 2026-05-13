@@ -5,52 +5,11 @@ import Badge from "@/components/Badge";
 import PortfolioMarquee from "@/components/PortfolioMarquee";
 import EmailCapture from "@/components/EmailCapture";
 import { NOW } from "@/lib/now";
+import { getPublishedPosts, getActiveNow, getPublicTools, formatDate } from "@/lib/posts-db";
+
+export const revalidate = 60;
 
 const TODAY = new Date().toISOString().slice(0, 10).replace(/-/g, ".");
-
-const LOG_ENTRIES = [
-  {
-    date: "2026.05.05",
-    label: "BUILD LOG",
-    title: "The pricing mistake that almost killed my freelance year.",
-    href: "/blog",
-  },
-  {
-    date: "2026.04.22",
-    label: "FIELD NOTE",
-    title: "Cursor, Claude, and the new shape of a one-person team.",
-    href: "/blog",
-  },
-  {
-    date: "2026.04.10",
-    label: "TOOL",
-    title: "The 12-line script that replaced my CMS.",
-    href: "/blog",
-  },
-];
-
-const TOOLS = [
-  {
-    name: "Stack snippets",
-    desc: "Copy-paste blocks for Next, Supabase, Stripe wiring.",
-    state: "DRAFT",
-  },
-  {
-    name: "Prompt deck",
-    desc: "Operator prompts for Claude + Cursor — versioned.",
-    state: "DRAFT",
-  },
-  {
-    name: "Brand kit",
-    desc: "Bone / charcoal / signal — the system on this site.",
-    state: "PUBLIC",
-  },
-  {
-    name: "Field notes archive",
-    desc: "Long-form posts, cross-linked, no SEO bait.",
-    state: "LIVE",
-  },
-];
 
 const SERVICES = [
   "Operator-grade websites",
@@ -66,7 +25,31 @@ const STATS = [
   { label: "WORDS", value: "14,200" },
 ];
 
-export default function HomePage() {
+// Fallback when DB is empty / unreachable
+const TOOLS_FALLBACK = [
+  { slug: null, title: "Stack snippets", description: "Copy-paste blocks for Next, Supabase, Stripe wiring.", status: "DRAFT" },
+  { slug: null, title: "Prompt deck", description: "Operator prompts for Claude + Cursor — versioned.", status: "DRAFT" },
+  { slug: null, title: "Brand kit", description: "Bone / charcoal / signal — the system on this site.", status: "PUBLIC" },
+  { slug: null, title: "Field notes archive", description: "Long-form posts, cross-linked, no SEO bait.", status: "LIVE" },
+];
+
+export default async function HomePage() {
+  const [posts, nowRow, dbTools] = await Promise.all([
+    getPublishedPosts({ limit: 3 }),
+    getActiveNow(),
+    getPublicTools(),
+  ]);
+
+  // NOW with fallback to constant
+  const nowEntries = nowRow
+    ? [
+        { label: "BUILDING", value: nowRow.building || "" },
+        { label: "READING", value: nowRow.reading || "" },
+        { label: "LISTENING", value: nowRow.listening || "" },
+      ].filter((n) => n.value)
+    : NOW;
+
+  const tools = dbTools.length > 0 ? dbTools : TOOLS_FALLBACK;
   return (
     <main className="min-h-dvh bg-bone text-charcoal">
       {/* Sticky hairline nav */}
@@ -93,11 +76,11 @@ export default function HomePage() {
               // ONLINE — V1
             </Badge>
             <h1 className="font-display text-[clamp(2.5rem,7vw,4.5rem)] leading-[0.95] tracking-[-0.04em] max-w-3xl">
-              The operator's hub for the AI era. Read, build, level up.
+              For the ones who do.
             </h1>
             <p className="mt-8 max-w-xl text-lg leading-relaxed text-charcoal/80">
-              Tools, opinions, and field notes from one person doing what used
-              to take a team. No hype. No fluff. Specific over clever.
+              Tools, opinions, and field notes from someone building with AI
+              from the ground up. No degree. No gatekeepers. Just the work.
             </p>
             <div className="mt-10">
               <p className="label mb-3">// FIELD NOTES — WEEKLY</p>
@@ -120,7 +103,7 @@ export default function HomePage() {
         {/* NOW strip */}
         <section data-reveal className="border-y border-line py-6">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {NOW.map((n) => (
+            {nowEntries.map((n) => (
               <div key={n.label} className="flex items-baseline gap-3">
                 <p className="label whitespace-nowrap">// {n.label}</p>
                 <p className="font-display text-lg leading-snug">{n.value}</p>
@@ -187,34 +170,36 @@ export default function HomePage() {
           <SectionHeader
             index="02"
             label="BUILD LOG"
-            title="What I'm shipping, testing, and learning."
-            meta={`${LOG_ENTRIES.length} ENTRIES`}
+            title={posts.length > 0 ? "What I'm shipping, testing, and learning." : "first entry tuesday."}
+            meta={`${posts.length} ${posts.length === 1 ? "ENTRY" : "ENTRIES"}`}
           />
-          <ul className="mt-10 divide-y divide-line border-y border-line">
-            {LOG_ENTRIES.map((e) => (
-              <li key={e.title}>
-                <Link
-                  href={e.href}
-                  className="group grid grid-cols-1 md:grid-cols-12 gap-4 py-6 transition-colors duration-snap ease-snap hover:bg-line/40"
-                >
-                  <div className="md:col-span-3 label">
-                    {`// ${e.date}`}
-                    <span className="ml-3">{e.label}</span>
-                  </div>
-                  <div className="md:col-span-8">
-                    <p className="font-display text-2xl leading-snug">
-                      {e.title}
-                    </p>
-                  </div>
-                  <div className="md:col-span-1 md:text-right label group-hover:text-charcoal">
-                    READ →
-                  </div>
-                </Link>
-              </li>
-            ))}
-          </ul>
+          {posts.length > 0 ? (
+            <ul className="mt-10 divide-y divide-line border-y border-line">
+              {posts.map((e) => (
+                <li key={e.id}>
+                  <Link
+                    href={`/log/${e.slug}`}
+                    className="group grid grid-cols-1 md:grid-cols-12 gap-4 py-6 transition-colors duration-snap ease-snap hover:bg-line/40"
+                  >
+                    <div className="md:col-span-3 label">
+                      {`// ${formatDate(e.published_at)}`}
+                      <span className="ml-3">{e.category}</span>
+                    </div>
+                    <div className="md:col-span-8">
+                      <p className="font-display text-2xl leading-snug">{e.title}</p>
+                    </div>
+                    <div className="md:col-span-1 md:text-right label group-hover:text-charcoal">
+                      READ →
+                    </div>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p className="mt-10 label text-smoke">// SCHEDULED. CHECK BACK TUESDAY.</p>
+          )}
           <div className="mt-8">
-            <Button href="/blog" variant="ghost">All entries</Button>
+            <Button href="/log" variant="ghost">All entries</Button>
           </div>
         </section>
 
@@ -227,21 +212,27 @@ export default function HomePage() {
             meta="OPEN SHELF"
           />
           <div className="mt-10 grid grid-cols-1 md:grid-cols-2 gap-px bg-line border border-line">
-            {TOOLS.map((t) => (
-              <div
-                key={t.name}
-                className="bg-bone p-6 flex flex-col justify-between min-h-[180px]"
-              >
-                <div className="flex items-center justify-between">
-                  <p className="label">{t.state}</p>
-                  <p className="label text-charcoal/30">// {`0${TOOLS.indexOf(t) + 1}`}</p>
+            {tools.map((t, i) => {
+              const card = (
+                <div className="bg-bone p-6 flex flex-col justify-between min-h-[180px] h-full">
+                  <div className="flex items-center justify-between">
+                    <p className="label">{t.status}</p>
+                    <p className="label text-charcoal/30">// {`0${i + 1}`}</p>
+                  </div>
+                  <div>
+                    <h3 className="font-display text-2xl mt-2">{t.title}</h3>
+                    <p className="mt-3 text-charcoal/80">{t.description}</p>
+                  </div>
                 </div>
-                <div>
-                  <h3 className="font-display text-2xl mt-2">{t.name}</h3>
-                  <p className="mt-3 text-charcoal/80">{t.desc}</p>
-                </div>
-              </div>
-            ))}
+              );
+              return t.slug ? (
+                <Link key={`${t.slug}-${i}`} href={`/tools/${t.slug}`} className="block hover:bg-line/40 transition-colors">
+                  {card}
+                </Link>
+              ) : (
+                <div key={`tool-${i}`}>{card}</div>
+              );
+            })}
           </div>
         </section>
 
@@ -299,8 +290,8 @@ export default function HomePage() {
         </section>
 
         {/* Footer */}
-        <footer className="hairline mt-12 mb-12 pt-8 flex flex-wrap items-baseline justify-between gap-3">
-          <p className="label">— walkperro</p>
+        <footer className="hairline mt-12 mb-12 pt-8 flex flex-col gap-2">
+          <p className="label">— walkperro / for the ones who do</p>
           <p className="label">© 2026 / FACELESS / ALL RIGHTS RESERVED</p>
         </footer>
       </div>

@@ -46,7 +46,7 @@ export default function EmailCapture({
   if (state === "ok") {
     return (
       <p className={cn("label", isDark ? "text-bone" : "text-charcoal", className)}>
-        // ON THE LIST. CHECK YOUR INBOX.
+        // YOU'RE IN. CHECK YOUR EMAIL.
       </p>
     );
   }
