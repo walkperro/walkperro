@@ -1,25 +1,27 @@
-// Send a markdown/plain text file to Telegram in <4096-char chunks.
-// Reads TELEGRAM_BOT_TOKEN and TELEGRAM_CHAT_ID from .env.local.
-// If TELEGRAM_CHAT_ID is missing, attempts to auto-resolve from the most
-// recent message sent to the bot via getUpdates().
+// Send text or photos to the Telegram bot.
+// Reads bot token from .env.local (walkperro_studio_bot or TELEGRAM_BOT_TOKEN).
+// Auto-resolves TELEGRAM_CHAT_ID from getUpdates if not set.
 //
 // Usage:
-//   node scripts/send-telegram.mjs <path-to-file>   [--code]
-//   node scripts/send-telegram.mjs --text "plain message"
+//   node scripts/send-telegram.mjs <file.md|txt>            # text from file, chunked
+//   node scripts/send-telegram.mjs --text "msg"             # inline text
+//   node scripts/send-telegram.mjs --code <file>            # text as code block
+//   node scripts/send-telegram.mjs --photo a.png            # one photo
+//   node scripts/send-telegram.mjs --photos a.png b.png ... # media group (2-10 per group; auto-batch)
+//   node scripts/send-telegram.mjs --photos-dir /path       # all *.png|.jpg in dir as media group
+//   --caption "..."                                          # caption for photos
 //
-// --code wraps the message in a ```code``` block (MarkdownV2). Default is plain text.
-//
-// SECURITY: this script never prints the bot token. Only the HTTP status code.
+// SECURITY: never prints the bot token. Only HTTP status codes / Telegram error descriptions.
 
-import { readFileSync } from "node:fs";
+import { readFileSync, readdirSync, statSync } from "node:fs";
 import path from "node:path";
 
-// Load .env.local
+// --- env loading
 function loadEnv() {
   try {
     const raw = readFileSync(path.join(process.cwd(), ".env.local"), "utf8");
     for (const line of raw.split("\n")) {
-      const m = line.match(/^\s*([A-Z_][A-Z0-9_]*)\s*=\s*(.*)\s*$/i);
+      const m = line.match(/^\s*([A-Za-z_][A-Za-z0-9_]*)\s*=\s*(.*)\s*$/);
       if (!m) continue;
       let val = m[2];
       if ((val.startsWith('"') && val.endsWith('"')) || (val.startsWith("'") && val.endsWith("'"))) {
@@ -31,80 +33,88 @@ function loadEnv() {
 }
 loadEnv();
 
-// Accept either env name; user's setup uses `walkperro_studio_bot`.
 const token = process.env.walkperro_studio_bot || process.env.TELEGRAM_BOT_TOKEN;
 let chatId = process.env.TELEGRAM_CHAT_ID;
-
 if (!token) {
-  console.error("Missing bot token in .env.local.");
-  console.error("Add either of these lines (walkperro_studio_bot preferred):");
-  console.error('  walkperro_studio_bot="your_bot_token_from_botfather"');
-  console.error('  TELEGRAM_BOT_TOKEN="your_bot_token_from_botfather"');
+  console.error("Missing bot token (walkperro_studio_bot or TELEGRAM_BOT_TOKEN) in .env.local.");
   process.exit(1);
 }
 
-// Resolve chat_id from getUpdates if missing
 async function resolveChatId() {
   const res = await fetch(`https://api.telegram.org/bot${token}/getUpdates`);
   const body = await res.json();
   if (!body.ok || !body.result?.length) {
-    console.error("Cannot auto-resolve TELEGRAM_CHAT_ID.");
-    console.error("Send any message to your bot first (open Telegram → walkperro_studio_bot → /start), then retry.");
+    console.error("Cannot auto-resolve TELEGRAM_CHAT_ID. Send /start to the bot first.");
     process.exit(2);
   }
-  // Most recent update's chat id
   const latest = body.result[body.result.length - 1];
   const id = latest.message?.chat?.id || latest.channel_post?.chat?.id;
-  if (!id) {
-    console.error("getUpdates returned no chat id.");
-    process.exit(2);
-  }
-  console.log(`Auto-resolved chat id from latest update.`);
-  console.log(`  → Add this line to .env.local to skip this step next time:`);
-  console.log(`     TELEGRAM_CHAT_ID="${id}"`);
+  if (!id) { console.error("getUpdates returned no chat id."); process.exit(2); }
+  console.log(`Auto-resolved chat id (add to .env.local: TELEGRAM_CHAT_ID="${id}")`);
   return id;
 }
-
 if (!chatId) chatId = await resolveChatId();
 
-// Parse args
-const args = process.argv.slice(2);
-let textMode = false;
+// --- args
+const argv = process.argv.slice(2);
+let mode = "text";              // text | code | photo | photos | photos-dir
+let payloadArgs = [];
+let caption = "";
 let codeMode = false;
-let payload = "";
-
-for (let i = 0; i < args.length; i++) {
-  const a = args[i];
-  if (a === "--text") {
-    textMode = true;
-    payload = args[i + 1] || "";
-    i++;
-  } else if (a === "--code") {
-    codeMode = true;
-  } else if (!textMode && !payload) {
-    payload = readFileSync(a, "utf8");
+for (let i = 0; i < argv.length; i++) {
+  const a = argv[i];
+  if (a === "--text") { mode = "inline-text"; payloadArgs.push(argv[++i] || ""); }
+  else if (a === "--code") { codeMode = true; }
+  else if (a === "--photo") { mode = "photo"; payloadArgs.push(argv[++i]); }
+  else if (a === "--photos") {
+    mode = "photos";
+    while (i + 1 < argv.length && !argv[i + 1].startsWith("--")) payloadArgs.push(argv[++i]);
   }
+  else if (a === "--photos-dir") { mode = "photos-dir"; payloadArgs.push(argv[++i]); }
+  else if (a === "--caption") { caption = argv[++i] || ""; }
+  else if (!a.startsWith("--")) { payloadArgs.push(a); }
 }
 
-if (!payload) {
-  console.error("No content. Usage: send-telegram.mjs <file> | --text 'msg' [--code]");
-  process.exit(1);
+const API = `https://api.telegram.org/bot${token}`;
+
+// --- helpers
+async function postJson(method, params) {
+  const body = new URLSearchParams();
+  for (const [k, v] of Object.entries(params)) body.set(k, String(v));
+  const res = await fetch(`${API}/${method}`, {
+    method: "POST",
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    body,
+  });
+  return { ok: res.ok, status: res.status, body: await res.json().catch(() => ({})) };
 }
 
-// Chunk to <= 3800 chars (under Telegram's 4096 limit with room for headers/escapes).
-const MAX = 3800;
+async function postMultipart(method, fields) {
+  const fd = new FormData();
+  for (const [k, v] of Object.entries(fields)) {
+    if (v && typeof v === "object" && v.filename && v.data) {
+      fd.append(k, new Blob([v.data]), v.filename);
+    } else {
+      fd.append(k, String(v));
+    }
+  }
+  const res = await fetch(`${API}/${method}`, { method: "POST", body: fd });
+  return { ok: res.ok, status: res.status, body: await res.json().catch(() => ({})) };
+}
+
+// --- text chunking
+const MAX_TEXT = 3800;
 function chunkText(s) {
   const chunks = [];
   let i = 0;
   while (i < s.length) {
-    let end = Math.min(i + MAX, s.length);
+    let end = Math.min(i + MAX_TEXT, s.length);
     if (end < s.length) {
-      // Prefer to break on a double-newline near the end
       const back = s.lastIndexOf("\n\n", end);
-      if (back > i + MAX / 2) end = back;
+      if (back > i + MAX_TEXT / 2) end = back;
       else {
         const back2 = s.lastIndexOf("\n", end);
-        if (back2 > i + MAX / 2) end = back2;
+        if (back2 > i + MAX_TEXT / 2) end = back2;
       }
     }
     chunks.push(s.slice(i, end).trim());
@@ -112,41 +122,87 @@ function chunkText(s) {
   }
   return chunks;
 }
+const escapeMdV2Code = (s) => s.replace(/\\/g, "\\\\").replace(/`/g, "\\`");
 
-// MarkdownV2 escape for `code` block payloads
-function escapeMdV2Code(s) {
-  return s.replace(/\\/g, "\\\\").replace(/`/g, "\\`");
-}
-
-async function sendChunk(text, index, total) {
-  const headerSuffix = total > 1 ? `\n\n— part ${index + 1}/${total}` : "";
-  const body = codeMode
-    ? "```\n" + escapeMdV2Code(text) + "\n```" + headerSuffix
-    : text + headerSuffix;
-
-  const params = new URLSearchParams();
-  params.set("chat_id", String(chatId));
-  params.set("text", body);
-  params.set("disable_web_page_preview", "true");
-  if (codeMode) params.set("parse_mode", "MarkdownV2");
-
-  const res = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
-    method: "POST",
-    headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    body: params,
-  });
-  if (!res.ok) {
-    const errBody = await res.json().catch(() => ({}));
-    console.error(`Telegram send failed (chunk ${index + 1}/${total}): ${res.status}`, errBody.description || "");
-    process.exit(3);
+// --- senders
+async function sendText(text) {
+  const chunks = chunkText(text);
+  console.log(`Sending ${chunks.length} text chunk(s)…`);
+  for (let i = 0; i < chunks.length; i++) {
+    const headerSuffix = chunks.length > 1 ? `\n\n— part ${i + 1}/${chunks.length}` : "";
+    const body = codeMode ? "```\n" + escapeMdV2Code(chunks[i]) + "\n```" + headerSuffix : chunks[i] + headerSuffix;
+    const params = { chat_id: chatId, text: body, disable_web_page_preview: "true" };
+    if (codeMode) params.parse_mode = "MarkdownV2";
+    const r = await postJson("sendMessage", params);
+    if (!r.ok) { console.error(`sendMessage failed (${i + 1}/${chunks.length}):`, r.body.description || r.status); process.exit(3); }
+    if (i < chunks.length - 1) await new Promise((r) => setTimeout(r, 300));
   }
+  console.log("Done.");
 }
 
-const chunks = chunkText(payload);
-console.log(`Sending ${chunks.length} chunk${chunks.length > 1 ? "s" : ""} to Telegram…`);
-for (let i = 0; i < chunks.length; i++) {
-  await sendChunk(chunks[i], i, chunks.length);
-  // Be polite to the Bot API rate limits (30 msg/sec hard cap; we're way under)
-  if (i < chunks.length - 1) await new Promise((r) => setTimeout(r, 350));
+async function sendPhoto(filePath, cap) {
+  const data = readFileSync(filePath);
+  const r = await postMultipart("sendPhoto", {
+    chat_id: chatId,
+    photo: { filename: path.basename(filePath), data },
+    ...(cap ? { caption: cap } : {}),
+  });
+  if (!r.ok) { console.error(`sendPhoto failed:`, r.body.description || r.status); process.exit(3); }
+  console.log(`Sent: ${path.basename(filePath)}`);
 }
-console.log("Done.");
+
+// Media group: 2-10 photos per call. Split larger batches into multiple groups.
+async function sendMediaGroup(files, cap) {
+  for (let i = 0; i < files.length; i += 10) {
+    const batch = files.slice(i, i + 10);
+    if (batch.length === 1) { await sendPhoto(batch[0], i === 0 ? cap : ""); continue; }
+
+    const fd = new FormData();
+    fd.append("chat_id", String(chatId));
+    const mediaArr = [];
+    for (let j = 0; j < batch.length; j++) {
+      const file = batch[j];
+      const key = `media${j}`;
+      const data = readFileSync(file);
+      fd.append(key, new Blob([data]), path.basename(file));
+      const item = { type: "photo", media: `attach://${key}` };
+      if (j === 0 && i === 0 && cap) item.caption = cap;
+      mediaArr.push(item);
+    }
+    fd.append("media", JSON.stringify(mediaArr));
+
+    const res = await fetch(`${API}/sendMediaGroup`, { method: "POST", body: fd });
+    const ok = res.ok;
+    const body = await res.json().catch(() => ({}));
+    if (!ok) { console.error(`sendMediaGroup failed:`, body.description || res.status); process.exit(3); }
+    console.log(`Sent media group (${batch.length} photo${batch.length > 1 ? "s" : ""}).`);
+    if (i + 10 < files.length) await new Promise((r) => setTimeout(r, 1000));
+  }
+  console.log("Done.");
+}
+
+function listPhotosInDir(dir) {
+  const entries = readdirSync(dir)
+    .filter((f) => /\.(png|jpe?g|webp)$/i.test(f))
+    .map((f) => path.join(dir, f));
+  entries.sort();
+  return entries;
+}
+
+// --- dispatch
+if (mode === "inline-text") {
+  await sendText(payloadArgs[0] || "");
+} else if (mode === "text") {
+  if (!payloadArgs[0]) { console.error("No file given."); process.exit(1); }
+  const buf = readFileSync(payloadArgs[0], "utf8");
+  await sendText(buf);
+} else if (mode === "photo") {
+  await sendPhoto(payloadArgs[0], caption);
+} else if (mode === "photos") {
+  await sendMediaGroup(payloadArgs, caption);
+} else if (mode === "photos-dir") {
+  const files = listPhotosInDir(payloadArgs[0]);
+  if (files.length === 0) { console.error("No images in directory."); process.exit(1); }
+  console.log(`Found ${files.length} image(s) in ${payloadArgs[0]}`);
+  await sendMediaGroup(files, caption);
+}

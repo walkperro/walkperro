@@ -33,7 +33,7 @@ export default async function LogIndex() {
           </div>
           <div className="hairline mt-3" />
           <h1 className="font-display text-[clamp(2.5rem,6vw,4rem)] leading-[0.95] tracking-[-0.04em] mt-6 max-w-3xl">
-            {posts.length > 0 ? "Notes from one operator, in real time." : "First entry tuesday."}
+            Notes from someone building with AI.
           </h1>
           <p className="mt-6 max-w-prose text-lg leading-relaxed text-charcoal/80">
             Long-form. First person. One opinion per post, defended. Written for
@@ -78,7 +78,7 @@ export default async function LogIndex() {
 
         <footer className="hairline mb-12 pt-8 flex flex-col gap-2">
           <p className="label">— walkperro / for the ones who do</p>
-          <p className="label">© 2026 / FACELESS / ALL RIGHTS RESERVED</p>
+          <p className="label">© 2026 walkperro / ALL RIGHTS RESERVED</p>
         </footer>
       </div>
     </main>

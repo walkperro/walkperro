@@ -46,26 +46,22 @@ export default function SubscribersClient() {
     window.location.href = "/api/admin/subscribers/export";
   }
 
+  const bySource = Array.from(
+    rows.reduce((m, r) => m.set(r.source, (m.get(r.source) || 0) + 1), new Map<string, number>())
+  ).slice(0, 4).map(([s, n]) => `${s} ${n}`).join(" · ") || "—";
+
   return (
     <div>
-      {/* Stats */}
-      <div className="grid grid-cols-3 gap-px bg-line border border-line mb-8">
+      {/* Stats — stack on mobile */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-px bg-line border border-line mb-6 sm:mb-8">
         <Stat label="TOTAL" value={String(total)} />
         <Stat label="THIS WEEK" value={String(thisWeek)} />
-        <Stat
-          label="BY SOURCE"
-          value={
-            Array.from(rows.reduce((m, r) => m.set(r.source, (m.get(r.source) || 0) + 1), new Map<string, number>()))
-              .slice(0, 4)
-              .map(([s, n]) => `${s} ${n}`)
-              .join(" · ") || "—"
-          }
-        />
+        <Stat label="BY SOURCE" value={bySource} small />
       </div>
 
-      {/* Filters */}
-      <div className="flex items-end gap-4 mb-6">
-        <label className="block flex-1 max-w-md">
+      {/* Filters — stack on mobile, row on desktop */}
+      <div className="flex flex-col sm:flex-row sm:items-end gap-4 mb-6">
+        <label className="block flex-1 sm:max-w-md">
           <span className="label block mb-2">SEARCH</span>
           <input
             type="text"
@@ -73,7 +69,7 @@ export default function SubscribersClient() {
             onChange={(e) => setQ(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && fetchRows()}
             placeholder="email contains…"
-            className="w-full font-mono text-sm bg-transparent border-0 border-b border-charcoal py-2 focus:outline-none focus:border-b-2"
+            className="w-full font-mono text-base sm:text-sm bg-transparent border-0 border-b border-charcoal py-2 focus:outline-none focus:border-b-2"
           />
         </label>
         <div className="flex gap-2 flex-wrap">
@@ -91,25 +87,41 @@ export default function SubscribersClient() {
         </div>
         <button
           onClick={exportCsv}
-          className="label px-3 py-2 border border-charcoal hover:bg-charcoal hover:text-bone"
+          className="label px-3 py-2 border border-charcoal hover:bg-charcoal hover:text-bone whitespace-nowrap"
         >
           EXPORT CSV →
         </button>
       </div>
 
-      {/* Table */}
+      {/* List */}
       <div className="border border-line">
-        <div className="grid grid-cols-[2fr_1fr_1fr_1fr] label py-3 px-4 bg-line/40">
+        {/* Desktop column headers */}
+        <div className="hidden md:grid grid-cols-[2fr_1fr_1fr_1fr] label py-3 px-4 bg-line/40">
           <span>EMAIL</span><span>SOURCE</span><span>STATUS</span><span>CREATED</span>
         </div>
+
         {loading && <p className="label p-6">// LOADING…</p>}
         {!loading && rows.length === 0 && <p className="label p-6 text-smoke">// NO SUBSCRIBERS YET.</p>}
+
+        {/* Rows: desktop = grid columns, mobile = stacked card */}
         {!loading && rows.map((r) => (
-          <div key={r.id} className="grid grid-cols-[2fr_1fr_1fr_1fr] py-3 px-4 border-t border-line text-sm">
-            <span className="font-mono">{r.email}</span>
-            <span className="label">{r.source}</span>
-            <span className="label">{r.status}</span>
-            <span className="label text-smoke">{relative(r.created_at)}</span>
+          <div key={r.id} className="border-t border-line">
+            {/* Desktop row */}
+            <div className="hidden md:grid grid-cols-[2fr_1fr_1fr_1fr] py-3 px-4 text-sm">
+              <span className="font-mono break-all">{r.email}</span>
+              <span className="label">{r.source}</span>
+              <span className="label">{r.status}</span>
+              <span className="label text-smoke">{relative(r.created_at)}</span>
+            </div>
+            {/* Mobile card */}
+            <div className="md:hidden py-4 px-4">
+              <p className="font-mono text-sm break-all">{r.email}</p>
+              <div className="flex flex-wrap gap-x-3 gap-y-1 mt-2">
+                <span className="label">{r.source}</span>
+                <span className="label">{r.status}</span>
+                <span className="label text-smoke">{relative(r.created_at)}</span>
+              </div>
+            </div>
           </div>
         ))}
       </div>
@@ -117,11 +129,11 @@ export default function SubscribersClient() {
   );
 }
 
-function Stat({ label, value }: { label: string; value: string }) {
+function Stat({ label, value, small }: { label: string; value: string; small?: boolean }) {
   return (
-    <div className="bg-bone p-5">
+    <div className="bg-bone p-4 sm:p-5">
       <p className="label">{label}</p>
-      <p className="font-display text-2xl mt-2">{value}</p>
+      <p className={`font-display ${small ? "text-base mt-2" : "text-2xl mt-2"} break-words`}>{value}</p>
     </div>
   );
 }

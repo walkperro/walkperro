@@ -1,0 +1,58 @@
+{
+  "post_slug": "what-a-time-to-be-alive",
+  "category": "// FIELD NOTE",
+  "total_slides": 8,
+  "slides": [
+    {
+      "index": 1,
+      "type": "cover",
+      "layout": "open",
+      "text": "You don't need\na degree.\nYou need a prompt."
+    },
+    {
+      "index": 2,
+      "type": "body",
+      "layout": "edge_bleed",
+      "text": "It used to be that by a certain age, you had to choose what you wanted to be for the rest of your life.\n\nNow you don't."
+    },
+    {
+      "index": 3,
+      "type": "body",
+      "layout": "open",
+      "text": "You can be many things."
+    },
+    {
+      "index": 4,
+      "type": "body",
+      "layout": "edge_bleed",
+      "text": "The haters claiming successful people only made it because of luck or money are getting exposed —\n\nas the ones who never had any discipline in the first place."
+    },
+    {
+      "index": 5,
+      "type": "body",
+      "layout": "open",
+      "text": "So what's your excuse now?"
+    },
+    {
+      "index": 6,
+      "type": "body",
+      "layout": "edge_bleed",
+      "text": "If you can think it,\nyou can make it.\n\nThe new skill is how willing you are to use your brain."
+    },
+    {
+      "index": 7,
+      "type": "body",
+      "layout": "open",
+      "text": "Your time is NOW."
+    },
+    {
+      "index": 8,
+      "type": "cta",
+      "layout": "open",
+      "text": "Read the full piece.",
+      "sub": "walkperro.com / log",
+      "handle": "@WALKPERRO",
+      "url": "walkperro.com / log"
+    }
+  ]
+}

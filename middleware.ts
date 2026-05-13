@@ -31,11 +31,10 @@ export function middleware(req: NextRequest) {
   const url = req.nextUrl.clone();
   const host = req.headers.get("host") || "";
 
-  // Bare → www
-  if (host === "walkperro.com") {
-    url.hostname = "www.walkperro.com";
-    return NextResponse.redirect(url, 308);
-  }
+  // Domain canonicalization is handled at the Vercel platform level
+  // (Project → Settings → Domains). Both walkperro.com and www.walkperro.com
+  // are aliased to this deploy. The platform 307s the non-primary to the primary.
+  // No middleware-level host redirect needed — it would just fight the platform one.
 
   // Admin gate
   if (url.pathname.startsWith("/admin")) {

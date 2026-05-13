@@ -11,6 +11,7 @@
   "dependencies": {
     "@radix-ui/react-separator": "^1.1.8",
     "@radix-ui/react-slot": "^1.2.4",
+    "@resvg/resvg-js": "^2.6.2",
     "@supabase/supabase-js": "^2.86.2",
     "@vercel/analytics": "^1.5.0",
     "bcryptjs": "^3.0.3",

@@ -127,3 +127,20 @@ a {
   .reveal, .reveal.visible { opacity: 1; transform: none; transition: none; }
   .marquee-row { animation: none; }
 }
+
+/* iOS zoom prevention — inputs <16px trigger viewport zoom on focus.
+   Apply 16px minimum on small screens; desktop sizes stay as Tailwind classes set them. */
+@media (max-width: 767px) {
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  input[type="number"],
+  input[type="search"],
+  input[type="tel"],
+  input[type="url"],
+  input[type="datetime-local"],
+  select,
+  textarea {
+    font-size: 16px;
+  }
+}

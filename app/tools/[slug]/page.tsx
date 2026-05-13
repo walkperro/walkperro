@@ -77,7 +77,7 @@ export default async function ToolPage({
 
         <footer className="hairline mt-12 mb-12 pt-8 flex flex-col gap-2">
           <p className="label">— walkperro / for the ones who do</p>
-          <p className="label">© 2026 / FACELESS / ALL RIGHTS RESERVED</p>
+          <p className="label">© 2026 walkperro / ALL RIGHTS RESERVED</p>
         </footer>
       </div>
     </main>

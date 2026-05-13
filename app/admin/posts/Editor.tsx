@@ -84,7 +84,7 @@ export default function PostEditor({
         />
       </label>
 
-      <div className="grid grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
         <Select label="STATUS" value={post.status || "draft"} onChange={(v) => set("status", v)} options={STATUSES} />
         <label className="block">
           <span className="label block mb-2">SCHEDULED FOR</span>

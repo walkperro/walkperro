@@ -1,0 +1,65 @@
+{
+  "post_slug": "no-pain-no-profit",
+  "category": "// BUILD LOG",
+  "total_slides": 7,
+  "slides": [
+    {
+      "index": 1,
+      "type": "cover",
+      "layout": "open",
+      "text": "15 minutes\nwith Claude."
+    },
+    {
+      "index": 2,
+      "type": "stats",
+      "layout": "open",
+      "top_label": "// THE PROJECTIONS",
+      "groups": [
+        { "value": "$1K", "label": "MONTH 01" },
+        { "value": "$10K", "label": "MONTH 03" },
+        { "value": "$1–5M", "label": "YEAR 01" }
+      ]
+    },
+    {
+      "index": 3,
+      "type": "body",
+      "layout": "edge_bleed",
+      "text": "I was watching Lucy Guo interviews.\n\nShe kept mentioning how she scrapes Reddit to find problems worth solving.\n\nSo I did the same thing."
+    },
+    {
+      "index": 4,
+      "type": "prompt",
+      "layout": "edge_bleed",
+      "sublabel": "// THE PROMPT",
+      "text": "\"Hey Claude, go scrape Reddit and find an opportunity that could be turned into a business at low overhead and low setup time. Rank the top 5 by likelihood. Give me a step-by-step blueprint and list every major hurdle.\""
+    },
+    {
+      "index": 5,
+      "type": "body",
+      "layout": "open",
+      "text": "Within minutes,\nClaude was building\nthe web app."
+    },
+    {
+      "index": 6,
+      "type": "checklist",
+      "layout": "edge_bleed",
+      "sublabel": "// WHAT CLAUDE BUILT",
+      "items": [
+        "Stripe linked for payments",
+        "Listings auto-generated",
+        "Marketing plan drafted",
+        "Major hurdles mapped",
+        "Step-by-step blueprint delivered"
+      ]
+    },
+    {
+      "index": 7,
+      "type": "cta",
+      "layout": "open",
+      "text": "Want the bot?",
+      "sub": "Drop a comment.\nI'll share the link.",
+      "handle": "@WALKPERRO",
+      "url": "walkperro.com / log"
+    }
+  ]
+}

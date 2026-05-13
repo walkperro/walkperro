@@ -15,7 +15,7 @@ type Props = {
 
 export default function EmailCapture({
   source,
-  placeholder = "you@operator.com",
+  placeholder = "you@example.com",
   cta = "Subscribe",
   variant = "light",
   className,

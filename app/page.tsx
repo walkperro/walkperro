@@ -4,52 +4,32 @@ import SectionHeader from "@/components/SectionHeader";
 import Badge from "@/components/Badge";
 import PortfolioMarquee from "@/components/PortfolioMarquee";
 import EmailCapture from "@/components/EmailCapture";
-import { NOW } from "@/lib/now";
-import { getPublishedPosts, getActiveNow, getPublicTools, formatDate } from "@/lib/posts-db";
+import { getPublishedPosts, getPublicTools, formatDate } from "@/lib/posts-db";
 
 export const revalidate = 60;
 
 const TODAY = new Date().toISOString().slice(0, 10).replace(/-/g, ".");
 
 const SERVICES = [
-  "Operator-grade websites",
+  "Custom websites",
   "AI workflows & automations",
   "Funnel + checkout systems",
   "Database & schema design",
-  "Brand systems for builders",
+  "Brand systems",
 ];
 
 const STATS = [
   { label: "PROJECTS", value: "12" },
-  { label: "TOOLS", value: "2" },
+  { label: "TOOLS", value: "1" },
   { label: "WORDS", value: "14,200" },
 ];
 
-// Fallback when DB is empty / unreachable
-const TOOLS_FALLBACK = [
-  { slug: null, title: "Stack snippets", description: "Copy-paste blocks for Next, Supabase, Stripe wiring.", status: "DRAFT" },
-  { slug: null, title: "Prompt deck", description: "Operator prompts for Claude + Cursor — versioned.", status: "DRAFT" },
-  { slug: null, title: "Brand kit", description: "Bone / charcoal / signal — the system on this site.", status: "PUBLIC" },
-  { slug: null, title: "Field notes archive", description: "Long-form posts, cross-linked, no SEO bait.", status: "LIVE" },
-];
-
 export default async function HomePage() {
-  const [posts, nowRow, dbTools] = await Promise.all([
+  const [posts, tools] = await Promise.all([
     getPublishedPosts({ limit: 3 }),
-    getActiveNow(),
-    getPublicTools(),
+    getPublicTools(), // DB filter: status != 'DRAFT' → only Painmine returns
   ]);
 
-  // NOW with fallback to constant
-  const nowEntries = nowRow
-    ? [
-        { label: "BUILDING", value: nowRow.building || "" },
-        { label: "READING", value: nowRow.reading || "" },
-        { label: "LISTENING", value: nowRow.listening || "" },
-      ].filter((n) => n.value)
-    : NOW;
-
-  const tools = dbTools.length > 0 ? dbTools : TOOLS_FALLBACK;
   return (
     <main className="min-h-dvh bg-bone text-charcoal">
       {/* Sticky hairline nav */}
@@ -88,32 +68,20 @@ export default async function HomePage() {
             </div>
             <p className="mt-6 label">
               <Link href="#contact" className="border-b border-charcoal text-charcoal hover:text-charcoal/70">
-                OR HIRE THE OPERATOR →
+                OR HIRE ME →
               </Link>
             </p>
           </div>
           <aside className="md:col-span-4 md:pl-8 md:border-l md:border-line flex flex-col gap-2">
             <p className="label">// {TODAY}</p>
-            <p className="label">STATUS / SHIPPING</p>
-            <p className="label">RIG / SOLO</p>
-            <p className="label">SIGNAL / OPEN</p>
+            <p className="label">HIRE / OPEN</p>
+            <p className="label">WRITE / WEEKLY</p>
+            <p className="label">IG / @WALKPERRO</p>
           </aside>
         </section>
 
-        {/* NOW strip */}
-        <section data-reveal className="border-y border-line py-6">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {nowEntries.map((n) => (
-              <div key={n.label} className="flex items-baseline gap-3">
-                <p className="label whitespace-nowrap">// {n.label}</p>
-                <p className="font-display text-lg leading-snug">{n.value}</p>
-              </div>
-            ))}
-          </div>
-        </section>
-
         {/* Portfolio */}
-        <section data-reveal id="portfolio" className="py-20">
+        <section data-reveal id="portfolio" className="py-20 border-t border-line">
           <SectionHeader
             index="01"
             label="PORTFOLIO"
@@ -145,11 +113,12 @@ export default async function HomePage() {
               <div className="hairline-dark mt-3" />
               <p className="label text-smoke mt-6">CLOSEHOUND / V0</p>
               <h3 className="font-display text-[clamp(2rem,5vw,3rem)] leading-[1.0] tracking-[-0.02em] mt-3 max-w-xl">
-                Invite-only seller waitlist for the post-Craigslist era.
+                Invite-only seller waitlist for the AI era of sales.
               </h3>
               <p className="mt-6 text-bone/80 max-w-md leading-relaxed">
-                Quiet inventory, vetted buyers, no SEO sludge. Joining the
-                waitlist gets you the first 50 listings before launch.
+                We provide the product. We provide the leads. You make the
+                sale. Join the waitlist to get vetted for when CloseHound
+                launches.
               </p>
               <div className="mt-8">
                 <p className="label text-smoke mb-3">// JOIN THE WAITLIST</p>
@@ -158,7 +127,7 @@ export default async function HomePage() {
             </div>
             <div className="md:col-span-5 md:pl-8 md:border-l md:border-line-dark flex flex-col gap-2">
               <p className="label text-smoke">STATE / PRE-LAUNCH</p>
-              <p className="label text-smoke">SEATS / 50</p>
+              <p className="label text-smoke">ACCESS / VETTED</p>
               <p className="label text-smoke">FEE / NONE</p>
               <p className="label text-smoke">EXIT / OPEN</p>
             </div>
@@ -170,7 +139,7 @@ export default async function HomePage() {
           <SectionHeader
             index="02"
             label="BUILD LOG"
-            title={posts.length > 0 ? "What I'm shipping, testing, and learning." : "first entry tuesday."}
+            title="What I'm shipping, testing, and learning."
             meta={`${posts.length} ${posts.length === 1 ? "ENTRY" : "ENTRIES"}`}
           />
           {posts.length > 0 ? (
@@ -195,9 +164,7 @@ export default async function HomePage() {
                 </li>
               ))}
             </ul>
-          ) : (
-            <p className="mt-10 label text-smoke">// SCHEDULED. CHECK BACK TUESDAY.</p>
-          )}
+          ) : null}
           <div className="mt-8">
             <Button href="/log" variant="ghost">All entries</Button>
           </div>
@@ -208,32 +175,36 @@ export default async function HomePage() {
           <SectionHeader
             index="03"
             label="TOOLS"
-            title="Things I built and use daily."
+            title="What I use."
             meta="OPEN SHELF"
           />
-          <div className="mt-10 grid grid-cols-1 md:grid-cols-2 gap-px bg-line border border-line">
-            {tools.map((t, i) => {
-              const card = (
-                <div className="bg-bone p-6 flex flex-col justify-between min-h-[180px] h-full">
-                  <div className="flex items-center justify-between">
-                    <p className="label">{t.status}</p>
-                    <p className="label text-charcoal/30">// {`0${i + 1}`}</p>
+          {tools.length > 0 ? (
+            <div className="mt-10 grid grid-cols-1 md:grid-cols-2 gap-px bg-line border border-line">
+              {tools.map((t, i) => {
+                const card = (
+                  <div className="bg-bone p-6 flex flex-col justify-between min-h-[180px] h-full">
+                    <div className="flex items-center justify-between">
+                      <p className="label">{t.status}</p>
+                      <p className="label text-charcoal/30">// {`0${i + 1}`}</p>
+                    </div>
+                    <div>
+                      <h3 className="font-display text-2xl mt-2">{t.title}</h3>
+                      <p className="mt-3 text-charcoal/80">{t.description}</p>
+                    </div>
                   </div>
-                  <div>
-                    <h3 className="font-display text-2xl mt-2">{t.title}</h3>
-                    <p className="mt-3 text-charcoal/80">{t.description}</p>
-                  </div>
-                </div>
-              );
-              return t.slug ? (
-                <Link key={`${t.slug}-${i}`} href={`/tools/${t.slug}`} className="block hover:bg-line/40 transition-colors">
-                  {card}
-                </Link>
-              ) : (
-                <div key={`tool-${i}`}>{card}</div>
-              );
-            })}
-          </div>
+                );
+                return t.slug ? (
+                  <Link key={`${t.slug}-${i}`} href={`/tools/${t.slug}`} className="block hover:bg-line/40 transition-colors">
+                    {card}
+                  </Link>
+                ) : (
+                  <div key={`tool-${i}`}>{card}</div>
+                );
+              })}
+            </div>
+          ) : (
+            <p className="mt-10 label text-smoke">// MORE TOOLS COMING SOON.</p>
+          )}
         </section>
 
         {/* Services */}
@@ -292,7 +263,7 @@ export default async function HomePage() {
         {/* Footer */}
         <footer className="hairline mt-12 mb-12 pt-8 flex flex-col gap-2">
           <p className="label">— walkperro / for the ones who do</p>
-          <p className="label">© 2026 / FACELESS / ALL RIGHTS RESERVED</p>
+          <p className="label">© 2026 walkperro / ALL RIGHTS RESERVED</p>
         </footer>
       </div>
     </main>

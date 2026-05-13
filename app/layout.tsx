@@ -24,17 +24,64 @@ const sans = Inter({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.walkperro.com"),
-  title: "walkperro — operator's hub for the AI era",
+  title: {
+    default: "walkperro — for the ones who do.",
+    template: "%s — walkperro",
+  },
   description:
-    "Tools, opinions, and field notes from one person doing what used to take a team. Read. Build. Steal.",
+    "Tools, opinions, and field notes from someone building with AI from the ground up. No degree. No gatekeepers. Just the work.",
+  keywords: [
+    "AI builder", "build with AI", "Claude", "prompt engineering",
+    "field notes", "solo builder", "AI tools", "vibe coding",
+    "indie maker", "Stripe", "Supabase", "Next.js",
+  ],
+  authors: [{ name: "walkperro" }],
+  creator: "walkperro",
+  publisher: "walkperro",
+  alternates: {
+    canonical: "https://www.walkperro.com",
+    types: {
+      "application/rss+xml": [
+        { url: "/log/rss.xml", title: "walkperro / log" },
+      ],
+    },
+  },
   openGraph: {
-    title: "walkperro",
-    description: "Operator's hub for the AI/vibe-coding era.",
+    title: "walkperro — for the ones who do.",
+    description:
+      "Tools, opinions, and field notes from someone building with AI from the ground up.",
     url: "https://www.walkperro.com",
     siteName: "walkperro",
     type: "website",
+    images: [
+      { url: "/og.png", width: 1200, height: 630, alt: "walkperro" },
+    ],
   },
-  robots: { index: true, follow: true },
+  twitter: {
+    card: "summary_large_image",
+    title: "walkperro — for the ones who do.",
+    description:
+      "Tools, opinions, and field notes from someone building with AI from the ground up.",
+    images: ["/og.png"],
+  },
+  icons: {
+    icon: [
+      { url: "/icon.png", sizes: "32x32", type: "image/png" },
+      { url: "/icon-192.png", sizes: "192x192", type: "image/png" },
+      { url: "/icon-512.png", sizes: "512x512", type: "image/png" },
+    ],
+    apple: [{ url: "/apple-icon.png", sizes: "180x180", type: "image/png" }],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
 };
 
 export default function RootLayout({
@@ -42,9 +89,45 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "https://www.walkperro.com/#org",
+        name: "walkperro",
+        url: "https://www.walkperro.com",
+        logo: {
+          "@type": "ImageObject",
+          url: "https://www.walkperro.com/icon-512.png",
+          width: 512,
+          height: 512,
+        },
+        sameAs: ["https://instagram.com/walkperro"],
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://www.walkperro.com/#site",
+        url: "https://www.walkperro.com",
+        name: "walkperro",
+        publisher: { "@id": "https://www.walkperro.com/#org" },
+        inLanguage: "en-US",
+        potentialAction: {
+          "@type": "SearchAction",
+          target: "https://www.walkperro.com/log?q={search_term_string}",
+          "query-input": "required name=search_term_string",
+        },
+      },
+    ],
+  };
+
   return (
     <html lang="en" className={`${serif.variable} ${mono.variable} ${sans.variable}`}>
       <body className="bg-bone text-charcoal font-sans antialiased">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
         <ScrollReveal />
         {children}
       </body>

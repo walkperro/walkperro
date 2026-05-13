@@ -90,7 +90,7 @@ export default function ToolCta({ slug, priceCents, requiresEmail, hasFile, stri
           required
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          placeholder="you@operator.com"
+          placeholder="you@example.com"
           className="flex-1 px-4 py-3 font-mono text-sm bg-transparent border border-charcoal focus:outline-none"
         />
         <button
@@ -116,7 +116,7 @@ export default function ToolCta({ slug, priceCents, requiresEmail, hasFile, stri
         required
         value={email}
         onChange={(e) => setEmail(e.target.value)}
-        placeholder="you@operator.com"
+        placeholder="you@example.com"
         className="px-4 py-3 font-mono text-sm bg-transparent border border-charcoal focus:outline-none"
       />
       <button

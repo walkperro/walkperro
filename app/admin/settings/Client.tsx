@@ -108,23 +108,40 @@ export default function SettingsClient({ totpEnabled }: { totpEnabled: boolean }
       </section>
 
       <section>
-        <div className="flex items-baseline justify-between">
+        <div className="flex items-center justify-between gap-3">
           <p className="label">// ACTIVE SESSIONS</p>
-          <button onClick={logoutAll} className="label px-3 py-2 border border-line hover:border-charcoal">
+          <button onClick={logoutAll} className="label px-3 py-2 border border-line hover:border-charcoal whitespace-nowrap">
             LOGOUT ALL →
           </button>
         </div>
         <div className="mt-4 border border-line">
           {sessions.length === 0 && <p className="label p-4 text-smoke">// NO SESSIONS.</p>}
           {sessions.map((s) => (
-            <div key={s.id} className="grid grid-cols-[2fr_2fr_1fr_1fr_auto] gap-4 p-3 border-t border-line text-sm first:border-t-0">
-              <span className="font-mono">{s.ip_address || "—"}</span>
-              <span className="font-mono text-xs text-smoke truncate">{s.user_agent || "—"}</span>
-              <span className="label">{new Date(s.created_at).toLocaleString()}</span>
-              <span className="label text-smoke">{s.revoked_at ? "REVOKED" : "ACTIVE"}</span>
-              {!s.revoked_at && (
-                <button onClick={() => revoke(s.id)} className="label hover:text-red-700">REVOKE</button>
-              )}
+            <div key={s.id} className="border-t border-line first:border-t-0">
+              {/* Desktop row */}
+              <div className="hidden lg:grid grid-cols-[2fr_2fr_1fr_1fr_auto] gap-4 p-3 text-sm items-center">
+                <span className="font-mono">{s.ip_address || "—"}</span>
+                <span className="font-mono text-xs text-smoke truncate">{s.user_agent || "—"}</span>
+                <span className="label">{new Date(s.created_at).toLocaleString()}</span>
+                <span className="label text-smoke">{s.revoked_at ? "REVOKED" : "ACTIVE"}</span>
+                {!s.revoked_at && (
+                  <button onClick={() => revoke(s.id)} className="label hover:text-red-700">REVOKE</button>
+                )}
+              </div>
+              {/* Mobile / tablet card */}
+              <div className="lg:hidden p-3 text-sm">
+                <div className="flex items-center justify-between gap-2">
+                  <span className="font-mono break-all">{s.ip_address || "—"}</span>
+                  <span className="label text-smoke whitespace-nowrap">{s.revoked_at ? "REVOKED" : "ACTIVE"}</span>
+                </div>
+                <p className="font-mono text-xs text-smoke break-all mt-1">{s.user_agent || "—"}</p>
+                <div className="flex items-center justify-between mt-2 gap-2">
+                  <span className="label text-smoke">{new Date(s.created_at).toLocaleString()}</span>
+                  {!s.revoked_at && (
+                    <button onClick={() => revoke(s.id)} className="label hover:text-red-700">REVOKE</button>
+                  )}
+                </div>
+              </div>
             </div>
           ))}
         </div>
@@ -134,11 +151,27 @@ export default function SettingsClient({ totpEnabled }: { totpEnabled: boolean }
         <p className="label mb-3">// AUDIT LOG — LAST 50</p>
         <div className="border border-line max-h-[500px] overflow-y-auto">
           {audit.map((a) => (
-            <div key={a.id} className="grid grid-cols-[1fr_2fr_2fr_2fr] gap-2 p-2 border-t border-line text-xs first:border-t-0">
-              <span className="label">{a.action.toUpperCase()}</span>
-              <span className="font-mono text-smoke">{a.ip_address || "—"}</span>
-              <span className="font-mono text-smoke truncate">{a.details ? JSON.stringify(a.details) : ""}</span>
-              <span className="label text-smoke">{new Date(a.created_at).toLocaleString()}</span>
+            <div key={a.id} className="border-t border-line first:border-t-0">
+              {/* Desktop row */}
+              <div className="hidden lg:grid grid-cols-[1fr_2fr_2fr_2fr] gap-2 p-2 text-xs">
+                <span className="label">{a.action.toUpperCase()}</span>
+                <span className="font-mono text-smoke">{a.ip_address || "—"}</span>
+                <span className="font-mono text-smoke truncate">{a.details ? JSON.stringify(a.details) : ""}</span>
+                <span className="label text-smoke">{new Date(a.created_at).toLocaleString()}</span>
+              </div>
+              {/* Mobile card */}
+              <div className="lg:hidden p-3">
+                <div className="flex items-center justify-between gap-2">
+                  <span className="label">{a.action.toUpperCase()}</span>
+                  <span className="label text-smoke whitespace-nowrap">{new Date(a.created_at).toLocaleString()}</span>
+                </div>
+                {a.details && Object.keys(a.details).length > 0 && (
+                  <p className="font-mono text-xs text-smoke break-all mt-1">{JSON.stringify(a.details)}</p>
+                )}
+                {a.ip_address && (
+                  <p className="font-mono text-xs text-smoke mt-1">{a.ip_address}</p>
+                )}
+              </div>
             </div>
           ))}
         </div>

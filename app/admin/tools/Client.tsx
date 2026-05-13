@@ -80,8 +80,8 @@ function ToolRow({
   }
 
   return (
-    <div className="border border-line p-6">
-      <div className="grid grid-cols-[2fr_1fr_1fr] gap-6 items-start">
+    <div className="border border-line p-4 sm:p-6">
+      <div className="grid grid-cols-1 md:grid-cols-[2fr_1fr_1fr] gap-6 items-start">
         <div>
           <label className="block mb-3">
             <span className="label block mb-1">TITLE</span>

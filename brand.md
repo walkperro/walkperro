@@ -1,7 +1,7 @@
 # WalkPerro — Brand System v1
 
-> The operator's hub for the AI/vibe-coding era.
-> Brutalist-tech. Bone, charcoal, signal yellow. Faceless beacon.
+> For the ones who do. Build with AI from the ground up.
+> Brutalist-tech. Bone, charcoal, signal yellow.
 
 ## Color tokens
 

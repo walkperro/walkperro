@@ -14,14 +14,26 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: { params: Promise<Params> }) {
   const { slug } = await params;
   const post = await getPublishedPostBySlug(slug);
-  if (!post) return { title: "Not found — walkperro" };
+  if (!post) return { title: "Not found" };
+  const url = `https://www.walkperro.com/log/${slug}`;
   return {
-    title: `${post.title} — walkperro`,
+    title: post.title,
     description: post.excerpt || undefined,
+    alternates: { canonical: url },
     openGraph: {
       title: post.title,
       description: post.excerpt || undefined,
       type: "article",
+      url,
+      publishedTime: post.published_at,
+      authors: ["walkperro"],
+      images: ["/og.png"],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: post.title,
+      description: post.excerpt || undefined,
+      images: ["/og.png"],
     },
   };
 }
@@ -35,8 +47,35 @@ export default async function PostPage({
   const post = await getPublishedPostBySlug(slug);
   if (!post) notFound();
 
+  // JSON-LD structured data — Article schema for search engines
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "@id": `https://www.walkperro.com/log/${slug}#article`,
+    headline: post.title,
+    description: post.excerpt || "",
+    datePublished: post.published_at,
+    dateModified: post.published_at,
+    author: { "@type": "Person", name: "walkperro", url: "https://www.walkperro.com" },
+    publisher: {
+      "@type": "Organization",
+      name: "walkperro",
+      logo: {
+        "@type": "ImageObject",
+        url: "https://www.walkperro.com/icon-512.png",
+      },
+    },
+    mainEntityOfPage: { "@type": "WebPage", "@id": `https://www.walkperro.com/log/${slug}` },
+    image: ["https://www.walkperro.com/og.png"],
+    articleSection: post.category,
+  };
+
   return (
     <main className="min-h-dvh bg-bone text-charcoal">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <header className="border-b border-line">
         <div className="mx-auto max-w-[1280px] px-6 lg:px-12 py-4 flex items-center justify-between">
           <Link href="/" className="font-mono text-sm tracking-label lowercase">
@@ -80,7 +119,7 @@ export default async function PostPage({
 
         <footer className="hairline mb-12 pt-8 flex flex-col gap-2">
           <p className="label">— walkperro / for the ones who do</p>
-          <p className="label">© 2026 / FACELESS / ALL RIGHTS RESERVED</p>
+          <p className="label">© 2026 walkperro / ALL RIGHTS RESERVED</p>
         </footer>
       </div>
     </main>
