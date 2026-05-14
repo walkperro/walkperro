@@ -25,12 +25,12 @@ export default async function HomePage() {
     getSiteStats(),
   ]);
 
-  // Real-time counters from DB. Labels chosen to be self-explanatory + grow
-  // with the site instead of static aspirational figures.
+  // DROPS is dynamic (posts + non-DRAFT tools). DEPLOYS + PROMPTS are
+  // operator-tracked counters bumped manually — adjust here when they tick over.
   const STATS = [
-    { label: "POSTS", value: String(stats.posts) },
-    { label: "TOOLS", value: String(stats.tools) },
-    { label: "READERS", value: String(stats.subscribers) },
+    { label: "DROPS",   value: String(stats.drops) },
+    { label: "DEPLOYS", value: "40+" },
+    { label: "VISION", value: "1" },
   ];
 
   return (

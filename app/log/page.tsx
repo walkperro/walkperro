@@ -32,13 +32,6 @@ export default async function LogIndex() {
             </p>
           </div>
           <div className="hairline mt-3" />
-          <h1 className="font-display text-[clamp(2.5rem,6vw,4rem)] leading-[0.95] tracking-[-0.04em] mt-6 max-w-3xl">
-            Notes from someone building with AI.
-          </h1>
-          <p className="mt-6 max-w-prose text-lg leading-relaxed text-charcoal/80">
-            Long-form. First person. One opinion per post, defended. Written for
-            the people who would rather read a page than skim a thread.
-          </p>
         </section>
 
         <section className="pb-24">

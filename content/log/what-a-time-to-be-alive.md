@@ -28,6 +28,6 @@ Even if you don't have an idea of what to do or make, just start a conversation 
 
 And if you don't use AI — that's alright, too. You can sit back and watch as the world becomes ever-so-lit while you wait for your "perfect time" to get in. It's really never too late to start. New opportunities will keep coming, and the onboarding will keep getting more user-friendly as we go.
 
-But for all the *dogs* working to take over the world one prompt at a time — your time is **NOW**. Continue to */plan*. Continue to build. Manage. Earn. Create the world you always envisioned yourself living in.
+But for all the <mark><em>dogs</em></mark> working to take over the world one prompt at a time — your time is **NOW**. Continue to */plan*. Continue to build. Manage. Earn. Create the world you always envisioned yourself living in.
 
 I know I am.
