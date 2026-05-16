@@ -18,6 +18,4 @@ Claude ran with it. Within minutes of finishing the scrape, it was building me t
 
 So that's one of the things I'm running right now (on top of the millions of other projects I've got going).
 
-Let me know if you want me to drop the link to the data-scraping bot so you can get an easy business jumpstart, too.
-
-— walkperro
+Want the bot? [Drop your email.](/tools/painmine) I'll send the download.
