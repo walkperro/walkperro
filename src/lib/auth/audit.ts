@@ -14,6 +14,7 @@ export type AuditAction =
   | "post_created"
   | "post_updated"
   | "post_published"
+  | "post_auto_published"
   | "post_deleted"
   | "now_updated"
   | "tool_created"

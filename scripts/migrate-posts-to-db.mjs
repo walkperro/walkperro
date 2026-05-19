@@ -13,6 +13,7 @@ const CONTENT_DIR = path.join(process.cwd(), "content", "log");
 const SCHEDULE = {
   "what-a-time-to-be-alive": "2026-05-12T09:00:00-04:00", // Tue 9am ET (EDT, -04:00)
   "no-pain-no-profit":       "2026-05-15T09:00:00-04:00", // Fri 9am ET (EDT, -04:00)
+  "set-a-goal-for-yourself": "2026-05-20T11:00:00-04:00", // Wed 11am ET (EDT, -04:00)
 };
 
 async function main() {
