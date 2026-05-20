@@ -28,6 +28,8 @@ so i did. i brain-dumped everything i could think of into one sloppy prompt — 
 >
 > I want real, realistic results. Find something with little to no competition but huge opportunity. Analyze the psychology — which age groups to aim for, why people would adopt it, what makes it spread. This is the next big thing. Make it cool, fun, and simple.
 
+<div data-copy-prompt-wrap class="copy-prompt-row"><button data-copy-prev-blockquote class="copy-prompt-btn" type="button">copy prompt</button></div>
+
 that's it. that's the whole prompt. sloppy on purpose — /goal doesn't need pretty, it needs complete.
 
 the move isn't "tell AI to make you money." the move is to think harder than the AI about what you actually want — then let it bring your intention to life.

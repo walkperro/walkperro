@@ -94,6 +94,30 @@ a {
     color: var(--charcoal);
     padding: 0 0.15em;
   }
+  /* "copy prompt" button that sits below a <blockquote> in posts.
+     Markdown emits <div data-copy-prompt-wrap>...</div> after the quote;
+     the PostEnhancements client island wires the click handler. */
+  .prose-field .copy-prompt-row {
+    margin: -0.5em 0 1.5em;
+    display: flex;
+    justify-content: flex-end;
+  }
+  .prose-field .copy-prompt-btn {
+    font-family: var(--font-mono), "JetBrains Mono", ui-monospace, monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+    text-transform: lowercase;
+    background: transparent;
+    color: var(--charcoal);
+    border: 1px solid var(--charcoal);
+    padding: 0.35em 0.75em;
+    cursor: pointer;
+    transition: background 120ms ease;
+  }
+  .prose-field .copy-prompt-btn:hover,
+  .prose-field .copy-prompt-btn[data-copied="true"] {
+    background: var(--signal);
+  }
 
   .marquee-row {
     display: flex;

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getPublishedPostBySlug, getPublishedSlugs, formatDate } from "@/lib/posts-db";
+import PostEnhancements from "./PostEnhancements";
 
 export const revalidate = 60;
 
@@ -111,6 +112,7 @@ export default async function PostPage({
             className="prose-field"
             dangerouslySetInnerHTML={{ __html: post.html }}
           />
+          <PostEnhancements />
 
           <div className="hairline mt-16 pt-6 max-w-prose">
             <p className="font-mono text-[0.75rem] tracking-label text-smoke lowercase">— walkperro</p>
