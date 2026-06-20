@@ -29,11 +29,16 @@ export const metadata: Metadata = {
     template: "%s — walkperro",
   },
   description:
-    "Tools, opinions, and field notes from someone building with AI from the ground up. No degree. No gatekeepers. Just the work.",
+    "walkperro builds with ai from the ground up — closehound for sec8 housing sellers, asere for spanish fluency, 1k2rich trading bot, ga/fl real estate study app. plus websites, seo, ad creative, and ai workflows for clients.",
   keywords: [
     "AI builder", "build with AI", "Claude", "prompt engineering",
     "field notes", "solo builder", "AI tools", "vibe coding",
     "indie maker", "Stripe", "Supabase", "Next.js",
+    // homepage v2 products + services
+    "closehound", "asere", "1k2rich",
+    "section 8 housing", "real estate georgia florida",
+    "spanish learning miami", "trading bot",
+    "custom website", "seo", "ad creative",
   ],
   authors: [{ name: "walkperro" }],
   creator: "walkperro",
@@ -49,7 +54,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "walkperro — for the ones who do.",
     description:
-      "Tools, opinions, and field notes from someone building with AI from the ground up.",
+      "closehound, asere, 1k2rich, ga/fl real estate study app — products + websites + ai workflows from a builder shipping from the ground floor.",
     url: "https://www.walkperro.com",
     siteName: "walkperro",
     type: "website",
@@ -61,7 +66,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "walkperro — for the ones who do.",
     description:
-      "Tools, opinions, and field notes from someone building with AI from the ground up.",
+      "closehound, asere, 1k2rich, ga/fl real estate study app — products + websites + ai workflows from a builder shipping from the ground floor.",
     images: ["/og.png"],
   },
   icons: {

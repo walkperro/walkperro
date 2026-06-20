@@ -7,8 +7,59 @@ import LinkCard from "@/components/LinkCard";
 import ProjectStage from "@/components/ProjectStage";
 import ServicesGrid from "@/components/ServicesGrid";
 import CourseTease from "@/components/CourseTease";
-import { getAllStageItems } from "@/lib/projects";
+import { getAllStageItems, getFlagshipProjects, type Project } from "@/lib/projects";
 import { getPublishedPosts, formatDate } from "@/lib/posts-db";
+
+// Maps each flagship project to a schema.org applicationCategory so Google's
+// Rich Results renders the right product class. The url falls back to the
+// in-page #re-study-waitlist anchor when a flagship has no public URL yet.
+const APP_CATEGORY: Record<string, string> = {
+  closehound: "BusinessApplication",
+  asere: "EducationApplication",
+  "1k2rich": "FinanceApplication",
+  "re-study": "EducationApplication",
+};
+
+function projectsJsonLd(flagships: Project[]) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    name: "walkperro projects",
+    description:
+      "live products and projects shipped by walkperro — sec8 housing ai, spanish for miami, trading bot, ga/fl real estate study app.",
+    url: "https://www.walkperro.com/",
+    isPartOf: { "@id": "https://www.walkperro.com/#site" },
+    mainEntity: {
+      "@type": "ItemList",
+      name: "flagship products",
+      numberOfItems: flagships.length,
+      itemListElement: flagships.map((p, i) => ({
+        "@type": "ListItem",
+        position: i + 1,
+        item: {
+          "@type": "SoftwareApplication",
+          name: p.title,
+          applicationCategory: APP_CATEGORY[p.slug] || "BusinessApplication",
+          operatingSystem: "Web",
+          url:
+            p.externalUrl ||
+            `https://www.walkperro.com/#${p.slug}-waitlist`,
+          description: p.blurb,
+          image: `https://www.walkperro.com${p.image}`,
+          offers: {
+            "@type": "Offer",
+            price: "0",
+            priceCurrency: "USD",
+            availability:
+              p.status === "live"
+                ? "https://schema.org/InStock"
+                : "https://schema.org/PreOrder",
+          },
+        },
+      })),
+    },
+  };
+}
 
 // /v2 preview of the homepage redesign. Disallowed in robots.ts until slice 4
 // swaps this into app/page.tsx. Plan: /Users/ironclaw/.claude/plans/walkperro-admin-declarative-giraffe.md
@@ -29,9 +80,15 @@ export default async function HomePageV2() {
     getPublishedPosts({ limit: 3 }),
     Promise.resolve(getAllStageItems()),
   ]);
+  const flagships = getFlagshipProjects();
+  const jsonLd = projectsJsonLd(flagships);
 
   return (
     <main className="min-h-dvh bg-bone text-charcoal">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       {/* Sticky hairline nav */}
       <header className="sticky top-0 z-40 border-b border-line bg-bone/90 backdrop-blur supports-[backdrop-filter]:bg-bone/70">
         <div className="mx-auto max-w-[1280px] px-6 lg:px-12 py-4 flex items-center justify-between">
@@ -128,12 +185,14 @@ export default async function HomePageV2() {
                 href="https://1k2rich.vercel.app"
                 external
               />
-              <LinkCard
-                label="learn the ga/fl real estate edge"
-                sublabel="// re-study"
-              >
-                <EmailCapture source="re-study" cta="Notify me" />
-              </LinkCard>
+              <div id="re-study-waitlist">
+                <LinkCard
+                  label="learn the ga/fl real estate edge"
+                  sublabel="// re-study"
+                >
+                  <EmailCapture source="re-study" cta="Notify me" />
+                </LinkCard>
+              </div>
             </div>
           </section>
 
