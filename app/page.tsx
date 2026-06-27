@@ -110,12 +110,33 @@ export default async function HomePage() {
             data-reveal
             className="lg:col-span-5 lg:row-start-1 pt-12 lg:pt-20"
           >
+            {/* Prominent /websites entry — Walk's #1 ask is that this is the
+                first thing you see. It owns the signal-yellow accent in VP1
+                on mobile (replacing the live badge's fill), so the brand
+                rule "one yellow per viewport" still holds. On desktop the
+                ProjectStage's active-dot carries the yellow instead. */}
+            <Link
+              href="/websites"
+              className="group mb-6 flex w-full max-w-md items-center justify-between gap-4 border border-charcoal bg-signal text-charcoal px-5 py-4 transition-colors duration-snap ease-snap hover:bg-charcoal hover:text-bone lg:!bg-bone lg:hover:!bg-charcoal lg:hover:!text-bone"
+            >
+              <span className="flex flex-col gap-1 min-w-0">
+                <span className="font-mono uppercase tracking-label text-[0.65rem] text-charcoal/70 group-hover:text-bone/70 lg:text-charcoal/60">
+                  // i build websites
+                </span>
+                <span className="font-display text-lg leading-tight">
+                  see what i can build for you
+                </span>
+              </span>
+              <span className="font-mono uppercase tracking-label text-[0.75rem] shrink-0 transition-transform duration-snap ease-snap group-hover:translate-x-1">
+                →
+              </span>
+            </Link>
             <Badge
               tone="live"
-              // signal-yellow fill on mobile (one yellow per viewport — badge
-              // owns the accent in VP1). On lg+ drops to outline so the
-              // ProjectStage's active dot can carry the accent in the same VP.
-              className="mb-8 lg:!bg-transparent"
+              // outline-only at all breakpoints now that the /websites CTA
+              // above carries the signal-yellow accent on mobile. Stage dot
+              // still carries it on desktop.
+              className="mb-8 !bg-transparent"
             >
               <span className="mr-2 inline-block h-1.5 w-1.5 bg-charcoal"></span>
               // ONLINE
