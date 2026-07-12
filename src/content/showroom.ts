@@ -107,6 +107,8 @@ export const SHOWROOM: ShowroomItem[] = [
     category: "web app",
     tourLine: "spaced-repetition flashcards, drills, memory palaces — real edtech.",
     image: "/projects/asere/hero.webp",
+    demoUrl: "https://demo-cuban-study.vercel.app",
+    demoKind: "demo",
     inquireSlug: "ai-directory",
     order: 9,
   },
