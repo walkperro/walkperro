@@ -35,6 +35,7 @@ export default function ShowroomTour({
 
   const focused = items[focusIndex];
   const sectionHeight = `${items.length * SECTION_VH_PER_ITEM}vh`;
+  const [reelOpen, setReelOpen] = useState(false);
 
   return (
     <div
@@ -98,6 +99,15 @@ export default function ShowroomTour({
                     : "VIEW LIVE →"}
                 </a>
               )}
+              {focused.videoSrc && (
+                <button
+                  type="button"
+                  onClick={() => setReelOpen(true)}
+                  className="label !text-bone border-b border-bone hover:!text-bone/70"
+                >
+                  WATCH THE TOUR →
+                </button>
+              )}
               <Link
                 href={`/websites/${focused.inquireSlug || focused.slug}`}
                 className="label !text-bone border-b border-bone hover:!text-bone/70"
@@ -107,6 +117,39 @@ export default function ShowroomTour({
             </div>
           </div>
         </div>
+
+        {/* Reel panel — DOM video, never a GPU texture */}
+        {reelOpen && focused.videoSrc && (
+          <div
+            className="absolute inset-0 z-30 flex items-center justify-center bg-charcoal/90 p-6"
+            onClick={() => setReelOpen(false)}
+          >
+            <div
+              className="w-full max-w-3xl border border-bone"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <video
+                key={focused.slug}
+                src={focused.videoSrc}
+                autoPlay
+                muted
+                loop
+                playsInline
+                className="block w-full"
+              />
+              <div className="flex items-center justify-between bg-charcoal px-4 py-3">
+                <p className="label !text-bone/70">// {focused.title} — reel</p>
+                <button
+                  type="button"
+                  onClick={() => setReelOpen(false)}
+                  className="label !text-bone border-b border-bone hover:!text-bone/70"
+                >
+                  CLOSE ✕
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

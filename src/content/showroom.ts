@@ -128,5 +128,13 @@ export const SHOWROOM: ShowroomItem[] = [
 ];
 
 export function getShowroomItems(): ShowroomItem[] {
-  return [...SHOWROOM].sort((a, b) => a.order - b.order);
+  return [...SHOWROOM]
+    .sort((a, b) => a.order - b.order)
+    .map((item) => ({
+      // Every showroom texture gets a ken-burns reel from
+      // scripts/build-showroom-reels.mjs — same slug, same path contract.
+      // Explicit videoSrc (future real screen recordings) wins.
+      videoSrc: `/showroom/reels/${item.slug}.webm`,
+      ...item,
+    }));
 }
