@@ -4,10 +4,11 @@ import SectionHeader from "@/components/SectionHeader";
 import Badge from "@/components/Badge";
 import EmailCapture from "@/components/EmailCapture";
 import LinkCard from "@/components/LinkCard";
-import ProjectStage from "@/components/ProjectStage";
 import ServicesGrid from "@/components/ServicesGrid";
 import CourseTease from "@/components/CourseTease";
-import { getAllStageItems, getFlagshipProjects, type Project } from "@/lib/projects";
+import TrustBand from "@/components/TrustBand";
+import ShowroomSection from "@/components/showroom/ShowroomSection";
+import { getFlagshipProjects, type Project } from "@/lib/projects";
 import { getPublishedPosts, formatDate } from "@/lib/posts-db";
 
 // Maps each flagship project to a schema.org applicationCategory so Google's
@@ -61,20 +62,17 @@ function projectsJsonLd(flagships: Project[]) {
   };
 }
 
-// Homepage v2 — linktree + cinematic stage. Mobile single column, desktop
-// theater split via CSS grid placement. Metadata inherits from app/layout.tsx
-// (no per-page override). Plan:
-//   /Users/ironclaw/.claude/plans/walkperro-admin-declarative-giraffe.md
+// Homepage v3 — "the showroom". Full-width sections: hero → showroom (server
+// grid now, WebGL corridor mounts above it in the next slice) → flagship
+// products → trust band → course tease → build log → services → contact.
+// Plan: /Users/ironclaw/.claude/plans/walkperro-admin-declarative-giraffe.md
 
 export const revalidate = 60;
 
 const TODAY = new Date().toISOString().slice(0, 10).replace(/-/g, ".");
 
 export default async function HomePage() {
-  const [posts, stageItems] = await Promise.all([
-    getPublishedPosts({ limit: 3 }),
-    Promise.resolve(getAllStageItems()),
-  ]);
+  const posts = await getPublishedPosts({ limit: 3 });
   const flagships = getFlagshipProjects();
   const jsonLd = projectsJsonLd(flagships);
 
@@ -91,7 +89,7 @@ export default async function HomePage() {
             walkperro
           </Link>
           <nav className="hidden md:flex items-center gap-6 label">
-            <Link href="#projects" className="hover:text-charcoal">Projects</Link>
+            <Link href="#showroom" className="hover:text-charcoal">Showroom</Link>
             <Link href="#log" className="hover:text-charcoal">Log</Link>
             <Link href="#services" className="hover:text-charcoal">Services</Link>
             <Link href="#contact" className="hover:text-charcoal">Contact</Link>
@@ -102,151 +100,97 @@ export default async function HomePage() {
 
       <div className="mx-auto max-w-[1280px] px-6 lg:px-12">
 
-        {/* THEATER — mobile single column, desktop split via grid placement */}
-        <div className="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-x-16 lg:gap-y-12">
-
-          {/* HERO (left rail) */}
-          <section
-            data-reveal
-            className="lg:col-span-5 lg:row-start-1 pt-12 lg:pt-20"
+        {/* HERO — full width */}
+        <section data-reveal className="pt-12 lg:pt-20 pb-8">
+          {/* Showroom entry — the first thing you see. Owns the single
+              signal-yellow accent in this viewport at every breakpoint. */}
+          <Link
+            href="#showroom"
+            className="group mb-6 flex w-full max-w-md items-center justify-between gap-4 border border-charcoal bg-signal text-charcoal px-5 py-4 transition-colors duration-snap ease-snap hover:bg-charcoal hover:text-bone"
           >
-            {/* Prominent /websites entry — Walk's #1 ask is that this is the
-                first thing you see. It owns the signal-yellow accent in VP1
-                on mobile (replacing the live badge's fill), so the brand
-                rule "one yellow per viewport" still holds. On desktop the
-                ProjectStage's active-dot carries the yellow instead. */}
-            <Link
-              href="/websites"
-              className="group mb-6 flex w-full max-w-md items-center justify-between gap-4 border border-charcoal bg-signal text-charcoal px-5 py-4 transition-colors duration-snap ease-snap hover:bg-charcoal hover:text-bone lg:!bg-bone lg:hover:!bg-charcoal lg:hover:!text-bone"
-            >
-              <span className="flex flex-col gap-1 min-w-0">
-                <span className="font-mono uppercase tracking-label text-[0.65rem] text-charcoal/70 group-hover:text-bone/70 lg:text-charcoal/60">
-                  // i build websites
-                </span>
-                <span className="font-display text-lg leading-tight">
-                  see what i can build for you
-                </span>
+            <span className="flex flex-col gap-1 min-w-0">
+              <span className="font-mono uppercase tracking-label text-[0.65rem] text-charcoal/70 group-hover:text-bone/70">
+                // i build websites
               </span>
-              <span className="font-mono uppercase tracking-label text-[0.75rem] shrink-0 transition-transform duration-snap ease-snap group-hover:translate-x-1">
-                →
+              <span className="font-display text-lg leading-tight">
+                walk through the work
               </span>
-            </Link>
-            <Badge
-              tone="live"
-              // outline-only at all breakpoints now that the /websites CTA
-              // above carries the signal-yellow accent on mobile. Stage dot
-              // still carries it on desktop.
-              className="mb-8 !bg-transparent"
-            >
-              <span className="mr-2 inline-block h-1.5 w-1.5 bg-charcoal"></span>
-              // ONLINE
-            </Badge>
-            <h1 className="font-display text-[clamp(2.25rem,6vw,4rem)] leading-[0.95] tracking-[-0.04em] max-w-3xl">
-              for the ones who do.
-            </h1>
-            <p className="mt-6 max-w-md text-lg leading-relaxed text-charcoal/80">
-              tools, products, and field notes from a builder shipping with
-              ai from the ground floor. no degree. no gatekeepers. just the work.
-            </p>
-            <div className="mt-8">
-              <p className="label mb-3">// field notes — weekly</p>
-              <EmailCapture source="hero" cta="Subscribe" />
-            </div>
-            <p className="mt-6 label">
-              <Link
-                href="#contact"
-                className="border-b border-charcoal text-charcoal hover:text-charcoal/70"
-              >
-                OR HIRE ME →
-              </Link>
-            </p>
-          </section>
-
-          {/* STAGE — between hero and linkcards on mobile, sticky right rail on desktop */}
-          <section
-            id="projects"
-            data-reveal
-            className="lg:col-start-6 lg:col-span-7 lg:row-start-1 lg:row-span-5 lg:sticky lg:top-20 lg:self-start lg:h-[calc(100vh-6rem)] lg:pt-20"
-          >
-            <SectionHeader index="01" label="PROJECTS" meta="// LIVE FEED" />
-            <div className="mt-6 lg:h-full lg:mt-8">
-              <ProjectStage items={stageItems} accentDot fillHeight={false} className="lg:!h-full lg:!aspect-auto" />
-            </div>
-          </section>
-
-          {/* LINKCARDS — the four big CTAs */}
-          <section
-            data-reveal
-            id="build-with-me"
-            className="lg:col-span-5 lg:row-start-2"
-          >
-            <SectionHeader index="02" label="BUILD WITH ME" meta="// 04 LIVE" />
-            <div className="mt-8 flex flex-col gap-3">
-              <LinkCard
-                label="make money with sec8 housing using ai"
-                sublabel="// closehound — live"
-                href="https://closehound.com"
-                external
-                accentMobileOnly
-              />
-              <LinkCard
-                label="learn the language of miami"
-                sublabel="// asere — live"
-                href="https://asere.vercel.app"
-                external
-              />
-              <LinkCard
-                label="follow the trading bot in real time"
-                sublabel="// 1k2rich — live"
-                href="https://1k2rich.vercel.app"
-                external
-              />
-              <div id="re-study-waitlist">
-                <LinkCard
-                  label="learn the ga/fl real estate edge"
-                  sublabel="// re-study"
-                >
-                  <EmailCapture source="re-study" cta="Notify me" />
-                </LinkCard>
-              </div>
-            </div>
-          </section>
-
-          {/* COURSE TEASE */}
-          <div className="lg:col-span-5 lg:row-start-3">
-            <CourseTease />
+            </span>
+            <span className="font-mono uppercase tracking-label text-[0.75rem] shrink-0 transition-transform duration-snap ease-snap group-hover:translate-y-1">
+              ↓
+            </span>
+          </Link>
+          <Badge tone="live" className="mb-8 !bg-transparent">
+            <span className="mr-2 inline-block h-1.5 w-1.5 bg-charcoal"></span>
+            // ONLINE
+          </Badge>
+          <h1 className="font-display text-[clamp(2.25rem,6vw,4rem)] leading-[0.95] tracking-[-0.04em] max-w-3xl">
+            for the ones who do.
+          </h1>
+          <p className="mt-6 max-w-md text-lg leading-relaxed text-charcoal/80">
+            tools, products, and field notes from a builder shipping with
+            ai from the ground floor. no degree. no gatekeepers. just the work.
+          </p>
+          <div className="mt-8">
+            <p className="label mb-3">// field notes — weekly</p>
+            <EmailCapture source="hero" cta="Subscribe" />
           </div>
+          <p className="mt-6 label">
+            <Link
+              href="#contact"
+              className="border-b border-charcoal text-charcoal hover:text-charcoal/70"
+            >
+              OR HIRE ME →
+            </Link>
+          </p>
+        </section>
 
-          {/* CONTACT (left rail tail) */}
-          <section
-            data-reveal
-            id="contact"
-            className="lg:col-span-5 lg:row-start-4 py-12 lg:pb-20"
-          >
-            <SectionHeader index="06" label="CONTACT" />
-            <div className="mt-8 max-w-xl">
-              <p className="text-lg leading-relaxed">
-                building something? want a second pair of hands or a second opinion?
-                write me. i read everything. i reply to most.
-              </p>
-              <div className="mt-6 flex flex-wrap gap-3">
-                <Button href="mailto:walkperro@proton.me" external>
-                  EMAIL →
-                </Button>
-                <Button
-                  href="https://instagram.com/walkperro"
-                  external
-                  variant="ghost"
-                >
-                  INSTAGRAM →
-                </Button>
-              </div>
+        {/* SHOWROOM — server grid now; WebGL corridor mounts here next slice */}
+        <ShowroomSection />
+
+        {/* FLAGSHIP PRODUCTS — the four big CTAs */}
+        <section
+          data-reveal
+          id="build-with-me"
+          className="py-20 border-t border-line"
+        >
+          <SectionHeader index="02" label="MY PRODUCTS" meta="// 04 LIVE" />
+          <div className="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-3 max-w-5xl">
+            <LinkCard
+              label="make money with sec8 housing using ai"
+              sublabel="// closehound — live"
+              href="https://closehound.com"
+              external
+              accent
+            />
+            <LinkCard
+              label="learn the language of miami"
+              sublabel="// asere — live"
+              href="https://asere.vercel.app"
+              external
+            />
+            <LinkCard
+              label="follow the trading bot in real time"
+              sublabel="// 1k2rich — live"
+              href="https://1k2rich.vercel.app"
+              external
+            />
+            <div id="re-study-waitlist">
+              <LinkCard
+                label="learn the ga/fl real estate edge"
+                sublabel="// re-study"
+              >
+                <EmailCapture source="re-study" cta="Notify me" />
+              </LinkCard>
             </div>
-          </section>
-        </div>
-        {/* /THEATER */}
+          </div>
+        </section>
 
-        {/* BELOW-FOLD — full width, single column */}
+        {/* TRUST BAND */}
+        <TrustBand />
+
+        {/* COURSE TEASE */}
+        <CourseTease />
 
         {/* BUILD LOG */}
         <section
@@ -303,6 +247,33 @@ export default async function HomePage() {
             title="what i build for clients."
           />
           <ServicesGrid />
+        </section>
+
+        {/* CONTACT */}
+        <section
+          data-reveal
+          id="contact"
+          className="py-20 border-t border-line"
+        >
+          <SectionHeader index="06" label="CONTACT" />
+          <div className="mt-8 max-w-xl">
+            <p className="text-lg leading-relaxed">
+              building something? want a second pair of hands or a second opinion?
+              write me. i read everything. i reply to most.
+            </p>
+            <div className="mt-6 flex flex-wrap gap-3">
+              <Button href="mailto:walkperro@proton.me" external>
+                EMAIL →
+              </Button>
+              <Button
+                href="https://instagram.com/walkperro"
+                external
+                variant="ghost"
+              >
+                INSTAGRAM →
+              </Button>
+            </div>
+          </div>
         </section>
 
         {/* FOOTER */}
