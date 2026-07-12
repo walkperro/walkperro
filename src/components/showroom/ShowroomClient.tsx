@@ -49,25 +49,11 @@ export default function ShowroomClient({
   const [listOpen, setListOpen] = useState(false);
 
   useEffect(() => {
-    if (!deviceCapable()) {
-      setTourState("off");
-      return;
-    }
-    // Lazy-mount: only load the three.js chunk when the section is within
-    // ~1.5 viewports, so it never lands in the initial paint's network.
-    const el = hostRef.current;
-    if (!el) return;
-    const io = new IntersectionObserver(
-      (entries) => {
-        if (entries.some((e) => e.isIntersecting)) {
-          setTourState("on");
-          io.disconnect();
-        }
-      },
-      { rootMargin: "150% 0px" }
-    );
-    io.observe(el);
-    return () => io.disconnect();
+    // The WebGL corridor is retired — the flat catalog grid IS the showroom
+    // now (the tour lives on xwhystudio's card catalog). Force the grid; the
+    // three.js code + deviceCapable() gate stay in the tree in case we ever
+    // revisit a tour, but nothing mounts the canvas.
+    setTourState("off");
   }, []);
 
   const tourActive = tourState === "on";
