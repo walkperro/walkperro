@@ -7,6 +7,8 @@ import LinkCard from "@/components/LinkCard";
 import ServicesGrid from "@/components/ServicesGrid";
 import CourseTease from "@/components/CourseTease";
 import TrustBand from "@/components/TrustBand";
+import BotsTease from "@/components/BotsTease";
+import GuidesTease from "@/components/GuidesTease";
 import ShowroomSection from "@/components/showroom/ShowroomSection";
 import { getFlagshipProjects, type Project } from "@/lib/projects";
 import { getPublishedPosts, formatDate } from "@/lib/posts-db";
@@ -188,6 +190,12 @@ export default async function HomePage() {
 
         {/* TRUST BAND */}
         <TrustBand />
+
+        {/* TRADING BOTS */}
+        <BotsTease />
+
+        {/* FREE GUIDES */}
+        <GuidesTease />
 
         {/* COURSE TEASE */}
         <CourseTease />

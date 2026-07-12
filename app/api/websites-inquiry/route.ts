@@ -39,6 +39,7 @@ export async function POST(request: Request) {
 
     const body = await request.json();
     const {
+      topic: rawTopic,
       templateSlug,
       templateTitle,
       email,
@@ -49,6 +50,11 @@ export async function POST(request: Request) {
       phone,
       website, // honeypot
     } = body || {};
+
+    // topic is additive — legacy payloads without it are "website".
+    const topic = ["website", "bot", "course"].includes(rawTopic)
+      ? rawTopic
+      : "website";
 
     // Silently accept honeypot hits — bots get no signal.
     if (isSpam({ website })) {
@@ -80,10 +86,10 @@ export async function POST(request: Request) {
 
     const from = process.env.RESEND_FROM || "onboarding@resend.dev";
 
-    const subject = `// website inquiry — ${templateTitle || templateSlug}`;
+    const subject = `// ${topic} inquiry — ${templateTitle || templateSlug}`;
     const lines: string[] = [];
-    lines.push(`<h2>// website inquiry</h2>`);
-    lines.push(`<p><b>template:</b> ${esc(templateTitle || templateSlug)} <code>(${esc(templateSlug)})</code></p>`);
+    lines.push(`<h2>// ${esc(topic)} inquiry</h2>`);
+    lines.push(`<p><b>re:</b> ${esc(templateTitle || templateSlug)} <code>(${esc(templateSlug)})</code></p>`);
     lines.push(`<hr>`);
     lines.push(`<p><b>email:</b> <a href="mailto:${esc(email)}">${esc(email)}</a></p>`);
     if (name) lines.push(`<p><b>name:</b> ${esc(name)}</p>`);

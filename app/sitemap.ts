@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { getPublishedPosts, getPublicTools } from "@/lib/posts-db";
 import { getAllWebsites } from "@/lib/websites";
+import { getAllGuides } from "@/lib/guides";
 
 const SITE = "https://www.walkperro.com";
 
@@ -14,7 +15,17 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${SITE}/`,         lastModified: now, changeFrequency: "weekly",  priority: 1.0 },
     { url: `${SITE}/log`,      lastModified: now, changeFrequency: "weekly",  priority: 0.9 },
     { url: `${SITE}/websites`, lastModified: now, changeFrequency: "weekly",  priority: 0.95 },
+    { url: `${SITE}/bots`,     lastModified: now, changeFrequency: "monthly", priority: 0.85 },
+    { url: `${SITE}/guides`,   lastModified: now, changeFrequency: "monthly", priority: 0.85 },
   ];
+
+  // /guides/<slug> — filesystem markdown guides
+  const guideRoutes: MetadataRoute.Sitemap = getAllGuides().map((g) => ({
+    url: `${SITE}/guides/${g.slug}`,
+    lastModified: now,
+    changeFrequency: "monthly",
+    priority: 0.7,
+  }));
 
   // Dynamic post routes
   const posts = await getPublishedPosts({ limit: 1000 });
@@ -42,5 +53,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.8,
   }));
 
-  return [...staticRoutes, ...postRoutes, ...toolRoutes, ...websiteRoutes];
+  return [...staticRoutes, ...postRoutes, ...toolRoutes, ...websiteRoutes, ...guideRoutes];
 }
