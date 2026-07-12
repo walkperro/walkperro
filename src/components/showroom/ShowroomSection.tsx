@@ -1,12 +1,13 @@
 import SectionHeader from "@/components/SectionHeader";
 import ShowroomGrid from "@/components/showroom/ShowroomGrid";
+import ShowroomClient from "@/components/showroom/ShowroomClient";
 import { getShowroomItems } from "@/content/showroom";
 
 // Server wrapper for the showroom: heading + JSON-LD + crawlable grid.
-// Slice 2 mounts the WebGL corridor (ShowroomTour, dynamic ssr:false) above
-// the grid; the grid then collapses under a "browse as a list" toggle but
-// stays in the DOM. JSON-LD lives here so the structured data and the visible
-// catalog can never drift apart.
+// ShowroomClient mounts the WebGL corridor on capable clients and collapses
+// the grid under a "browse as a list" toggle — but the server-rendered grid
+// is ALWAYS in the DOM. JSON-LD lives here so the structured data and the
+// visible catalog can never drift apart.
 
 const SITE = "https://www.walkperro.com";
 
@@ -49,9 +50,9 @@ export default function ShowroomSection() {
         every card is a real build. view it live, walk through the demo, or
         tap "get this built" and it's yours in a week.
       </p>
-      <div className="mt-10">
+      <ShowroomClient items={items}>
         <ShowroomGrid items={items} />
-      </div>
+      </ShowroomClient>
     </section>
   );
 }
