@@ -96,8 +96,8 @@ export const SHOWROOM: ShowroomItem[] = [
     category: "portal",
     tourLine: "a daily-refreshed board of government bids, pulled straight from sam.gov.",
     image: "/projects/1k2rich/hero.webp", // placeholder — bayoubids hero shot in Phase 2
-    demoUrl: "https://bayoubids.vercel.app",
-    demoKind: "live",
+    demoUrl: "https://demo-bayoubids.vercel.app",
+    demoKind: "demo",
     inquireSlug: "ai-directory",
     order: 8,
   },
