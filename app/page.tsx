@@ -1,296 +1,190 @@
-import Link from "next/link";
-import Button from "@/components/Button";
-import SectionHeader from "@/components/SectionHeader";
-import Badge from "@/components/Badge";
-import EmailCapture from "@/components/EmailCapture";
-import LinkCard from "@/components/LinkCard";
-import ServicesGrid from "@/components/ServicesGrid";
-import CourseTease from "@/components/CourseTease";
-import TrustBand from "@/components/TrustBand";
-import BotsTease from "@/components/BotsTease";
-import GuidesTease from "@/components/GuidesTease";
-import ShowroomSection from "@/components/showroom/ShowroomSection";
-import { getFlagshipProjects, type Project } from "@/lib/projects";
-import { getPublishedPosts, formatDate } from "@/lib/posts-db";
+import type { Metadata } from "next";
+import IntakeForm from "@/components/landing/IntakeForm";
 
-// Maps each flagship project to a schema.org applicationCategory so Google's
-// Rich Results renders the right product class. The url falls back to the
-// in-page #re-study-waitlist anchor when a flagship has no public URL yet.
-const APP_CATEGORY: Record<string, string> = {
-  closehound: "BusinessApplication",
-  asere: "EducationApplication",
-  "1k2rich": "FinanceApplication",
-  "re-study": "EducationApplication",
+export const metadata: Metadata = {
+  title: "walkperro — we build your digital product. free.",
+  description:
+    "you've already posted everything your product needs. we read your account, build a digital product in your voice, and set up the checkout. free to start — you keep 80% of every sale.",
 };
 
-function projectsJsonLd(flagships: Project[]) {
-  return {
-    "@context": "https://schema.org",
-    "@type": "CollectionPage",
-    name: "walkperro projects",
-    description:
-      "live products and projects shipped by walkperro — sec8 housing ai, spanish for miami, trading bot, ga/fl real estate study app.",
-    url: "https://www.walkperro.com/",
-    isPartOf: { "@id": "https://www.walkperro.com/#site" },
-    mainEntity: {
-      "@type": "ItemList",
-      name: "flagship products",
-      numberOfItems: flagships.length,
-      itemListElement: flagships.map((p, i) => ({
-        "@type": "ListItem",
-        position: i + 1,
-        item: {
-          "@type": "SoftwareApplication",
-          name: p.title,
-          applicationCategory: APP_CATEGORY[p.slug] || "BusinessApplication",
-          operatingSystem: "Web",
-          url:
-            p.externalUrl ||
-            `https://www.walkperro.com/#${p.slug}-waitlist`,
-          description: p.blurb,
-          image: `https://www.walkperro.com${p.image}`,
-          offers: {
-            "@type": "Offer",
-            price: "0",
-            priceCurrency: "USD",
-            availability:
-              p.status === "live"
-                ? "https://schema.org/InStock"
-                : "https://schema.org/PreOrder",
-          },
-        },
-      })),
-    },
-  };
-}
+// Concierge MVP landing. One page, one CTA. The full self-serve SaaS is
+// parked on the saas-full-build branch.
 
-// Homepage v3 — "the showroom". Full-width sections: hero → showroom (server
-// grid now, WebGL corridor mounts above it in the next slice) → flagship
-// products → trust band → course tease → build log → services → contact.
-// Plan: /Users/ironclaw/.claude/plans/walkperro-admin-declarative-giraffe.md
+const EXAMPLES = [
+  {
+    kind: "GUIDE",
+    title: "the $50 grocery week",
+    by: "@prepwithsam",
+    niche: "meal prep",
+    price: "$19",
+  },
+  {
+    kind: "PROGRAM",
+    title: "hit 150g protein without thinking",
+    by: "@liftwithmarcus",
+    niche: "fitness",
+    price: "$29",
+  },
+  {
+    kind: "PLAYBOOK",
+    title: "the 90-day reset journal",
+    by: "@manifestwithdee",
+    niche: "mindset",
+    price: "$24",
+  },
+];
 
-export const revalidate = 60;
+const STEPS = [
+  {
+    n: "01",
+    title: "tell us about your content",
+    body: "a 2-minute form. your handle, your niche, the question your followers keep asking.",
+    demoLink: false,
+  },
+  {
+    n: "02",
+    title: "we build your product",
+    body: "",
+    demoLink: true,
+  },
+  {
+    n: "03",
+    title: "you sell it. you keep 80%.",
+    body: "we set up your stripe and hand you a checkout link. money goes straight to your account. we only earn when you do.",
+    demoLink: false,
+  },
+];
 
-const TODAY = new Date().toISOString().slice(0, 10).replace(/-/g, ".");
-
-export default async function HomePage() {
-  const posts = await getPublishedPosts({ limit: 3 });
-  const flagships = getFlagshipProjects();
-  const jsonLd = projectsJsonLd(flagships);
-
+export default function LandingPage() {
   return (
-    <main className="min-h-dvh bg-bone text-charcoal">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-      />
-      {/* Sticky hairline nav */}
-      <header className="sticky top-0 z-40 border-b border-line bg-bone/90 backdrop-blur supports-[backdrop-filter]:bg-bone/70">
-        <div className="mx-auto max-w-[1280px] px-6 lg:px-12 py-4 flex items-center justify-between">
-          <Link href="/" className="font-mono text-sm tracking-label lowercase">
-            walkperro
-          </Link>
-          <nav className="hidden md:flex items-center gap-6 label">
-            <Link href="#showroom" className="hover:text-charcoal">Showroom</Link>
-            <Link href="#log" className="hover:text-charcoal">Log</Link>
-            <Link href="#services" className="hover:text-charcoal">Services</Link>
-            <Link href="#contact" className="hover:text-charcoal">Contact</Link>
-          </nav>
-          <Link href="#contact" className="md:hidden label">CONTACT →</Link>
-        </div>
+    <main className="min-h-screen bg-bone text-charcoal">
+      {/* header — wordmark only, no nav */}
+      <header className="flex items-center justify-between border-b border-line px-6 py-4">
+        <span className="font-mono text-sm tracking-tight">walkperro</span>
+        <span className="label hidden sm:block">for the ones who do.</span>
       </header>
 
-      <div className="mx-auto max-w-[1280px] px-6 lg:px-12">
-
-        {/* HERO — full width */}
-        <section data-reveal className="pt-12 lg:pt-20 pb-8">
-          {/* Showroom entry — the first thing you see. Owns the single
-              signal-yellow accent in this viewport at every breakpoint. */}
-          <Link
-            href="#showroom"
-            className="group mb-6 flex w-full max-w-md items-center justify-between gap-4 border border-charcoal bg-signal text-charcoal px-5 py-4 transition-colors duration-snap ease-snap hover:bg-charcoal hover:text-bone"
+      {/* hero */}
+      <section className="mx-auto w-full max-w-4xl px-6 pb-20 pt-24 sm:pt-32">
+        <div className="mb-6 flex items-center gap-3">
+          <span className="inline-block h-2.5 w-2.5 bg-signal" aria-hidden />
+          <span className="label">// creators only</span>
+        </div>
+        <h1 className="max-w-3xl font-display text-5xl leading-[0.95] tracking-[-0.03em] sm:text-7xl">
+          we build your digital product. free. you keep 80%.
+        </h1>
+        <p className="mt-8 max-w-prose text-lg leading-relaxed text-smoke">
+          you&apos;ve already posted everything your product needs. we read your
+          account, write the product in your voice, design it, and set up the
+          checkout. you promote it to the audience you already have.
+        </p>
+        <div className="mt-10">
+          <a
+            href="#start"
+            className="inline-block border border-charcoal bg-charcoal px-8 py-4 font-mono text-xs uppercase tracking-[0.08em] text-bone transition-colors duration-150 hover:bg-signal hover:text-charcoal"
           >
-            <span className="flex flex-col gap-1 min-w-0">
-              <span className="font-mono uppercase tracking-label text-[0.65rem] text-charcoal/70 group-hover:text-bone/70">
-                // i build websites
-              </span>
-              <span className="font-display text-lg leading-tight">
-                walk through the work
-              </span>
+            build my product — free
+          </a>
+        </div>
+      </section>
+
+      {/* examples */}
+      <section className="border-t border-line">
+        <div className="mx-auto w-full max-w-5xl px-6 py-20">
+          <div className="mb-10 flex items-baseline justify-between">
+            <span className="label">// 01 — WHAT WE MAKE</span>
+            <span className="hidden font-mono text-xs text-smoke sm:block">
+              examples — yours will look like you
             </span>
-            <span className="font-mono uppercase tracking-label text-[0.75rem] shrink-0 transition-transform duration-snap ease-snap group-hover:translate-y-1">
-              ↓
-            </span>
-          </Link>
-          <Badge tone="live" className="mb-8 !bg-transparent">
-            <span className="mr-2 inline-block h-1.5 w-1.5 bg-charcoal"></span>
-            // ONLINE
-          </Badge>
-          <h1 className="font-display text-[clamp(2.25rem,6vw,4rem)] leading-[0.95] tracking-[-0.04em] max-w-3xl">
-            for the ones who do.
-          </h1>
-          <p className="mt-6 max-w-md text-lg leading-relaxed text-charcoal/80">
-            tools, products, and field notes from a builder shipping with
-            ai from the ground floor. no degree. no gatekeepers. just the work.
-          </p>
-          <div className="mt-8">
-            <p className="label mb-3">// field notes — weekly</p>
-            <EmailCapture source="hero" cta="Subscribe" />
           </div>
-          <p className="mt-6 label">
-            <Link
-              href="#contact"
-              className="border-b border-charcoal text-charcoal hover:text-charcoal/70"
-            >
-              OR HIRE ME →
-            </Link>
-          </p>
-        </section>
-
-        {/* SHOWROOM — server grid now; WebGL corridor mounts here next slice */}
-        <ShowroomSection />
-
-        {/* FLAGSHIP PRODUCTS — the four big CTAs */}
-        <section
-          data-reveal
-          id="build-with-me"
-          className="py-20 border-t border-line"
-        >
-          <SectionHeader index="02" label="MY PRODUCTS" meta="// 04 LIVE" />
-          <div className="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-3 max-w-5xl">
-            <LinkCard
-              label="make money with sec8 housing using ai"
-              sublabel="// closehound — live"
-              href="https://closehound.com"
-              external
-              accent
-            />
-            <LinkCard
-              label="learn the language of miami"
-              sublabel="// asere — live"
-              href="https://asere.vercel.app"
-              external
-            />
-            <LinkCard
-              label="follow the trading bot in real time"
-              sublabel="// 1k2rich — live"
-              href="https://1k2rich.vercel.app"
-              external
-            />
-            <div id="re-study-waitlist">
-              <LinkCard
-                label="learn the ga/fl real estate edge"
-                sublabel="// re-study"
-              >
-                <EmailCapture source="re-study" cta="Notify me" />
-              </LinkCard>
-            </div>
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
+            {EXAMPLES.map((ex) => (
+              <div key={ex.title}>
+                {/* TODO(walk): swap these CSS mockups for real product screenshots */}
+                <div className="flex aspect-[3/4] flex-col justify-between border border-charcoal bg-charcoal p-6">
+                  <div className="flex items-center justify-between">
+                    <span className="font-mono text-[10px] uppercase tracking-[0.12em] text-bone/60">
+                      {ex.kind}
+                    </span>
+                    <span className="font-mono text-[10px] text-bone/60">
+                      {ex.price}
+                    </span>
+                  </div>
+                  <h3 className="font-display text-2xl leading-tight tracking-[-0.01em] text-bone">
+                    {ex.title}
+                  </h3>
+                  <div className="border-t border-line-dark pt-3">
+                    <span className="font-mono text-[10px] uppercase tracking-[0.08em] text-bone/60">
+                      {ex.by} · {ex.niche}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* TRUST BAND */}
-        <TrustBand />
+      {/* how it works */}
+      <section className="border-t border-line">
+        <div className="mx-auto w-full max-w-4xl px-6 py-20">
+          <span className="label">// 02 — HOW IT WORKS</span>
+          <ol className="mt-10 space-y-12">
+            {STEPS.map((s) => (
+              <li key={s.n} className="flex gap-6 sm:gap-10">
+                <span className="font-mono text-sm text-smoke">{s.n}</span>
+                <div>
+                  <h3 className="font-display text-2xl leading-tight tracking-[-0.01em] sm:text-3xl">
+                    {s.title}
+                  </h3>
+                  <p className="mt-3 max-w-prose text-smoke">
+                    {s.demoLink ? (
+                      <>
+                        we read your whole account — the words, the topics, the
+                        way you talk — and turn what you&apos;ve already posted
+                        into a product that sounds like you. want proof?{" "}
+                        <a
+                          href="/demo"
+                          className="border-b border-charcoal text-charcoal hover:bg-signal"
+                        >
+                          watch the engine read a real account
+                        </a>
+                        .
+                      </>
+                    ) : (
+                      s.body
+                    )}
+                  </p>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </section>
 
-        {/* TRADING BOTS */}
-        <BotsTease />
-
-        {/* FREE GUIDES */}
-        <GuidesTease />
-
-        {/* COURSE TEASE */}
-        <CourseTease />
-
-        {/* BUILD LOG */}
-        <section
-          data-reveal
-          id="log"
-          className="py-20 border-t border-line"
-        >
-          <SectionHeader
-            index="04"
-            label="BUILD LOG"
-            meta={`${posts.length} ${posts.length === 1 ? "ENTRY" : "ENTRIES"}`}
-          />
-          {posts.length > 0 ? (
-            <ul className="mt-10 divide-y divide-line border-y border-line">
-              {posts.map((e) => (
-                <li key={e.id}>
-                  <Link
-                    href={`/log/${e.slug}`}
-                    className="group grid grid-cols-1 md:grid-cols-12 gap-4 py-6 transition-colors duration-snap ease-snap hover:bg-line/40"
-                  >
-                    <div className="md:col-span-3 label">
-                      {`// ${formatDate(e.published_at)}`}
-                      <span className="ml-3">{e.category}</span>
-                    </div>
-                    <div className="md:col-span-8">
-                      <p className="font-display text-2xl leading-snug">
-                        {e.title}
-                      </p>
-                    </div>
-                    <div className="md:col-span-1 md:text-right label group-hover:text-charcoal">
-                      READ →
-                    </div>
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          ) : null}
-          <div className="mt-8">
-            <Button href="/log" variant="ghost">
-              ALL ENTRIES →
-            </Button>
+      {/* intake */}
+      <section id="start" className="border-t border-line">
+        <div className="mx-auto w-full max-w-3xl px-6 py-20">
+          <span className="label">// 03 — START</span>
+          <h2 className="mt-6 font-display text-4xl leading-[1.0] tracking-[-0.02em] sm:text-5xl">
+            two minutes. then we get to work.
+          </h2>
+          <div className="mt-12">
+            <IntakeForm />
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* SERVICES */}
-        <section
-          data-reveal
-          id="services"
-          className="py-20 border-t border-line"
-        >
-          <SectionHeader
-            index="05"
-            label="SERVICES"
-            title="what i build for clients."
-          />
-          <ServicesGrid />
-        </section>
-
-        {/* CONTACT */}
-        <section
-          data-reveal
-          id="contact"
-          className="py-20 border-t border-line"
-        >
-          <SectionHeader index="06" label="CONTACT" />
-          <div className="mt-8 max-w-xl">
-            <p className="text-lg leading-relaxed">
-              building something? want a second pair of hands or a second opinion?
-              write me. i read everything. i reply to most.
-            </p>
-            <div className="mt-6 flex flex-wrap gap-3">
-              <Button href="mailto:walkperro@proton.me" external>
-                EMAIL →
-              </Button>
-              <Button
-                href="https://instagram.com/walkperro"
-                external
-                variant="ghost"
-              >
-                INSTAGRAM →
-              </Button>
-            </div>
-          </div>
-        </section>
-
-        {/* FOOTER */}
-        <footer className="hairline mt-12 mb-12 pt-8 flex flex-col gap-2">
-          <p className="label">— walkperro / for the ones who do</p>
-          <p className="label">© 2026 walkperro / ALL RIGHTS RESERVED</p>
-          <p className="label text-smoke">// {TODAY}</p>
-        </footer>
-      </div>
+      <footer className="border-t border-line px-6 py-8">
+        <div className="mx-auto flex w-full max-w-5xl items-center justify-between">
+          <span className="font-mono text-xs text-smoke">
+            walkperro — for the ones who do.
+          </span>
+          <span className="font-mono text-xs text-smoke">
+            © {new Date().getFullYear()}
+          </span>
+        </div>
+      </footer>
     </main>
   );
 }

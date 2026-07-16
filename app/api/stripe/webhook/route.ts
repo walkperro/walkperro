@@ -100,6 +100,60 @@ export async function POST(req: NextRequest) {
 
       await audit(null, "tool_purchase", { tool_id: toolId, email, amount: amountPaid });
     }
+
+    // Concierge branch: sessions created from a Payment Link (creator products,
+    // 80/20 split). Log to walkperro.orders and bump the intake row to selling.
+    const paymentLinkId =
+      typeof session.payment_link === "string" ? session.payment_link : null;
+    if (!toolId && paymentLinkId) {
+      const supa = admin();
+
+      // Map back to the intake row: metadata first, payment-link id as fallback.
+      const metaId = session.metadata?.intake_submission_id || null;
+      const { data: intakeRow } = await supa
+        .from("intake_submissions")
+        .select("id, stripe_account_id")
+        .or(
+          metaId
+            ? `id.eq.${metaId},stripe_payment_link_id.eq.${paymentLinkId}`
+            : `stripe_payment_link_id.eq.${paymentLinkId}`
+        )
+        .limit(1)
+        .maybeSingle();
+      const intakeId = intakeRow?.id ?? null;
+
+      const amount = session.amount_total || 0;
+      const feeCents = Math.round(amount * 0.2); // TODO(walk): read the exact fee from the PaymentIntent if it ever varies
+
+      // Idempotent on the unique checkout-session id.
+      const { error: orderErr } = await supa.from("orders").upsert(
+        {
+          intake_submission_id: intakeId,
+          stripe_checkout_session_id: session.id,
+          stripe_payment_intent_id: paymentIntent,
+          stripe_payment_link_id: paymentLinkId,
+          destination_account: intakeRow?.stripe_account_id ?? null,
+          buyer_email: email || null,
+          amount_cents: amount,
+          application_fee_cents: feeCents,
+        },
+        { onConflict: "stripe_checkout_session_id", ignoreDuplicates: true }
+      );
+      if (orderErr) console.error("CONCIERGE_ORDER_ERROR", orderErr);
+
+      if (intakeId) {
+        await supa
+          .from("intake_submissions")
+          .update({ status: "selling" })
+          .eq("id", intakeId);
+      }
+
+      await audit(null, "concierge_sale", {
+        intake_id: intakeId,
+        payment_link: paymentLinkId,
+        amount,
+      });
+    }
   }
 
   return NextResponse.json({ received: true });

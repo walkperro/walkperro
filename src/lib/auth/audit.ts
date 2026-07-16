@@ -28,7 +28,12 @@ export type AuditAction =
   | "subscribe"
   | "tool_request"
   | "tool_purchase"
-  | "tool_download";
+  | "tool_download"
+  // concierge MVP
+  | "intake_update"
+  | "intake_express_account"
+  | "intake_payment_link"
+  | "concierge_sale";
 
 export async function audit(
   adminUserId: string | null,

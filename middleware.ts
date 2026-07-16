@@ -64,22 +64,9 @@ export function middleware(req: NextRequest) {
     return res;
   }
 
-  // Creator dashboard gate — coarse cookie-presence check (Supabase Auth sets
-  // an `sb-<ref>-auth-token` cookie on login). Full validation happens in the
-  // page/route via supabase.auth.getUser(). Guarded so it doesn't match
-  // /apple-icon.png etc.
-  if (url.pathname === "/app" || url.pathname.startsWith("/app/")) {
-    const hasSession = req.cookies
-      .getAll()
-      .some((c) => /^sb-.*-auth-token(\.\d+)?$/.test(c.name));
-    if (!hasSession) {
-      const next = encodeURIComponent(url.pathname + url.search);
-      url.pathname = "/login";
-      url.search = `?next=${next}`;
-      return NextResponse.redirect(url, 307);
-    }
-    return NextResponse.next();
-  }
+  // NOTE: the creator-dashboard (/app) Supabase-session gate lives on the
+  // saas-full-build branch with the rest of the self-serve SaaS. Concierge
+  // main has no creator login.
 
   return NextResponse.next();
 }
