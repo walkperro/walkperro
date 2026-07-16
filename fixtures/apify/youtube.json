@@ -1,0 +1,22 @@
+[
+  {
+    "videoId": "yt00000000001",
+    "title": "How I meal prep 5 high-protein lunches in 30 minutes",
+    "description": "Full walkthrough of my weekly prep routine with macros.",
+    "publishedAt": "2026-05-01T16:00:00.000Z",
+    "url": "https://www.youtube.com/watch?v=yt00000000001",
+    "viewCount": 210000,
+    "likeCount": 9800,
+    "commentCount": 540,
+    "durationSeconds": 612,
+    "hasCaptions": true,
+    "captionUrl": "https://caption.youtube.example/yt00000000001.vtt",
+    "channel": {
+      "handle": "@prepwithsam",
+      "title": "Prep With Sam",
+      "subscriberCount": 92000,
+      "thumbnail": "https://p.youtube.example/prepwithsam.jpg",
+      "description": "weekly meal prep for busy people"
+    }
+  }
+]

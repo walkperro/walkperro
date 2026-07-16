@@ -1,0 +1,209 @@
+[
+  {
+    "id": "7412300000000000001",
+    "text": "the 20-min high-protein meal prep that actually keeps you full #mealprep #highprotein #busy",
+    "createTimeISO": "2026-05-02T14:03:00.000Z",
+    "webVideoUrl": "https://www.tiktok.com/@prepwithsam/video/7412300000000000001",
+    "diggCount": 24800,
+    "playCount": 512000,
+    "commentCount": 640,
+    "shareCount": 1200,
+    "hashtags": [{ "name": "mealprep" }, { "name": "highprotein" }, { "name": "busy" }],
+    "videoMeta": {
+      "duration": 44,
+      "downloadAddr": "https://v.tiktok.example/7412300000000000001.mp4",
+      "subtitleLinks": [{ "language": "eng-US", "downloadLink": "https://sub.tiktok.example/7412300000000000001.vtt" }]
+    },
+    "authorMeta": {
+      "name": "prepwithsam",
+      "nickName": "Sam · Meal Prep",
+      "fans": 148000,
+      "signature": "meal prep for people who hate cooking. new drops weekly.",
+      "avatar": "https://p.tiktok.example/prepwithsam.jpg"
+    }
+  },
+  {
+    "id": "7412300000000000002",
+    "text": "stop buying protein bars — make these 5 for the week #mealprep #snacks #highprotein",
+    "createTime": 1746000000,
+    "webVideoUrl": "https://www.tiktok.com/@prepwithsam/video/7412300000000000002",
+    "diggCount": 9800,
+    "playCount": 176000,
+    "commentCount": 210,
+    "shareCount": 430,
+    "hashtags": ["mealprep", "snacks", "highprotein"],
+    "videoMeta": { "duration": 31, "downloadAddr": "https://v.tiktok.example/7412300000000000002.mp4", "subtitleLinks": [] }
+  },
+  {
+    "id": "7412300000000000003",
+    "text": "grocery haul: $60 for 5 days of lunches #mealprep #budget #grocery",
+    "createTimeISO": "2026-04-20T09:15:00.000Z",
+    "webVideoUrl": "https://www.tiktok.com/@prepwithsam/video/7412300000000000003",
+    "diggCount": 41200,
+    "playCount": 903000,
+    "commentCount": 1580,
+    "shareCount": 3100,
+    "hashtags": [{ "name": "mealprep" }, { "name": "budget" }, { "name": "grocery" }],
+    "videoMeta": {
+      "duration": 58,
+      "downloadAddr": "https://v.tiktok.example/7412300000000000003.mp4",
+      "subtitleLinks": [{ "language": "eng-US", "downloadLink": "https://sub.tiktok.example/7412300000000000003.vtt" }]
+    }
+  },
+  {
+    "id": "7412300000000000004",
+    "text": "how i hit 150g protein a day without thinking about it #highprotein #macros #mealprep",
+    "createTimeISO": "2026-04-11T18:40:00.000Z",
+    "webVideoUrl": "https://www.tiktok.com/@prepwithsam/video/7412300000000000004",
+    "diggCount": 33900,
+    "playCount": 744000,
+    "commentCount": 980,
+    "shareCount": 2200,
+    "hashtags": ["highprotein", "macros", "mealprep"],
+    "videoMeta": {
+      "duration": 49,
+      "downloadAddr": "https://v.tiktok.example/7412300000000000004.mp4",
+      "subtitleLinks": [{ "language": "eng-US", "downloadLink": "https://sub.tiktok.example/7412300000000000004.vtt" }]
+    }
+  },
+  {
+    "id": "7412300000000000005",
+    "text": "5 breakfasts you can prep sunday night #mealprep #breakfast",
+    "createTimeISO": "2026-03-30T07:05:00.000Z",
+    "webVideoUrl": "https://www.tiktok.com/@prepwithsam/video/7412300000000000005",
+    "diggCount": 15600,
+    "playCount": 288000,
+    "commentCount": 320,
+    "shareCount": 610,
+    "hashtags": ["mealprep", "breakfast"],
+    "videoMeta": { "duration": 37, "downloadAddr": "https://v.tiktok.example/7412300000000000005.mp4", "subtitleLinks": [] }
+  },
+  {
+    "id": "7412300000000000006",
+    "text": "the $4 lunch that beats chipotle #budget #mealprep #grocery",
+    "createTimeISO": "2026-03-22T12:00:00.000Z",
+    "webVideoUrl": "https://www.tiktok.com/@prepwithsam/video/7412300000000000006",
+    "diggCount": 52100,
+    "playCount": 1180000,
+    "commentCount": 2040,
+    "shareCount": 4800,
+    "hashtags": ["budget", "mealprep", "grocery"],
+    "videoMeta": {
+      "duration": 41,
+      "downloadAddr": "https://v.tiktok.example/7412300000000000006.mp4",
+      "subtitleLinks": [{ "language": "eng-US", "downloadLink": "https://sub.tiktok.example/7412300000000000006.vtt" }]
+    }
+  },
+  {
+    "id": "7412300000000000007",
+    "text": "lazy girl meal prep — 3 ingredients, 15 minutes #mealprep #lazy #busy",
+    "createTimeISO": "2026-03-14T16:20:00.000Z",
+    "webVideoUrl": "https://www.tiktok.com/@prepwithsam/video/7412300000000000007",
+    "diggCount": 28700,
+    "playCount": 640000,
+    "commentCount": 720,
+    "shareCount": 1600,
+    "hashtags": ["mealprep", "lazy", "busy"],
+    "videoMeta": { "duration": 33, "downloadAddr": "https://v.tiktok.example/7412300000000000007.mp4", "subtitleLinks": [] }
+  },
+  {
+    "id": "7412300000000000008",
+    "text": "high protein snack drawer restock #snacks #highprotein",
+    "createTimeISO": "2026-03-05T13:30:00.000Z",
+    "webVideoUrl": "https://www.tiktok.com/@prepwithsam/video/7412300000000000008",
+    "diggCount": 19400,
+    "playCount": 402000,
+    "commentCount": 410,
+    "shareCount": 900,
+    "hashtags": ["snacks", "highprotein"],
+    "videoMeta": {
+      "duration": 28,
+      "downloadAddr": "https://v.tiktok.example/7412300000000000008.mp4",
+      "subtitleLinks": [{ "language": "eng-US", "downloadLink": "https://sub.tiktok.example/7412300000000000008.vtt" }]
+    }
+  },
+  {
+    "id": "7412300000000000009",
+    "text": "meal prep for a cut — exactly what i eat #macros #highprotein #cutting",
+    "createTimeISO": "2026-02-24T19:10:00.000Z",
+    "webVideoUrl": "https://www.tiktok.com/@prepwithsam/video/7412300000000000009",
+    "diggCount": 37500,
+    "playCount": 820000,
+    "commentCount": 1120,
+    "shareCount": 2600,
+    "hashtags": ["macros", "highprotein", "cutting"],
+    "videoMeta": { "duration": 52, "downloadAddr": "https://v.tiktok.example/7412300000000000009.mp4", "subtitleLinks": [] }
+  },
+  {
+    "id": "7412300000000000010",
+    "text": "one pan, five days, zero cleanup #mealprep #lazy",
+    "createTimeISO": "2026-02-15T10:45:00.000Z",
+    "webVideoUrl": "https://www.tiktok.com/@prepwithsam/video/7412300000000000010",
+    "diggCount": 22300,
+    "playCount": 498000,
+    "commentCount": 560,
+    "shareCount": 1300,
+    "hashtags": ["mealprep", "lazy"],
+    "videoMeta": {
+      "duration": 39,
+      "downloadAddr": "https://v.tiktok.example/7412300000000000010.mp4",
+      "subtitleLinks": [{ "language": "eng-US", "downloadLink": "https://sub.tiktok.example/7412300000000000010.vtt" }]
+    }
+  },
+  {
+    "id": "7412300000000000011",
+    "text": "aldi grocery run: full week under $50 #budget #grocery #aldi",
+    "createTimeISO": "2026-02-03T11:25:00.000Z",
+    "webVideoUrl": "https://www.tiktok.com/@prepwithsam/video/7412300000000000011",
+    "diggCount": 46800,
+    "playCount": 1020000,
+    "commentCount": 1760,
+    "shareCount": 3900,
+    "hashtags": ["budget", "grocery", "aldi"],
+    "videoMeta": { "duration": 55, "downloadAddr": "https://v.tiktok.example/7412300000000000011.mp4", "subtitleLinks": [] }
+  },
+  {
+    "id": "7412300000000000012",
+    "text": "overnight oats that don't taste like sadness #breakfast #mealprep #highprotein",
+    "createTimeISO": "2026-01-22T08:00:00.000Z",
+    "webVideoUrl": "https://www.tiktok.com/@prepwithsam/video/7412300000000000012",
+    "diggCount": 17900,
+    "playCount": 356000,
+    "commentCount": 380,
+    "shareCount": 720,
+    "hashtags": ["breakfast", "mealprep", "highprotein"],
+    "videoMeta": {
+      "duration": 34,
+      "downloadAddr": "https://v.tiktok.example/7412300000000000012.mp4",
+      "subtitleLinks": [{ "language": "eng-US", "downloadLink": "https://sub.tiktok.example/7412300000000000012.vtt" }]
+    }
+  },
+  {
+    "id": "7412300000000000013",
+    "text": "what i meal prep on a busy work week #busy #mealprep #lazy",
+    "createTimeISO": "2026-01-10T17:55:00.000Z",
+    "webVideoUrl": "https://www.tiktok.com/@prepwithsam/video/7412300000000000013",
+    "diggCount": 26400,
+    "playCount": 588000,
+    "commentCount": 640,
+    "shareCount": 1500,
+    "hashtags": ["busy", "mealprep", "lazy"],
+    "videoMeta": { "duration": 42, "downloadAddr": "https://v.tiktok.example/7412300000000000013.mp4", "subtitleLinks": [] }
+  },
+  {
+    "id": "7412300000000000014",
+    "text": "protein per dollar: the cheapest sources ranked #budget #highprotein #macros",
+    "createTimeISO": "2025-12-28T15:15:00.000Z",
+    "webVideoUrl": "https://www.tiktok.com/@prepwithsam/video/7412300000000000014",
+    "diggCount": 61200,
+    "playCount": 1440000,
+    "commentCount": 2600,
+    "shareCount": 6100,
+    "hashtags": ["budget", "highprotein", "macros"],
+    "videoMeta": {
+      "duration": 47,
+      "downloadAddr": "https://v.tiktok.example/7412300000000000014.mp4",
+      "subtitleLinks": [{ "language": "eng-US", "downloadLink": "https://sub.tiktok.example/7412300000000000014.vtt" }]
+    }
+  }
+]

@@ -1,0 +1,22 @@
+[
+  {
+    "id": "ig00000000001",
+    "shortCode": "Cxyz001",
+    "caption": "5 high-protein lunches for the week 🥗 save this #mealprep #highprotein",
+    "timestamp": "2026-05-03T13:00:00.000Z",
+    "url": "https://www.instagram.com/reel/Cxyz001/",
+    "videoViewCount": 320000,
+    "likesCount": 18400,
+    "commentsCount": 420,
+    "videoDuration": 38,
+    "videoUrl": "https://v.instagram.example/ig00000000001.mp4",
+    "hashtags": ["mealprep", "highprotein"],
+    "owner": {
+      "username": "prepwithsam",
+      "fullName": "Sam · Meal Prep",
+      "followersCount": 76000,
+      "profilePicUrl": "https://p.instagram.example/prepwithsam.jpg",
+      "biography": "meal prep for people who hate cooking"
+    }
+  }
+]
