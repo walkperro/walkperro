@@ -46,10 +46,14 @@ function fromTemplate(
 export const SHOWROOM: ShowroomItem[] = [
   fromTemplate("restaurant", {
     tourLine: "reservations, menus, a brand people dress up for. admin runs the floor.",
+    demoUrl: "https://demo-fozzies.vercel.app",
+    demoKind: "demo",
     order: 1,
   }),
   fromTemplate("ecommerce", {
     tourLine: "eight storefronts, a live product designer, checkout that closes.",
+    demoUrl: "https://demo-shirtshop.vercel.app",
+    demoKind: "demo",
     order: 2,
   }),
   {
@@ -58,8 +62,8 @@ export const SHOWROOM: ShowroomItem[] = [
     category: "saas",
     tourLine: "screens every listing in a state for sec8 deals where rent beats the mortgage.",
     image: "/projects/closehound/hero.webp",
-    demoUrl: "https://closehound.com",
-    demoKind: "live",
+    demoUrl: "https://demo-closehound.vercel.app",
+    demoKind: "demo",
     inquireSlug: "ai-directory", // closest buildable template until a saas template page exists
     order: 3,
   },
@@ -92,8 +96,8 @@ export const SHOWROOM: ShowroomItem[] = [
     category: "portal",
     tourLine: "a daily-refreshed board of government bids, pulled straight from sam.gov.",
     image: "/projects/1k2rich/hero.webp", // placeholder — bayoubids hero shot in Phase 2
-    demoUrl: "https://bayoubids.vercel.app",
-    demoKind: "live",
+    demoUrl: "https://demo-bayoubids.vercel.app",
+    demoKind: "demo",
     inquireSlug: "ai-directory",
     order: 8,
   },
@@ -103,6 +107,8 @@ export const SHOWROOM: ShowroomItem[] = [
     category: "web app",
     tourLine: "spaced-repetition flashcards, drills, memory palaces — real edtech.",
     image: "/projects/asere/hero.webp",
+    demoUrl: "https://demo-cuban-study.vercel.app",
+    demoKind: "demo",
     inquireSlug: "ai-directory",
     order: 9,
   },
@@ -119,10 +125,14 @@ export const SHOWROOM: ShowroomItem[] = [
   },
   fromTemplate("roofing", {
     tourLine: "lead-gen first: quotes in, calls booked, trust signals everywhere.",
+    demoUrl: "https://demo-roofing-zeta.vercel.app",
+    demoKind: "demo",
     order: 11,
   }),
   fromTemplate("landscaping", {
     tourLine: "gallery-first with fast quotes. wins on the photo.",
+    demoUrl: "https://demo-landscaping-amber.vercel.app",
+    demoKind: "demo",
     order: 12,
   }),
 ];
